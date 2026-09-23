@@ -16,6 +16,8 @@
     share: '<svg width="21" height="21" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="18" cy="5.5" r="2.6" stroke="#fff" stroke-width="1.8"/><circle cx="6" cy="12" r="2.6" stroke="#fff" stroke-width="1.8"/><circle cx="18" cy="18.5" r="2.6" stroke="#fff" stroke-width="1.8"/><path d="M8.4 10.8 15.6 6.7M8.4 13.2l7.2 4.1" stroke="#fff" stroke-width="1.8"/></svg>',
     back: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 5 8 12l7 7" stroke="#C4C4C4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     star: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m12 3.6 2.6 5.5 6 .8-4.4 4.2 1.1 6-5.3-2.9-5.3 2.9 1.1-6L3.4 9.9l6-.8z" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>',
+    gear: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="3.2" stroke="#fff" stroke-width="1.8"/><path d="M12 2.6v2.2M12 19.2v2.2M21.4 12h-2.2M4.8 12H2.6M18.6 5.4l-1.6 1.6M7 17l-1.6 1.6M18.6 18.6 17 17M7 7 5.4 5.4" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>',
+    tickplain: '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7" stroke="#0B0E12" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     close: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>',
     chat: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2" stroke="#FFD230" stroke-width="1.8"/><path d="M7 20l3-3" stroke="#FFD230" stroke-width="1.8" stroke-linecap="round"/><path d="M7 8.5h10M7 12h6" stroke="#FFD230" stroke-width="1.6" stroke-linecap="round"/></svg>',
     optabars: '<svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><rect x="2" y="9" width="3.4" height="7" rx="1" fill="#4ADE80"/><rect x="7.3" y="4" width="3.4" height="12" rx="1" fill="#4ADE80"/><rect x="12.6" y="6.5" width="3.4" height="9.5" rx="1" fill="#4ADE80"/></svg>',
@@ -728,47 +730,100 @@
   /* ==========================================================================
      Photography
      ==========================================================================
-     Real pictures where we have them, the generated scene where we do not.
-     Each item picks from its sport's pool by the same seed that drove the
-     drawn version, so a card keeps the same photograph on every visit.
+     Pictures are tagged with the phase of a fixture they belong to, not just
+     the sport, and the picker asks for the phase the page is currently in.
+     So build-up shows team news and previews, live shows the ball in play,
+     and full time shows the celebration. The same card in a different
+     lifecycle state gets a different photograph, which is the point.
 
-     Three crops per picture live in img/: wide (16:9), tall (9:16) and sq.
-     Sources too small for a crop are laid across a blurred bed of themselves
-     rather than upscaled, which is why a few of the tall ones are letterboxed.
+     Three crops per picture live in img/: wide (16:9), tall (9:13) and sq.
+     A picture whose shape disagrees badly with the frame is laid across a
+     blurred bed of itself rather than cropped into a thin slice.
      ========================================================================== */
 
+  var PHASE = { buildup: "pre", live: "live", companion: "live", fulltime: "post" };
+
   var PHOTOS = {
-    football: [["fb-kane", "England attack the Netherlands penalty area"]],
-    cricket: [
-      ["ck-root", "An England batter celebrates a Test century"],
-      ["ck-lords", "England celebrate a wicket at Lord's"],
-      ["ck-huddle", "England celebrate together in the field"],
-      ["ck-ball", "An England bowler works on the ball"]
+    football: [
+      { s: "fb-xi", p: "pre", a: "A pundit's England XI for tonight" },
+      { s: "fb-palmer", p: "pre", a: "A pundit makes the case for Cole Palmer" },
+      { s: "fb-debate", p: "pre", a: "Two England selection calls, side by side" },
+      { s: "fb-kane", p: "live", a: "England shoot from the edge of the area" },
+      { s: "fb-celebrate", p: "post", a: "England players celebrate a goal" },
+      { s: "fb-highlights", p: "post", a: "Highlights of the England match" },
+      { s: "fb-bellingham", p: "post", a: "England's best player of the night" }
     ],
     tennis: [
-      ["tn-raducanu", "A British player strikes a forehand"],
-      ["tn-field", "The field at a grand slam"]
+      { s: "tn-field", p: "pre", a: "The field at a grand slam" },
+      { s: "tn-forehand", p: "live", a: "Raducanu strikes a forehand" },
+      { s: "tn-raducanu", p: "live", a: "Raducanu stretches wide for a forehand" },
+      { s: "tn-roar", p: "post", a: "Raducanu roars after taking the point" }
     ],
     rugby: [
-      ["rg-maul", "Wales and Ireland forwards contest a maul"],
-      ["rg-flyhalves", "Two international fly-halves"],
-      ["rg-run", "A back runs at the defence"]
+      { s: "rg-squad", p: "pre", a: "The Ireland side for this afternoon" },
+      { s: "rg-listen", p: "pre", a: "An Ireland forward before kick-off" },
+      { s: "rg-flyhalves", p: "pre", a: "The two fly-halves, side by side" },
+      { s: "rg-wales", p: "pre", a: "A Wales forward leaves the field" },
+      { s: "rg-maul", p: "live", a: "Wales and Ireland forwards contest a maul" },
+      { s: "rg-run", p: "live", a: "A back runs at the defence" },
+      { s: "rg-roar", p: "post", a: "An Ireland player roars at the final whistle" }
+    ],
+    cricket: [
+      { s: "ck-ball", p: "live", a: "An England bowler works on the ball" },
+      { s: "ck-root", p: "post", a: "Root celebrates a Test century" },
+      { s: "ck-lords", p: "post", a: "England celebrate a wicket at Lord's" },
+      { s: "ck-huddle", p: "post", a: "England celebrate together in the field" }
     ]
   };
 
-  function photoSVG(p, ratio, key) {
-    p = p || {};
-    var kind = resolveKind(p.motif || "crowd", p.sport || key);
-    var pool = PHOTOS[kind];
-    if (pool && pool.length) {
-      var pick = pool[hashStr(String(key) + "|" + kind) % pool.length];
-      var slot = ratio === "tall" ? "tall" : ratio === "square" ? "sq" : "wide";
-      return '<img class="photo" src="img/' + pick[0] + '-' + slot + '.jpg" ' +
-        'loading="lazy" decoding="async" alt="' + esc(pick[1]) + '">';
-    }
-    return scene(p, ratio, key);
+  /* every slug and the crops that exist for it, so a card never asks for a
+     file that was never cut */
+  var SLOTS = {
+    "fb-kane": "wide tall sq", "fb-xi": "wide tall sq", "fb-palmer": "wide tall sq",
+    "fb-debate": "wide tall sq", "fb-celebrate": "wide tall sq", "fb-highlights": "wide sq",
+    "fb-bellingham": "wide tall sq", "fb-tuchel": "tall sq",
+    "tn-roar": "wide tall sq", "tn-forehand": "wide tall sq", "tn-raducanu": "wide sq",
+    "tn-field": "wide sq", "tn-challenge": "tall sq", "tn-books": "tall sq",
+    "rg-maul": "wide tall sq", "rg-run": "wide tall sq", "rg-flyhalves": "wide sq",
+    "rg-wales": "wide tall sq", "rg-squad": "wide tall sq", "rg-listen": "wide tall sq",
+    "rg-roar": "wide tall sq",
+    "ck-root": "wide tall sq", "ck-lords": "wide tall sq",
+    "ck-huddle": "wide tall sq", "ck-ball": "wide tall sq"
+  };
+
+  function slotFor(slug, ratio) {
+    var want = ratio === "tall" ? "tall" : ratio === "square" ? "sq" : "wide";
+    var have = SLOTS[slug] || "";
+    if (have.indexOf(want) >= 0) { return want; }
+    return have.indexOf("wide") >= 0 ? "wide" : have.indexOf("tall") >= 0 ? "tall" : "sq";
   }
 
+  function imgTag(slug, alt, ratio) {
+    return '<img class="photo" src="img/' + slug + '-' + slotFor(slug, ratio) + '.jpg" ' +
+      'loading="lazy" decoding="async" alt="' + esc(alt || "") + '">';
+  }
+
+  function pickPhoto(kind, key) {
+    var pool = PHOTOS[kind];
+    if (!pool || !pool.length) { return null; }
+    var want = PHASE[lc()] || "live";
+    var fit = pool.filter(function (x) { return x.p === want; });
+    if (!fit.length) {
+      /* a preview frame stands in for live far better than a celebration does */
+      fit = pool.filter(function (x) { return x.p !== "post"; });
+    }
+    if (!fit.length) { fit = pool; }
+    return fit[hashStr(String(key) + "|" + kind + "|" + want) % fit.length];
+  }
+
+  function photoSVG(p, ratio, key) {
+    p = p || {};
+    if (p.img) { return imgTag(p.img, p.cap || p.t || "", ratio); }
+    var kind = resolveKind(p.motif || "crowd", p.sport || key);
+    var hit = pickPhoto(kind, key);
+    if (hit) { return imgTag(hit.s, hit.a, ratio); }
+    return scene(p, ratio, key);
+  }
 
   function badge(colour, initials) {
     return '<span class="tbadge" style="background:' + colour + '" aria-hidden="true">' + esc(initials) + '</span>';
@@ -1412,7 +1467,7 @@
         '<span class="tonum r">' + esc(String(r[2])) + '</span></div>';
     }).join("");
 
-    return '<section class="takeover">' +
+    return '<section class="livetake">' +
       '<div class="tostill"><div class="tokb">' +
       photoSVG(e.photo, "tall", e.sport + " " + e.title + " " + lc()) +
       '</div><span class="toveil"></span><span class="tosweep"></span></div>' +
@@ -1655,37 +1710,200 @@
     }).join("") + '</div>';
   }
 
-  function drawer() {
-    return '<div class="scrim" id="scrim"></div><aside class="drawer" id="drawer" aria-label="Menu" aria-hidden="true">' +
-      '<div class="dh"><span>SPORT</span><button class="iconbtn" type="button" id="drawerclose" aria-label="Close menu">' + I.close + '</button></div>' +
-      '<div class="dsec">Lifecycle state</div><nav>' + LIFECYCLE.map(function (l, i) {
-        return '<button class="dl' + (i === S.lcIx ? " on" : "") + '" type="button" data-lcix="' + i + '">' +
-          esc(l.label) + '<span class="dsub">' + esc(l.blurb) + '</span></button>';
-      }).join("") + '</nav>' +
-      '<div class="dsec">Live today</div><nav>' + EVENTS.map(function (e, i) {
-        return '<button class="dl' + (S.view === "event" && i === S.eventIx ? " on" : "") + '" type="button" data-open="' + i + '">' +
-          esc(e.sport) + '<span class="dsub">' + esc(e.title) + '</span></button>';
-      }).join("") + '</nav>' +
-      '<div class="dsec">All sport</div><nav>' + SPORTS.map(function (s) {
-        return '<button class="dl" type="button" data-toast="' + esc(s) + ' is not built out in this prototype.">' + esc(s) + '</button>';
-      }).join("") + '</nav></aside>';
+  /* ==========================================================================
+     The menu: a profile rather than a nav list
+     ==========================================================================
+     Every poll in this prototype settles against something that actually
+     happens later in the day, so the menu can show a fan what their calls
+     were worth. Votes read from the same state the polls write to, which
+     means answering one on the live page changes what is in here.
+     ========================================================================== */
+
+  var VOTEBOOK = {
+    "hero-buildup": { t: "The Ashes, day 3", q: "England to avoid the follow-on", right: 0,
+      r: "You said {x}, and they got there with 11 to spare",
+      w: "You said {x}. England reached 361-8 and avoided it" },
+    "hero-live": { t: "Wimbledon, Court 2", q: "Raducanu to break serve", right: 0,
+      r: "You said {x}, and she did", w: "You said {x}. She broke, and served it out" },
+    "hero-companion": { t: "Wimbledon, Centre Court", q: "Should BBC One switch to Court 2", pending: true,
+      p: "You said {x}. The gallery decides at the changeover" },
+    "hero-fulltime": { t: "The day in one line", q: "Performance of the day", right: 0,
+      r: "You said {x}, and the country agreed", w: "You said {x}. Root took it, and it was not close" },
+    "fb-scorer": { t: "England v Netherlands", q: "First goalscorer", right: 1,
+      r: "You said {x}, and {x} got it on 52", w: "You said {x}. Saka got there first, on 52" },
+    "ck-session": { t: "The Ashes, day 3", q: "Wickets before lunch", right: 2,
+      r: "You said {x}, and that is how the session went", w: "You said {x}. Two fell before the interval" },
+    "tn-upset": { t: "Wimbledon, day 6", q: "Which seed goes out", right: 0,
+      r: "You said {x}, and he went out in four", w: "You said {x}. Musetti was the one who went" },
+    "rg-bp": { t: "Wales v Ireland", q: "Ireland's four tries", right: 1,
+      r: "You said {x}, and it came with a minute left", w: "You said {x}. It came with a minute left" }
+  };
+
+  /* what a fan did earlier in the week, so the list is never empty */
+  var PASTVOTES = [
+    { t: "Ireland v France, round 4", line: "You said Ireland by less than seven, and it finished by four", ok: true },
+    { t: "England v Senegal", line: "You said a clean sheet, and they conceded in the 90th", ok: false },
+    { t: "The Ashes, 1st Test", line: "You said England would chase it down, and they did", ok: true }
+  ];
+
+  var MYCOMMENTS = [
+    { img: "rg-maul", t: "Wales v Ireland, Six Nations",
+      body: "The maul penalty count is doing all the talking and nobody on commentary has mentioned it once" },
+    { img: "ck-root", t: "The Ashes, 2nd Test, Lord's",
+      body: "Root at this ground, in this light, with the new ball eight overs away. I am not moving" }
+  ];
+
+  var REWARDS = [
+    { i: "stack", t: "Voted in an Ashes poll", sub: "Day 3" },
+    { i: "tick", t: "Correct call on Court 2", sub: "Wimbledon" },
+    { i: "chat", t: "Commented in a live page", sub: "Six Nations" },
+    { i: "flame", t: "Four sports in one day", sub: "26 June" }
+  ];
+
+  var FOLLOWS = ["Cricket", "Football", "Tennis", "Rugby Union", "Formula 1", "Boxing"];
+
+  function voteRows() {
+    var rows = [], id;
+    for (id in VOTEBOOK) {
+      if (!VOTEBOOK.hasOwnProperty(id)) { continue; }
+      var choice = S.votes[id];
+      if (choice === undefined) { continue; }
+      var v = VOTEBOOK[id];
+      var opts = pollOpts(id);
+      var said = opts && opts[choice] !== undefined ? opts[choice] : "";
+      var ok = v.pending ? null : choice === v.right;
+      var tpl = v.pending ? v.p : (ok ? v.r : v.w);
+      /* the option goes in quotes: it can be a name or a whole phrase */
+      rows.push({ t: v.t + " \u00b7 " + v.q, line: String(tpl).replace(/\{x\}/g, "\u201c" + said + "\u201d"), ok: ok });
+    }
+    /* top up with earlier in the week, newest of those first */
+    for (var k = 0; rows.length < 3 && k < PASTVOTES.length; k++) {
+      rows.push({ t: PASTVOTES[k].t, line: PASTVOTES[k].line, ok: PASTVOTES[k].ok });
+    }
+    return rows.slice(0, 4);
   }
 
-  /* ------------------------------------------------------------- wiring */
+  /* the options a poll was rendered with, wherever it lives in the data */
+  var POLLOPTS = null;
+  function pollOpts(id) {
+    if (!POLLOPTS) {
+      POLLOPTS = {};
+      var seen = [];
+      (function walk(o) {
+        if (!o || typeof o !== "object" || seen.indexOf(o) >= 0) { return; }
+        seen.push(o);
+        if (o.id && o.opts) { POLLOPTS[o.id] = o.opts; }
+        for (var k in o) { if (o.hasOwnProperty(k)) { walk(o[k]); } }
+      })({ e: EVENTS, h: HOMEFEED });
+    }
+    return POLLOPTS[id];
+  }
+
+  function drawer() {
+    var votes = voteRows();
+    var live = rankedCards();
+
+    return '<div class="scrim" id="scrim"></div>' +
+      '<aside class="drawer" id="drawer" aria-label="Your account" aria-hidden="true">' +
+
+      '<div class="dtop">' +
+      '<button class="iconbtn" type="button" id="drawerclose" aria-label="Close">' + I.close + '</button>' +
+      '<span class="dspacer"></span>' +
+      '<button class="iconbtn dbadge" type="button" data-toast="Replies are not wired up in this prototype." aria-label="Replies">' +
+      I.chat + '<i>3</i></button>' +
+      '<button class="iconbtn dbadge" type="button" data-toast="Notifications are not wired up in this prototype." aria-label="Notifications">' +
+      I.bell + '<i>2</i></button>' +
+      '<button class="iconbtn" type="button" data-toast="Settings are not built out in this prototype." aria-label="Settings">' + I.gear + '</button>' +
+      '</div>' +
+
+      '<div class="dme"><span class="dav">M</span><h2>Matt</h2></div>' +
+
+      '<section class="dblock">' + dhead("Follows", "Your followed sports are not built out in this prototype.") +
+      '<div class="dchips"><button class="dchip ic" type="button" data-toast="Follow settings are not built out in this prototype." aria-label="Edit follows">' +
+      I.optabars + '</button>' +
+      FOLLOWS.map(function (f) {
+        return '<button class="dchip" type="button" data-toast="' + esc(f) + ' is not built out in this prototype.">' + esc(f) + '</button>';
+      }).join("") + '</div></section>' +
+
+      '<section class="dblock">' + dhead("Votes", "Your full voting record is not built out in this prototype.") +
+      '<ul class="dvotes">' + votes.map(function (v) {
+        var mark = v.ok === null ? '<span class="dmark wait">' + I.livedot + '</span>'
+          : v.ok ? '<span class="dmark yes">' + I.tickplain + '</span>'
+            : '<span class="dmark no">' + I.close + '</span>';
+        return '<li>' + mark + '<span class="dvt"><b>' + esc(v.t) + '</b><span>' + esc(v.line) + '</span></span></li>';
+      }).join("") + '</ul>' +
+      (S.answered ? "" : '<p class="dnote">Answer a poll anywhere in the app and it lands here.</p>') +
+      '</section>' +
+
+      '<section class="dblock">' + dhead("Comments", "Your comment history is not built out in this prototype.") +
+      MYCOMMENTS.map(function (c) {
+        return '<button class="dcom" type="button" data-toast="Comment threads are not built out in this prototype.">' +
+          '<span class="dcimg">' + imgTag(c.img, "", "square") + '</span>' +
+          '<span class="dct"><b>' + esc(c.t) + '</b><span>' + esc(c.body) + '</span></span></button>';
+      }).join("") + '</section>' +
+
+      '<section class="dblock">' + dhead("Rewards", "The rewards shelf is not built out in this prototype.") +
+      '<div class="drew">' + REWARDS.map(function (r) {
+        return '<div class="dbadge2"><span class="dmedal">' + (I[r.i] || I.tick) + '</span>' +
+          '<b>' + esc(r.t) + '</b><span>' + esc(r.sub) + '</span></div>';
+      }).join("") + '</div></section>' +
+
+      '<section class="dblock last">' + dhead("Live today", "") +
+      '<nav>' + live.map(function (x) {
+        var c = x.c;
+        return '<button class="dl' + (S.view === "event" && x.i === S.eventIx ? " on" : "") + '" type="button" data-open="' + x.i + '">' +
+          '<span>' + esc(x.e.sport) + '<span class="dsub">' + esc(c.line1) + '</span></span>' +
+          (c.status === "live" ? '<span class="dlive">LIVE</span>' : '<span class="dwhen">' + esc(c.when.split(" ·")[0]) + '</span>') +
+          '</button>';
+      }).join("") + '</nav></section>' +
+
+      '</aside>';
+  }
+
+  function closeDrawer() {
+    var d = $("#drawer"), b = $("#burger");
+    if (!d) { return; }
+    d.classList.remove("open");
+    if ($("#scrim")) { $("#scrim").classList.remove("open"); }
+    d.setAttribute("aria-hidden", "true");
+    if (b) { b.setAttribute("aria-expanded", "false"); }
+  }
+
+  /* the menu is rebuilt every time it opens, so its handlers are attached
+     here rather than in the page-wide pass */
+  function wireDrawer() {
+    var d = $("#drawer");
+    if (!d) { return; }
+    var c = $("#drawerclose", d);
+    if (c) { c.onclick = closeDrawer; }
+    $$("[data-open]", d).forEach(function (b) {
+      b.onclick = function () { closeDrawer(); openEvent(Number(b.dataset.open)); };
+    });
+    $$("[data-toast]", d).forEach(function (b) {
+      b.onclick = function () { toast(b.dataset.toast); };
+    });
+  }
+
+  function dhead(title, toast) {
+    return toast
+      ? '<button class="dh2" type="button" data-toast="' + esc(toast) + '"><span>' + esc(title) + '</span>' + ARROW + '</button>'
+      : '<div class="dh2"><span>' + esc(title) + '</span></div>';
+  }
 
   function wire() {
     var burger = $("#burger");
-    function closeDrawer() {
-      $("#drawer").classList.remove("open");
-      $("#scrim").classList.remove("open");
-      $("#drawer").setAttribute("aria-hidden", "true");
-      if (burger) { burger.setAttribute("aria-expanded", "false"); }
-    }
     if (burger) {
       burger.onclick = function () {
-        $("#drawer").classList.add("open");
+        /* rebuild on open: a poll answered since the last full render has to
+           show up in Votes, and only #stage is refreshed on a vote */
+        var d = $("#drawer"), holder = document.createElement("div");
+        holder.innerHTML = drawer();
+        var fresh = holder.querySelector(".drawer");
+        d.innerHTML = fresh.innerHTML;
+        wireDrawer();
+        d.classList.add("open");
         $("#scrim").classList.add("open");
-        $("#drawer").setAttribute("aria-hidden", "false");
+        d.setAttribute("aria-hidden", "false");
         burger.setAttribute("aria-expanded", "true");
       };
     }

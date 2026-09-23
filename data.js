@@ -52,51 +52,63 @@ const MOMENTS = [
    ========================================================================= */
 
 const DROP = [
+  /* 0-2 cricket, 3-6 tennis, 7-11 football, 12-14 rugby, 15 keeps the drawn
+     fallback alive so it stays exercised */
   { t: "Root reaches three figures at Lord's", dur: "1:04", sport: "Cricket", chan: "BBC Cricket", handle: "bbccricket",
-    cap: "Root's second Ashes hundred at Lord's, and his slowest in eleven years. England still trail by 88.",
-    tags: ["Ashes", "Root"], likes: "4.1k", comments: "612", motif: "oval", g: ["#1B3A22", "#08170E"] },
+    cap: "His second Ashes hundred at Lord's, and his slowest in eleven years. England still trail by 88.",
+    tags: ["Ashes", "Root"], likes: "4.1k", comments: "612", img: "ck-root", motif: "oval", g: ["#1B3A22", "#08170E"] },
   { t: "Starc removes Stokes", dur: "0:28", sport: "Cricket", chan: "BBC Cricket", handle: "bbccricket",
     cap: "Loose drive at a wide one and Australia are back in it. Stokes goes for 43.",
-    tags: ["Ashes", "Wickets"], likes: "2.8k", comments: "410", motif: "oval", g: ["#3A1622", "#170A0F"] },
-  { t: "Day 2 in seven minutes", dur: "7:02", sport: "Cricket", chan: "BBC Cricket", handle: "bbccricket",
+    tags: ["Ashes", "Wickets"], likes: "2.8k", comments: "410", img: "ck-lords", motif: "oval", g: ["#3A1622", "#170A0F"] },
+  { t: "Day two in seven minutes", dur: "7:02", sport: "Cricket", chan: "BBC Cricket", handle: "bbccricket",
     cap: "Labuschagne's 118, Smith's 91 and a final session that swung twice.",
-    tags: ["Ashes", "Highlights"], likes: "9.2k", comments: "1.1k", motif: "oval", g: ["#1F3A4A", "#0A1319"] },
-  { t: "Three break points on Court 2", dur: "1:12", sport: "Tennis", chan: "BBC Wimbledon", handle: "wimbledon",
-    cap: "Raducanu wins three straight points on the Vondroušová second serve. The grounds start moving towards Court 2.",
-    tags: ["Wimbledon", "Raducanu"], likes: "12k", comments: "2.4k", motif: "court", g: ["#22461F", "#0C1A0B"] },
-  { t: "Raducanu seals it", dur: "0:34", sport: "Tennis", chan: "BBC Wimbledon", handle: "wimbledon",
-    cap: "6-4, 7-5 and into the fourth round. An hour and 48 minutes on the least glamorous court at the Championships.",
-    tags: ["Wimbledon", "Match point"], likes: "18k", comments: "3.1k", motif: "court", g: ["#1D3A1F", "#0B1A0D"] },
-  { t: "1977: Wade takes the title", dur: "3:12", sport: "Tennis", chan: "BBC Archive", handle: "bbcarchive",
-    cap: "The last British woman to win the singles title, in the Centenary Championships, with the Queen watching.",
-    tags: ["Wimbledon 100", "Archive"], likes: "7.4k", comments: "988", motif: "crowd", sport: "Tennis", g: ["#2A3A22", "#101608"] },
-  { t: "1927: the first commentary", dur: "0:58", sport: "Tennis", chan: "BBC Archive", handle: "bbcarchive",
-    cap: "Teddy Wakelam calls the Championships from a hut beside Centre Court. A hundred years ago this week.",
-    tags: ["Wimbledon 100", "Archive"], likes: "5.6k", comments: "744", motif: "crowd", sport: "Tennis", g: ["#3A2A14", "#170F06"] },
-  { t: "Saka fires England ahead", dur: "0:18", sport: "Football", chan: "BBC Sport", handle: "bbcsport",
-    cap: "Cuts inside off the right and bends it beyond Verbruggen. Wembley is up.",
-    tags: ["England", "Goals"], likes: "21k", comments: "4.2k", motif: "pitch", g: ["#123D22", "#071A0E"] },
-  { t: "Wembley erupts at the opener", dur: "0:15", sport: "Football", chan: "BBC Sport", handle: "bbcsport",
-    cap: "Ninety thousand people and not one of them sitting down.",
-    tags: ["England", "Reaction"], likes: "14k", comments: "1.9k", motif: "pitch", g: ["#24384B", "#0B1219"] },
-  { t: "Kane's finish", dur: "0:24", sport: "Football", chan: "BBC Sport", handle: "bbcsport",
-    cap: "Foden cuts it back, Kane does the rest. His 71st for England.",
-    tags: ["England", "Goals"], likes: "16k", comments: "2.6k", motif: "pitch", g: ["#1B3A22", "#08170E"] },
-  { t: "Sheehan from the driving maul", dur: "0:26", sport: "Rugby Union", chan: "BBC Rugby", handle: "bbcrugby",
-    cap: "The fourth try Wales have conceded from a lineout maul in five matches. Ireland knew it was there.",
-    tags: ["Six Nations", "Ireland"], likes: "6.8k", comments: "1.2k", motif: "pitch", g: ["#22314A", "#0C121C"] },
-  { t: "Ireland's fourth, 79 minutes", dur: "0:31", sport: "Rugby Union", chan: "BBC Rugby", handle: "bbcrugby",
-    cap: "A bonus point with a minute left keeps the championship alive going into Super Saturday.",
-    tags: ["Six Nations", "Bonus point"], likes: "8.1k", comments: "1.5k", motif: "pitch", g: ["#1B2440", "#0B0F1C"] },
-  { t: "The lineout that cost Wales", dur: "1:44", sport: "Rugby Union", chan: "BBC Rugby", handle: "bbcrugby",
-    cap: "Two throws lost inside the Irish 22 with the game there to be won. Where it actually went wrong.",
-    tags: ["Six Nations", "Analysis"], likes: "3.9k", comments: "870", motif: "pitch", g: ["#22314A", "#0C121C"] },
-  { t: "Steve Bunce's fight predictions", dur: "2:47", sport: "Boxing", chan: "BBC Sport", handle: "bbcsport",
-    cap: "Thompson v Ramirez tonight, and Bunce is not sitting on the fence.",
+    tags: ["Ashes", "Highlights"], likes: "9.2k", comments: "1.1k", img: "ck-huddle", motif: "oval", g: ["#1F3A4A", "#0A1319"] },
+
+  { t: "Three break points on Court 2", dur: "0:47", sport: "Tennis", chan: "BBC Tennis", handle: "bbctennis",
+    cap: "Second serve, and the whole of the outside courts starts walking the same way.",
+    tags: ["Wimbledon", "Raducanu"], likes: "12k", comments: "2.4k", img: "tn-forehand", motif: "court", g: ["#22461F", "#0C1A0B"] },
+  { t: "Court 2 erupts", dur: "0:31", sport: "Tennis", chan: "BBC Tennis", handle: "bbctennis",
+    cap: "Break taken, arms up, and the loudest noise on the grounds all afternoon.",
+    tags: ["Wimbledon", "Match point"], likes: "18k", comments: "3.1k", img: "tn-roar", motif: "court", g: ["#1D3A1F", "#0B1A0D"] },
+  { t: "The challenge that did not go to plan", dur: "0:36", sport: "Tennis", chan: "BBC Sport", handle: "bbcsport",
+    cap: "She has beaten the best in the world. This, she could not do.",
+    tags: ["Wimbledon", "Off court"], likes: "7.4k", comments: "988", img: "tn-challenge", motif: "court", g: ["#2A3A22", "#101608"] },
+  { t: "What she is reading this fortnight", dur: "0:52", sport: "Tennis", chan: "BBC Sport", handle: "bbcsport",
+    cap: "Three books, two weeks, and a straight face throughout.",
+    tags: ["Wimbledon", "Off court"], likes: "5.6k", comments: "744", img: "tn-books", motif: "court", g: ["#3A2A14", "#170F06"] },
+
+  { t: "The case for Cole Palmer", dur: "1:18", sport: "Football", chan: "BBC Sport", handle: "bbcsport",
+    cap: "He has started three of the last four. Our man thinks that should be four of four.",
+    tags: ["England", "Team news"], likes: "6.8k", comments: "1.9k", img: "fb-palmer", motif: "pitch", g: ["#123D22", "#071A0E"] },
+  { t: "Palmer or Trent: who starts tonight?", dur: "0:58", sport: "Football", chan: "BBC Sport", handle: "bbcsport",
+    cap: "One shape needs a right-back who can cross. The other needs a ten who can finish.",
+    tags: ["England", "Team news"], likes: "9.4k", comments: "3.3k", img: "fb-debate", motif: "pitch", g: ["#1B3A22", "#08170E"] },
+  { t: "Why Tuchel fits England", dur: "1:41", sport: "Football", chan: "BBC Sport", handle: "bbcsport",
+    cap: "Two years in, and the argument that seemed strange in 2025 looks obvious now.",
+    tags: ["England", "Analysis"], likes: "11k", comments: "2.6k", img: "fb-tuchel", motif: "pitch", g: ["#24384B", "#0B1219"] },
+  { t: "Bellingham owned the second half", dur: "1:12", sport: "Football", chan: "BBC Sport", handle: "bbcsport",
+    cap: "Eleven touches in the box after the break. Nobody else managed four.",
+    tags: ["England", "Player of the match"], likes: "21k", comments: "4.2k", img: "fb-bellingham", motif: "pitch", g: ["#123D22", "#071A0E"] },
+  { t: "All the goals", dur: "2:24", sport: "Football", chan: "BBC Sport", handle: "bbcsport",
+    cap: "Saka on 52, Kane on 79, and a Netherlands consolation that arrived two minutes too late.",
+    tags: ["England", "Highlights"], likes: "16k", comments: "2.6k", img: "fb-celebrate", motif: "pitch", g: ["#1B2440", "#0B0F1C"] },
+
+  { t: "Wales, three days out", dur: "0:44", sport: "Rugby Union", chan: "BBC Sport Wales", handle: "bbcsportwales",
+    cap: "Beaten by Fiji in the autumn, one win in five since. Cardiff has been quiet all week.",
+    tags: ["Six Nations", "Wales"], likes: "3.9k", comments: "870", img: "rg-wales", motif: "pitch", g: ["#22314A", "#0C121C"] },
+  { t: "Ireland name their side", dur: "0:39", sport: "Rugby Union", chan: "BBC Sport", handle: "bbcsport",
+    cap: "Unchanged from Round 4, which tells you what they think of the bonus point.",
+    tags: ["Six Nations", "Team news"], likes: "6.8k", comments: "1.2k", img: "rg-squad", motif: "pitch", g: ["#1B2440", "#0B0F1C"] },
+  { t: "The fourth try, with a minute left", dur: "0:33", sport: "Rugby Union", chan: "BBC Sport", handle: "bbcsport",
+    cap: "Held up twice, then over. The bonus point and the title race both turn on it.",
+    tags: ["Six Nations", "Bonus point"], likes: "8.1k", comments: "1.5k", img: "rg-roar", motif: "pitch", g: ["#22314A", "#0C121C"] },
+
+  { t: "Three fights, one night", dur: "1:29", sport: "Boxing", chan: "BBC Sport", handle: "bbcsport",
+    cap: "The undercard nobody expected to matter, and the one that did.",
     tags: ["Boxing", "Predictions"], likes: "4.4k", comments: "1.3k", motif: "ring", g: ["#3A1622", "#170A0F"] }
 ];
 
-const SHORTS_LIVE = { t: "shorts", label: "Your daily drop", deck: [7, 8, 9, 1] };
+const SHORTS_LIVE = { t: "shorts", label: "Your daily drop", deck: [4, 10, 0, 13] };
 
 const FEED_FOOTBALL = { t: "feed", author: "Written by Emma Sanders and Phil McNulty at Wembley", posts: [
   ["67 mins", "Saka goes close again", "Drifts inside off the right and curls one towards the far corner. Verbruggen tips it over.", false],
@@ -176,7 +188,7 @@ const EVENTS = [
               { t: "storyline", kicker: "The tactical angle",
                 body: "Netherlands have conceded six of their last nine goals from crosses into the six-yard box. Saka has delivered more of those than any England player this cycle. Watch the far post." }
             ]},
-            { h: "Watch: Build-up", meta: "Swipe for more", panels: [{ t: "shorts", label: "Build-up", deck: [7, 9, 13, 8] }]},
+            { h: "Watch: Build-up", meta: "Swipe for more", panels: [{ t: "shorts", label: "Build-up", deck: [7, 8, 9, 15] }]},
             { h: "The numbers", meta: "Opta", panels: [
               { t: "kv", items: [["At Wembley", "W4", "of last 5"], ["Both scored", "7", "of last 8"], ["Avg goals", "3.1", "this fixture"]] },
               { t: "note", body: "England have scored first in four of the last five meetings and won only two of them." }
@@ -314,7 +326,7 @@ const EVENTS = [
           { id: "report", label: "Report", sections: [
             { ruleY: true, panels: [{ t: "storyline", kicker: "Full-time report",
               body: "England held on. Two goals of real quality, a nervous last ten minutes after Gakpo's header, and a first win over the Netherlands at Wembley since 2018." }]},
-            { h: "Watch: The best of it", meta: "Swipe for more", panels: [{ t: "shorts", label: "The best of it", deck: [9, 7, 11, 12] }]},
+            { h: "Watch: The best of it", meta: "Swipe for more", panels: [{ t: "shorts", label: "The best of it", deck: [11, 10, 9, 4] }]},
             { h: "Pundit verdict", meta: "Full time", panels: [{ t: "pundit", initials: "AS", who: "Alan Shearer", when: "FT",
               quote: "Better. Still made the last ten minutes harder than they needed to be.",
               opts: ["Fair", "Too kind"], split: [51, 49], after: "The country is genuinely split on this one." }]}
@@ -751,7 +763,7 @@ const EVENTS = [
                 ["2013", "Murray ends the wait", "77 years, and the BBC audience peaks at 17.3 million."]
               ],
               note: "" }]},
-            { h: "Watch: From the archive", meta: "Swipe for more", panels: [{ t: "shorts", label: "From the archive", deck: [5, 6, 4, 3] }]}
+            { h: "Watch: Beyond the court", meta: "Swipe for more", panels: [{ t: "shorts", label: "Off court", deck: [5, 6, 4, 3] }]}
           ]}
         ]
       },
@@ -894,7 +906,7 @@ const EVENTS = [
               { t: "kv", items: [["Ireland", "2nd", "17 pts"], ["Wales", "6th", "2 pts"], ["Bonus point", "4 tries", "Ireland need it"]] },
               { t: "note", body: "Ireland need a bonus-point win and France to slip. Wales need a performance more than a result, which is a different match to watch." }
             ]},
-            { h: "Watch: Build-up", meta: "Swipe for more", panels: [{ t: "shorts", label: "Build-up", deck: [10, 12, 11] }]}
+            { h: "Watch: Build-up", meta: "Swipe for more", panels: [{ t: "shorts", label: "Build-up", deck: [12, 13, 14] }]}
           ]},
           { id: "predict", label: "Predict", sections: [
             { h: "Predict the match", meta: "52,220 in", ruleY: true, panels: [{ t: "predict" }] },
@@ -1037,7 +1049,7 @@ const EVENTS = [
               ref: "LAW 15.6(c) · THE 64TH-MINUTE PENALTY",
               body: "Wales kicked the three and drew within one score. The alternative was the corner, where they had already lost two lineouts. 58% of fans said take the three, and on the night it was the right call that still lost.",
               meta: "Checked by the BBC Sport rugby team" }]},
-            { h: "Watch: The best of it", meta: "Swipe for more", panels: [{ t: "shorts", label: "The best of it", deck: [10, 11, 12] }]}
+            { h: "Watch: The best of it", meta: "Swipe for more", panels: [{ t: "shorts", label: "The best of it", deck: [14, 12, 13] }]}
           ]},
           { id: "yourday", label: "Your afternoon", sections: [
             { h: "Your afternoon", meta: "Scored at the whistle", ruleY: true, panels: [{ t: "scored", total: 33, max: 55, rows: [
@@ -1098,7 +1110,7 @@ const NAVSCREENS = {
   shorts: {
     title: "Shorts",
     sections: [
-      { h: "Today on Shorts", meta: "All sports", panels: [{ t: "shortsgrid", deck: [0,1,2,3,4,5,6,7,8,9,10,11,12,13] }]}
+      { h: "Today on Shorts", meta: "All sports", panels: [{ t: "shortsgrid", deck: [4,10,5,3,7,12,0,9,14,8,1,6,11,2,13,15] }]}
     ]
   },
   mysport: {
@@ -1244,5 +1256,5 @@ const HOMEFEED = {
     ]
   },
 
-  videos: { title: "Watch: Today's best", deck: [0, 3, 10, 13] }
+  videos: { title: "Watch: Today's best", deck: [4, 10, 0, 12] }
 };

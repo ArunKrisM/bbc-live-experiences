@@ -36,7 +36,7 @@ branch*, branch `main`, folder `/ (root)`. The site appears at
 | The takeover card | Scoreline and three comparisons for the event at the top of the ranking, in every lifecycle state |
 | Tapping a card | Opens that event in the current lifecycle state |
 | Match tabs | Each sport in each state has its own tab set |
-| Hamburger menu | Lifecycle states, the four live events, and the sport list |
+| The menu, top left | Opens from the right as a profile: follows, your voting record, your comments, rewards, and what is live. Answer a poll anywhere and it appears in Votes |
 | Your daily drop | The shorts carousel. Tapping a card takes over the screen; swipe up/down or tap the left/right halves to move through the deck, `Esc` to close |
 | Bottom navigation | Home, Shorts, My Sport, Scores and Search all render something |
 
@@ -73,9 +73,15 @@ and a phase tracker. The strongest public-service case in the set.
 ## Pictures
 
 Photographs live in `img/`, three crops each: `-wide` (16:9), `-tall` (9:13)
-and `-sq`. `photoSVG()` in `app.js` picks one from the pool for that sport
-using the same seed that identifies the item, so a card keeps the same
-photograph on every visit and neighbouring cards do not repeat.
+and `-sq`. Each one is tagged with the phase of a fixture it belongs to as
+well as the sport, and `photoSVG()` in `app.js` asks for the phase the page
+is currently in. Build-up shows team news and previews, live shows the ball
+in play, full time shows the celebration. The same card in a different
+lifecycle state gets a different picture, which is the point of the tagging.
+
+A picture whose shape disagrees badly with the frame is laid across a
+blurred bed of itself and faded out, rather than cropped into a thin slice
+or upscaled into mush.
 
 **These photographs are third-party sports photography, not BBC-owned
 material, and several carry agency credit.** They are here to show what the
