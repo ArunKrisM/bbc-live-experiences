@@ -93,6 +93,20 @@ The tennis 100 years tab has archive clips, a programme reader and a long read
 on the BBC at Wimbledon. The archive pictures are draft material and need
 clearing before anything goes public.
 
+## Commentary, watchalongs and the experts
+
+The chip on every player says who you are listening to. The same list runs on
+the phone, the website and the TV: BBC commentary, the radio call synced to
+the picture, a presenter or creator watching along, or no voice at all. Full
+screen works from the Home hero and the player, upright or turned sideways.
+
+Every match page has Ask the experts: the presenters, journalists and
+creators around the match, a question box, votes on other fans' questions and
+the answers that went out on air as audio. On the TV the same people appear
+under The experts in the player controls, with Watch with, the answers on air,
+and a code to ask from your phone. Answers are summarised by topic and never
+written up as quotes. The creator channels are invented placeholders.
+
 ## Big screen, small screen
 
 The same four events and the same data run on four surfaces. The TV is drawn

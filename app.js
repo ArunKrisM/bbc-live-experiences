@@ -97,7 +97,7 @@
     signedIn: false,
     playing: true,
     theme: "dark", hide: null, revealed: {}, sheet: null, likes: {}, myComments: {},
-    article: null, reader: null, vid: null, push: null, ntypes: {}, csort: "top", shareAsCard: false, reminders: {}
+    article: null, reader: null, vid: null, push: null, ntypes: {}, csort: "top", shareAsCard: false, reminders: {}, myQs: {}
   };
 
   function lc() { return LIFECYCLE[S.lcIx].id; }
@@ -1552,8 +1552,8 @@
       '<span class="tochip' + (x.c.status === "live" ? " on" : "") + '"><i></i>' + status + '</span>' +
       (st.watching ? '<span class="towatch">' + esc(st.watching) + ' watching</span>' : "") +
       '<span class="tospacer"></span>' +
-      '<button class="toic" type="button" data-toast="Audio is not wired up in this prototype." aria-label="Sound">' + I.speaker + '</button>' +
-      '<button class="toic" type="button" data-toast="Full screen is not wired up in this prototype." aria-label="Full screen">' + I.expand + '</button>' +
+      (playable ? '<button class="toic" type="button" data-listenlive="' + x.i + '" aria-label="Listen live">' + I.speaker + '</button>' +
+        '<button class="toic" type="button" data-watch="' + x.i + '" data-fs="1"' + (L === "companion" && e.id === "tennis" ? ' data-court="Court 2 · Raducanu v Vondroušová"' : "") + ' aria-label="Watch full screen">' + I.expand + '</button>' : "") +
       '</div>' +
 
       '<div class="tocard">' +
@@ -1668,9 +1668,10 @@
           (c.status === "live" ? '<span class="ecdot"></span>' : "") + '</span>' +
           '<span class="ectext">' +
           '<span class="ec-top"><span class="ec-sport">' + (I.sport[x.e.sport] || "") + esc(x.e.sport) + '</span>' +
-          (c.status === "soon" ? remindChip(x.e, c.when) : '<span class="ec-when' + (c.status === "live" ? " live" : "") + '">' + esc(c.when) + '</span>') + '</span>' +
+          '<span class="ec-when' + (c.status === "live" ? " live" : c.status === "soon" ? " soon" : "") + '">' + esc(c.when) + '</span></span>' +
           '<span class="ec-title">' + esc(c.line1) + '</span>' +
-          '<span class="ec-ctx">' + esc(c.ctx) + '</span></span></button>';
+          '<span class="ec-ctx">' + esc(c.ctx) + '</span>' +
+          (c.status === "soon" ? '<span class="ec-foot">' + remindChip(x.e, "") + '</span>' : "") + '</span></button>';
       }).join("") + '</div></section>';
 
     /* 6. the drop, one in focus with the rest peeking */
@@ -1754,6 +1755,7 @@
     wire();
     if (S.player !== null) { mountPlayer(); }
     if (S.surface === "tv" || S.surface === "together") { renderTV(); }
+    sizeFS();
   }
 
   function eventBody() {
@@ -2526,6 +2528,7 @@
      ========================================================================== */
 
   var IX = {
+    rotate: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="7" y="3" width="10" height="18" rx="2" stroke="currentColor" stroke-width="1.8" transform="rotate(-45 12 12)"/><path d="M3.5 9A9 9 0 0 1 9 3.5M20.5 15A9 9 0 0 1 15 20.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>',
     moon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M19.5 14.2A7.8 7.8 0 0 1 9.8 4.5a7.8 7.8 0 1 0 9.7 9.7z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>',
     sun: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.8"/><path d="M12 2.5v2.2M12 19.3v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>',
     heartfill: '<svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7.5-4.6-7.5-9.4A4.1 4.1 0 0 1 12 8.2a4.1 4.1 0 0 1 7.5 2.4C19.5 15.4 12 20 12 20z" fill="#E8443C"/></svg>',
@@ -2671,6 +2674,12 @@
         '<form class="composer" data-compose="' + esc(sh.ctx) + '"><span class="meav sm">A</span>' +
         '<input type="text" name="c" maxlength="280" placeholder="Add a comment" aria-label="Add a comment" autocomplete="off">' +
         '<button type="submit">Post</button></form>';
+    }
+
+    if (sh.kind === "voices") {
+      var ve = evById(sh.ctx) || ev();
+      out += '<div class="shhead"><h2>Listen to <small>' + esc(vName(ve)) + '</small></h2><button class="iconbtn" type="button" data-sheetclose aria-label="Close">' + I.close + '</button></div>' +
+        '<div class="shbody">' + voiceRows(ve) + '<p class="shnote">Every voice is held back to match your picture, so nobody calls a goal before you see it.</p></div>';
     }
 
     if (sh.kind === "share") {
@@ -2819,7 +2828,7 @@
   function vidStart(o) {
     var prev = S.vid && S.vid.kind === "live" ? S.vid : null;
     S.vid = { id: o.id || null, kind: o.kind || "live", mode: o.mode || "full", play: true, t: 0, cc: S.vid ? S.vid.cc : false,
-      aud: S.vid ? S.vid.aud : "tv", title: o.title || null, img: o.img || null, dur: o.dur || 0, ix: 0, archive: !!o.archive,
+      aud: S.vid ? S.vid.aud : "bbc", stats: S.vid ? S.vid.stats : false, title: o.title || null, img: o.img || null, dur: o.dur || 0, ix: 0, archive: !!o.archive,
       back: o.kind && o.kind !== "live" ? prev : null, line: 0 };
     stopDock();
   }
@@ -2861,28 +2870,69 @@
     return secs(v.dur || "0:40");
   }
 
+  /* ---- the voice over the picture ------------------------------------ */
+
+  function voiceList(e) { return (e && VOICES[e.id]) || []; }
+  function voiceOf(e) {
+    var list = voiceList(e), id = S.vid ? S.vid.aud : "bbc";
+    return list.filter(function (x) { return x[0] === id; })[0] || list[0];
+  }
+  function voiceAv(vo, cls) {
+    return vo && vo[5] ? '<span class="vav' + (cls ? " " + cls : "") + '" style="background:' + vo[6] + '">' + esc(vo[5]) + '</span>'
+      : '<span class="vav ic' + (cls ? " " + cls : "") + '">' + (vo && vo[0] === "crowd" ? I.speaker : vo && vo[0] === "ad" ? I.cc : I.headph) + '</span>';
+  }
+  function voiceChip(e, fs) {
+    var vo = voiceOf(e);
+    if (!vo) { return ""; }
+    return '<button class="vvoice" type="button" ' + (fs ? "data-fsvoices" : 'data-sheet="voices" data-ctx="' + e.id + '"') + ' aria-label="Change commentary">' +
+      voiceAv(vo) + '<span><small>' + (vo[4] === "Watch with" || vo[4] === "Listen with" ? "Watching with" : "Commentary") + '</small>' + esc(vo[1]) + '</span>' + I.chevron + '</button>';
+  }
+  function voiceRows(e) {
+    var cur = voiceOf(e), groups = [];
+    voiceList(e).forEach(function (v) { if (groups.indexOf(v[4]) < 0) { groups.push(v[4]); } });
+    return groups.map(function (g) {
+      return '<h3 class="shsub">' + esc(g) + '</h3>' + voiceList(e).filter(function (v) { return v[4] === g; }).map(function (v) {
+        var on = cur && cur[0] === v[0];
+        return '<button type="button" class="vrow' + (on ? " on" : "") + '" data-voice="' + v[0] + '" data-ev="' + e.id + '">' + voiceAv(v, "lg") +
+          '<span class="vrtx"><b>' + esc(v[2]) + '</b><small>' + esc(v[3]) + '</small></span>' + (on ? '<i>' + I.tickplain + '</i>' : "") + '</button>';
+      }).join("");
+    }).join("");
+  }
+
+  /* ---- controls shared by the page player and full screen ------------ */
+
+  function vidControls(v, inf, e, fs) {
+    var live = inf.live, dur = vidDur();
+    return '<div class="vctl">' +
+      '<button class="vpp" type="button" data-vidplay aria-label="' + (v.play ? "Pause" : "Play") + '">' + (v.play ? I.pause : I.play) + '</button>' +
+      (live ? '<span class="vlivepill"><i></i>LIVE</span>' : '<span class="vclock" data-vtime>' + mmss(Math.floor(v.t)) + " / " + mmss(dur) + '</span>') +
+      '<span class="vsp"></span>' +
+      (live && e ? voiceChip(e, fs) : "") +
+      '<button class="vic" type="button" data-vidcc aria-pressed="' + v.cc + '" aria-label="Subtitles">' + I.cc + '</button>' +
+      (fs && live && e ? '<button class="vic" type="button" data-vidstats aria-pressed="' + !!v.stats + '" aria-label="Stats">' + I.poll + '</button>' : "") +
+      '<button class="vic" type="button" data-vidfs aria-label="' + (fs ? "Exit full screen" : "Full screen") + '">' + (fs ? I.shrink : I.expand) + '</button>' +
+      '</div>' +
+      '<span class="vprog' + (live ? " live" : "") + '"><i style="width:' + (live ? 100 : Math.min(100, v.t / dur * 100)).toFixed(1) + '%"></i></span>';
+  }
+
   function vidPane() {
     var v = S.vid;
     if (!v || v.mode !== "full") { return ""; }
     var inf = vidInfo(), e = vidEvent();
     if (inf.audio) {
-      /* radio with a live transcript: the cricket version of the same slot */
       var tl = CK_TRANSCRIPT.slice(0, 3 + (v.line % (CK_TRANSCRIPT.length - 2)));
       return '<div class="vid audio" data-vidpane>' +
         '<div class="vidimg dim">' + imgTag("ck-mic", "", "wide") + '</div><span class="vidveil"></span>' +
-        '<div class="vtop"><span class="vlive"><i></i>LIVE</span><span class="vchan">Test Match Special</span><span class="vsp"></span>' +
+        '<div class="vtop"><span class="vlive"><i></i>LIVE</span><span class="vchan">' + esc(voiceOf(e) ? voiceOf(e)[2] : "Test Match Special") + '</span><span class="vsp"></span>' +
         '<button class="vbtn" type="button" data-vidmin aria-label="Shrink">' + I.shrink + '</button></div>' +
         '<div class="vaud"><span class="vwave">' + waveSVG("rcpwave on") + '</span>' +
         '<p class="vnote">Radio and live text only. The BBC does not hold the pictures for this series.</p></div>' +
-        '<div class="vbot"><button class="vplay" type="button" data-vidplay aria-label="' + (v.play ? "Pause" : "Play") + '">' + (v.play ? I.pause : I.play) + '</button>' +
-        '<span class="vtitle">England v Australia · Lord\'s</span><span class="vsp"></span>' +
-        '<button class="vchip" type="button" data-vidcc aria-pressed="' + v.cc + '">' + I.cc + (v.cc ? "Transcript on" : "Transcript") + '</button></div>' +
-        '</div>' +
+        vidControls(v, inf, e, false) + '</div>' +
         (v.cc ? '<div class="vtrans" aria-live="polite"><p class="vtk">Live transcript · Test Match Special</p>' + tl.slice(-3).map(function (l, k, a) {
           return '<p class="' + (k === a.length - 1 ? "now" : "") + '"><b>' + esc(l[0]) + '</b>' + esc(l[1]) + '</p>';
         }).join("") + '</div>' : "");
     }
-    var dur = vidDur(), live = inf.live;
+    var live = inf.live;
     return '<div class="vid' + (v.archive ? " archive" : "") + '" data-vidpane>' +
       '<div class="vidimg' + (v.play ? " kb" : "") + '">' + (inf.img ? imgTag(inf.img, inf.label || "", "wide") : "") + '</div><span class="vidveil"></span>' +
       '<div class="vtop">' + (live ? '<span class="vlive"><i></i>LIVE</span>' : '<span class="vclip">' + (v.kind === "recap" ? "CATCH-UP" : v.archive ? "ARCHIVE" : "CLIP") + '</span>') +
@@ -2890,13 +2940,149 @@
       (live && e && watchingFor(e) ? '<span class="vwatch">' + esc(watchingFor(e)) + '</span>' : "") +
       '<button class="vbtn" type="button" data-vidmin aria-label="Shrink the video">' + I.shrink + '</button>' +
       (v.kind !== "live" ? '<button class="vbtn" type="button" data-vidclose aria-label="Close">' + I.close + '</button>' : "") + '</div>' +
+      '<p class="vlabel">' + esc(inf.label || "") + '</p>' +
       (v.cc && inf.cap ? '<p class="vcap">' + esc(inf.cap) + '</p>' : "") +
-      '<div class="vbot"><button class="vplay" type="button" data-vidplay aria-label="' + (v.play ? "Pause" : "Play") + '">' + (v.play ? I.pause : I.play) + '</button>' +
-      '<span class="vbar"><i style="width:' + (live ? 100 : Math.min(100, v.t / dur * 100)).toFixed(1) + '%"></i></span>' +
-      '<span class="vtime" data-vtime>' + (live ? "LIVE" : mmss(Math.floor(v.t)) + " / " + mmss(dur)) + '</span>' +
-      (live ? '<button class="vchip" type="button" data-vidaud>' + I.speaker + (v.aud === "tv" ? "TV" : v.aud === "radio" ? "5 Live" : "Crowd") + '</button>' : "") +
-      '<button class="vchip" type="button" data-vidcc aria-pressed="' + v.cc + '" aria-label="Subtitles">' + I.cc + '</button></div>' +
-      '<p class="vlabel">' + esc(inf.label || "") + '</p></div>';
+      vidControls(v, inf, e, false) + '</div>';
+  }
+
+  /* ---- full screen: turned on its side on the phone -------------------- */
+
+  function fsHTML() {
+    var v = S.vid;
+    if (!v || v.mode !== "fs") { return ""; }
+    var inf = vidInfo(), e = vidEvent(), tk = e ? tkFor(e) : null, TK = tk ? tk.TK : {}, T = tk ? tk.T : {};
+    var bug = e && inf.live ? '<div class="fsbug"><span class="fsbn"><i style="background:' + TK.ca + '"></i>' + esc(TK.a || "") + '</span>' +
+      '<b>' + esc(T.hidden ? "v" : (T.line || "v")) + '</b><span class="fsbn">' + esc(TK.b || "") + '<i style="background:' + TK.cb + '"></i></span></div>' +
+      '<p class="fssub">' + esc(T.hidden ? "Score hidden" : (T.sub || "")) + '</p>' : '<p class="fstitle">' + esc(inf.label || "") + '</p>';
+    var body = inf.audio
+      ? '<div class="vidimg dim">' + imgTag("ck-mic", "", "wide") + '</div><span class="vidveil"></span>' +
+        '<div class="fsaud"><span class="vwave">' + waveSVG("rcpwave on") + '</span>' +
+        CK_TRANSCRIPT.slice(0, 3 + (v.line % (CK_TRANSCRIPT.length - 2))).slice(-3).map(function (l, k, a) {
+          return '<p class="' + (k === a.length - 1 ? "now" : "") + '"><b>' + esc(l[0]) + '</b>' + esc(l[1]) + '</p>';
+        }).join("") + '</div>'
+      : '<div class="vidimg' + (v.play ? " kb" : "") + (v.archive ? " arch" : "") + '">' + (inf.img ? imgTag(inf.img, inf.label || "", "wide") : "") + '</div><span class="vidveil"></span>';
+    return '<div class="vfs' + (S.surface === "web" ? "" : v.land ? " rot" : " port") + '" role="dialog" aria-label="Full screen">' + body +
+      '<div class="fstop"><div class="fsl">' + (inf.live ? '<span class="vlive"><i></i>LIVE</span>' : '<span class="vclip">' + (v.kind === "recap" ? "CATCH-UP" : "CLIP") + '</span>') +
+      '<span class="vchan">' + esc(inf.chan) + '</span></div>' + bug + '<span class="vsp"></span>' +
+      (inf.live && e && watchingFor(e) ? '<span class="vwatch">' + esc(watchingFor(e)) + ' watching</span>' : "") +
+      (S.surface !== "web" ? '<button class="vic" type="button" data-vidrot aria-pressed="' + !!v.land + '" aria-label="' + (v.land ? "Hold upright" : "Turn to landscape") + '">' + I.rotate + '</button>' : "") + '</div>' +
+      (v.stats && e && inf.live && !T.hidden ? '<aside class="fsstats"><p class="vtk">In numbers</p>' + statBars(TK, T) + '</aside>' : "") +
+      (v.fsVoices && e ? '<aside class="fsvoices"><p class="vtk">Listen to</p>' + voiceRows(e) + '</aside>' : "") +
+      (v.cc && inf.cap && !inf.audio ? '<p class="vcap">' + esc(inf.cap) + '</p>' : "") +
+      '<div class="fsbot">' + vidControls(v, inf, e, true) + '</div></div>';
+  }
+
+  function sizeFS() {
+    var f = $(".vfs.rot"), vp = $("#viewport");
+    if (!f || !vp) { return; }
+    f.style.width = vp.clientHeight + "px";
+    f.style.height = vp.clientWidth + "px";
+  }
+
+  /* ---- ask the experts ------------------------------------------------- */
+
+  P.pundits = function (p) {
+    var d = PUNDITS[p.id];
+    if (!d) { return ""; }
+    var e = evById(p.id), ix = evIxById(p.id), mine = (S.myQs[p.id] || []);
+    return '<div class="pund">' +
+      '<div class="rail phosts">' + d.hosts.map(function (h) {
+        var on = /now|along/i.test(h[3]);
+        return '<div class="phost"><span class="phav" style="background:' + h[4] + '">' + esc(h[0]) + '</span>' +
+          '<b>' + esc(h[1]) + '</b><small>' + esc(h[2]) + '</small>' +
+          '<span class="pstat' + (on ? " on" : "") + '">' + (on ? "<i></i>" : "") + esc(h[3]) + '</span>' +
+          (h[5] && lc() !== "fulltime" ? '<button class="pbtn" type="button" data-watchwith="' + h[5] + '" data-ev="' + ix + '">' + (hasVideo(e) ? I.playtri + "Watch with" : I.headph + "Listen with") + '</button>'
+            : '<button class="pbtn ghost" type="button" data-follow aria-pressed="false">Follow</button>') + '</div>';
+      }).join("") + '</div>' +
+      '<form class="pask" data-askq="' + p.id + '"><span class="meav sm">A</span><input type="text" maxlength="200" placeholder="Ask the experts a question" aria-label="Ask a question" autocomplete="off"><button type="submit">Ask</button></form>' +
+      '<p class="pnote">The questions with the most votes are put to the studio. You get a notification if yours is answered.</p>' +
+      '<div class="pqs">' + mine.slice().reverse().map(function (q) {
+        return '<div class="pq mine"><div><b>' + esc(q) + '</b><small>You · just now · sent to the studio</small></div><span class="votebtn on">' + I.chevron + '1</span></div>';
+      }).join("") + d.qs.map(function (q, k) {
+        var key = "q:" + p.id + ":" + k, on = !!S.likes[key];
+        return '<div class="pq"><div><b>' + esc(q[0]) + '</b><small>' + esc(q[1]) + '</small></div>' +
+          '<button type="button" class="votebtn' + (on ? " on" : "") + '" data-vote="' + key + '" data-base="' + esc(q[2]) + '" aria-pressed="' + on + '" aria-label="Vote for this question">' + I.chevron + '<span class="n">' + esc(on ? bump(q[2]) : q[2]) + '</span></button></div>';
+      }).join("") + '</div>' +
+      '<h3 class="psub">Answered on air</h3><div class="bites">' + d.answered.map(function (a, k) {
+        return '<button class="bite" type="button" data-bite="' + k + '" data-title="' + esc(a[0] + ": " + a[1].toLowerCase()) + '" data-dur="' + esc(a[2]) + '" data-desc="' + esc(a[1] + ". The answer as it went out, from the programme.") + '">' +
+          '<span class="bplay">' + I.playtri + '</span><span class="btx"><b>' + esc(a[0]) + '</b><span>' + esc(a[1]) + '</span></span><span class="bdur">' + esc(a[2]) + '</span></button>';
+      }).join("") + '</div></div>';
+  };
+
+  function bump(n) {
+    var m = String(n).match(/^([\d.]+)(k?)$/);
+    if (!m) { return n; }
+    return m[2] ? n : String(Number(m[1]) + 1);
+  }
+
+  function seedPundits() {
+    EVENTS.forEach(function (e) {
+      if (!PUNDITS[e.id]) { return; }
+      ["live", "companion", "fulltime"].forEach(function (st) {
+        var s = e.states[st];
+        if (!s || !s.tabs || !s.tabs[0]) { return; }
+        var sec = s.tabs[0].sections;
+        if (sec.some(function (x) { return x.panels && x.panels.some(function (pn) { return pn.t === "pundits"; }); })) { return; }
+        var at = sec.length;
+        sec.forEach(function (x, i) { if (x.panels && x.panels.some(function (pn) { return pn.t === "recap"; })) { at = i + 1; } });
+        sec.splice(at, 0, { h: st === "fulltime" ? "From the studio" : "Ask the experts", meta: st === "fulltime" ? "Answered on air" : "Live Q&A", panels: [{ t: "pundits", id: e.id }] });
+      });
+    });
+  }
+
+  function wireV12(root) {
+    $$("[data-vidfs]", root).forEach(function (b) {
+      b.onclick = function (ev2) {
+        ev2.stopPropagation();
+        var v = S.vid;
+        if (v.mode === "fs") {
+          v.fsVoices = false;
+          if (S.surface === "web") { S.vid = null; S.webPlay = true; } else { v.mode = "full"; }
+        } else { v.mode = "fs"; }
+        render();
+      };
+    });
+    $$("[data-vidrot]", root).forEach(function (b) { b.onclick = function () { S.vid.land = !S.vid.land; refreshOverlays(); sizeFS(); }; });
+    $$("[data-vidstats]", root).forEach(function (b) { b.onclick = function () { S.vid.stats = !S.vid.stats; S.vid.fsVoices = false; refreshOverlays(); }; });
+    $$("[data-fsvoices]", root).forEach(function (b) { b.onclick = function () { S.vid.fsVoices = !S.vid.fsVoices; S.vid.stats = false; refreshOverlays(); }; });
+    $$("[data-voice]", root).forEach(function (b) {
+      b.onclick = function () {
+        var e = evById(b.dataset.ev), vo = voiceList(e).filter(function (x) { return x[0] === b.dataset.voice; })[0];
+        if (!S.vid || S.vid.id !== e.id) { watchEvent(evIxById(e.id), "live"); }
+        S.vid.aud = b.dataset.voice; S.vid.fsVoices = false; S.sheet = null;
+        if (S.vid.mode === "fs") { refreshOverlays(); } else { refreshVid(); refreshOverlays(); }
+        toast("Now listening to " + vo[2] + ". The picture carries on where it was.");
+      };
+    });
+    $$("[data-watchwith]", root).forEach(function (b) {
+      b.onclick = function () {
+        var ix = Number(b.dataset.ev);
+        watchEvent(ix, "live");
+        S.vid.aud = b.dataset.watchwith;
+        refreshVid();
+        var vo = voiceOf(EVENTS[ix]);
+        toast("Watching with " + vo[2] + ".");
+      };
+    });
+    $$("[data-vote]", root).forEach(function (b) {
+      b.onclick = function () {
+        var k = b.dataset.vote, on = !S.likes[k];
+        S.likes[k] = on;
+        b.classList.toggle("on", on); b.setAttribute("aria-pressed", String(on));
+        $(".n", b).textContent = on ? bump(b.dataset.base) : b.dataset.base;
+      };
+    });
+    $$("[data-askq]", root).forEach(function (f) {
+      f.onsubmit = function (ev2) {
+        ev2.preventDefault();
+        var inp = f.querySelector("input"), txt = inp.value.trim();
+        if (!txt) { inp.focus(); return; }
+        (S.myQs[f.dataset.askq] = S.myQs[f.dataset.askq] || []).push(txt);
+        rerenderBody();
+        toast("Sent to the studio. We'll tell you if it's answered on air.");
+      };
+    });
+    sizeFS();
   }
 
   function pipHTML() {
@@ -2925,7 +3111,7 @@
       if (k >= R.moments.length) { vidEnd(); return; }
       if (k !== v.ix) { v.ix = k; refreshVid(); return; }
     } else if (v.t >= vidDur()) { vidEnd(); return; }
-    var bar = $("[data-vidpane] .vbar i"), tm = $("[data-vtime]");
+    var bar = $(".vprog i"), tm = $("[data-vtime]");
     if (bar) { bar.style.width = Math.min(100, v.t / vidDur() * 100).toFixed(1) + "%"; }
     if (tm) { tm.textContent = mmss(Math.floor(v.t)) + " / " + mmss(vidDur()); }
   }
@@ -2939,6 +3125,7 @@
 
   function refreshVid() {
     var pane = $("[data-vidpane]");
+    if (S.vid && S.vid.mode === "fs") { refreshOverlays(); return; }
     if (pane && S.vid && S.vid.mode === "full") {
       var holder = document.createElement("div");
       holder.innerHTML = vidPane();
@@ -3004,6 +3191,10 @@
 
   function remindChip(e, text) {
     var on = !!(S.reminders && S.reminders[e.id]);
+    if (text === "") {
+      return '<span class="rpill' + (on ? " on" : "") + '" role="button" tabindex="0" data-remindchip="' + e.id + '" aria-pressed="' + on + '">' +
+        (on ? I.bellon : I.bellsm) + (on ? "Reminder set" : "Remind me") + '</span>';
+    }
     return '<span class="chipsoon remind' + (on ? " on" : "") + '" role="button" tabindex="0" data-remindchip="' + e.id + '" aria-pressed="' + on + '" aria-label="' + (on ? "Reminder set" : "Remind me when it starts") + '">' +
       (on ? I.bellon : I.bellsm) + esc(text) + '</span>';
   }
@@ -3011,7 +3202,7 @@
   /* ---- overlays live in one container, redrawn on their own ----------- */
 
   function overlaysHTML() {
-    return articleHTML() + readerHTML() + sheetHTML() + pipHTML() + pushHTML();
+    return articleHTML() + readerHTML() + fsHTML() + sheetHTML() + pipHTML() + pushHTML();
   }
 
   function refreshOverlays() {
@@ -3019,15 +3210,17 @@
     if (!o) { return; }
     o.innerHTML = overlaysHTML();
     wireNew(o);
+    sizeFS();
     var pg = $("[data-rdpages]", o);
     if (pg && S.reader) { pg.scrollLeft = S.reader * pg.clientWidth; }
   }
 
   function openSheet(kind, ctx) { S.sheet = { kind: kind, ctx: ctx || null }; refreshOverlays(); }
 
-  function watchEvent(ix, kind, court) {
+  function watchEvent(ix, kind, court, fs) {
     var e = EVENTS[ix];
     vidStart({ id: e.id, kind: kind || (lc() === "fulltime" && hasVideo(e) ? "highlights" : "live"), title: court || null });
+    if (fs) { S.vid.mode = "fs"; }
     S.article = null;
     if (S.view !== "event" || S.eventIx !== ix) { closeDrawer(); openEvent(ix); } else { render(); }
     var sb = $("#scrollbody"); if (sb) { sb.scrollTop = 0; }
@@ -3121,7 +3314,7 @@
         $$('[data-remindchip="' + id + '"]').forEach(function (c) {
           c.classList.toggle("on", S.reminders[id]);
           c.setAttribute("aria-pressed", String(S.reminders[id]));
-          c.innerHTML = (S.reminders[id] ? I.bellon : I.bellsm) + esc(evState(e).card.when.split(" ·")[0]);
+          c.innerHTML = (S.reminders[id] ? I.bellon : I.bellsm) + (c.classList.contains("rpill") ? (S.reminders[id] ? "Reminder set" : "Remind me") : esc(evState(e).card.when.split(" ·")[0]));
         });
         toast(S.reminders[id] ? "We'll tell you when " + e.title + " starts, on your phone and your TV." : "Reminder removed.");
       };
@@ -3129,7 +3322,7 @@
       b.onkeydown = function (k) { if (k.key === "Enter" || k.key === " ") { go(k); } };
     });
     $$("[data-watch]", root).forEach(function (b) {
-      b.onclick = function (ev2) { ev2.stopPropagation(); S.sheet = null; watchEvent(Number(b.dataset.watch), b.dataset.kind || null, b.dataset.court || null); };
+      b.onclick = function (ev2) { ev2.stopPropagation(); S.sheet = null; watchEvent(Number(b.dataset.watch), b.dataset.kind || null, b.dataset.court || null, !!b.dataset.fs); };
     });
     $$("[data-recapvid]", root).forEach(function (b) {
       b.onclick = function () { var id = b.dataset.recapvid; vidStart({ id: id, kind: "recap" }); render(); var sb = $("#scrollbody"); if (sb) { sb.scrollTop = 0; } };
@@ -3177,6 +3370,7 @@
         watchEvent(evIxById("tennis"), "live", "Court 2 · Raducanu v Vondroušová");
       };
     });
+    wireV12(root);
     $$("[data-toast]", root).forEach(function (b) { if (!b.onclick) { b.onclick = function () { toast(b.dataset.toast); }; } });
     $$("[data-open]", root).forEach(function (b) {
       if (!b.onclick) { b.onclick = function () { S.sheet = null; closeDrawer(); refreshOverlays(); openEvent(Number(b.dataset.open)); }; }
@@ -3486,6 +3680,7 @@
       (isLive ? '<div class="wplayer' + (S.webPlay ? " on" : "") + '">' + (T.img ? imgTag(T.img, TK.a + " v " + TK.b, "wide") : photoSVG(e.photo, "wide", e.title)) +
         '<span class="wpveil"></span><span class="wpchip">' + liveChip("live") + '<span>' + esc(chanFor(e)) + '</span></span>' +
         (S.webPlay ? '<span class="wpnow">' + I.pause + '</span>' : '<button class="wpplay" type="button" data-webplay aria-label="Play">' + I.playtri + '</button>') +
+        '<button class="wpfs" type="button" data-watch="' + S.eventIx + '" data-fs="1" aria-label="Full screen">' + I.expand + '</button>' +
         '</div>' : "") +
       summaryBox() + renderSections(curTab().sections.filter(function (x) {
         return !(x.panels && x.panels.some(function (pn) { return pn.t === "recap"; }));
@@ -4167,6 +4362,7 @@
     }).join("");
 
     seedRecaps();
+    seedPundits();
     S.surface = "phone";
     var sfh = $("#surface");
     if (sfh) {

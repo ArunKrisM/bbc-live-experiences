@@ -1536,3 +1536,81 @@ const NOTIFTYPES = [
   ["settle", "When your predictions settle", "", true],
   ["reply", "Replies to your comments", "", false]
 ];
+
+/* ---------------------------------------------------------------------------
+   Who you watch with. The picture is the same; the voice over it is a
+   choice. BBC commentary, the radio call synced to the picture, a presenter
+   or creator watching along, or no voice at all.
+   [id, short label, name, line, group, initials, colour]
+   ------------------------------------------------------------------------- */
+const VOICES = {
+  football: [
+    ["bbc", "BBC One", "BBC One commentary", "The match commentary team, as broadcast", "BBC commentary", "", ""],
+    ["radio", "5 Live", "5 Live commentary", "The radio call, held back to match your picture", "BBC commentary", "", ""],
+    ["host", "Chapman", "Mark Chapman watchalong", "5 Live Sport, reacting live and reading your messages", "Watch with", "MC", "#E4002B"],
+    ["creator", "The Terrace", "The Terrace", "Fan channel watchalong · 410k followers", "Watch with", "TT", "#7A3FD1"],
+    ["crowd", "Crowd", "Crowd only", "No commentary. Just Wembley", "No voice", "", ""],
+    ["ad", "Described", "Audio described", "Commentary that says what is on screen", "No voice", "", ""]
+  ],
+  tennis: [
+    ["bbc", "BBC", "BBC commentary", "The Court 2 commentary team", "BBC commentary", "", ""],
+    ["radio", "5 Sports Extra", "5 Sports Extra", "The radio call, held back to match your picture", "BBC commentary", "", ""],
+    ["creator", "Baseline Club", "Baseline Club", "Creator watchalong · 180k followers", "Watch with", "BC", "#1E8C5A"],
+    ["crowd", "Court 2", "Court sound only", "Ball, strings and the crowd", "No voice", "", ""],
+    ["ad", "Described", "Audio described", "Commentary that says what is on screen", "No voice", "", ""]
+  ],
+  rugby: [
+    ["bbc", "BBC One", "BBC One commentary", "The match commentary team, as broadcast", "BBC commentary", "", ""],
+    ["radio", "5 Live", "5 Live commentary", "The radio call, held back to match your picture", "BBC commentary", "", ""],
+    ["host", "Scrum V", "Scrum V watchalong", "BBC Wales, in Welsh and English", "Watch with", "SV", "#C8102E"],
+    ["creator", "Ruck & Maul", "Ruck & Maul", "Creator watchalong · 95k followers", "Watch with", "RM", "#128D51"],
+    ["crowd", "Crowd", "Crowd only", "No commentary. The roof is closed", "No voice", "", ""],
+    ["ad", "Described", "Audio described", "Commentary that says what is on screen", "No voice", "", ""]
+  ],
+  cricket: [
+    ["bbc", "TMS", "Test Match Special", "Ball by ball, with the chat", "BBC commentary", "", ""],
+    ["radio", "Ball by ball", "TMS, ball by ball only", "The call on each delivery, none of the cake", "BBC commentary", "", ""],
+    ["creator", "Third Man", "Third Man Pod", "Creator listen-along · 60k followers", "Listen with", "3M", "#1A3A6B"]
+  ]
+};
+
+/* the experts and the voices around a match. Answers are summarised by
+   topic and played as audio from the show, never written up as quotes */
+const PUNDITS = {
+  football: {
+    hosts: [
+      ["MC", "Mark Chapman", "5 Live Sport", "On air now", "#E4002B", "host"],
+      ["DR", "Dan Roan", "BBC Sports Editor", "Answering after the match", "#3B3B3B", null],
+      ["TT", "The Terrace", "Fan channel · 410k", "Watching along", "#7A3FD1", "creator"]
+    ],
+    qs: [["Why has Palmer come off with twenty to go?", "Rav K", "1.2k"], ["If England hold on, is this the Euros side?", "Jess M", "860"], ["Who is on penalties if Kane goes off?", "Tom O", "402"]],
+    answered: [["Mark Chapman", "On whether England should sit on a one-goal lead", "0:48"], ["Dan Roan", "On Wembley ticket prices and the empty seats", "1:12"]]
+  },
+  tennis: {
+    hosts: [
+      ["5S", "5 Sports Extra", "Court 2 commentary", "On air now", "#007A78", null],
+      ["DR", "Dan Roan", "BBC Sports Editor", "Q&A at 18:00", "#3B3B3B", null],
+      ["BC", "Baseline Club", "Creator · 180k", "Watching along", "#1E8C5A", "creator"]
+    ],
+    qs: [["Why is her second serve so much stronger this year?", "Kat F", "940"], ["Can Court 2 get a roof before the centenary?", "Olly B", "512"], ["Who does the winner play on Sunday?", "Ellie W", "301"]],
+    answered: [["5 Sports Extra", "On why Court 2 fills up faster than Centre on a day like this", "0:36"], ["Dan Roan", "On the BBC's 100 years at the Championships", "1:40"]]
+  },
+  rugby: {
+    hosts: [
+      ["SV", "Scrum V", "BBC Wales", "Watching along", "#C8102E", "host"],
+      ["DR", "Dan Roan", "BBC Sports Editor", "Answering after the match", "#3B3B3B", null],
+      ["RM", "Ruck & Maul", "Creator · 95k", "Watching along", "#128D51", "creator"]
+    ],
+    qs: [["How long can a TMO review actually take?", "Ciara N", "780"], ["Does a losing bonus point still matter for Wales?", "Huw R", "455"], ["Why kick to the corner and not the posts?", "Liam D", "260"]],
+    answered: [["Scrum V", "On the Wales maul and why it keeps winning penalties", "0:52"]]
+  },
+  cricket: {
+    hosts: [
+      ["TM", "Test Match Special", "Your messages on air", "On air now", "#1A3A6B", null],
+      ["DR", "Dan Roan", "BBC Sports Editor", "At stumps", "#3B3B3B", null],
+      ["3M", "Third Man Pod", "Creator · 60k", "Listening along", "#1A3A6B", "creator"]
+    ],
+    qs: [["Should England take the new ball straight away?", "Dave P", "1.1k"], ["Is this Root's best Ashes innings?", "Neil C", "730"], ["What does a draw do to the series?", "Priya L", "290"]],
+    answered: [["Test Match Special", "On the second new ball and who takes it", "1:05"]]
+  }
+};
