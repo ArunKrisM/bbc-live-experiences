@@ -88,10 +88,18 @@ const DROP = [
     tags: ["Six Nations", "Wales"], likes: "3.9k", comments: "870", img: "rg-wales", motif: "pitch", g: ["#22314A", "#0C121C"] },
   { t: "The fourth try, with a minute left", dur: "0:33", sport: "Rugby Union", chan: "BBC Sport", handle: "bbcsport",
     cap: "Held up twice, then over. The bonus point and the title race both turn on it.",
-    tags: ["Six Nations", "Bonus point"], likes: "8.1k", comments: "1.5k", img: "rg-roar", motif: "pitch", g: ["#22314A", "#0C121C"] }
+    tags: ["Six Nations", "Bonus point"], likes: "8.1k", comments: "1.5k", img: "rg-roar", motif: "pitch", g: ["#22314A", "#0C121C"] },
+
+  /* 10: cricket, after the close. 11: the archive, for the centenary */
+  { t: "The captain on the batting order", dur: "0:39", sport: "Cricket", chan: "BBC Cricket", handle: "bbccricket",
+    cap: "The morning after, on the call that everyone had an opinion about. Listen to the full interview on Sounds.",
+    tags: ["Ashes", "Interview"], likes: "9.8k", comments: "1.9k", img: "ck-carse", baked: true, motif: "oval", g: ["#1B3A22", "#08170E"], audio: true },
+  { t: "1937: the first pictures from Wimbledon", dur: "1:05", sport: "Tennis", chan: "BBC Archive", handle: "bbcarchive",
+    cap: "Three outside broadcast vans, one camera, and about twenty-five minutes of tennis a day. The start of the habit.",
+    tags: ["Wimbledon", "100 years"], likes: "6.1k", comments: "402", img: "ar-debut", baked: true, motif: "court", g: ["#2A3A22", "#101608"] }
 ];
 
-const SHORTS_LIVE = { t: "shorts", label: "Your daily drop", deck: [1, 7, 2, 9] };
+const SHORTS_LIVE = { t: "shorts", label: "Your daily drop", deck: [1, 2, 11, 9, 5, 3] };
 
 const FEED_FOOTBALL = { t: "feed", author: "Written by Emma Sanders and Phil McNulty at Wembley", posts: [
   ["67 mins", "Saka goes close again", "Drifts inside off the right and curls one towards the far corner. Verbruggen tips it over.", false],
@@ -135,16 +143,16 @@ const EVENTS = [
        one set per lifecycle state */
     takeover: {
       a: "England", b: "Netherlands", ca: "#C8102E", cb: "#F26D1B",
-      buildup: { img: "fb-debate", line: "19:45", sub: "Wembley · live on BBC One",
+      buildup: { img: "fb-palmer", line: "19:45", sub: "Wembley · live on BBC One",
         stats: [["Wins in last 5", 3, 2], ["Goals scored", 11, 9], ["Clean sheets", 2, 1]],
         cta: "Open the build-up" },
       live: { img: "fb-kane", line: "1 – 0", sub: "67:57 · Saka 52'",
         stats: [["Shots", 14, 6], ["Possession %", 58, 42], ["Expected goals", 1.9, 0.7]],
         cta: "Open the live experience" },
-      companion: { img: "fb-kane", line: "1 – 0", sub: "Paired with BBC One · held back 23s",
+      companion: { img: "fb-celebrate", line: "1 – 0", sub: "Paired with BBC One · held back 23s",
         stats: [["Shots", 14, 6], ["Possession %", 58, 42], ["Expected goals", 1.9, 0.7]],
         cta: "Follow it on your phone" },
-      fulltime: { img: "fb-celebrate", line: "2 – 1", sub: "Full time · Saka 52', Kane 79'",
+      fulltime: { img: "fb-highlights", line: "2 – 1", sub: "Full time · Saka 52', Kane 79'",
         stats: [["Shots", 19, 11], ["Possession %", 55, 45], ["Expected goals", 2.4, 1.3]],
         cta: "Highlights and how your night went" }
     },
@@ -234,7 +242,7 @@ const EVENTS = [
             { h: "Live reporting", meta: "Auto updates", metaLive: true, panels: [{ t: "opta" }] },
             { h: "Get involved", meta: "Closes at the next moment", panels: [{ t: "poll", id: "fb-moment", kind: "alert", tag: "BIG CHANCE · 67:24",
               q: "Should Saka have squared it to Kane?", opts: ["Square it", "Right to shoot"], split: [61, 39],
-              tally: "Fires on a big chance. Closes before the next one.",
+              tally: "Closes before the next chance.",
               after: "Counted inside the window. 3,110 fans answered." }]},
             { h: "Momentum", meta: "Last 15 minutes", panels: [{ t: "momentum" }] },
             { h: "Live Reporting", ruleY: true, panels: [{ t: "sortrow" }, FEED_FOOTBALL] }
@@ -361,13 +369,13 @@ const EVENTS = [
 
     takeover: {
       a: "England", b: "Australia", ca: "#1A3A6B", cb: "#F1B434",
-      buildup: { img: "ck-squad", line: "148-3", sub: "Day 3 · England trail by 224",
+      buildup: { img: "ck-ashsquad", line: "148-3", sub: "Day 3 · England trail by 224",
         stats: [["Runs", 148, 372], ["Overs faced", 51, 118.4], ["Wickets down", 3, 10]],
         cta: "Open day three" },
-      live: { img: "ck-bat", line: "284-6", sub: "89.2 overs · trail by 88",
+      live: { img: "ck-starc", line: "284-6", sub: "89.2 overs · trail by 88",
         stats: [["Runs", 284, 372], ["Overs faced", 89.2, 118.4], ["Wickets down", 6, 10]],
         cta: "Open the live experience" },
-      companion: { img: "ck-wicket", line: "284-6", sub: "Following Test Match Special",
+      companion: { img: "ck-mic", line: "284-6", sub: "Following Test Match Special",
         stats: [["Runs", 284, 372], ["Overs faced", 89.2, 118.4], ["Wickets down", 6, 10]],
         cta: "Follow along with the radio" },
       fulltime: { img: "ck-root", line: "361-8", sub: "Stumps · England trail by 11",
@@ -460,7 +468,7 @@ const EVENTS = [
               tag: "NEW BALL DUE · 8 OVERS",
               q: "Australia take the new ball immediately, or wait for Root?",
               opts: ["Take it now", "Wait for the change"], split: [46, 54],
-              tally: "Fires when the new ball comes into range. Closes when it's taken.",
+              tally: "Closes when the new ball is taken.",
               after: "Counted. 9,211 fans answered before the over ended." }]},
             { h: "Win predictor", meta: "Updated every ball", panels: [{ t: "winpred",
               a: "England", b: "Australia", draw: true, values: [34, 25, 41],
@@ -626,7 +634,7 @@ const EVENTS = [
       live: { img: "tn-stretch", line: "6-4, 4-5", sub: "0-40 · Court 2 · three break points",
         stats: [["Break points won", 4, 1], ["First serve %", 68, 55], ["Winners", 22, 15]],
         cta: "Open the live experience" },
-      companion: { img: "tn-stretch", line: "6-4, 4-5", sub: "Your telly is on Centre Court",
+      companion: { img: "tn-tracking", line: "6-4, 4-5", sub: "Court 2 · while your TV shows Centre Court",
         stats: [["Break points won", 4, 1], ["First serve %", 68, 55], ["Winners", 22, 15]],
         cta: "Watch the better match" },
       fulltime: { img: "tn-best", line: "6-4, 7-5", sub: "Raducanu through in straight sets",
@@ -658,7 +666,8 @@ const EVENTS = [
                 ["1967", "Colour", "Wimbledon is the first colour broadcast on BBC Two, and the grass turns green."],
                 ["2027", "The centenary", "Every one of those hundred years is in the archive. This is the year to open it."]
               ],
-              note: "" }]},
+              note: "" }, { t: "feature", img: "ar-debut", compact: true, kicker: "Read",
+              title: "From a hut beside Centre Court to eighteen courts in your pocket", sub: "6 min read", article: "w100" }]},
             { h: "Order of play", meta: "From 11:00", panels: [{ t: "oop", rows: [
               ["Centre", "13:30", "Alcaraz v Musetti", "then Raducanu v Vondroušová"],
               ["No.1", "13:00", "Sinner v Fils", "then Świątek v Paolini"],
@@ -696,14 +705,14 @@ const EVENTS = [
         chip: "In Play", state: "Raducanu has three break points at 4-5", watching: "41,880",
         summary: ["Raducanu leads by a set and has three break points", "Vondroušová has won nine points on her second serve all set", "Boulter on Court 18 is 5-5 in the decider", "Sinner is serving for the match on No.1"],
         card: { status: "live", when: "LIVE · 18 courts", line1: "Raducanu 6-4, 4-5", line2: "Court 2 · 0-40, three break points",
-          ctx: "The Spine has Court 2 at 0.93 and climbing. Highest of anything live right now", sig: 0.93, badge: "WATCH NOW" },
+          ctx: "Three break points on Court 2, and the busiest match on the BBC right now", sig: 0.93, badge: "WATCH NOW" },
         head: { kind: "stack", status: { kind: "live", text: "LIVE · COURT 2", beat: true },
           rows: [["Raducanu", "6 4", "", true], ["Vondroušová", "4 5", "0-40", false]],
           strap: "Second set · Vondroušová serving · three break points", serve: 1 },
         clock: "tennis",
         tabs: [
           { id: "watchnow", label: "Watch now", sections: [
-            { h: "Watch now", meta: "Ranked every point", metaLive: true, panels: [
+            { h: "Every court", meta: "Updated every point", metaLive: true, panels: [
               { t: "courts", rows: [
                 ["Court 2", "Raducanu v Vondroušová", "6-4, 4-5 · 0-40 · three break points", 0.93],
                 ["Court 18", "Boulter v Kalinskaya", "3-6, 6-4, 5-5 · deuce", 0.71],
@@ -715,10 +724,18 @@ const EVENTS = [
             { h: "Get involved", meta: "Closes at the game", panels: [{ t: "poll", id: "tn-moment", kind: "alert",
               tag: "THREE BREAK POINTS · COURT 2",
               q: "Does Raducanu break here?", opts: ["She breaks", "Vondroušová holds"], split: [68, 32],
-              tally: "Fires on a break point at 0-40. Closes when the game ends.",
+              tally: "Closes when the game ends.",
               after: "Counted. 18,440 fans answered inside the game." }]},
-            { h: "Jump", panels: [{ t: "btnrow", label: "Switch to Court 2",
-              toast: "Switched to Court 2. Your Centre Court score stays pinned to the top." }] }
+            { h: "Clips from Court 2", meta: "iPlayer", panels: [{ t: "clips", items: [
+              ["The 22-shot rally at 3-3", "0:48", "tn-stretch"],
+              ["The first-set break, at 2-1", "0:36", "tn-tracking"],
+              ["Vondroušová's lob, from three angles", "0:29", "tn-dejected"]
+            ]}]},
+            { h: "5 Live on Court 2", meta: "Radio 5 Sports Extra", panels: [{ t: "soundbites", items: [
+              ["The call at 0-40", "0:22", "Commentary as Raducanu earns three break points, with the crowd noise building behind it."],
+              ["Why her second serve is the story", "0:41", "The summariser on Vondroušová winning fewer than a third of her second-serve points."],
+              ["The walk over from Centre", "0:18", "Courtside reporter on the crowd arriving at Court 2 as word gets round the grounds."]
+            ]}]}
           ]},
           { id: "match", label: "This match", sections: [
             { h: "Point by point", meta: "Second set", panels: [
@@ -739,7 +756,16 @@ const EVENTS = [
             { h: "What the numbers say", panels: [{ t: "note", body: "The match is being decided on second serve. Vondroušová is winning fewer than a third of hers, which is why every one of her service games has gone to deuce or worse since the first set." }] }
           ]},
           { id: "hundred", label: "100 years", sections: [
-            { h: "On this day", meta: "From the archive", ruleY: true, panels: [{ t: "centenary",
+            { ruleY: true, panels: [{ t: "feature", img: "ar-court", kicker: "Wimbledon · 100 years on the BBC",
+              title: "From a hut beside Centre Court to eighteen courts in your pocket", sub: "6 min read · with pictures from the archive", article: "w100" }]},
+            { h: "Archive clips", meta: "From 1937", panels: [{ t: "clips", archive: true, items: [
+              ["1937: the first pictures", "1:05", "ar-debut"],
+              ["BBC Television presents", "0:40", "ar-ident"],
+              ["An afternoon at Wimbledon and Lord's", "0:31", "ar-lords"],
+              ["Before Centre Court had a roof", "0:57", "ar-court"]
+            ]}]},
+            { h: "Read the programmes", meta: "Six pages", panels: [{ t: "reader" }] },
+            { h: "On this day", meta: "From the archive", panels: [{ t: "centenary",
               years: [
                 ["1977", "Virginia Wade wins", "The last British woman to take the singles title, in the Centenary Championships, with the Queen watching."],
                 ["1991", "The People's Sunday", "Rain forces an unseeded middle Sunday. 24,000 fans get in for a fiver and never sit down."],
@@ -754,7 +780,7 @@ const EVENTS = [
       companion: {
         chip: "In Play", state: "Centre Court on BBC One, Court 2 on this screen", watching: "41,880",
         card: { status: "live", when: "LIVE on BBC One", line1: "Centre Court", line2: "Paired with your telly",
-          ctx: "Watching Centre on the telly while the Spine watches the other seventeen courts", sig: 0.93 },
+          ctx: "Centre Court on your TV. We will say if another court is worth a switch", sig: 0.93 },
         paired: "Paired with BBC One · Centre Court",
         head: { kind: "stack", status: { kind: "paired", text: "FOLLOWING YOUR TELLY", beat: true },
           rows: [["Alcaraz", "7 6 2", "", true], ["Musetti", "6 3 1", "", false]],
@@ -762,7 +788,7 @@ const EVENTS = [
         clock: "tennis", sofa: true,
         tabs: [
           { id: "watch", label: "Watch", sections: [
-            { h: "Something better is happening", meta: "Court 2", ruleY: true, panels: [
+            { h: "Worth a switch", meta: "Court 2", ruleY: true, panels: [
               { t: "courts", rows: [
                 ["Court 2", "Raducanu v Vondroušová", "6-4, 4-5 · 0-40 · three break points", 0.93],
                 ["Centre", "Alcaraz v Musetti (on your telly)", "7-6, 6-3, 2-1 · on serve", 0.41]
@@ -822,9 +848,12 @@ const EVENTS = [
               onNote: "We'll nudge you when she's called. Your streak needs one match watched." }]}
           ]},
           { id: "hundred", label: "100 years", sections: [
+            { ruleY: true, panels: [{ t: "feature", img: "ar-mag93", kicker: "Wimbledon · 100 years on the BBC",
+              title: "From a hut beside Centre Court to eighteen courts in your pocket", sub: "6 min read · with pictures from the archive", article: "w100" }]},
             { h: "The centenary, in numbers", meta: "1927 to 2027", panels: [
-              { t: "kv", items: [["Years on air", "100", "radio from 1927"], ["Archive hours", "11,400", "now searchable"], ["Peak audience", "17.3m", "Murray, 2013"]] }
+              { t: "kv", items: [["Broadcasts", "2,304", "on BBC television, 1937 to 2021"], ["All-time rank", "38th", "most broadcast BBC programme"], ["Peak audience", "17.3m", "Murray, 2013"]] }
             ]},
+            { h: "Read the programmes", meta: "Six pages", panels: [{ t: "reader" }] },
             { h: "On this day", meta: "From the archive", ruleY: true, panels: [{ t: "centenary",
               years: [
                 ["1977", "Virginia Wade wins", "The last British woman to take the singles title, in the Centenary Championships."],
@@ -1149,29 +1178,29 @@ const HOMEFEED = {
       kicker: "Ashes · Day 3",
       head: "England start day three 224 behind at Lord's",
       stand: "Root and Brook resume with seven wickets standing and a forecast that favours the bowlers",
-      photo: { motif: "oval", sport: "Cricket", g: ["#24384B", "#0B1219"] },
+      photo: { img: "ck-squad", cap: "The England Test squad" }, sport: "cricket", article: "st-buildup",
       comments: "418", likes: "5k", shares: "204",
-      poll: { id: "hero-buildup", imgs: ["ck-bat", "ck-ball"],  q: "Have your say: Can England avoid the follow-on?",
+      poll: { id: "hero-buildup", imgs: ["ck-stokes", "ck-starc"],  q: "Have your say: Can England avoid the follow-on?",
         opts: ["They will", "No chance"], split: [61, 39],
         after: "The country is more optimistic than the forecast." }
     },
     live: {
       kicker: "Wimbledon · Court 2",
       head: "Raducanu has three break points and the grounds are emptying towards Court 2",
-      stand: "The Spine has this at 0.93, the highest of anything live across four sports this afternoon",
-      photo: { motif: "court", g: ["#22461F", "#0C1A0B"] },
+      stand: "Of everything live across four sports this afternoon, this is the one people are switching to",
+      photo: { img: "tn-tracking", cap: "Raducanu on the baseline, Court 2" }, sport: "tennis", article: "st-live",
       comments: "262", likes: "3k", shares: "123",
       poll: { id: "hero-live", imgs: ["tn-stretch", "tn-dejected"],  q: "Have your say: Does she break here?",
         opts: ["She breaks", "Vondroušová holds"], split: [68, 32],
         after: "68% of 18,440 fans backed the break." }
     },
     companion: {
-      kicker: "On the sofa",
-      head: "Your telly is showing Centre Court. Something better is happening on Court 2",
-      stand: "The broadcast can show one court. The companion can tell you which of the other seventeen deserves your attention",
-      photo: { motif: "court", g: ["#1F3A4A", "#0A1319"] },
+      kicker: "Wimbledon · Court 2",
+      head: "Raducanu three points from levelling it, and Court 2 is filling up",
+      stand: "Vondroušová has won nine points on her second serve all set. The crowd has worked out where to be",
+      photo: { img: "tn-smile", cap: "Raducanu at the All England Club" }, sport: "tennis", article: "st-companion",
       comments: "188", likes: "2k", shares: "96",
-      poll: { id: "hero-companion", imgs: ["tn-tracking", "tn-plan"],  q: "Have your say: Should BBC One switch to Court 2?",
+      poll: { id: "hero-companion", imgs: ["tn-stretch", "tn-plan"],  q: "Have your say: Should BBC One switch to Court 2?",
         opts: ["Switch it", "Stay on Centre"], split: [59, 41],
         after: "The gallery sees this at the next changeover." }
     },
@@ -1179,9 +1208,9 @@ const HOMEFEED = {
       kicker: "The day in one line",
       head: "Root unbeaten on 148, Raducanu through, and Ireland get the bonus point with a minute left",
       stand: "Four sports, four results, and everything you predicted this afternoon settled within the hour",
-      photo: { motif: "crowd", sport: "Cricket", g: ["#2A2438", "#100C18"] },
+      photo: { img: "ck-lords", cap: "England celebrate at Lord's" }, sport: "cricket", article: "st-fulltime",
       comments: "902", likes: "11k", shares: "477",
-      poll: { id: "hero-fulltime", imgs: ["ck-root", "tn-best", "rg-roar"],  q: "Have your say: Performance of the day?",
+      poll: { id: "hero-fulltime", imgs: ["ck-huddle", "tn-best", "rg-roar"],  q: "Have your say: Performance of the day?",
         opts: ["Root", "Raducanu", "Ireland"], split: [52, 31, 17],
         after: "Root takes it, and it was not close." }
     }
@@ -1239,7 +1268,13 @@ const HOMEFEED = {
     ]
   },
 
-  videos: { title: "Watch: Today's best", deck: [1, 7, 2, 9] }
+  videos: { title: "Watch: Today's best", deck: [1, 2, 6, 11, 8, 3, 5, 4],
+    decks: {
+      buildup: [0, 5, 8, 11, 6, 2, 3, 4],
+      live: [1, 2, 6, 11, 8, 3, 5, 0],
+      companion: [11, 4, 1, 3, 6, 0, 2, 8],
+      fulltime: [10, 7, 9, 1, 11, 2, 6, 4]
+    } }
 };
 
 /* ---------------------------------------------------------------------------
@@ -1329,7 +1364,9 @@ const TRANSCRIPTS = {
   "fb-tuchel": "A studio piece on why the England head coach has suited this squad, looking back at how the appointment was received and what has changed since.",
   "fb-bellingham": "A short on the second-half performance, built around the number of touches in the opposition box after the break.",
   "rg-wales": "Wales players leave the field after the autumn defeat, with the coaching team's week in Cardiff as the backdrop to Saturday.",
-  "rg-roar": "The fourth Ireland try from two angles: held up twice on the line, then grounded, and the celebration that followed."
+  "rg-roar": "The fourth Ireland try from two angles: held up twice on the line, then grounded, and the celebration that followed.",
+  "ck-carse": "The England captain is interviewed pitchside with a BBC Sport microphone, talking through the decision on the batting order. The full interview is on BBC Sounds.",
+  "ar-debut": "Archive material from June 1937: the outside broadcast vans at the All England Club and the first television pictures of the Championships."
 };
 
 /* ---------------------------------------------------------------------------
@@ -1380,4 +1417,122 @@ const COMINGUP = [
   { t: "Match of the Day", s: "Nations League special", when: "22:30", ch: "BBC One", img: "fb-celebrate", id: "motd" },
   { t: "The Ashes, day 4", s: "Test Match Special", when: "Sun 10:30", ch: "Radio 5 Sports Extra", img: "ck-squad", id: "ck-d4" },
   { t: "Wimbledon, day 7", s: "Middle Sunday", when: "Sun 11:00", ch: "BBC Two", img: "tn-smile", id: "tn-d7" }
+];
+
+
+/* ---------------------------------------------------------------------------
+   Articles. Tapping a story opens it; reactions, comments and share stay as
+   overlays so nobody loses the live page to leave a heart.
+   ------------------------------------------------------------------------- */
+const ARTICLES = {
+  w100: {
+    kicker: "Wimbledon · 100 years on the BBC", title: "From a hut beside Centre Court to eighteen courts in your pocket",
+    byline: "BBC Sport · from the archive", read: "6 min read", hero: "ar-court",
+    heroCap: "A men's singles match on an early Wimbledon grass court, in front of a packed stand",
+    sport: "tennis", comments: "1.2k", likes: "8.4k", shares: "640",
+    blocks: [
+      ["p", "In 1927 the BBC put a commentator in a small hut beside Centre Court and let him describe what he saw. A hundred years later you can watch any of eighteen courts on a phone, pick your commentary, and be told when the match you are not watching becomes the one to see."],
+      ["p", "Television followed ten years after radio. On 21 June 1937 a single camera sent pictures of Centre Court to the few thousand London homes that owned a set. The coverage was short, a matter of minutes, and it was not even listed in that week's schedule. By the next summer it ran for hours."],
+      ["img", "ar-debut", "A poster marking the first televised Championships in June 1937: three outside broadcast vans for about twenty-five minutes of tennis a day"],
+      ["h", "Moving the camera"],
+      ["p", "Outside broadcasting was new enough that the distance from the transmitter decided what could be shown at all. In 1939 the cameras moved to the end of the court, which is where the main camera still sits. Then the war stopped television altogether, and Wimbledon came back with it in 1946."],
+      ["img", "ar-notice", "A listing from the late 1930s, announcing that the experiment of televising Centre Court would carry on through the week"],
+      ["p", "The tennis had to share. In 1948 and 1949 the Test at Lord's took priority on the same afternoons, which meant very little Wimbledon on screen in those two summers. It is not the last time the two have wanted the same Saturday."],
+      ["img", "ar-lords", "Wimbledon and Lord's on the same afternoon, as the papers put it"],
+      ["h", "Colour, and after"],
+      ["p", "In July 1967 Wimbledon was chosen to launch colour television in Britain on BBC Two, and the grass turned green. Dan Maskell's commentary carried the next three decades. In 2011 the final was used for the BBC's first attempt at a 3D broadcast."],
+      ["img", "ar-ident", "BBC Television presents: the opening titles viewers knew for years"],
+      ["p", "Counted by the number of times it has been on air, the Championships are the 38th most broadcast programme in the BBC's history: 2,304 broadcasts between 1937 and 2021, across BBC One, BBC Two and the pre-war television service."],
+      ["img", "ar-table", "Wimbledon on BBC television by timeslot, day, channel and year, 1937 to 2021"],
+      ["h", "The programmes"],
+      ["p", "For the fans who could not get a ticket, the official magazine was the next best thing: previews, player profiles and the order of play, with a cover star who would be the talk of the fortnight."],
+      ["img", "ar-mag93", "The official BBC Sports magazine for Wimbledon 1993"],
+      ["img", "ar-mag99", "Wimbledon 99, with the home favourites on the cover"],
+      ["p", "What a hundred years of coverage adds up to is a habit. The first radio listeners tuned in because they could not be there. The job now is the same, with more courts, more choice, and fewer reasons to miss the moment that matters."]
+    ]
+  },
+  "st-buildup": {
+    kicker: "Ashes · Day 3", title: "England start day three 224 behind at Lord's", byline: "BBC Sport", read: "3 min read",
+    hero: "ck-squad", heroCap: "The England Test squad", sport: "cricket", comments: "418", likes: "5k", shares: "204",
+    blocks: [
+      ["p", "England resume on 148-3, still 224 runs short of Australia's 372, and 25 short of saving the follow-on. Root and Brook are the not-out batters, and both got through the last hour of day two without much alarm."],
+      ["p", "The forecast is the complication. Cloud is expected over St John's Wood until lunch, and the second new ball is due in the first hour. If England are still batting at tea, the draw comes into view."],
+      ["img", "ck-ashsquad", "The England squad named for the series"],
+      ["p", "Test Match Special is on from 10:30 on Radio 5 Sports Extra and BBC Sounds, with ball-by-ball text on this page."]
+    ]
+  },
+  "st-live": {
+    kicker: "Wimbledon · Court 2", title: "Raducanu has three break points and the grounds are emptying towards Court 2", byline: "BBC Sport", read: "2 min read",
+    hero: "tn-tracking", heroCap: "Raducanu on the baseline, Court 2", sport: "tennis", comments: "262", likes: "3k", shares: "123",
+    blocks: [
+      ["p", "Raducanu took the first set 6-4 and is 0-40 up on Vondroušová's serve at 4-5 in the second. Win any one of the next three points and the set is level at five games all."],
+      ["p", "The story of the match has been second serve. Vondroušová has won nine points on hers all set, and every one of her service games since the opener has gone to deuce or worse."],
+      ["img", "tn-stretch", "Raducanu stretches for a backhand"],
+      ["p", "Court 2 is live on BBC iPlayer and the BBC Sport app, with commentary on Radio 5 Sports Extra."]
+    ]
+  },
+  "st-companion": {
+    kicker: "Wimbledon · Court 2", title: "Raducanu three points from levelling it, and Court 2 is filling up", byline: "BBC Sport", read: "2 min read",
+    hero: "tn-smile", heroCap: "Raducanu at the All England Club", sport: "tennis", comments: "188", likes: "2k", shares: "96",
+    blocks: [
+      ["p", "While BBC One stays with Alcaraz and Musetti on Centre Court, the match of the afternoon has moved to Court 2. Raducanu has three break points at 4-5 in the second set."],
+      ["p", "Vondroušová has won nine points on her second serve all set. The stands on Court 2 were half empty at the start of the set and are full now."],
+      ["img", "tn-plan", "Raducanu on her Wimbledon plans"]
+    ]
+  },
+  "st-fulltime": {
+    kicker: "The day in one line", title: "Root unbeaten on 148, Raducanu through, and Ireland get the bonus point with a minute left",
+    byline: "BBC Sport", read: "4 min read", hero: "ck-lords", heroCap: "England celebrate at Lord's", sport: "cricket", comments: "902", likes: "11k", shares: "477",
+    blocks: [
+      ["p", "At Lord's, Root batted through the day to finish unbeaten on 148 and England saved the follow-on with eleven runs to spare. They trail by 11 going into day four."],
+      ["img", "ck-root", "Root celebrates his century"],
+      ["p", "At Wimbledon, Raducanu broke at 4-5 in the second set and won in straight sets, 6-4, 7-5, to reach the fourth round on the middle Sunday."],
+      ["img", "tn-best", "Raducanu after match point"],
+      ["p", "In Cardiff, Ireland's fourth try came with a minute left and took the bonus point, keeping their title hopes alive into the final round. And at Wembley, England beat the Netherlands 2-1."],
+      ["img", "rg-roar", "Ireland at the final whistle"]
+    ]
+  }
+};
+
+/* the programme reader, a page at a time */
+const READER = [
+  ["ar-mag93", "1993", "The official BBC Sports magazine for the Championships, on sale at £2.95"],
+  ["ar-mag99", "1999", "Wimbledon 99, in association with the All England Club"],
+  ["ar-debut", "1937", "A poster marking the first live television pictures from Wimbledon, 21 June 1937"],
+  ["ar-notice", "1930s", "Televising the Centre Court: the listing for the second week of the experiment"],
+  ["ar-lords", "From the papers", "You can spend the day at Wimbledon and Lord's"],
+  ["ar-table", "1937 to 2021", "Every year of Wimbledon on BBC television, counted"]
+];
+
+/* the notifications a fan would actually get today, newest first */
+const NOTIFS = {
+  buildup: [
+    ["remind", "Wimbledon starts at 11:00", "18 courts in play. Raducanu is on Court 2, not before 13:00.", "Now", "tennis"],
+    ["cricket", "TMS is on air", "Day 3 from Lord's. England 148-3, 224 behind.", "10:30", "cricket"],
+    ["poll", "Your prediction is locked in", "England to avoid the follow-on. Settles today.", "Yesterday", null]
+  ],
+  live: [
+    ["spark", "Court 2 is the one to watch", "Raducanu has three break points at 4-5.", "Now", "tennis"],
+    ["goal", "England 1-0 Netherlands", "Saka, 52 minutes.", "16m", "football"],
+    ["cricket", "Root reaches 100", "His second Ashes hundred at Lord's.", "34m", "cricket"],
+    ["chat", "Kat F replied to you", "Switched from Centre for this. Right call.", "41m", null]
+  ],
+  companion: [
+    ["tv", "Your TV and phone are paired", "Following BBC One on Living room TV. Your phone waits for the picture.", "Now", null],
+    ["spark", "Worth a switch: Court 2", "Raducanu has three break points while your TV is on Centre Court.", "1m", "tennis"],
+    ["poll", "The big call closes at the changeover", "Should BBC One switch to Court 2?", "3m", "tennis"]
+  ],
+  fulltime: [
+    ["tick", "Your day is scored", "41 of 55. Your best day of the Championships.", "Now", null],
+    ["play", "Highlights are ready", "England v Netherlands, and the match in 60 seconds.", "12m", "football"],
+    ["remind", "Tomorrow: the middle Sunday", "Raducanu in the fourth round, not before 14:00.", "20m", "tennis"]
+  ]
+};
+
+const NOTIFTYPES = [
+  ["start", "When a match starts", "One nudge, for things you follow", true],
+  ["key", "Goals, wickets, breaks and tries", "Held back to match your TV when paired", true],
+  ["switch", "Worth switching to", "When something you are not watching gets good", true],
+  ["settle", "When your predictions settle", "", true],
+  ["reply", "Replies to your comments", "", false]
 ];

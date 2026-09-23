@@ -74,6 +74,25 @@ archive inside the live page rather than in a collection nobody visits.
 for why the whistle went, a live TMO review timer, territory against possession
 and a phase tracker. The strongest public-service case in the set.
 
+## Watching, spoilers and reactions
+
+Watch live on the Home hero opens the match with the video already playing.
+The shrink button keeps it playing in a small player while you read the rest
+of the page. Football, tennis and rugby get pictures. Cricket gets Test Match
+Special with a live transcript, because the BBC holds radio rights only.
+
+Hide scores is on by default in Near-live and is a switch in the menu the
+rest of the time. Cards, the hero, the website and the TV all hold the score
+back, celebratory photographs included, and each match leads with the
+60-second catch-up, highlights, or a reveal.
+
+Hearts work in place. Comments, share and notifications open as sheets over
+the page. Tapping a story opens the article. Light mode is in the menu.
+
+The tennis 100 years tab has archive clips, a programme reader and a long read
+on the BBC at Wimbledon. The archive pictures are draft material and need
+clearing before anything goes public.
+
 ## Big screen, small screen
 
 The same four events and the same data run on four surfaces. The TV is drawn
