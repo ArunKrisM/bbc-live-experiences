@@ -85,6 +85,7 @@
     overNum: 89,
     feedNewest: true,
     compTab: 0,
+    optaOpen: true,
     player: null,
     liked: {},
     quiz: {},
@@ -371,7 +372,16 @@
   };
 
   P.shortsgrid = function (p) {
-    return '<div class="sgrid">' + p.deck.map(deckCard).join("") + '</div>';
+    return '<div class="focusrail" data-focusrail>' + p.deck.map(function (ix) {
+      var it = DROP[ix];
+      return '<button class="fcard" type="button" data-play="' + ix + '">' +
+        '<span class="fphoto">' + photoSVG(it, "tall") +
+        '<span class="fscrim"></span>' +
+        '<span class="play">' + I.playtri + '</span>' +
+        '<span class="dur">' + esc(it.dur) + '</span>' +
+        '<span class="fmeta"><span class="fkick">' + esc(it.sport) + '</span>' +
+        '<span class="ftitle">' + esc(it.t) + '</span></span></span></button>';
+    }).join("") + '</div>';
   };
 
   P.opta = function () {
@@ -380,7 +390,9 @@
     return '<div class="optacard">' +
       '<div class="optahead"><span class="optaicon">' + I.optabars + '</span>' +
       '<span><span class="t1">Live match view</span><br><span class="t2">Powered by Opta</span></span>' +
-      '<button class="linkbtn" type="button" data-toast="Panel collapse is not wired up in this prototype.">Hide ⌃</button></div>' +
+      '<button class="linkbtn" type="button" data-optatoggle aria-expanded="' + S.optaOpen + '">' +
+      (S.optaOpen ? 'Hide ⌃' : 'Show ⌄') + '</button></div>' +
+      '<div class="optabody"' + (S.optaOpen ? '' : ' hidden') + '>' +
       '<div class="optaclock"><span class="l" id="opta-clock">' + shown + '</span>' +
       '<button class="iconbtn" type="button" style="width:30px;height:30px" data-toast="Full-screen pitch view is not wired up." aria-label="Expand">' + I.expand + '</button></div>' +
       '<div class="pitchbox">' + pitchSVG(m) + '</div>' +
@@ -392,7 +404,7 @@
       }).join("") +
       '<span class="spacer"></span>' +
       '<button class="ctrlbtn" type="button" data-toast="Feed refreshed. 4 new events." aria-label="Refresh">' + I.refresh + '</button></div>' +
-      '</div>';
+      '</div></div>';
   };
 
   function resultRows(opts, split, chosen) {
@@ -1050,6 +1062,13 @@
       (dir ? ' class="stage-anim" style="--from:' + (dir > 0 ? "18px" : "-18px") + '"' : "") + '>' + body + '</div></div>' +
       navBar() + drawer() + '<div class="toast" id="toast" role="status"></div></div>';
 
+    var sb = $("#scrollbody"), vp = $("#viewport");
+    if (sb && vp) {
+      sb.addEventListener("scroll", function () {
+        vp.classList.toggle("condensed", sb.scrollTop > 36);
+      }, { passive: true });
+    }
+
     $$(".lc").forEach(function (b, i) { b.setAttribute("aria-selected", String(i === S.lcIx)); });
     $$(".swipehint i").forEach(function (d, i) { d.classList.toggle("on", i === S.lcIx); });
     $("#lcblurb").textContent = LIFECYCLE[S.lcIx].blurb;
@@ -1146,6 +1165,22 @@
 
     $$("[data-play]").forEach(function (b) {
       b.onclick = function () { openPlayer(Number(b.dataset.play)); };
+    });
+
+    var optaBtn = $("[data-optatoggle]");
+    if (optaBtn) { optaBtn.onclick = function () { S.optaOpen = !S.optaOpen; rerenderBody(); }; }
+
+    $$("[data-focusrail]").forEach(function (rail) {
+      function mark() {
+        var mid = rail.scrollLeft + rail.clientWidth / 2, best = null, bd = 1e9;
+        $$(".fcard", rail).forEach(function (c) {
+          var d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - mid);
+          if (d < bd) { bd = d; best = c; }
+        });
+        $$(".fcard", rail).forEach(function (c) { c.classList.toggle("on", c === best); });
+      }
+      rail.addEventListener("scroll", mark, { passive: true });
+      mark();
     });
 
     $$("[data-moment]").forEach(function (b) {
@@ -1301,6 +1336,16 @@
         mountPlayer();
       };
     }
+    var wheelAt = 0;
+    el.addEventListener("wheel", function (e) {
+      e.preventDefault();
+      if (Math.abs(e.deltaY) < 10) { return; }
+      var now = Date.now();
+      if (now - wheelAt < 420) { return; }
+      wheelAt = now;
+      stepClip(e.deltaY > 0 ? 1 : -1);
+    }, { passive: false });
+
     var sy = 0, tracking = false;
     el.addEventListener("touchstart", function (e) {
       if (e.touches.length !== 1) { return; }
