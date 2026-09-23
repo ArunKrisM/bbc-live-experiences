@@ -141,7 +141,7 @@
 
     var ay = 6.8, bw = m.attacking.length * 2.35 + 5;
     out += '<rect x="3.5" y="3.2" width="' + bw.toFixed(1) + '" height="7.2" rx="1" fill="rgba(0,0,0,.6)"/>' +
-      '<text x="6" y="8.4" fill="#EDEDED" font-size="4" font-family="Helvetica Neue, Arial" font-weight="700" letter-spacing="0.22">' + esc(m.attacking) + '</text>' +
+      '<text x="6" y="8.4" fill="#EDEDED" font-size="4" font-family="ReithSans, Arial" font-weight="700" letter-spacing="0.22">' + esc(m.attacking) + '</text>' +
       '<line x1="' + (bw + 7).toFixed(1) + '" y1="' + ay + '" x2="89" y2="' + ay + '" stroke="rgba(255,255,255,.6)" stroke-width="0.55" stroke-dasharray="2 1.6"/>' +
       '<path d="M 89 ' + (ay - 1.5) + ' L 92.5 ' + ay + ' L 89 ' + (ay + 1.5) + '" fill="rgba(255,255,255,.7)"/>';
 
@@ -182,8 +182,8 @@
     out += pts.map(function (p, i) {
       var n = list[i] ? list[i][0] : i + 1, nm = list[i] ? list[i][1] : "";
       return '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="4.4" fill="' + fill + '" stroke="rgba(0,0,0,.5)" stroke-width="0.5"/>' +
-        '<text x="' + p[0] + '" y="' + (p[1] + 1.6) + '" text-anchor="middle" font-size="4.2" font-weight="700" fill="' + ink + '" font-family="Helvetica Neue, Arial">' + n + '</text>' +
-        '<text x="' + p[0] + '" y="' + (p[1] + 9) + '" text-anchor="middle" font-size="3.6" fill="rgba(255,255,255,.92)" font-family="Helvetica Neue, Arial">' + esc(nm) + '</text>';
+        '<text x="' + p[0] + '" y="' + (p[1] + 1.6) + '" text-anchor="middle" font-size="4.2" font-weight="700" fill="' + ink + '" font-family="ReithSans, Arial">' + n + '</text>' +
+        '<text x="' + p[0] + '" y="' + (p[1] + 9) + '" text-anchor="middle" font-size="3.6" fill="rgba(255,255,255,.92)" font-family="ReithSans, Arial">' + esc(nm) + '</text>';
     }).join("");
     return '<svg class="formsvg" viewBox="0 0 100 100" role="img" aria-label="' + esc(shape + " formation") + '">' + out + '</svg>';
   }
@@ -199,8 +199,8 @@
         '" height="' + Math.max(0.7, mag).toFixed(2) + '" rx="0.5" fill="' + (v >= 0 ? "#E8F0FC" : "#F26522") +
         '" opacity="' + (i === n - 1 ? 1 : 0.6) + '"/>');
     }
-    out.push('<text x="1" y="5" fill="#8E8E8E" font-size="4.2" font-family="Helvetica Neue, Arial">52\'</text>');
-    out.push('<text x="99" y="5" text-anchor="end" fill="#8E8E8E" font-size="4.2" font-family="Helvetica Neue, Arial">67\'</text>');
+    out.push('<text x="1" y="5" fill="#8E8E8E" font-size="4.2" font-family="ReithSans, Arial">52\'</text>');
+    out.push('<text x="99" y="5" text-anchor="end" fill="#8E8E8E" font-size="4.2" font-family="ReithSans, Arial">67\'</text>');
     return '<svg class="momsvg" viewBox="0 0 100 46" role="img" aria-label="Momentum over the last fifteen minutes.">' + out.join("") + '</svg>';
   }
 
@@ -233,77 +233,496 @@
       '<circle cx="100" cy="' + (h - series[n - 1] / 100 * h).toFixed(1) + '" r="1.8" fill="#4ADE80"/></svg>';
   }
 
-  function thumbSVG(g) {
-    var id = "g" + Math.random().toString(36).slice(2, 8);
-    return '<svg viewBox="0 0 60 80" preserveAspectRatio="none" aria-hidden="true">' +
-      '<defs><linearGradient id="' + id + '" x1="0" y1="0" x2="1" y2="1">' +
-      '<stop offset="0" stop-color="' + g[0] + '"/><stop offset="1" stop-color="' + g[1] + '"/></linearGradient>' +
-      '<radialGradient id="' + id + 'r" cx="0.32" cy="0.3" r="0.72">' +
-      '<stop offset="0" stop-color="#fff" stop-opacity="0.16"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient></defs>' +
-      '<rect width="60" height="80" fill="url(#' + id + ')"/>' +
-      '<g stroke="#fff" stroke-opacity="0.07" stroke-width="0.8" fill="none">' +
-      '<path d="M-6 62 L66 46"/><path d="M-6 72 L66 56"/><path d="M-6 52 L66 36"/></g>' +
-      '<rect width="60" height="80" fill="url(#' + id + 'r)"/>' +
-      '<rect y="58" width="60" height="22" fill="#000" opacity="0.22"/></svg>';
+  /* ==========================================================================
+     Generated imagery
+     ==========================================================================
+     There is no licensed photography in this prototype, so every picture is
+     drawn rather than loaded. A seeded generator reads the item it illustrates
+     and builds a scene from it: stands, crowd, floodlights, the playing
+     surface in perspective, the markings for that sport and a few figures on
+     it. The seed comes from the item's own title, so a card keeps the same
+     picture every time and no two cards get the same one.
+
+     Swap scene() for real images and nothing else in the app has to change.
+     ========================================================================== */
+
+  function hashStr(s) {
+    var h = 2166136261, i;
+    s = String(s);
+    for (i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); }
+    return h >>> 0;
   }
 
+  function mkRand(seedStr) {
+    var x = hashStr(seedStr) || 0x9E3779B9;
+    return function () {
+      x ^= x << 13; x >>>= 0;
+      x ^= x >>> 17;
+      x ^= x << 5; x >>>= 0;
+      return x / 4294967296;
+    };
+  }
 
-  /* ---- photo placeholders: abstract sport imagery, no real photography ---- */
+  function n(v) { return Math.round(v * 100) / 100; }
 
-  function photoSVG(p, ratio) {
-    var id = "p" + Math.random().toString(36).slice(2, 8);
-    var w = 100, h = ratio === "wide" ? 56 : ratio === "square" ? 100 : 133;
-    var g = p.g || ["#22314A", "#0C121C"];
-    var out = '<defs><linearGradient id="' + id + '" x1="0" y1="0" x2="0.4" y2="1">' +
-      '<stop offset="0" stop-color="' + g[0] + '"/><stop offset="1" stop-color="' + g[1] + '"/></linearGradient>' +
-      '<radialGradient id="' + id + 'f" cx="0.68" cy="0.18" r="0.7">' +
-      '<stop offset="0" stop-color="#fff" stop-opacity="0.28"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>' +
-      '</defs><rect width="' + w + '" height="' + h + '" fill="url(#' + id + ')"/>';
+  /* shared, colour-neutral texture. One copy for the whole page rather than
+     several hundred circles per card. */
+  function ensureSprites() {
+    if (document.getElementById("gfxdefs")) { return; }
+    var d = document.createElement("div");
+    d.id = "gfxdefs";
+    d.setAttribute("aria-hidden", "true");
+    d.style.cssText = "position:absolute;width:0;height:0;overflow:hidden;pointer-events:none";
+    d.innerHTML =
+      '<svg xmlns="http://www.w3.org/2000/svg"><defs>' +
+      '<pattern id="pxCrowd" width="1.5" height="1.3" patternUnits="userSpaceOnUse">' +
+      '<circle cx="0.4" cy="0.35" r="0.3" fill="#fff" opacity="0.4"/>' +
+      '<circle cx="1.05" cy="0.9" r="0.26" fill="#fff" opacity="0.2"/>' +
+      '<circle cx="0.2" cy="1.0" r="0.22" fill="#000" opacity="0.4"/>' +
+      '<circle cx="1.25" cy="0.2" r="0.18" fill="#000" opacity="0.32"/>' +
+      '</pattern>' +
+      '<pattern id="pxCrowdFar" width="0.95" height="0.85" patternUnits="userSpaceOnUse">' +
+      '<circle cx="0.28" cy="0.26" r="0.2" fill="#fff" opacity="0.3"/>' +
+      '<circle cx="0.7" cy="0.62" r="0.17" fill="#000" opacity="0.34"/>' +
+      '</pattern>' +
+      '<pattern id="pxSeats" width="6" height="2.1" patternUnits="userSpaceOnUse">' +
+      '<rect width="6" height="1.1" fill="#fff" opacity="0.05"/>' +
+      '<rect y="1.6" width="6" height="0.5" fill="#000" opacity="0.22"/>' +
+      '</pattern>' +
+      '</defs></svg>';
+    document.body.appendChild(d);
+  }
 
-    // crowd band + floodlights across the upper third of every placeholder
-    var band = h * 0.34;
-    out += '<rect y="0" width="' + w + '" height="' + band.toFixed(1) + '" fill="#000" opacity="0.16"/>';
-    for (var k = 0; k < 120; k++) {
-      var kx = (k * 41 % 103) - 1, ky = (k * 29 % 100) / 100 * band;
-      out += '<circle cx="' + kx + '" cy="' + ky.toFixed(1) + '" r="' + (0.45 + (k % 4) * 0.22).toFixed(2) +
-        '" fill="#fff" opacity="' + (0.05 + (k % 6) * 0.018).toFixed(3) + '"/>';
+  /* ---- kit colours, shirt then trim ---- */
+  var KITS = {
+    football: [["#DB2B22", "#FFFFFF"], ["#F26D1B", "#101820"]],
+    rugby: [["#C8102E", "#FFFFFF"], ["#128D51", "#FFFFFF"]],
+    cricket: [["#F2F0E7", "#E2DED0", "#1A3A6B"], ["#F2F0E7", "#DED9C8", "#F1B434"]],
+    tennis: [["#F5F4EE", "#4FC3C3"], ["#EFE6D2", "#BB1919"]],
+    boxing: [["#DB2B22", "#FFD230"], ["#2B4C9B", "#FFFFFF"]]
+  };
+
+  var TURF = {
+    football: ["#2E7A3C", "#15401E"],
+    rugby: ["#2B7139", "#133C1D"],
+    cricket: ["#35803D", "#194720"],
+    tennis: ["#4A8B37", "#22501C"],
+    boxing: ["#6E86B8", "#26355A"]
+  };
+
+  /* ---- figures ----------------------------------------------------------
+     Each pose is a set of joints in a 22 x 46 box with the feet on the floor.
+     Drawn twice: a fatter dark pass for the silhouette, then a thinner kit
+     pass on top, which reads as a player rather than a stick. */
+
+  var POSES = {
+    run: {
+      head: [11.2, 6.4, 3.9],
+      spine: [[11.7, 10.2], [10.3, 24.4]],
+      arms: [[[11.2, 13.4], [16.6, 17.2], [19.4, 12.8]], [[11.2, 13.4], [5.6, 16.4], [3.2, 11.0]]],
+      legs: [[[10.3, 24.4], [16.0, 32.6], [15.2, 44.6]], [[10.3, 24.4], [5.4, 31.6], [1.0, 37.4]]]
+    },
+    kick: {
+      head: [12.2, 6.0, 3.9],
+      spine: [[12.4, 9.8], [9.8, 24.0]],
+      arms: [[[11.8, 13.0], [18.0, 12.2], [21.4, 7.6]], [[11.8, 13.0], [4.8, 14.6], [1.4, 10.2]]],
+      legs: [[[9.8, 24.0], [15.2, 29.6], [21.8, 26.4]], [[9.8, 24.0], [8.0, 34.2], [8.6, 44.6]]]
+    },
+    serve: {
+      head: [10.4, 8.0, 3.9],
+      spine: [[10.9, 11.8], [10.1, 25.0]],
+      arms: [[[10.9, 14.0], [13.8, 7.4], [13.2, 1.2]], [[10.9, 14.0], [5.0, 11.8], [2.4, 6.2]]],
+      legs: [[[10.1, 25.0], [12.8, 34.2], [12.2, 44.6]], [[10.1, 25.0], [6.2, 33.0], [3.8, 44.6]]],
+      racket: [13.2, 1.2]
+    },
+    ready: {
+      head: [11.0, 8.6, 3.9],
+      spine: [[11.2, 12.4], [11.0, 25.6]],
+      arms: [[[11.2, 14.6], [16.2, 18.6], [19.2, 15.0]], [[11.2, 14.6], [6.0, 18.2], [3.6, 15.0]]],
+      legs: [[[11.0, 25.6], [16.8, 33.4], [17.6, 44.6]], [[11.0, 25.6], [5.2, 33.4], [4.2, 44.6]]],
+      racket: [19.2, 15.0]
+    },
+    bat: {
+      head: [11.8, 8.0, 3.9],
+      spine: [[12.0, 11.8], [10.4, 25.0]],
+      arms: [[[11.6, 14.0], [15.8, 17.6], [14.4, 21.2]], [[11.6, 14.0], [13.8, 18.4], [14.4, 21.2]]],
+      legs: [[[10.4, 25.0], [15.6, 33.2], [16.2, 44.6]], [[10.4, 25.0], [5.8, 33.0], [4.4, 44.6]]],
+      bat: [14.4, 21.2]
+    },
+    bowl: {
+      head: [10.4, 6.4, 3.9],
+      spine: [[10.9, 10.2], [10.1, 24.0]],
+      arms: [[[10.9, 12.6], [14.8, 6.2], [14.2, 0.6]], [[10.9, 12.6], [4.8, 14.4], [2.0, 19.4]]],
+      legs: [[[10.1, 24.0], [16.4, 30.4], [20.2, 39.6]], [[10.1, 24.0], [5.2, 32.4], [2.6, 43.6]]]
+    },
+    lift: {
+      head: [11.0, 7.0, 4.1],
+      spine: [[11.0, 11.0], [11.0, 25.0]],
+      arms: [[[11.0, 13.4], [16.6, 8.4], [17.8, 1.6]], [[11.0, 13.4], [5.4, 8.4], [4.2, 1.6]]],
+      legs: [[[11.0, 25.0], [15.0, 34.0], [15.4, 44.6]], [[11.0, 25.0], [7.0, 34.0], [6.6, 44.6]]]
+    },
+    guard: {
+      head: [11.0, 7.4, 4.1],
+      spine: [[11.0, 11.4], [10.8, 24.6]],
+      arms: [[[11.0, 14.0], [16.0, 15.4], [13.4, 10.0]], [[11.0, 14.0], [6.2, 16.0], [8.6, 10.2]]],
+      legs: [[[10.8, 24.6], [15.8, 33.0], [16.8, 44.6]], [[10.8, 24.6], [5.6, 33.2], [4.4, 44.6]]],
+      gloves: [[13.4, 10.0], [8.6, 10.2]]
+    },
+    dive: {
+      head: [14.0, 13.0, 3.9],
+      spine: [[13.6, 16.4], [5.0, 24.0]],
+      arms: [[[13.2, 18.0], [18.6, 15.0], [22.0, 11.0]], [[13.2, 18.0], [16.4, 21.8], [20.4, 23.0]]],
+      legs: [[[5.0, 24.0], [1.0, 30.0], [3.0, 37.0]], [[5.0, 24.0], [0.4, 25.6], [-3.0, 30.0]]]
     }
-    out += '<circle cx="76" cy="' + (band * 0.36).toFixed(1) + '" r="1.6" fill="#fff" opacity="0.5"/>' +
-      '<circle cx="76" cy="' + (band * 0.36).toFixed(1) + '" r="7" fill="#fff" opacity="0.07"/>' +
-      '<circle cx="21" cy="' + (band * 0.22).toFixed(1) + '" r="1.2" fill="#fff" opacity="0.4"/>' +
-      '<circle cx="21" cy="' + (band * 0.22).toFixed(1) + '" r="5.5" fill="#fff" opacity="0.055"/>' +
-      '<line x1="-4" y1="' + band.toFixed(1) + '" x2="104" y2="' + (band * 0.94).toFixed(1) +
-      '" stroke="#fff" stroke-opacity="0.12" stroke-width="0.7"/>';
+  };
 
-    if (p.motif === "pitch") {
-      for (var i = 0; i < 7; i++) {
-        out += '<rect x="' + (i * 16 - 10) + '" y="' + (h * 0.42) + '" width="9" height="' + (h * 0.6) +
-          '" fill="#fff" opacity="0.035" transform="skewX(-14)"/>';
+  function poly(pts, width, col, op) {
+    return '<polyline points="' + pts.map(function (q) { return n(q[0]) + "," + n(q[1]); }).join(" ") +
+      '" fill="none" stroke="' + col + '" stroke-width="' + n(width) + '" stroke-linecap="round" stroke-linejoin="round"' +
+      (op === undefined ? "" : ' opacity="' + op + '"') + '/>';
+  }
+
+  /* cx is where the figure stands, footY where the feet land, ht its height */
+  function figure(name, cx, footY, ht, kit, o) {
+    var P0 = POSES[name] || POSES.run;
+    o = o || {};
+    var dark = o.dark || "#0A0D12";
+    var s = ht / 46;
+    var lw = 3.6;
+    var limbs = P0.arms.concat(P0.legs);
+    var g = "";
+
+    g += limbs.map(function (L) { return poly(L, lw + 1.3, dark); }).join("");
+    g += poly(P0.spine, lw + 5.0, dark);
+    g += '<circle cx="' + P0.head[0] + '" cy="' + P0.head[1] + '" r="' + n(P0.head[2] + 0.6) + '" fill="' + dark + '"/>';
+
+    if (!o.silhouette) {
+      g += limbs.map(function (L) { return poly(L, lw - 0.9, kit[1]); }).join("");
+      g += poly(P0.spine, lw + 2.6, kit[0]);
+      g += '<circle cx="' + P0.head[0] + '" cy="' + P0.head[1] + '" r="' + P0.head[2] + '" fill="#8A6952"/>';
+      if (kit[2]) {
+        /* a cap, which is how you tell two sides apart when both play in white */
+        g += '<path d="M' + n(P0.head[0] - P0.head[2] - 0.3) + ',' + n(P0.head[1] - 0.4) +
+          ' a' + P0.head[2] + ',' + P0.head[2] + ' 0 0 1 ' + n(P0.head[2] * 2 + 0.6) + ',0' +
+          ' l1.6,0.9 l-' + n(P0.head[2] * 2 + 2.2) + ',0 Z" fill="' + kit[2] + '"/>';
       }
-      out += '<path d="M -10 ' + (h * 0.72) + ' Q ' + (w / 2) + ' ' + (h * 0.52) + ' ' + (w + 10) + ' ' + (h * 0.72) +
-        '" stroke="#fff" stroke-opacity="0.16" stroke-width="0.9" fill="none"/>' +
-        '<line x1="-10" y1="' + (h * 0.9) + '" x2="' + (w + 10) + '" y2="' + (h * 0.86) + '" stroke="#fff" stroke-opacity="0.13" stroke-width="0.8"/>';
-    } else if (p.motif === "court") {
-      out += '<rect x="14" y="' + (h * 0.5) + '" width="72" height="' + (h * 0.44) + '" fill="none" stroke="#fff" stroke-opacity="0.2" stroke-width="0.9"/>' +
-        '<line x1="50" y1="' + (h * 0.5) + '" x2="50" y2="' + (h * 0.94) + '" stroke="#fff" stroke-opacity="0.16" stroke-width="0.8"/>' +
-        '<line x1="14" y1="' + (h * 0.68) + '" x2="86" y2="' + (h * 0.68) + '" stroke="#fff" stroke-opacity="0.16" stroke-width="0.8"/>' +
-        '<line x1="-6" y1="' + (h * 0.46) + '" x2="106" y2="' + (h * 0.46) + '" stroke="#fff" stroke-opacity="0.3" stroke-width="1.6"/>';
-    } else if (p.motif === "ring") {
-      out += '<rect x="8" y="' + (h * 0.52) + '" width="84" height="' + (h * 0.4) + '" fill="#000" opacity="0.22"/>';
+      if (P0.racket) {
+        g += '<line x1="' + P0.racket[0] + '" y1="' + n(P0.racket[1] + 1.2) + '" x2="' + P0.racket[0] + '" y2="' + n(P0.racket[1] - 1.6) +
+          '" stroke="' + dark + '" stroke-width="1"/>' +
+          '<ellipse cx="' + P0.racket[0] + '" cy="' + n(P0.racket[1] - 4.4) + '" rx="2.7" ry="3.5" fill="#fff" fill-opacity="0.12" stroke="' + dark + '" stroke-width="1.1"/>';
+      }
+      if (P0.bat) {
+        g += '<rect x="' + n(P0.bat[0] - 1.2) + '" y="' + P0.bat[1] + '" width="2.4" height="11" rx="0.6" fill="#D9C08A" stroke="' + dark + '" stroke-width="0.6"/>';
+      }
+      if (P0.gloves) {
+        g += P0.gloves.map(function (q) {
+          return '<circle cx="' + q[0] + '" cy="' + q[1] + '" r="2.5" fill="' + kit[0] + '" stroke="' + dark + '" stroke-width="0.6"/>';
+        }).join("");
+      }
+    }
+
+    var sx = o.flip ? -s : s;
+    return '<g transform="translate(' + n(cx - 11 * s) + ',' + n(footY - 46 * s) + ') scale(' + n(sx) + ',' + n(s) + ')' +
+      (o.flip ? ' translate(-22,0)' : "") + '"' + (o.op !== undefined ? ' opacity="' + o.op + '"' : "") + '>' +
+      g + '</g>';
+  }
+
+  /* ---- the ground -------------------------------------------------------
+     A single perspective frame: t runs 0 to 1 across the pitch, d runs 0 at
+     the far side to 1 at the camera. Every marking below is placed in it, so
+     the lines converge the way a camera at the halfway line would see them. */
+
+  function Ground(hzY, botY) {
+    var TL = -20, TR = 120, BL = -74, BR = 174;
+    return {
+      xAt: function (t, d) {
+        var xt = TL + (TR - TL) * t, xb = BL + (BR - BL) * t;
+        return xt + (xb - xt) * d;
+      },
+      yAt: function (d) { return hzY + (botY - hzY) * d; },
+      quad: function (t0, t1, d0, d1, fill, op) {
+        var a = this.xAt(t0, d0), b = this.xAt(t1, d0), c = this.xAt(t1, d1), e = this.xAt(t0, d1);
+        return '<path d="M' + n(a) + ',' + n(this.yAt(d0)) + ' L' + n(b) + ',' + n(this.yAt(d0)) +
+          ' L' + n(c) + ',' + n(this.yAt(d1)) + ' L' + n(e) + ',' + n(this.yAt(d1)) + 'Z" fill="' + fill + '"' +
+          (op === undefined ? "" : ' opacity="' + op + '"') + '/>';
+      },
+      across: function (d, t0, t1, op, wd) {
+        return '<line x1="' + n(this.xAt(t0, d)) + '" y1="' + n(this.yAt(d)) + '" x2="' + n(this.xAt(t1, d)) +
+          '" y2="' + n(this.yAt(d)) + '" stroke="#fff" stroke-opacity="' + op + '" stroke-width="' + (wd || 0.7) + '"/>';
+      },
+      along: function (t, d0, d1, op, wd) {
+        return '<line x1="' + n(this.xAt(t, d0)) + '" y1="' + n(this.yAt(d0)) + '" x2="' + n(this.xAt(t, d1)) +
+          '" y2="' + n(this.yAt(d1)) + '" stroke="#fff" stroke-opacity="' + op + '" stroke-width="' + (wd || 0.7) + '"/>';
+      }
+    };
+  }
+
+  function stands(w, hzY, rnd, uid, accent, deep) {
+    var out = "";
+    var roof = hzY * 0.13, upper = hzY * 0.49, walk = hzY * 0.57, lower = hzY * 0.9;
+    var i;
+
+    function tier(y0, y1, pat, dark) {
+      var hh = y1 - y0;
+      return '<rect x="-5" y="' + n(y0) + '" width="' + (w + 10) + '" height="' + n(hh) + '" fill="#000" opacity="' + dark + '"/>' +
+        '<rect x="-5" y="' + n(y0) + '" width="' + (w + 10) + '" height="' + n(hh) + '" fill="url(#pxSeats)"/>' +
+        '<rect x="-5" y="' + n(y0) + '" width="' + (w + 10) + '" height="' + n(hh) + '" fill="url(#' + pat + ')"/>';
+    }
+
+    /* roof, with a lit lip along the front edge */
+    out += '<rect x="-5" y="-3" width="' + (w + 10) + '" height="' + n(roof + 3) + '" fill="#04060A"/>';
+    out += '<rect x="-5" y="' + n(roof - 0.7) + '" width="' + (w + 10) + '" height="0.7" fill="#fff" opacity="0.12"/>';
+
+    out += tier(roof, upper, "pxCrowdFar", 0.52);
+    /* the concourse between the tiers reads as a dark band */
+    out += '<rect x="-5" y="' + n(upper) + '" width="' + (w + 10) + '" height="' + n(walk - upper) + '" fill="#04060A" opacity="0.88"/>';
+    out += tier(walk, lower, "pxCrowd", 0.34);
+    /* uneven rows: some blocks fuller and better lit than others */
+    for (i = 0; i < 5; i++) {
+      var by = walk + (lower - walk) * (i / 5);
+      out += '<rect x="-5" y="' + n(by) + '" width="' + (w + 10) + '" height="' + n((lower - walk) / 5) +
+        '" fill="' + (i % 2 ? "#000" : "#fff") + '" opacity="' + n(0.03 + rnd() * 0.05) + '"/>';
+    }
+
+    /* stand blocks: vertical gangways break up the crowd */
+    for (i = 1; i < 6; i++) {
+      out += '<rect x="' + n(i * (w / 6) - 0.5 + (rnd() - 0.5)) + '" y="' + n(roof) + '" width="1" height="' + n(lower - roof) +
+        '" fill="#04060A" opacity="0.55"/>';
+    }
+
+    /* the floodlights wash the near side of the stand */
+    out += '<rect x="-5" y="' + n(roof) + '" width="' + (w + 10) + '" height="' + n(lower - roof) + '" fill="' + accent + '" opacity="0.07"/>';
+
+    /* shirts and faces catching the light, denser at the front */
+    for (i = 0; i < 46; i++) {
+      var sy = walk + Math.pow(rnd(), 0.7) * (lower - walk);
+      out += '<circle cx="' + n(rnd() * (w + 6) - 3) + '" cy="' + n(sy) + '" r="' + n(0.3 + rnd() * 0.45) +
+        '" fill="' + (i % 4 === 0 ? accent : i % 4 === 1 ? "#FFD230" : "#fff") + '" opacity="' + n(0.3 + rnd() * 0.45) + '"/>';
+    }
+
+    /* a few flags held up */
+    for (i = 0; i < 4; i++) {
+      var fx = 6 + rnd() * (w - 16), fy = walk + rnd() * (lower - walk) * 0.75;
+      var fw = 4 + rnd() * 3.5, fh = 2 + rnd() * 1.4;
+      out += '<rect x="' + n(fx) + '" y="' + n(fy - fh) + '" width="' + n(fw) + '" height="' + n(fh) + '" fill="' +
+        (i % 2 ? accent : "#fff") + '" opacity="' + n(0.4 + rnd() * 0.3) + '" transform="rotate(' + n(-6 + rnd() * 12) +
+        ' ' + n(fx) + ' ' + n(fy) + ')"/>';
+    }
+
+    /* the hoarding along the front, and the strip of empty seats behind it */
+    var hb = Math.max(1.4, (hzY - lower) * 0.62);
+    out += '<rect x="-5" y="' + n(lower) + '" width="' + (w + 10) + '" height="' + n(hzY - lower) + '" fill="' + deep + '"/>';
+    out += '<rect x="-5" y="' + n(lower) + '" width="' + (w + 10) + '" height="' + n(hzY - lower) + '" fill="#000" opacity="0.3"/>';
+    for (i = 0; i < 7; i++) {
+      out += '<rect x="' + n(i * (w / 6.4) - 3) + '" y="' + n(lower + 0.6) + '" width="' + n(w / 8) + '" height="' + n(hb) +
+        '" fill="' + (i % 2 ? accent : "#E9ECF2") + '" opacity="0.26" rx="0.3"/>';
+    }
+    out += '<rect x="-5" y="' + n(hzY - 0.5) + '" width="' + (w + 10) + '" height="0.5" fill="#fff" opacity="0.14"/>';
+
+    /* floodlights */
+    out += '<g>' +
+      '<circle cx="' + n(w * 0.79) + '" cy="' + n(roof * 0.5) + '" r="1.6" fill="#FFF7E0" opacity="0.9"/>' +
+      '<circle cx="' + n(w * 0.79) + '" cy="' + n(roof * 0.5) + '" r="10" fill="#FFF3D0" opacity="0.09"/>' +
+      '<circle cx="' + n(w * 0.2) + '" cy="' + n(roof * 0.38) + '" r="1.2" fill="#FFF7E0" opacity="0.7"/>' +
+      '<circle cx="' + n(w * 0.2) + '" cy="' + n(roof * 0.38) + '" r="7" fill="#FFF3D0" opacity="0.07"/>' +
+      '</g>';
+    return out;
+  }
+
+  function markings(kind, G, rnd, accent) {
+    var out = "";
+    if (kind === "football") {
+      out += G.across(0.06, 0.02, 0.98, 0.5, 0.7);
+      out += G.across(0.2, 0.2, 0.8, 0.42, 0.7);
+      out += G.along(0.2, 0.06, 0.2, 0.42, 0.7) + G.along(0.8, 0.06, 0.2, 0.42, 0.7);
+      out += G.across(0.34, 0.34, 0.66, 0.34, 0.6);
+      out += G.along(0.34, 0.06, 0.34, 0.34, 0.6) + G.along(0.66, 0.06, 0.34, 0.34, 0.6);
+      out += G.across(0.94, 0.0, 1.0, 0.4, 1.1);
+      /* centre circle, flattened by the angle */
+      out += '<ellipse cx="' + n(G.xAt(0.5, 0.78)) + '" cy="' + n(G.yAt(0.78)) + '" rx="' + n((G.xAt(0.78, 0.78) - G.xAt(0.22, 0.78)) / 2) +
+        '" ry="' + n((G.yAt(1) - G.yAt(0.62)) * 0.5) + '" fill="none" stroke="#fff" stroke-opacity="0.34" stroke-width="0.8"/>';
+      /* goal */
+      var gy = G.yAt(0.06), gl = G.xAt(0.4, 0.06), gr = G.xAt(0.6, 0.06);
+      out += '<path d="M' + n(gl) + ',' + n(gy) + ' L' + n(gl) + ',' + n(gy - 5.4) + ' L' + n(gr) + ',' + n(gy - 5.4) +
+        ' L' + n(gr) + ',' + n(gy) + '" fill="#fff" fill-opacity="0.05" stroke="#fff" stroke-opacity="0.7" stroke-width="0.9"/>';
+    } else if (kind === "rugby") {
+      out += G.across(0.1, 0.02, 0.98, 0.52, 0.9);
+      out += G.across(0.3, 0.02, 0.98, 0.34, 0.7);
+      out += G.across(0.62, 0.02, 0.98, 0.3, 0.7);
+      out += G.along(0.06, 0.1, 1, 0.3, 0.7) + G.along(0.94, 0.1, 1, 0.3, 0.7);
+      var py = G.yAt(0.1), pl = G.xAt(0.44, 0.1), pr = G.xAt(0.56, 0.1);
+      out += '<path d="M' + n(pl) + ',' + n(py) + ' L' + n(pl) + ',' + n(py - 13) +
+        ' M' + n(pr) + ',' + n(py) + ' L' + n(pr) + ',' + n(py - 13) +
+        ' M' + n(pl - 0.6) + ',' + n(py - 7.2) + ' L' + n(pr + 0.6) + ',' + n(py - 7.2) +
+        '" stroke="#fff" stroke-opacity="0.72" stroke-width="1.1" fill="none"/>';
+    } else if (kind === "cricket") {
+      /* the square, lighter than the outfield */
+      out += G.quad(0.39, 0.61, 0.12, 1, "#C6B489", 0.82);
+      out += G.quad(0.44, 0.56, 0.12, 1, "#D9CCA6", 0.5);
+      out += G.across(0.24, 0.42, 0.58, 0.55, 0.7);
+      out += G.across(0.86, 0.4, 0.6, 0.55, 0.9);
+      /* stumps at the far end */
+      var sy = G.yAt(0.24), sx = G.xAt(0.5, 0.24);
+      out += '<path d="M' + n(sx - 0.9) + ',' + n(sy) + ' l0,-3.4 M' + n(sx) + ',' + n(sy) + ' l0,-3.6 M' + n(sx + 0.9) + ',' + n(sy) +
+        ' l0,-3.4" stroke="#fff" stroke-opacity="0.85" stroke-width="0.55"/>';
+      /* the rope */
+      out += '<path d="M' + n(G.xAt(-0.05, 0.1)) + ',' + n(G.yAt(0.1)) + ' Q' + n(G.xAt(0.5, 0.04)) + ',' + n(G.yAt(0.03)) +
+        ' ' + n(G.xAt(1.05, 0.1)) + ',' + n(G.yAt(0.1)) + '" fill="none" stroke="#fff" stroke-opacity="0.45" stroke-width="0.8"/>';
+    } else if (kind === "tennis") {
+      out += G.across(0.06, 0.08, 0.92, 0.6, 0.8);
+      out += G.across(0.24, 0.22, 0.78, 0.5, 0.7);
+      out += G.across(0.94, 0.08, 0.92, 0.6, 1.0);
+      out += G.across(0.78, 0.22, 0.78, 0.5, 0.8);
+      out += G.along(0.08, 0.06, 0.94, 0.45, 0.7) + G.along(0.92, 0.06, 0.94, 0.45, 0.7);
+      out += G.along(0.22, 0.06, 0.94, 0.4, 0.7) + G.along(0.78, 0.06, 0.94, 0.4, 0.7);
+      out += G.along(0.5, 0.24, 0.78, 0.4, 0.7);
+      /* the net */
+      var ny = G.yAt(0.5), nl = G.xAt(0.03, 0.5), nr = G.xAt(0.97, 0.5), nh = (G.yAt(1) - G.yAt(0)) * 0.13 + 2.5;
+      out += '<path d="M' + n(nl) + ',' + n(ny) + ' L' + n(nl) + ',' + n(ny - nh) + ' L' + n(nr) + ',' + n(ny - nh) +
+        ' L' + n(nr) + ',' + n(ny) + 'Z" fill="#0B0E12" fill-opacity="0.34"/>';
+      out += '<path d="M' + n(nl) + ',' + n(ny - nh) + ' L' + n(nr) + ',' + n(ny - nh) + '" stroke="#fff" stroke-opacity="0.8" stroke-width="1"/>';
+      for (var t = 0; t <= 16; t++) {
+        var xx = nl + (nr - nl) * (t / 16);
+        out += '<line x1="' + n(xx) + '" y1="' + n(ny - nh) + '" x2="' + n(xx) + '" y2="' + n(ny) + '" stroke="#fff" stroke-opacity="0.16" stroke-width="0.3"/>';
+      }
+    } else if (kind === "boxing") {
+      out += G.quad(0.1, 0.9, 0.08, 1, "#fff", 0.05);
+      out += G.along(0.1, 0.08, 1, 0.3, 0.8) + G.along(0.9, 0.08, 1, 0.3, 0.8);
+      out += G.across(0.08, 0.1, 0.9, 0.3, 0.8);
+      var cy = G.yAt(0.08);
+      out += '<circle cx="' + n(G.xAt(0.5, 0.6)) + '" cy="' + n(G.yAt(0.6)) + '" r="9" fill="none" stroke="' + accent + '" stroke-opacity="0.3" stroke-width="1"/>';
       for (var r = 0; r < 3; r++) {
-        out += '<line x1="4" y1="' + (h * 0.5 + r * 6) + '" x2="96" y2="' + (h * 0.5 + r * 6) + '" stroke="#fff" stroke-opacity="0.16" stroke-width="0.7"/>';
+        out += '<line x1="-8" y1="' + n(cy - 2 - r * 5.4) + '" x2="112" y2="' + n(cy - 3.4 - r * 5.4) +
+          '" stroke="#fff" stroke-opacity="' + (0.42 - r * 0.07) + '" stroke-width="0.9"/>';
       }
-    } else {
-      for (var c = 0; c < 90; c++) {
-        var cx = (c * 37 % 101), cy = (c * 53 % 40) + h * 0.06;
-        out += '<circle cx="' + cx + '" cy="' + cy.toFixed(1) + '" r="' + (0.7 + (c % 3) * 0.35).toFixed(2) +
-          '" fill="#fff" opacity="' + (0.05 + (c % 5) * 0.022).toFixed(3) + '"/>';
-      }
-      out += '<rect y="' + (h * 0.55) + '" width="100" height="' + (h * 0.45) + '" fill="#000" opacity="0.2"/>';
+      out += '<rect x="' + n(G.xAt(0.1, 0.08) - 1) + '" y="' + n(cy - 19) + '" width="2" height="19" fill="#0B0E12" opacity="0.7"/>' +
+        '<rect x="' + n(G.xAt(0.9, 0.08) - 1) + '" y="' + n(cy - 19) + '" width="2" height="19" fill="#0B0E12" opacity="0.7"/>';
     }
-    out += '<rect width="' + w + '" height="' + h + '" fill="url(#' + id + 'f)"/>';
-    return '<svg class="photo" viewBox="0 0 ' + w + ' ' + h + '" preserveAspectRatio="xMidYMid slice" aria-hidden="true">' + out + '</svg>';
+    return out;
   }
+
+  function cast(kind, G, rnd, kits, span, dz) {
+    var out = "", i;
+    dz = dz || 1;
+    /* sx is a fraction of the visible frame rather than a point on the pitch,
+       so nobody ends up standing outside the crop */
+    function place(pose, sx, d, scale, flip, ki) {
+      d = d * dz;
+      var ht = span * (0.16 + 0.46 * d) * (scale || 1);
+      var x = sx * 100, y = G.yAt(d);
+      out += '<ellipse cx="' + n(x) + '" cy="' + n(y) + '" rx="' + n(ht * 0.24) +
+        '" ry="' + n(ht * 0.06) + '" fill="#000" opacity="0.32"/>';
+      out += figure(pose, x, y, ht, kits[ki || 0], { flip: flip });
+    }
+    function ball(sx, d, lift, fill) {
+      d = d * dz;
+      out += '<circle cx="' + n(sx * 100) + '" cy="' + n(G.yAt(d) - span * lift) + '" r="' + n(span * 0.018) +
+        '" fill="' + fill + '" stroke="#0B0E12" stroke-width="0.3"/>';
+    }
+    if (kind === "football") {
+      place("kick", 0.3, 0.76, 1, false, 0);
+      place("run", 0.56, 0.58, 0.9, true, 1);
+      place("run", 0.8, 0.44, 0.8, false, 1);
+      ball(0.44, 0.72, 0.1, "#fff");
+    } else if (kind === "rugby") {
+      place("run", 0.28, 0.76, 1, false, 0);
+      place("run", 0.5, 0.64, 0.92, true, 1);
+      place("run", 0.76, 0.48, 0.78, false, 0);
+    } else if (kind === "cricket") {
+      place("bat", 0.34, 0.8, 1, false, 0);
+      place("bowl", 0.6, 0.32, 0.86, false, 1);
+      for (i = 0; i < 3; i++) {
+        place("ready", 0.14 + i * 0.33, 0.18 + i * 0.05, 0.52, i % 2 === 0, 1);
+      }
+      ball(0.52, 0.5, 0.12, "#C0392B");
+    } else if (kind === "tennis") {
+      place("serve", 0.28, 0.78, 1, false, 0);
+      place("ready", 0.64, 0.26, 0.86, true, 1);
+      ball(0.38, 0.6, 0.3, "#D8E84A");
+    } else if (kind === "boxing") {
+      place("guard", 0.36, 0.7, 1, false, 0);
+      place("guard", 0.58, 0.66, 0.98, true, 1);
+    }
+    return out;
+  }
+
+  /* ---- the one entry point ---- */
+
+  function scene(p, ratio, key) {
+    ensureSprites();
+    p = p || {};
+    var motif = p.motif || "crowd";
+    var sport = String(p.sport || key || "").toLowerCase();
+    var seed = String(key || "") + "~" + motif + "~" + (p.g ? p.g.join("") : "");
+    var rnd = mkRand(seed);
+
+    var w = 100;
+    var h = ratio === "wide" ? 56 : ratio === "square" ? 100
+      : ratio === "cine" ? 66 : ratio === "tall" ? 133 : 56;
+
+    var kind = motif === "court" ? "tennis"
+      : motif === "oval" ? "cricket"
+      : motif === "ring" ? "boxing"
+      : /rugby|six nations|ireland|wales/.test(sport) ? "rugby"
+      : /cricket|ashes|test match|lord/.test(sport) ? "cricket"
+      : /tennis|wimbledon|raducanu/.test(sport) ? "tennis"
+      : /box|fight/.test(sport) ? "boxing"
+      : motif === "pitch" ? "football"
+      : "football";
+
+    var uid = "gx" + hashStr(seed + ratio).toString(36);
+    var g0 = (p.g && p.g[0]) || "#22314A";
+    var g1 = (p.g && p.g[1]) || "#0C121C";
+    var kits = KITS[kind] || KITS.football;
+    var turf = TURF[kind] || TURF.football;
+    var accent = kits[0][0];
+
+    /* a crowd card keeps the camera high in the stands, everything else
+       puts the horizon a bit under halfway and gives the pitch the frame */
+    var hzY = motif === "crowd" ? h * 0.56
+      : ratio === "tall" ? h * (kind === "boxing" ? 0.36 : 0.32)
+      : h * (kind === "boxing" ? 0.42 : 0.4);
+    var botY = h + 2;
+
+    var out = '<defs>' +
+      '<linearGradient id="' + uid + 'sky" x1="0" y1="0" x2="0.3" y2="1">' +
+      '<stop offset="0" stop-color="' + g0 + '"/><stop offset="1" stop-color="' + g1 + '"/></linearGradient>' +
+      '<linearGradient id="' + uid + 'turf" x1="0" y1="0" x2="0" y2="1">' +
+      '<stop offset="0" stop-color="' + turf[1] + '"/><stop offset="0.45" stop-color="' + turf[0] + '"/>' +
+      '<stop offset="1" stop-color="' + turf[1] + '"/></linearGradient>' +
+      '<radialGradient id="' + uid + 'glow" cx="0.74" cy="0.12" r="0.8">' +
+      '<stop offset="0" stop-color="#fff" stop-opacity="0.3"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>' +
+      '<linearGradient id="' + uid + 'scrim" x1="0" y1="0" x2="0" y2="1">' +
+      '<stop offset="0" stop-color="#000" stop-opacity="0"/><stop offset="0.55" stop-color="#000" stop-opacity="0.16"/>' +
+      '<stop offset="1" stop-color="#000" stop-opacity="0.72"/></linearGradient>' +
+      '</defs>';
+
+    out += '<rect x="-2" y="-2" width="' + (w + 4) + '" height="' + (h + 4) + '" fill="url(#' + uid + 'sky)"/>';
+    out += '<g>' + stands(w, hzY, rnd, uid, accent, g1) + '</g>';
+
+    var G = Ground(hzY, botY);
+    out += '<path d="M' + n(G.xAt(0, 0)) + ',' + n(hzY) + ' L' + n(G.xAt(1, 0)) + ',' + n(hzY) +
+      ' L' + n(G.xAt(1, 1)) + ',' + n(botY) + ' L' + n(G.xAt(0, 1)) + ',' + n(botY) + 'Z" fill="url(#' + uid + 'turf)"/>';
+
+    if (kind !== "boxing") {
+      for (var s = 0; s < 8; s += 2) {
+        out += G.quad(s / 8, (s + 1) / 8, 0, 1, "#fff", 0.045);
+      }
+    }
+
+    out += markings(kind, G, rnd, accent);
+    out += cast(kind, G, rnd, kits, (botY - hzY), ratio === "tall" ? 0.66 : 1);
+
+    out += '<rect x="-2" y="-2" width="' + (w + 4) + '" height="' + (h + 4) + '" fill="url(#' + uid + 'glow)"/>';
+    out += '<rect x="-2" y="-2" width="' + (w + 4) + '" height="' + (h + 4) + '" fill="url(#' + uid + 'scrim)"/>';
+
+    return '<svg class="photo" viewBox="0 0 ' + w + ' ' + h + '" preserveAspectRatio="xMidYMid slice" aria-hidden="true">' +
+      out + '</svg>';
+  }
+
+  /* kept for the call sites that already exist */
+  function photoSVG(p, ratio, key) { return scene(p, ratio, key); }
+
 
   function badge(colour, initials) {
     return '<span class="tbadge" style="background:' + colour + '" aria-hidden="true">' + esc(initials) + '</span>';
@@ -359,7 +778,7 @@
   function deckCard(ix, idx) {
     var it = DROP[ix];
     return '<button class="short" type="button" data-play="' + ix + '">' +
-      '<span class="thumb">' + photoSVG(it, "tall") + '<span class="play">' + I.playtri + '</span>' +
+      '<span class="thumb">' + photoSVG(it, "tall", it.sport + " " + it.t) + '<span class="play">' + I.playtri + '</span>' +
       '<span class="dur">' + esc(it.dur) + '</span></span>' +
       '<span class="kick">' + esc(it.sport) + '</span><span class="st">' + esc(it.t) + '</span></button>';
   }
@@ -375,7 +794,7 @@
     return '<div class="focusrail" data-focusrail>' + p.deck.map(function (ix) {
       var it = DROP[ix];
       return '<button class="fcard" type="button" data-play="' + ix + '">' +
-        '<span class="fphoto">' + photoSVG(it, "tall") +
+        '<span class="fphoto">' + photoSVG(it, "tall", it.sport + " " + it.t) +
         '<span class="fscrim"></span>' +
         '<span class="play">' + I.playtri + '</span>' +
         '<span class="dur">' + esc(it.dur) + '</span>' +
@@ -918,49 +1337,123 @@
     ["done", "Earlier today"]
   ];
 
-  function homeBody() {
-    var copy = HOMECOPY[lc()] || HOMECOPY.live;
-    var hero = HOMEFEED.hero[lc()] || HOMEFEED.hero.live;
-    var cards = EVENTS.map(function (e, i) { return { e: e, i: i, c: evState(e).card }; });
-    var top = cards.slice().sort(function (a, b) { return b.c.sig - a.c.sig; })[0];
-    var out = "";
+  /* ---- the immersive live takeover -------------------------------------
+     Whatever is most worth watching right now fills the top of Home: the
+     picture runs full bleed, and the only thing on top of it is the state of
+     the thing itself plus one way in. */
 
-    /* ---- hero story ---- */
-    var chosen = S.votes[hero.poll.id], done = chosen !== undefined;
-    out += '<section class="hero">' +
-      '<div class="herophoto">' + photoSVG(hero.photo, "square") + '<span class="heroscrim"></span></div>' +
-      '<div class="herotext"><span class="herokick">' + esc(hero.kicker) + '</span>' +
-      '<h1 class="herohead">' + esc(hero.head) + '</h1></div></section>' +
-      '<section class="section herobody">' +
-      '<p class="herostand">' + esc(hero.stand) + '</p>' +
+  function rankedCards() {
+    var order = { live: 0, soon: 1, done: 2 };
+    return EVENTS.map(function (e, i) { return { e: e, i: i, c: evState(e).card }; })
+      .sort(function (a, b) {
+        if (order[a.c.status] !== order[b.c.status]) { return order[a.c.status] - order[b.c.status]; }
+        return b.c.sig - a.c.sig;
+      });
+  }
+
+  function takeoverHero() {
+    var x = rankedCards()[0], e = x.e, st = evState(e);
+    var TK = e.takeover || {}, T = TK[lc()] || { stats: [] };
+    var status = x.c.status === "live" ? "LIVE" : x.c.status === "soon" ? "STARTING SOON" : "FULL TIME";
+
+    var bars = (T.stats || []).map(function (r) {
+      var a = Number(r[1]), b = Number(r[2]), tot = (a + b) || 1;
+      return '<div class="tostat">' +
+        '<span class="tonum">' + esc(String(r[1])) + '</span>' +
+        '<span class="tobar a"><i style="width:' + (a / tot * 100).toFixed(1) + '%;background:' + TK.ca + '"></i></span>' +
+        '<span class="tolab">' + esc(r[0]) + '</span>' +
+        '<span class="tobar b"><i style="width:' + (b / tot * 100).toFixed(1) + '%;background:' + TK.cb + '"></i></span>' +
+        '<span class="tonum r">' + esc(String(r[2])) + '</span></div>';
+    }).join("");
+
+    return '<section class="takeover">' +
+      '<div class="tostill"><div class="tokb">' +
+      photoSVG(e.photo, "tall", e.sport + " " + e.title + " " + lc()) +
+      '</div><span class="toveil"></span><span class="tosweep"></span></div>' +
+
+      '<div class="totop">' +
+      '<span class="tochip' + (x.c.status === "live" ? " on" : "") + '"><i></i>' + status + '</span>' +
+      (st.watching ? '<span class="towatch">' + esc(st.watching) + ' watching</span>' : "") +
+      '<span class="tospacer"></span>' +
+      '<button class="toic" type="button" data-toast="Audio is not wired up in this prototype." aria-label="Sound">' + I.speaker + '</button>' +
+      '<button class="toic" type="button" data-toast="Full screen is not wired up in this prototype." aria-label="Full screen">' + I.expand + '</button>' +
+      '</div>' +
+
+      '<div class="tocard">' +
+      '<p class="tokick">' + (I.sport[e.sport] || "") + esc(e.sport) + ' · ' + esc(e.comp) + '</p>' +
+      '<div class="tonames">' +
+      '<span class="tos"><i style="background:' + TK.ca + '"></i>' + esc(TK.a || "") + '</span>' +
+      '<span class="toline">' + esc(T.line || "") + '</span>' +
+      '<span class="tos r">' + esc(TK.b || "") + '<i style="background:' + TK.cb + '"></i></span></div>' +
+      (T.sub ? '<p class="tosub">' + esc(T.sub) + '</p>' : "") +
+      '<div class="tostats">' + bars + '</div>' +
+      '<button class="tocta" type="button" data-open="' + x.i + '">' +
+      '<span>' + esc(T.cta || "Open the experience") + '</span>' + I.chevron + '</button>' +
+      '</div></section>';
+  }
+
+  /* ---- participation, led by the picture rather than by the text ---- */
+
+  function visualPoll(poll, photo, kicker) {
+    var chosen = S.votes[poll.id], done = chosen !== undefined;
+    var q = String(poll.q).replace(/^Have your say:\s*/i, "");
+    return '<div class="vpoll" data-vpoll="' + poll.id + '">' +
+      '<span class="vpkick">' + esc(kicker || "Have your say") + '</span>' +
+      '<p class="vpq">' + esc(q) + '</p>' +
+      '<div class="vpopts' + (poll.opts.length > 2 ? " three" : "") + '">' +
+      poll.opts.map(function (o, k) {
+        var pct = poll.split[k];
+        return '<button class="vpopt' + (done ? " done" : "") + (done && k === chosen ? " mine" : "") +
+          '" type="button" data-i="' + k + '"' + (done ? " disabled" : "") +
+          ' aria-pressed="' + (k === chosen) + '">' +
+          '<span class="vpimg">' + photoSVG(photo, "wide", poll.id + "#" + k) + '<span class="vpveil"></span>' +
+          (done && k === chosen ? '<span class="vptick">' + I.tick + '</span>' : "") + '</span>' +
+          '<span class="vprow"><span class="vpfill" style="width:' + (done ? pct : 0) + '%"></span>' +
+          '<span class="vplab">' + esc(o) + '</span>' +
+          (done ? '<span class="vppct">' + pct + '%</span>' : "") + '</span>' +
+          '</button>';
+      }).join("") + '</div>' +
+      '<p class="vpafter">' + esc(done ? poll.after : "Tap one. Results the moment you do.") + '</p>' +
+      '</div>';
+  }
+
+  /* ---- the lead story, headline on the picture ---- */
+
+  function storyCard(hero) {
+    return '<section class="story">' +
+      '<div class="stphoto">' + photoSVG(hero.photo, "wide", "story " + hero.head) +
+      '<span class="stveil"></span>' +
+      '<span class="stkick">' + esc(hero.kicker) + '</span>' +
+      '<h2 class="sthead">' + esc(hero.head) + '</h2></div>' +
+      '<div class="stbody"><p class="ststand">' + esc(hero.stand) + '</p>' +
       '<div class="engage">' +
       '<span class="eng">' + I.comment + esc(hero.comments) + '</span>' +
       '<span class="eng">' + I.heart + esc(hero.likes) + '</span>' +
-      '<span class="eng">' + I.send + esc(hero.shares) + '</span></div>' +
-      '<div class="hys"><p class="hysq">' + esc(hero.poll.q) + '</p>' +
-      '<div class="hysopts" data-poll="' + hero.poll.id + '">' +
-      hero.poll.opts.map(function (o, k) {
-        return '<button class="hysbtn" type="button" aria-pressed="' + (k === chosen) + '" data-i="' + k + '"' +
-          (done ? " disabled" : "") + '>' + esc(o) + '</button>';
-      }).join("") + '</div>' +
-      (done ? resultRows(hero.poll.opts, hero.poll.split, chosen) : "") +
-      (done ? '<p class="tally">' + esc(hero.poll.after) + '</p>' : "") +
-      '</div></section>';
+      '<span class="eng">' + I.send + esc(hero.shares) + '</span></div></div></section>';
+  }
 
-    /* ---- the live rail: one card per sport ---- */
-    var railOrder = cards.slice().sort(function (a, b) {
-      var rank = { live: 0, soon: 1, done: 2 };
-      if (rank[a.c.status] !== rank[b.c.status]) { return rank[a.c.status] - rank[b.c.status]; }
-      return b.c.sig - a.c.sig;
-    });
+  function homeBody() {
+    var hero = HOMEFEED.hero[lc()] || HOMEFEED.hero.live;
+    var cards = rankedCards();
+    var bySig = cards.slice().sort(function (a, b) { return b.c.sig - a.c.sig; });
+    var out = "";
+
+    /* 1. whatever is worth watching, full bleed */
+    out += takeoverHero();
+
+    /* 2. the way in for anyone who would rather answer than watch */
+    out += '<section class="section pollsec">' +
+      visualPoll(hero.poll, hero.photo, "Have your say") + '</section>';
+
+    /* 3. one card per sport, ranked by the same score */
     out += '<section class="section">' + feedHead("Live on the BBC", "The full live index is not built out in this prototype.") +
-      '<div class="rail liverail">' + railOrder.map(function (x) {
-        var c = x.c, isTop = x === top && c.status === "live";
+      '<div class="rail liverail">' + cards.map(function (x, k) {
+        var c = x.c, isTop = k === 0 && c.status === "live";
         var chip = c.status === "live" ? '<span class="chiplive">LIVE</span>'
           : c.status === "soon" ? '<span class="chipsoon">' + esc(c.when.split(" ·")[0]) + '</span>'
           : '<span class="chipdone">' + esc(c.when.split(" ·")[0]) + '</span>';
         return '<button class="lcard' + (isTop ? " top" : "") + '" type="button" data-open="' + x.i + '">' +
-          '<span class="lphoto">' + photoSVG(x.e.photo, "wide") + chip +
+          '<span class="lphoto">' + photoSVG(x.e.photo, "wide", x.e.sport + " " + x.e.title) + chip +
           (c.badge ? '<span class="lbadge">' + esc(c.badge) + '</span>' : "") + '</span>' +
           '<span class="lsport">' + (I.sport[x.e.sport] || "") + esc(x.e.sport) + '</span>' +
           '<span class="ltitle">' + esc(c.line1) + '</span>' +
@@ -969,47 +1462,53 @@
           '</button>';
       }).join("") + '</div></section>';
 
-    /* ---- following today: the ranked list with the context lines ---- */
+    /* 4. the lead story */
+    out += storyCard(hero);
+
+    /* 5. following today, every card carrying its own picture */
     out += '<section class="section">' + feedHead("Following today", "Your followed events are not built out in this prototype.") +
-      '<div class="cardlist">' + cards.slice().sort(function (a, b) { return b.c.sig - a.c.sig; }).map(function (x) {
+      '<div class="cardlist">' + bySig.map(function (x) {
         var c = x.c;
         return '<button class="ecard" type="button" data-open="' + x.i + '">' +
+          '<span class="ecphoto">' + photoSVG(x.e.photo, "wide", "follow " + x.e.title + c.line2) +
+          (c.status === "live" ? '<span class="ecdot"></span>' : "") + '</span>' +
+          '<span class="ectext">' +
           '<span class="ec-top"><span class="ec-sport">' + (I.sport[x.e.sport] || "") + esc(x.e.sport) + '</span>' +
           '<span class="ec-when' + (c.status === "live" ? " live" : "") + '">' + esc(c.when) + '</span></span>' +
           '<span class="ec-title">' + esc(c.line1) + '</span>' +
-          '<span class="ec-sub">' + esc(c.line2) + '</span>' +
-          '<span class="ec-ctx">' + esc(c.ctx) + '</span>' +
-          '<span class="ec-foot"><span class="ec-go">' + I.chevron + '</span></span></button>';
+          '<span class="ec-ctx">' + esc(c.ctx) + '</span></span></button>';
       }).join("") + '</div></section>';
 
-    /* ---- video rail ---- */
+    /* 6. the drop, one in focus with the rest peeking */
     var v = HOMEFEED.videos;
     out += '<section class="section">' + feedHead(v.title, "The video index is not built out in this prototype.") +
-      '<div class="rail">' + v.deck.map(function (ix) {
+      '<div class="focusrail" data-focusrail>' + v.deck.map(function (ix) {
         var it = DROP[ix];
-        return '<button class="vcard" type="button" data-play="' + ix + '">' +
-          '<span class="vphoto">' + photoSVG(it, "wide") + '<span class="vplay">' + I.playtri + '</span>' +
-          '<span class="vdur">' + I.playsm + esc(it.dur) + '</span></span>' +
-          '<span class="vtitle">' + esc(it.t) + '</span></button>';
+        return '<button class="fcard" type="button" data-play="' + ix + '">' +
+          '<span class="fphoto">' + photoSVG(it, "tall", it.sport + " " + it.t) +
+          '<span class="fscrim"></span>' +
+          '<span class="play">' + I.playtri + '</span>' +
+          '<span class="dur">' + esc(it.dur) + '</span>' +
+          '<span class="fmeta"><span class="fkick">' + esc(it.sport) + '</span>' +
+          '<span class="ftitle">' + esc(it.t) + '</span></span></span></button>';
       }).join("") + '</div></section>';
 
-    /* ---- sport on the BBC ---- */
+    /* 7. sport on the BBC */
     var br = HOMEFEED.bbcrail;
     out += '<section class="section">' + feedHead(br.title, "The BBC Sport index is not built out in this prototype.") +
       '<div class="rail">' + br.items.map(function (it) {
         return '<button class="bcard' + (it.badge ? " live" : "") + '" type="button" data-toast="' + esc(it.title) + ' is not built out in this prototype.">' +
-          '<span class="bphoto">' + photoSVG(it, "wide") +
+          '<span class="bphoto">' + photoSVG(it, "wide", it.title + " " + it.sub) +
           (it.badge ? '<span class="chiplive">' + esc(it.badge) + '</span>' : "") + '</span>' +
           '<span class="btitle">' + esc(it.title) + '</span>' +
           '<span class="bsub">' + esc(it.sub) + '</span></button>';
       }).join("") + '</div></section>';
 
-    /* ---- standings ---- */
+    /* 8. tables */
     var st = HOMEFEED.standings;
     out += '<section class="section">' + feedHead(st.title, "The full table is not built out in this prototype.") +
       table(st.cols, st.rows) + '<p class="note">' + esc(st.note) + '</p></section>';
 
-    /* ---- football competitions ---- */
     var cp = HOMEFEED.comps, tix = S.compTab || 0, ct = cp.tabs[tix];
     out += '<section class="section">' + feedHead(cp.title, "The competition index is not built out in this prototype.") +
       '<div class="comptabs">' + cp.tabs.map(function (t, i) {
@@ -1017,12 +1516,14 @@
           badge(t.colour, t.initials) + esc(t.name) + '</button>';
       }).join("") + '</div>' + table(ct.cols, ct.rows, "Club") + '</section>';
 
-    /* ---- transfer rumours ---- */
+    /* 9. rumours, with a picture each */
     var rm = HOMEFEED.rumours;
     out += '<section class="section">' + feedHead(rm.title, "The rumour index is not built out in this prototype.") +
       '<div class="rail">' + rm.items.map(function (it) {
         return '<button class="rcard" type="button" data-toast="' + esc(it[0]) + '">' +
-          badge(it[2], it[3]) + '<span><span class="rtitle">' + esc(it[0]) + '</span>' +
+          '<span class="rphoto">' + photoSVG({ motif: "pitch", g: ["#123D22", "#071A0E"], sport: "Football" }, "wide", "rumour " + it[0]) +
+          '<span class="rveil"></span>' + badge(it[2], it[3]) + '</span>' +
+          '<span class="rtext"><span class="rtitle">' + esc(it[0]) + '</span>' +
           '<span class="rviews">' + esc(it[1]) + '</span></span></button>';
       }).join("") + '</div></section>';
 
@@ -1064,8 +1565,23 @@
 
     var sb = $("#scrollbody"), vp = $("#viewport");
     if (sb && vp) {
+      /* Hysteresis plus a room check. Collapsing the header shortens the page,
+         which can push scrollTop back under the threshold and start an
+         expand/collapse loop. Two thresholds and a minimum scroll height stop it. */
+      var pending = false;
       sb.addEventListener("scroll", function () {
-        vp.classList.toggle("condensed", sb.scrollTop > 36);
+        if (pending) { return; }
+        pending = true;
+        requestAnimationFrame(function () {
+          pending = false;
+          var on = vp.classList.contains("condensed");
+          var top = sb.scrollTop;
+          if (!on) {
+            if (top > 80 && sb.scrollHeight - sb.clientHeight > 520) { vp.classList.add("condensed"); }
+          } else if (top < 24) {
+            vp.classList.remove("condensed");
+          }
+        });
       }, { passive: true });
     }
 
@@ -1171,15 +1687,29 @@
     if (optaBtn) { optaBtn.onclick = function () { S.optaOpen = !S.optaOpen; rerenderBody(); }; }
 
     $$("[data-focusrail]").forEach(function (rail) {
-      function mark() {
-        var mid = rail.scrollLeft + rail.clientWidth / 2, best = null, bd = 1e9;
-        $$(".fcard", rail).forEach(function (c) {
-          var d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - mid);
-          if (d < bd) { bd = d; best = c; }
-        });
-        $$(".fcard", rail).forEach(function (c) { c.classList.toggle("on", c === best); });
+      var cards = $$(".fcard", rail), centres = [], last = -1, queued = false;
+      function measure() {
+        centres = cards.map(function (c) { return c.offsetLeft + c.offsetWidth / 2; });
       }
-      rail.addEventListener("scroll", mark, { passive: true });
+      function mark() {
+        if (!centres.length) { measure(); }
+        var mid = rail.scrollLeft + rail.clientWidth / 2, best = 0, bd = 1e9;
+        for (var i = 0; i < centres.length; i++) {
+          var d = Math.abs(centres[i] - mid);
+          if (d < bd) { bd = d; best = i; }
+        }
+        if (best === last) { return; }
+        if (last >= 0 && cards[last]) { cards[last].classList.remove("on"); }
+        cards[best].classList.add("on");
+        last = best;
+      }
+      rail.addEventListener("scroll", function () {
+        if (queued) { return; }
+        queued = true;
+        requestAnimationFrame(function () { queued = false; mark(); });
+      }, { passive: true });
+      window.addEventListener("resize", function () { measure(); last = -1; mark(); });
+      measure();
       mark();
     });
 
@@ -1188,6 +1718,18 @@
     });
     var pp = $("[data-playpause]");
     if (pp) { pp.onclick = function () { S.playing = !S.playing; rerenderBody(); }; }
+
+    $$("[data-vpoll]").forEach(function (grp) {
+      var vid = grp.dataset.vpoll;
+      $$(".vpopt", grp).forEach(function (b) {
+        b.onclick = function () {
+          if (S.votes[vid] !== undefined) { return; }
+          S.votes[vid] = Number(b.dataset.i);
+          S.answered += 1;
+          rerenderBody();
+        };
+      });
+    });
 
     $$("[data-poll]").forEach(function (grp) {
       var id = grp.dataset.poll;
@@ -1266,7 +1808,7 @@
     var ix = S.player, it = DROP[ix], n = DROP.length;
     var liked = !!S.liked[ix];
     return '<div class="takeover" id="takeover" role="dialog" aria-label="' + esc(it.t) + '">' +
-      '<div class="tovideo">' + photoSVG(it, "tall") + '<span class="toscrim"></span></div>' +
+      '<div class="tovideo">' + photoSVG(it, "tall", it.sport + " " + it.t) + '<span class="toscrim"></span></div>' +
       '<div class="tonav"><button class="tozone prev" type="button" data-step-clip="-1" aria-label="Previous"></button>' +
       '<button class="tozone next" type="button" data-step-clip="1" aria-label="Next"></button></div>' +
       '<button class="toback" type="button" data-closeplayer aria-label="Close">' + I.back2 + '</button>' +

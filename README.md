@@ -32,7 +32,8 @@ branch*, branch `main`, folder `/ (root)`. The site appears at
 | Lifecycle pills, top of the page | Build-up, Live, Second screen, Full time |
 | Swipe left/right on the phone | Same thing, on a touch device |
 | `←` `→` arrow keys | Same thing, on a desktop. `Esc` returns to Home |
-| Home | Live now, Starting soon and Earlier today, across all four sports |
+| Home | A full-bleed takeover of whatever is most worth watching, a picture-led poll, then one card per sport |
+| The takeover card | Scoreline and three comparisons for the event at the top of the ranking, in every lifecycle state |
 | Tapping a card | Opens that event in the current lifecycle state |
 | Match tabs | Each sport in each state has its own tab set |
 | Hamburger menu | Lifecycle states, the four live events, and the sport list |
@@ -68,6 +69,18 @@ archive inside the live page rather than in a collection nobody visits.
 **Rugby** — Six Nations, Wales v Ireland, Principality Stadium. Law explainers
 for why the whistle went, a live TMO review timer, territory against possession
 and a phase tracker. The strongest public-service case in the set.
+
+## Pictures
+
+There is no licensed photography here, so every picture is drawn rather than
+loaded. `scene()` in `app.js` reads the item it illustrates and builds a
+stadium from it: stands and crowd, floodlights, the playing surface in
+perspective, the markings for that sport and a few figures on it. The seed
+comes from the item's own title, so a card keeps the same picture on every
+visit and no two cards get the same one.
+
+That is a placeholder, not a proposal. Swapping `scene()` for real images is a
+one-line change and nothing else in the app has to move.
 
 ## Files
 

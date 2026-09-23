@@ -54,13 +54,13 @@ const MOMENTS = [
 const DROP = [
   { t: "Root reaches three figures at Lord's", dur: "1:04", sport: "Cricket", chan: "BBC Cricket", handle: "bbccricket",
     cap: "Root's second Ashes hundred at Lord's, and his slowest in eleven years. England still trail by 88.",
-    tags: ["Ashes", "Root"], likes: "4.1k", comments: "612", motif: "crowd", g: ["#1B3A22", "#08170E"] },
+    tags: ["Ashes", "Root"], likes: "4.1k", comments: "612", motif: "oval", g: ["#1B3A22", "#08170E"] },
   { t: "Starc removes Stokes", dur: "0:28", sport: "Cricket", chan: "BBC Cricket", handle: "bbccricket",
     cap: "Loose drive at a wide one and Australia are back in it. Stokes goes for 43.",
-    tags: ["Ashes", "Wickets"], likes: "2.8k", comments: "410", motif: "crowd", g: ["#3A1622", "#170A0F"] },
+    tags: ["Ashes", "Wickets"], likes: "2.8k", comments: "410", motif: "oval", g: ["#3A1622", "#170A0F"] },
   { t: "Day 2 in seven minutes", dur: "7:02", sport: "Cricket", chan: "BBC Cricket", handle: "bbccricket",
     cap: "Labuschagne's 118, Smith's 91 and a final session that swung twice.",
-    tags: ["Ashes", "Highlights"], likes: "9.2k", comments: "1.1k", motif: "crowd", g: ["#1F3A4A", "#0A1319"] },
+    tags: ["Ashes", "Highlights"], likes: "9.2k", comments: "1.1k", motif: "oval", g: ["#1F3A4A", "#0A1319"] },
   { t: "Three break points on Court 2", dur: "1:12", sport: "Tennis", chan: "BBC Wimbledon", handle: "wimbledon",
     cap: "Raducanu wins three straight points on the Vondroušová second serve. The grounds start moving towards Court 2.",
     tags: ["Wimbledon", "Raducanu"], likes: "12k", comments: "2.4k", motif: "court", g: ["#22461F", "#0C1A0B"] },
@@ -69,16 +69,16 @@ const DROP = [
     tags: ["Wimbledon", "Match point"], likes: "18k", comments: "3.1k", motif: "court", g: ["#1D3A1F", "#0B1A0D"] },
   { t: "1977: Wade takes the title", dur: "3:12", sport: "Tennis", chan: "BBC Archive", handle: "bbcarchive",
     cap: "The last British woman to win the singles title, in the Centenary Championships, with the Queen watching.",
-    tags: ["Wimbledon 100", "Archive"], likes: "7.4k", comments: "988", motif: "crowd", g: ["#2A3A22", "#101608"] },
+    tags: ["Wimbledon 100", "Archive"], likes: "7.4k", comments: "988", motif: "crowd", sport: "Tennis", g: ["#2A3A22", "#101608"] },
   { t: "1927: the first commentary", dur: "0:58", sport: "Tennis", chan: "BBC Archive", handle: "bbcarchive",
     cap: "Teddy Wakelam calls the Championships from a hut beside Centre Court. A hundred years ago this week.",
-    tags: ["Wimbledon 100", "Archive"], likes: "5.6k", comments: "744", motif: "crowd", g: ["#3A2A14", "#170F06"] },
+    tags: ["Wimbledon 100", "Archive"], likes: "5.6k", comments: "744", motif: "crowd", sport: "Tennis", g: ["#3A2A14", "#170F06"] },
   { t: "Saka fires England ahead", dur: "0:18", sport: "Football", chan: "BBC Sport", handle: "bbcsport",
     cap: "Cuts inside off the right and bends it beyond Verbruggen. Wembley is up.",
     tags: ["England", "Goals"], likes: "21k", comments: "4.2k", motif: "pitch", g: ["#123D22", "#071A0E"] },
   { t: "Wembley erupts at the opener", dur: "0:15", sport: "Football", chan: "BBC Sport", handle: "bbcsport",
     cap: "Ninety thousand people and not one of them sitting down.",
-    tags: ["England", "Reaction"], likes: "14k", comments: "1.9k", motif: "crowd", g: ["#24384B", "#0B1219"] },
+    tags: ["England", "Reaction"], likes: "14k", comments: "1.9k", motif: "pitch", g: ["#24384B", "#0B1219"] },
   { t: "Kane's finish", dur: "0:24", sport: "Football", chan: "BBC Sport", handle: "bbcsport",
     cap: "Foden cuts it back, Kane does the rest. His 71st for England.",
     tags: ["England", "Goals"], likes: "16k", comments: "2.6k", motif: "pitch", g: ["#1B3A22", "#08170E"] },
@@ -135,6 +135,24 @@ const EVENTS = [
     title: "England v Netherlands",
     venue: "Wembley",
     accent: "#FFD230",
+
+    /* the immersive Home takeover: a scoreline and three comparisons,
+       one set per lifecycle state */
+    takeover: {
+      a: "England", b: "Netherlands", ca: "#C8102E", cb: "#F26D1B",
+      buildup: { line: "19:45", sub: "Wembley · live on BBC One",
+        stats: [["Wins in last 5", 3, 2], ["Goals scored", 11, 9], ["Clean sheets", 2, 1]],
+        cta: "Open the build-up" },
+      live: { line: "1 – 0", sub: "67:57 · Saka 52'",
+        stats: [["Shots", 14, 6], ["Possession %", 58, 42], ["Expected goals", 1.9, 0.7]],
+        cta: "Open the live experience" },
+      companion: { line: "1 – 0", sub: "Paired with BBC One · held back 23s",
+        stats: [["Shots", 14, 6], ["Possession %", 58, 42], ["Expected goals", 1.9, 0.7]],
+        cta: "Follow it on your phone" },
+      fulltime: { line: "2 – 1", sub: "Full time · Saka 52', Kane 79'",
+        stats: [["Shots", 19, 11], ["Possession %", 55, 45], ["Expected goals", 2.4, 1.3]],
+        cta: "Highlights and how your night went" }
+    },
 
     states: {
 
@@ -340,11 +358,27 @@ const EVENTS = [
     id: "cricket",
     audio: { station: "BBC Test Match Special", prog: "England v Australia - 2nd Test" },
     sport: "Cricket",
-    photo: { motif: "crowd", g: ["#1B2E3F", "#0A1219"] },
+    photo: { motif: "oval", sport: "Cricket", g: ["#1B2E3F", "#0A1219"] },
     comp: "The Ashes · 2nd Test · Lord's",
     title: "England v Australia",
     venue: "Lord's",
     accent: "#4ADE80",
+
+    takeover: {
+      a: "England", b: "Australia", ca: "#1A3A6B", cb: "#F1B434",
+      buildup: { line: "148-3", sub: "Day 3 · England trail by 224",
+        stats: [["Runs", 148, 372], ["Overs faced", 51, 118.4], ["Wickets down", 3, 10]],
+        cta: "Open day three" },
+      live: { line: "284-6", sub: "89.2 overs · trail by 88",
+        stats: [["Runs", 284, 372], ["Overs faced", 89.2, 118.4], ["Wickets down", 6, 10]],
+        cta: "Open the live experience" },
+      companion: { line: "284-6", sub: "Following Test Match Special",
+        stats: [["Runs", 284, 372], ["Overs faced", 89.2, 118.4], ["Wickets down", 6, 10]],
+        cta: "Follow along with the radio" },
+      fulltime: { line: "361-8", sub: "Stumps · England trail by 11",
+        stats: [["Runs", 361, 372], ["Overs faced", 114, 118.4], ["Wickets down", 8, 10]],
+        cta: "The day in eleven balls" }
+    },
 
     states: {
 
@@ -589,6 +623,22 @@ const EVENTS = [
     venue: "All England Club",
     accent: "#9ADFA0",
 
+    takeover: {
+      a: "Raducanu", b: "Vondroušová", ca: "#BB1919", cb: "#4FC3C3",
+      buildup: { line: "Day 6", sub: "18 courts in play from 11:00",
+        stats: [["Career meetings won", 3, 1], ["Grass win %", 71, 58], ["Aces last round", 6, 2]],
+        cta: "See what is coming on" },
+      live: { line: "6-4, 4-5", sub: "0-40 · Court 2 · three break points",
+        stats: [["Break points won", 4, 1], ["First serve %", 68, 55], ["Winners", 22, 15]],
+        cta: "Open the live experience" },
+      companion: { line: "6-4, 4-5", sub: "Your telly is on Centre Court",
+        stats: [["Break points won", 4, 1], ["First serve %", 68, 55], ["Winners", 22, 15]],
+        cta: "Watch the better match" },
+      fulltime: { line: "6-4, 7-5", sub: "Raducanu through in straight sets",
+        stats: [["Winners", 31, 22], ["First serve %", 66, 57], ["Break points won", 5, 2]],
+        cta: "How Court 2 was won" }
+    },
+
     states: {
 
       buildup: {
@@ -803,6 +853,22 @@ const EVENTS = [
     title: "Wales v Ireland",
     venue: "Principality Stadium",
     accent: "#7FB2FF",
+
+    takeover: {
+      a: "Wales", b: "Ireland", ca: "#C8102E", cb: "#128D51",
+      buildup: { line: "17:15", sub: "Principality Stadium · roof closed",
+        stats: [["Wins in last 5", 1, 4], ["Points scored", 68, 131], ["Tries", 7, 17]],
+        cta: "Open the build-up" },
+      live: { line: "13 – 16", sub: "64:12 · TMO reviewing a grounding",
+        stats: [["Territory %", 44, 56], ["Possession %", 47, 53], ["Tackles made", 118, 96]],
+        cta: "Open the live experience" },
+      companion: { line: "13 – 16", sub: "Following your telly · held back 18s",
+        stats: [["Territory %", 44, 56], ["Possession %", 47, 53], ["Tackles made", 118, 96]],
+        cta: "See why the whistle went" },
+      fulltime: { line: "16 – 23", sub: "Full time · Ireland take the bonus point",
+        stats: [["Territory %", 42, 58], ["Possession %", 45, 55], ["Tries", 1, 4]],
+        cta: "The four tries and the table" }
+    },
 
     states: {
 
@@ -1088,7 +1154,7 @@ const HOMEFEED = {
       kicker: "Ashes · Day 3",
       head: "England start day three 224 behind at Lord's",
       stand: "Root and Brook resume with seven wickets standing and a forecast that favours the bowlers",
-      photo: { motif: "crowd", g: ["#24384B", "#0B1219"] },
+      photo: { motif: "oval", sport: "Cricket", g: ["#24384B", "#0B1219"] },
       comments: "418", likes: "5k", shares: "204",
       poll: { id: "hero-buildup", q: "Have your say: Can England avoid the follow-on?",
         opts: ["They will", "No chance"], split: [61, 39],
@@ -1118,7 +1184,7 @@ const HOMEFEED = {
       kicker: "The day in one line",
       head: "Root unbeaten on 148, Raducanu through, and Ireland get the bonus point with a minute left",
       stand: "Four sports, four results, and everything you predicted this afternoon settled within the hour",
-      photo: { motif: "crowd", g: ["#2A2438", "#100C18"] },
+      photo: { motif: "crowd", sport: "Cricket", g: ["#2A2438", "#100C18"] },
       comments: "902", likes: "11k", shares: "477",
       poll: { id: "hero-fulltime", q: "Have your say: Performance of the day?",
         opts: ["Root", "Raducanu", "Ireland"], split: [52, 31, 17],
@@ -1162,8 +1228,8 @@ const HOMEFEED = {
   bbcrail: {
     title: "Sport on the BBC",
     items: [
-      { badge: "", title: "Sports Personality", sub: "Voting opens Monday", motif: "crowd", g: ["#2A2438", "#100C18"] },
-      { badge: "LIVE", title: "Test Match Special", sub: "Lord's, day 3 evening", motif: "crowd", g: ["#1B3A22", "#08170E"] },
+      { badge: "", title: "Sports Personality", sub: "Voting opens Monday", motif: "crowd", sport: "Football", g: ["#2A2438", "#100C18"] },
+      { badge: "LIVE", title: "Test Match Special", sub: "Lord's, day 3 evening", motif: "oval", sport: "Cricket", g: ["#1B3A22", "#08170E"] },
       { badge: "LIVE", title: "Boxing", sub: "Thompson v Ramirez", motif: "ring", g: ["#3A1622", "#170A0F"] },
       { badge: "", title: "Match of the Day", sub: "Tonight, 22:30", motif: "pitch", g: ["#123D22", "#071A0E"] }
     ]

@@ -1,11 +1,7 @@
-/* BBC Reith is licensed to the BBC and is not included in this public build.
-   Drop the WOFF2 files into fonts/ and restore the @font-face rules to use it. */
-
 /* ==========================================================================
    BBC Sport — Live Experiences prototype
    Reith Sans, BBC Sport dark app palette
    ========================================================================== */
-
 
 :root {
   --black: #000000;
@@ -35,7 +31,7 @@
   --pitch-line: rgba(255,255,255,.42);
 
   --sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --cond: "Helvetica Neue Condensed", "Arial Narrow", Arial, sans-serif;
+  --cond: "Helvetica Neue", Arial Narrow, Arial, sans-serif;
 
   --gut: 16px;
   --radius: 8px;
@@ -1353,7 +1349,7 @@ input[type="range"]:focus-visible { outline: 2px solid var(--yellow); outline-of
 .sportrow, .paired, .statestrip, .stateline, .listenrow,
 .side .tsub, .srow .sdet, .strap {
   overflow: hidden;
-  transition: max-height var(--hdr), opacity .18s ease,
+  transition: max-height var(--hdr), opacity .12s ease,
               padding var(--hdr), margin var(--hdr), border-width var(--hdr);
   max-height: 200px;
 }
@@ -1368,7 +1364,7 @@ input[type="range"]:focus-visible { outline: 2px solid var(--yellow); outline-of
 .viewport.condensed .side .tsub,
 .viewport.condensed .srow .sdet,
 .viewport.condensed .strap {
-  max-height: 0; opacity: 0;
+  max-height: 0; opacity: 0; pointer-events: none;
   padding-top: 0; padding-bottom: 0; margin-top: 0; margin-bottom: 0;
 }
 .viewport.condensed .paired {
@@ -1406,6 +1402,10 @@ input[type="range"]:focus-visible { outline: 2px solid var(--yellow); outline-of
   overflow-x: auto; scroll-snap-type: x mandatory;
   scrollbar-width: none; padding: 2px 0 14px;
   margin: 0 calc(var(--gut) * -1);
+  /* keep a sideways swipe sideways: no scroll chaining into the page */
+  touch-action: pan-x;
+  overscroll-behavior-x: contain;
+  overscroll-behavior-y: none;
 }
 .focusrail::-webkit-scrollbar { display: none; }
 .focusrail::before, .focusrail::after { content: ""; flex: 0 0 10%; }
@@ -1451,4 +1451,282 @@ input[type="range"]:focus-visible { outline: 2px solid var(--yellow); outline-of
 
 @media (prefers-reduced-motion: reduce) {
   .fphoto, .fcard .play { transition: none; }
+}
+
+/* ==========================================================================
+   Home — the immersive live takeover
+   ==========================================================================
+   Whatever is most worth watching runs full bleed at the top of Home, with
+   the state of it and one way in floated over the picture.
+   ========================================================================== */
+
+.takeover {
+  position: relative;
+  aspect-ratio: 9 / 13;
+  max-height: 62vh;
+  min-height: 420px;
+  overflow: hidden;
+  background: #000;
+  display: flex; flex-direction: column;
+  isolation: isolate;
+}
+
+.tostill { position: absolute; inset: 0; overflow: hidden; }
+.tokb {
+  position: absolute; inset: -3%;
+  animation: tokb 26s ease-in-out infinite alternate;
+  will-change: transform;
+}
+.tokb .photo { width: 100%; height: 100%; display: block; object-fit: cover; }
+@keyframes tokb {
+  from { transform: scale(1) translate3d(-0.8%, 0.5%, 0); }
+  to   { transform: scale(1.07) translate3d(1.2%, -1%, 0); }
+}
+
+.toveil {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(to bottom, rgba(0,0,0,.72) 0%, rgba(0,0,0,.12) 24%, rgba(0,0,0,.05) 44%,
+      rgba(0,0,0,.62) 72%, rgba(0,0,0,.94) 100%);
+}
+/* a slow sheen, so the frame reads as moving picture rather than a still */
+.tosweep {
+  position: absolute; inset: -40% -60%;
+  background: linear-gradient(105deg, transparent 38%, rgba(255,255,255,.055) 50%, transparent 62%);
+  animation: tosweep 9s linear infinite;
+  pointer-events: none;
+}
+@keyframes tosweep {
+  from { transform: translate3d(-36%, 0, 0); }
+  to   { transform: translate3d(36%, 0, 0); }
+}
+
+.totop {
+  position: relative; z-index: 2;
+  display: flex; align-items: center; gap: 9px;
+  padding: 12px var(--gut) 0;
+}
+.tospacer { flex: 1; }
+.tochip {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 10.5px; font-weight: 700; letter-spacing: .1em;
+  background: rgba(0,0,0,.55); border: 1px solid rgba(255,255,255,.22);
+  color: #fff; padding: 5px 9px; border-radius: 3px;
+  backdrop-filter: blur(6px);
+}
+.tochip i { width: 6px; height: 6px; border-radius: 50%; background: var(--text-2); }
+.tochip.on { background: var(--live); border-color: transparent; }
+.tochip.on i { background: #fff; animation: tobeat 1.6s ease-in-out infinite; }
+@keyframes tobeat { 0%,100% { opacity: 1; } 50% { opacity: .25; } }
+
+.towatch {
+  font-size: 11.5px; color: #fff; font-weight: 500;
+  text-shadow: 0 1px 6px rgba(0,0,0,.8);
+  font-variant-numeric: tabular-nums;
+}
+.toic {
+  width: 32px; height: 32px; display: grid; place-items: center;
+  border-radius: 50%; border: 1px solid rgba(255,255,255,.2);
+  background: rgba(0,0,0,.45); color: #fff; backdrop-filter: blur(6px);
+}
+.toic svg path { stroke: #fff; fill: none; }
+.toic:first-of-type svg path:first-child { fill: #fff; stroke: none; }
+
+/* the floating card */
+.tocard {
+  position: relative; z-index: 2; margin-top: auto;
+  margin: auto var(--gut) 16px;
+  background: rgba(14,14,14,.66);
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 14px;
+  padding: 14px 15px 13px;
+  backdrop-filter: blur(16px) saturate(1.2);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  box-shadow: 0 24px 60px -28px rgba(0,0,0,.95);
+}
+.tokick {
+  display: flex; align-items: center; gap: 7px; margin: 0 0 9px;
+  font-size: 10.5px; font-weight: 700; letter-spacing: .09em;
+  text-transform: uppercase; color: var(--text-2);
+}
+.tokick svg { width: 14px; height: 14px; }
+
+.tonames {
+  display: grid; grid-template-columns: 1fr auto 1fr; gap: 10px;
+  align-items: center; margin-bottom: 4px;
+}
+.tos {
+  display: flex; align-items: center; gap: 7px;
+  font-size: 13.5px; font-weight: 700; line-height: 1.2;
+}
+.tos.r { justify-content: flex-end; text-align: right; }
+.tos i { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+.toline {
+  font-size: 23px; font-weight: 800; letter-spacing: -.01em;
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.tosub {
+  margin: 0 0 12px; text-align: center;
+  font-size: 11.5px; color: var(--text-2); font-variant-numeric: tabular-nums;
+}
+
+.tostats { display: grid; gap: 7px; margin-bottom: 13px; }
+.tostat {
+  display: grid; grid-template-columns: 30px 1fr auto 1fr 30px;
+  align-items: center; gap: 8px;
+}
+.tonum {
+  font-size: 12.5px; font-weight: 700; font-variant-numeric: tabular-nums;
+}
+.tonum.r { text-align: right; }
+.tolab {
+  font-size: 10.5px; color: var(--muted); white-space: nowrap;
+  letter-spacing: .02em;
+}
+.tobar { height: 5px; border-radius: 3px; background: rgba(255,255,255,.12); display: flex; overflow: hidden; }
+.tobar.a { justify-content: flex-end; }
+.tobar i {
+  display: block; height: 100%; border-radius: 3px;
+  transform-origin: left center;
+  animation: tobar .75s cubic-bezier(.2,.7,.3,1) both;
+}
+.tobar.a i { transform-origin: right center; }
+@keyframes tobar { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+.tocta {
+  width: 100%; display: flex; align-items: center; justify-content: space-between;
+  gap: 10px; background: var(--yellow); color: #000;
+  border-radius: 8px; padding: 12px 12px 12px 14px;
+  font-size: 14.5px; font-weight: 700;
+}
+.tocta svg path { stroke: #000; }
+.tocta:hover { background: #FFDD5C; }
+.tocta:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+
+/* ==========================================================================
+   Home — participation, led by the picture
+   ========================================================================== */
+
+.pollsec { padding-top: 18px; }
+
+.vpoll { display: grid; gap: 0; }
+.vpkick {
+  font-size: 10.5px; font-weight: 700; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--yellow);
+}
+.vpq {
+  margin: 7px 0 13px; font-size: 19px; font-weight: 700;
+  line-height: 1.25; letter-spacing: -.01em;
+}
+.vpopts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.vpopts.three { grid-template-columns: repeat(3, 1fr); }
+
+.vpopt {
+  position: relative; overflow: hidden; isolation: isolate;
+  border-radius: 10px; border: 1px solid var(--line);
+  background: var(--card); padding: 0; text-align: left;
+  transition: border-color .15s, transform .15s;
+}
+.vpopt:hover:not(.done) { border-color: #5A5A5A; transform: translateY(-2px); }
+.vpopt:focus-visible { outline: 2px solid var(--yellow); outline-offset: 2px; }
+.vpimg { position: relative; display: block; aspect-ratio: 16 / 10; overflow: hidden; }
+.vpimg .photo { width: 100%; height: 100%; display: block; }
+.vpveil {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,.15), rgba(0,0,0,.72));
+}
+.vptick {
+  position: absolute; top: 8px; right: 8px; width: 24px; height: 24px;
+  display: grid; place-items: center; border-radius: 50%;
+  background: var(--yellow);
+}
+.vptick svg path { stroke: #000; }
+.vpfill {
+  position: absolute; left: 0; top: 0; bottom: 0;
+  background: rgba(255,210,48,.16); border-right: 2px solid rgba(255,210,48,.6);
+  transition: width .8s cubic-bezier(.2,.7,.3,1); z-index: 0;
+}
+.vpopt.mine .vpfill { background: rgba(255,210,48,.24); }
+.vprow {
+  position: relative; z-index: 1; overflow: hidden;
+  display: flex; align-items: baseline; justify-content: space-between; gap: 8px;
+  padding: 11px 12px 12px;
+}
+.vplab, .vppct { position: relative; z-index: 1; }
+.vplab { font-size: 14px; font-weight: 700; line-height: 1.25; }
+.vppct {
+  font-size: 15px; font-weight: 800; color: var(--yellow);
+  font-variant-numeric: tabular-nums;
+}
+.vpopt.mine { border-color: var(--yellow); }
+.vpafter { margin: 11px 0 0; font-size: 12.5px; color: var(--muted); line-height: 1.45; }
+
+/* ==========================================================================
+   Home — the lead story, headline on the picture
+   ========================================================================== */
+
+.story { border-bottom: 1px solid var(--line-soft); }
+.stphoto { position: relative; display: block; aspect-ratio: 16 / 11; overflow: hidden; }
+.stphoto .photo { width: 100%; height: 100%; display: block; }
+.stveil {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,.34) 0%, rgba(0,0,0,.05) 34%, rgba(0,0,0,.86) 100%);
+}
+.stkick {
+  position: absolute; top: 12px; left: var(--gut);
+  font-size: 10.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--yellow); text-shadow: 0 1px 8px rgba(0,0,0,.9);
+}
+.sthead {
+  position: absolute; left: var(--gut); right: var(--gut); bottom: 13px;
+  margin: 0; font-size: 25px; font-weight: 800; line-height: 1.12; letter-spacing: -.02em;
+  text-shadow: 0 2px 18px rgba(0,0,0,.8);
+}
+.stbody { padding: 13px var(--gut) 18px; }
+.ststand { margin: 0 0 12px; font-size: 15px; line-height: 1.45; color: var(--text-2); }
+
+/* ==========================================================================
+   Home — cards carry their own picture
+   ========================================================================== */
+
+.ecard {
+  grid-template-columns: 108px 1fr; align-items: stretch; gap: 12px;
+  padding: 10px;
+}
+.ecphoto {
+  position: relative; display: block; border-radius: 6px; overflow: hidden;
+  aspect-ratio: 4 / 3; background: #111;
+}
+.ecphoto .photo { width: 100%; height: 100%; display: block; }
+.ecdot {
+  position: absolute; top: 7px; left: 7px; width: 8px; height: 8px; border-radius: 50%;
+  background: var(--live); box-shadow: 0 0 0 2px rgba(0,0,0,.55);
+  animation: tobeat 1.6s ease-in-out infinite;
+}
+.ectext { display: grid; gap: 5px; align-content: center; min-width: 0; }
+.ectext .ec-title { font-size: 15.5px; }
+.ectext .ec-ctx {
+  font-size: 12.5px; margin-top: 0;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+
+.rcard { grid-template-columns: 76px 1fr; padding: 10px; align-items: center; }
+.rphoto {
+  position: relative; display: block; border-radius: 6px; overflow: hidden;
+  aspect-ratio: 1 / 1; background: #111;
+}
+.rphoto .photo { width: 100%; height: 100%; display: block; }
+.rveil { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.6), rgba(0,0,0,.05)); }
+.rphoto .tbadge {
+  position: absolute; left: 6px; bottom: 6px; width: 22px; height: 22px; font-size: 9px;
+}
+.rtext { display: grid; min-width: 0; }
+.rail .rcard { grid-auto-columns: 256px; }
+
+/* sideways rails stay sideways */
+.rail, .comptabs, .pgrid { touch-action: pan-x; overscroll-behavior-x: contain; }
+
+@media (prefers-reduced-motion: reduce) {
+  .tokb, .tosweep, .tochip.on i, .ecdot { animation: none; }
+  .tobar i, .vpfill { transition: none; animation: none; }
 }
