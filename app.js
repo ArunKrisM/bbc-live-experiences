@@ -2828,7 +2828,7 @@
   function vidStart(o) {
     var prev = S.vid && S.vid.kind === "live" ? S.vid : null;
     S.vid = { id: o.id || null, kind: o.kind || "live", mode: o.mode || "full", play: true, t: 0, cc: S.vid ? S.vid.cc : false,
-      aud: S.vid ? S.vid.aud : "bbc", stats: S.vid ? S.vid.stats : false, title: o.title || null, img: o.img || null, dur: o.dur || 0, ix: 0, archive: !!o.archive,
+      aud: S.vid ? S.vid.aud : (S.webAud || "bbc"), stats: S.vid ? S.vid.stats : false, title: o.title || null, img: o.img || null, dur: o.dur || 0, ix: 0, archive: !!o.archive,
       back: o.kind && o.kind !== "live" ? prev : null, line: 0 };
     stopDock();
   }
@@ -2874,7 +2874,7 @@
 
   function voiceList(e) { return (e && VOICES[e.id]) || []; }
   function voiceOf(e) {
-    var list = voiceList(e), id = S.vid ? S.vid.aud : "bbc";
+    var list = voiceList(e), id = S.vid ? S.vid.aud : (S.webAud || "bbc");
     return list.filter(function (x) { return x[0] === id; })[0] || list[0];
   }
   function voiceAv(vo, cls) {
@@ -3048,6 +3048,10 @@
     $$("[data-voice]", root).forEach(function (b) {
       b.onclick = function () {
         var e = evById(b.dataset.ev), vo = voiceList(e).filter(function (x) { return x[0] === b.dataset.voice; })[0];
+        if (S.surface === "web" && !(S.vid && S.vid.mode === "fs")) {
+          S.webAud = b.dataset.voice; S.sheet = null; S.webPlay = true; render();
+          toast("Now listening to " + vo[2] + ". The picture carries on where it was."); return;
+        }
         if (!S.vid || S.vid.id !== e.id) { watchEvent(evIxById(e.id), "live"); }
         S.vid.aud = b.dataset.voice; S.vid.fsVoices = false; S.sheet = null;
         if (S.vid.mode === "fs") { refreshOverlays(); } else { refreshVid(); refreshOverlays(); }
@@ -3606,6 +3610,7 @@
           '<span class="wltext">' + liveChip(c.status, true) +
           '<b>' + esc(c.line1) + '</b><span>' + esc(c.line2) + '</span>' +
           (wt && c.status === "live" ? '<small>' + esc(wt) + ' watching</small>' : '<small>' + esc(c.when) + '</small>') +
+          (c.status === "soon" ? remindChip(x.e, "") : "") +
           '</span></button>';
       }).join("") + '</aside></section>';
 
@@ -3627,7 +3632,8 @@
         return '<button class="wcard" type="button" data-open="' + x.i + '">' +
           '<span class="wcimg">' + photoSVG(x.e.photo, "wide", "follow " + x.e.title + c.line2) + liveChip(c.status, true) + '</span>' +
           '<span class="wcsport">' + esc(x.e.sport) + ' · ' + esc(c.when) + '</span>' +
-          '<b>' + esc(c.line1) + '</b><span class="wcctx">' + esc(c.ctx) + '</span></button>';
+          '<b>' + esc(c.line1) + '</b><span class="wcctx">' + esc(c.ctx) + '</span>' +
+          (c.status === "soon" ? '<span class="ec-foot">' + remindChip(x.e, "") + '</span>' : "") + '</button>';
       }).join("") + '</div></section>';
 
     var v = HOMEFEED.videos;
@@ -3680,6 +3686,7 @@
       (isLive ? '<div class="wplayer' + (S.webPlay ? " on" : "") + '">' + (T.img ? imgTag(T.img, TK.a + " v " + TK.b, "wide") : photoSVG(e.photo, "wide", e.title)) +
         '<span class="wpveil"></span><span class="wpchip">' + liveChip("live") + '<span>' + esc(chanFor(e)) + '</span></span>' +
         (S.webPlay ? '<span class="wpnow">' + I.pause + '</span>' : '<button class="wpplay" type="button" data-webplay aria-label="Play">' + I.playtri + '</button>') +
+        '<span class="wpvoice">' + voiceChip(e, false) + '</span>' +
         '<button class="wpfs" type="button" data-watch="' + S.eventIx + '" data-fs="1" aria-label="Full screen">' + I.expand + '</button>' +
         '</div>' : "") +
       summaryBox() + renderSections(curTab().sections.filter(function (x) {
@@ -3726,7 +3733,7 @@
 
   function tvs() {
     if (!S.tv) {
-      S.tv = { screen: "home", f: [0, 0], overlay: null, stats: false, audio: "tv", subs: false,
+      S.tv = { screen: "home", f: [0, 0], overlay: null, stats: false, audio: "bbc", subs: false,
         ev: null, mode: "live", rix: 0, rel: 0, rplay: true, rmode: "watch",
         mt: 0, mi: -1, toast: null, toastT: 0, phoneT: 0, paired: false, remind: {}, bump: 0, focus: false };
     }
@@ -3866,8 +3873,10 @@
       '<span>' + (audioLed ? "Test Match Special" : cc ? "BBC One" : esc(chanFor(e))) + '</span><span class="tvdim">' + (cc ? "Centre Court" : e.id === "tennis" ? "Court 2 · Raducanu v Vondroušová" : esc(e.title)) + '</span></p>' +
       (w && !hl ? '<p class="tvwatch">' + I.stack + '<b>' + esc(w) + '</b>&nbsp;watching with you</p>' : "") + '</div>';
 
-    if (t.audio !== "tv" && !audioLed) {
-      out += '<p class="tvaudiochip">' + I.speaker + (t.audio === "radio" ? radioName(e) + " commentary" : t.audio === "crowd" ? "Crowd only" : "Audio described") + '</p>';
+    var tvo = voiceList(e).filter(function (x) { return x[0] === t.audio; })[0] || voiceList(e)[0];
+    if (tvo && (t.audio !== "bbc" || audioLed)) {
+      out += '<p class="tvaudiochip">' + (tvo[5] ? '<span class="vav" style="background:' + tvo[6] + '">' + esc(tvo[5]) + '</span>' : I.speaker) +
+        esc(tvo[4] === "Watch with" || tvo[4] === "Listen with" ? tvo[4] + " " + tvo[2].replace(/ watchalong$/, "") : tvo[2]) + '</p>';
     }
 
     /* cricket has radio rights and no pictures here: the telly becomes a
@@ -3928,21 +3937,44 @@
         (hl ? "" : '<span class="tvbarlive">' + (t.mode === "start" ? "67 min behind" : "LIVE") + '</span>') + '</div>' +
         '<div class="tvbtns">' +
         (t.mode === "start" ? tvBtn(0, 0, "golive", "Jump to live", "pri") : "") +
-        tvBtn(0, 1, "ov:audio", I.speaker + "Audio") +
+        tvBtn(0, 1, "ov:audio", I.speaker + "Commentary") +
         tvBtn(0, 2, "subs", "Subtitles " + (t.subs ? "on" : "off")) +
         (hl ? "" : tvBtn(0, 3, "stats", "Stats " + (t.stats ? "on" : "off"))) +
         (RECAPS[e.id] ? tvBtn(0, 4, "catchup:" + t.ev, "Catch up") : "") +
-        tvBtn(0, 5, "ov:others", "Other matches") +
-        tvBtn(0, 6, "ov:phone", "Play along on phone") +
+        (PUNDITS[e.id] ? tvBtn(0, 5, "ov:experts", "The experts") : "") +
+        tvBtn(0, 7, "ov:others", "Other matches") +
+        tvBtn(0, 8, "ov:phone", "Play along on phone") +
         '</div></div>';
     }
 
     if (t.overlay === "audio") {
-      out += '<div class="tvsheet"><p class="tvcatchkick">Listen to</p>' + AUDIO_OPTS.map(function (o, k) {
-        var label = o[0] === "radio" ? radioName(e) : o[1];
-        return '<button class="tvopt' + (t.audio === o[0] ? " sel" : "") + '" type="button" data-tvf="' + k + ',0" data-tvact="audio:' + o[0] + '">' +
-          '<b>' + esc(label) + '</b><span>' + esc(o[2]) + '</span>' + (t.audio === o[0] ? '<i>' + I.tickplain + '</i>' : "") + '</button>';
+      var lastG = "";
+      out += '<div class="tvsheet"><p class="tvcatchkick">Listen to</p>' + voiceList(e).map(function (o, k) {
+        var head = o[4] !== lastG ? '<p class="tvgroup">' + esc(o[4]) + '</p>' : "";
+        lastG = o[4];
+        return head + '<button class="tvopt' + (t.audio === o[0] ? " sel" : "") + (o[5] ? " withav" : "") + '" type="button" data-tvf="' + k + ',0" data-tvact="audio:' + o[0] + '">' +
+          (o[5] ? '<span class="vav lg" style="background:' + o[6] + '">' + esc(o[5]) + '</span>' : "") +
+          '<b>' + esc(o[2]) + '</b><span>' + esc(o[3]) + '</span>' + (t.audio === o[0] ? '<i>' + I.tickplain + '</i>' : "") + '</button>';
       }).join("") + '</div>';
+    }
+
+    /* the experts, the ten-foot way: watch with one of them, or hear an
+       answer that went out on air. Asking a question is for the phone */
+    if (t.overlay === "experts" && PUNDITS[e.id]) {
+      var PD = PUNDITS[e.id], row = 0;
+      out += '<div class="tvsheet"><p class="tvcatchkick">The experts</p>' +
+        PD.hosts.map(function (h) {
+          var r = row++;
+          return '<button class="tvopt withav" type="button" data-tvf="' + r + ',0" data-tvact="' + (h[5] ? "audio:" + h[5] : "ov:phone") + '">' +
+            '<span class="vav lg" style="background:' + h[4] + '">' + esc(h[0]) + '</span><b>' + esc(h[1]) + '</b>' +
+            '<span>' + esc(h[2]) + ' · ' + esc(h[3]) + '</span><em class="tvworth dim">' + (h[5] ? "Watch with" : "Ask on your phone") + '</em></button>';
+        }).join("") +
+        '<p class="tvgroup">Answered on air</p>' + PD.answered.map(function (a) {
+          var r = row++;
+          return '<button class="tvopt" type="button" data-tvf="' + r + ',0" data-tvact="answer:' + r + '">' +
+            '<b>' + esc(a[0]) + '</b><span>' + esc(a[1]) + ' · ' + esc(a[2]) + '</span></button>';
+        }).join("") +
+        '<div class="tvask">' + qrSVG() + '<span><b>Ask a question</b>Scan to ask from your phone. The most-voted go to the studio.</span></div></div>';
     }
 
     if (t.overlay === "others") {
@@ -4084,6 +4116,10 @@
     if (k === "golive") { t.mode = "live"; t.overlay = null; renderTV(); return; }
     if (k === "ov") { t.overlay = v; t.f = [0, 0]; renderTV(); return; }
     if (k === "audio") { t.audio = v; t.overlay = "controls"; t.f = [0, 1]; renderTV(); return; }
+    if (k === "answer") {
+      var PDa = PUNDITS[tvEvent().id], ai = Number(v) - PDa.hosts.length, an = PDa.answered[ai];
+      t.overlay = null; t.toast = [an[0], "Answered on air", an[1]]; t.toastT = 7; t.phoneT = 0; renderTV(); return;
+    }
     if (k === "subs") { t.subs = !t.subs; renderTV(); return; }
     if (k === "stats") { t.stats = !t.stats; renderTV(); return; }
     if (k === "switch") { tvGo("player", Number(v)); return; }
