@@ -26,6 +26,7 @@
     refresh: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.3-5.6" stroke="#C4C4C4" stroke-width="1.9" stroke-linecap="round"/><path d="M20 4v4h-4" stroke="#C4C4C4" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     expand: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9V4h5M20 15v5h-5M20 9V4h-5M4 15v5h5" stroke="#C4C4C4" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     playtri: '<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2.5 11 7l-7 4.5z" fill="#fff"/></svg>',
+    phone: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5" stroke="currentColor" stroke-width="1.8"/><path d="M10.5 18.5h3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>',
     qr: '<svg width="24" height="24" viewBox="0 0 22 22" aria-hidden="true"><rect x="1" y="1" width="8" height="8" rx="1.5" fill="none" stroke="#B79CFF" stroke-width="1.7"/><rect x="13" y="1" width="8" height="8" rx="1.5" fill="none" stroke="#B79CFF" stroke-width="1.7"/><rect x="1" y="13" width="8" height="8" rx="1.5" fill="none" stroke="#B79CFF" stroke-width="1.7"/><rect x="14" y="14" width="3" height="3" fill="#B79CFF"/><rect x="18" y="18" width="3" height="3" fill="#B79CFF"/></svg>',
     back2: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 5 8 12l7 7" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     heartbig: '<svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 20.5s-8-5-8-10.1A4.4 4.4 0 0 1 12 7.8a4.4 4.4 0 0 1 8 2.6c0 5.1-8 10.1-8 10.1z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" fill="var(--heartfill, none)"/></svg>',
@@ -1439,6 +1440,8 @@
       out += '<div class="listenrow">' +
         '<button class="listenbtn" type="button" data-listenlive="' + S.eventIx + '">' +
         I.speaker + 'Listen live</button>' +
+        ((lc() === "live" || lc() === "companion") && S.surface !== "together"
+          ? '<button class="listenbtn ontv" type="button" data-tvlaunch="' + S.eventIx + '">' + I.playtri + 'On TV</button>' : "") +
         '<span class="listenmeta"><b>' + esc(e.audio.prog) + '</b><br>' + esc(e.audio.station) + '</span></div>';
     }
 
@@ -1543,7 +1546,7 @@
         return '<button class="vpopt' + (done ? " done" : "") + (done && k === chosen ? " mine" : "") +
           '" type="button" data-i="' + k + '"' + (done ? " disabled" : "") +
           ' aria-pressed="' + (k === chosen) + '">' +
-          '<span class="vpimg">' + photoSVG(photo, "wide", poll.id + "#" + k) + '<span class="vpveil"></span>' +
+          '<span class="vpimg">' + (poll.imgs && poll.imgs[k] ? imgTag(poll.imgs[k], o, "wide") : photoSVG(photo, "wide", poll.id + "#" + k)) + '<span class="vpveil"></span>' +
           (done && k === chosen ? '<span class="vptick">' + I.tick + '</span>' : "") + '</span>' +
           '<span class="vprow"><span class="vpfill" style="width:' + (done ? pct : 0) + '%"></span>' +
           '<span class="vplab">' + esc(o) + '</span>' +
@@ -1681,7 +1684,28 @@
 
   /* ---- shell ---- */
 
+  function frameFor() {
+    var dev = $("#device"), set = $("#tvset"), s = S.surface || "phone";
+    if (dev) {
+      dev.hidden = s === "tv";
+      dev.classList.toggle("browser", s === "web");
+    }
+    if (set) { set.hidden = !(s === "tv" || s === "together"); }
+    document.body.dataset.surface = s;
+  }
+
+  function afterRender() {
+    $$(".lc").forEach(function (b, i) { b.setAttribute("aria-selected", String(i === S.lcIx)); });
+    $$(".swipehint i").forEach(function (d, i) { d.classList.toggle("on", i === S.lcIx); });
+    $("#lcblurb").textContent = LIFECYCLE[S.lcIx].blurb;
+    wire();
+    if (S.player !== null) { mountPlayer(); }
+    if (S.surface === "tv" || S.surface === "together") { renderTV(); }
+  }
+
   function render(dir) {
+    frameFor();
+    if (S.surface === "web") { renderWeb(); afterRender(); return; }
     var app = $("#app"), isHome = S.view === "home" && S.nav === "home";
     var head, body;
 
@@ -1723,14 +1747,16 @@
       }, { passive: true });
     }
 
-    $$(".lc").forEach(function (b, i) { b.setAttribute("aria-selected", String(i === S.lcIx)); });
-    $$(".swipehint i").forEach(function (d, i) { d.classList.toggle("on", i === S.lcIx); });
-    $("#lcblurb").textContent = LIFECYCLE[S.lcIx].blurb;
-    wire();
-    if (S.player !== null) { mountPlayer(); }
+    afterRender();
   }
 
   function rerenderBody() {
+    if (S.surface === "web") {
+      var wsb = $("#scrollbody"), wy = wsb ? wsb.scrollTop : 0;
+      render();
+      if ($("#scrollbody")) { $("#scrollbody").scrollTop = wy; }
+      return;
+    }
     var sb = $("#scrollbody"), pos = sb ? sb.scrollTop : 0;
     var isHome = S.view === "home" && S.nav === "home";
     $("#stage").innerHTML = S.nav !== "home" ? renderSections(NAVSCREENS[S.nav].sections)
@@ -1967,6 +1993,7 @@
   /* one clock for everything that moves on its own */
   function tickMedia() {
     var dt = 0.2;
+    tickTV(dt);
     var id, r, R, el;
     for (id in (S.recap || {})) {
       if (!S.recap.hasOwnProperty(id)) { continue; }
@@ -2260,6 +2287,22 @@
     });
 
     $$("[data-recap]").forEach(wireRecap);
+    $$("[data-tvlaunch]").forEach(function (b) {
+      b.onclick = function () { tvs().ev = Number(b.dataset.tvlaunch); tvs().screen = "home"; setSurface("together"); };
+    });
+    $$("[data-remind]").forEach(function (b) {
+      b.onclick = function () {
+        if (!S.reminders) { S.reminders = {}; }
+        var id = b.dataset.remind;
+        S.reminders[id] = !S.reminders[id];
+        tvs().remind[id] = S.reminders[id];
+        toast(S.reminders[id] ? "Reminder set. Your phone and your TV will both tell you." : "Reminder removed.");
+        rerenderBody();
+      };
+    });
+    $$("[data-webplay]").forEach(function (b) {
+      b.onclick = function () { S.webPlay = true; rerenderBody(); };
+    });
     wireDock();
     $$("[data-listenlive]").forEach(function (b) {
       b.onclick = function () { listenLive(EVENTS[Number(b.dataset.listenlive)] || ev()); };
@@ -2505,6 +2548,723 @@
     el.focus();
   }
 
+  /* ==========================================================================
+     The website
+     ==========================================================================
+     Same events, same panels, laid out for a desk rather than a hand. The
+     phone stacks everything in one column because it has to; the website
+     has room to hold the story, the match and the conversation side by side,
+     so nobody has to choose which one to scroll away from.
+     ========================================================================== */
+
+  var WEBNAV = ["Home", "News", "Sport", "Weather", "iPlayer", "Sounds", "Bitesize"];
+  var WEBSPORT = ["Home", "Football", "Cricket", "Formula 1", "Rugby U", "Tennis", "Golf", "Athletics", "Cycling"];
+
+  function tkFor(e) {
+    var TK = e.takeover || {};
+    return { TK: TK, T: TK[lc()] || { stats: [] } };
+  }
+
+  /* where it is on: cricket is radio only here, and Court 2 is an iPlayer
+     stream while BBC One stays on Centre Court */
+  function chanFor(e) {
+    return e.id === "cricket" ? "Test Match Special" : e.id === "tennis" ? "BBC iPlayer" : "BBC One";
+  }
+
+  function watchingFor(e) {
+    var st = evState(e);
+    /* a count of people watching only means something while it is on */
+    return st.card && st.card.status === "live" ? (st.watching || null) : null;
+  }
+
+  function statBars(TK, T) {
+    return '<div class="tostats">' + (T.stats || []).map(function (r) {
+      var a = Number(r[1]), b = Number(r[2]), tot = (a + b) || 1;
+      return '<div class="tostat">' +
+        '<span class="tonum">' + esc(String(r[1])) + '</span>' +
+        '<span class="tobar a"><i style="width:' + (a / tot * 100).toFixed(1) + '%;background:' + TK.ca + '"></i></span>' +
+        '<span class="tolab">' + esc(r[0]) + '</span>' +
+        '<span class="tobar b"><i style="width:' + (b / tot * 100).toFixed(1) + '%;background:' + TK.cb + '"></i></span>' +
+        '<span class="tonum r">' + esc(String(r[2])) + '</span></div>';
+    }).join("") + '</div>';
+  }
+
+  function liveChip(status, small) {
+    return status === "live" ? '<span class="wlive' + (small ? " sm" : "") + '"><i></i>LIVE</span>'
+      : status === "soon" ? '<span class="wsoon' + (small ? " sm" : "") + '">Coming up</span>'
+      : '<span class="wdone' + (small ? " sm" : "") + '">' + (lc() === "fulltime" ? "Highlights" : "Result") + '</span>';
+  }
+
+  function commentsPanel(id, n) {
+    var list = (COMMENTS[id] || []).slice(0, n || 4);
+    return '<div class="wcom">' +
+      '<div class="wcomin"><span class="meav sm">A</span>' +
+      '<button type="button" class="wcomfake" data-toast="Posting comments is not built out in this prototype.">Add to the conversation</button></div>' +
+      list.map(function (c) {
+        return '<div class="wcomrow"><span class="wcav">' + esc(c[0]) + '</span>' +
+          '<div><p class="wcmeta"><b>' + esc(c[1]) + '</b> · ' + esc(c[2]) + '</p>' +
+          '<p class="wctext">' + esc(c[3]) + '</p>' +
+          '<p class="wcact"><button type="button" data-toast="Likes are not built out in this prototype.">' + I.heart + esc(c[4]) + '</button>' +
+          '<button type="button" data-toast="Replies are not built out in this prototype.">Reply</button></p></div></div>';
+      }).join("") + '</div>';
+  }
+
+  function webMast() {
+    return '<header class="wmast"><div class="wwrap wmastin">' +
+      '<span class="bbcblocks" aria-label="BBC"><i>B</i><i>B</i><i>C</i></span>' +
+      '<nav class="wnav">' + WEBNAV.map(function (n) {
+        return '<a href="#" class="' + (n === "Sport" ? "on" : "") + '" data-toast="' + esc(n) + ' is outside this prototype.">' + esc(n) + '</a>';
+      }).join("") + '</nav>' +
+      '<span class="wfill"></span>' +
+      '<button class="wsearch" type="button" data-toast="Search is a stub in this prototype.">Search BBC</button>' +
+      '<button class="iconbtn menubtn" type="button" id="burger" aria-label="Your account and menu" aria-expanded="false">' +
+      '<span class="meav" aria-hidden="true">A</span>' + I.burger + '</button>' +
+      '</div></header>' +
+      '<div class="wsport"><div class="wwrap wsportin"><button class="wsportmark" type="button" data-gohome>SPORT</button>' +
+      '<nav>' + WEBSPORT.map(function (n) {
+        var on = (n === "Home" && S.view === "home") || (S.view === "event" && ev().sport.indexOf(n.replace(" U", "")) === 0);
+        return '<a href="#" class="' + (on ? "on" : "") + '"' + (n === "Home" ? " data-gohome" : ' data-toast="' + esc(n) + ' is not built out in this prototype."') + '>' + esc(n) + '</a>';
+      }).join("") + '<a href="#" data-toast="The full sport list is not built out in this prototype.">All sport</a></nav></div></div>';
+  }
+
+  function webHome() {
+    var cards = rankedCards(), top = cards[0], e = top.e, tk = tkFor(e), TK = tk.TK, T = tk.T;
+    var hero = HOMEFEED.hero[lc()] || HOMEFEED.hero.live;
+    var isLive = lc() === "live" || lc() === "companion";
+    var out = "";
+
+    /* the lead: whatever is most worth watching, beside everything else live */
+    out += '<section class="wtop"><div class="whero">' +
+      '<div class="wheroimg">' + (T.img ? imgTag(T.img, TK.a + " v " + TK.b, "wide") : photoSVG(e.photo, "wide", e.title)) +
+      '<span class="wheroveil"></span></div>' +
+      '<div class="wherotext">' +
+      '<p class="wkick">' + liveChip(top.c.status) + '<span>' + esc(e.sport) + ' · ' + esc(e.comp) + '</span>' +
+      (watchingFor(e) ? '<span class="wwatch">' + esc(watchingFor(e)) + ' watching</span>' : "") + '</p>' +
+      '<h1 class="wh1">' + esc(TK.a) + ' <span>' + esc(T.line || "v") + '</span> ' + esc(TK.b) + '</h1>' +
+      (T.sub ? '<p class="wsub">' + esc(T.sub) + '</p>' : "") +
+      '<div class="wherostats">' + statBars(TK, T) + '</div>' +
+      '<div class="wbtns">' +
+      '<button class="wbtn pri" type="button" data-open="' + top.i + '">' + esc(T.cta || "Open the live page") + '</button>' +
+      (isLive ? '<button class="wbtn" type="button" data-tvlaunch="' + top.i + '">' + I.playtri + 'Watch on your TV</button>' +
+        '<button class="wbtn" type="button" data-listenlive="' + top.i + '">' + I.speaker + 'Listen live</button>' : "") +
+      (lc() === "buildup" ? '<button class="wbtn" type="button" data-remind="' + e.id + '">' + I.bell + (S.reminders && S.reminders[e.id] ? "Reminder set" : "Remind me") + '</button>' : "") +
+      '</div></div></div>' +
+
+      '<aside class="wlivelist"><h2 class="wh2">' + (isLive ? "Live now" : lc() === "buildup" ? "Today" : "Earlier today") + '</h2>' +
+      cards.map(function (x) {
+        var c = x.c, wt = watchingFor(x.e);
+        return '<button class="wlrow" type="button" data-open="' + x.i + '">' +
+          '<span class="wlimg">' + photoSVG(x.e.photo, "square", x.e.sport + " " + x.e.title) + '</span>' +
+          '<span class="wltext">' + liveChip(c.status, true) +
+          '<b>' + esc(c.line1) + '</b><span>' + esc(c.line2) + '</span>' +
+          (wt && c.status === "live" ? '<small>' + esc(wt) + ' watching</small>' : '<small>' + esc(c.when) + '</small>') +
+          '</span></button>';
+      }).join("") + '</aside></section>';
+
+    /* three things you can do right now, side by side */
+    out += '<section class="wthree">' +
+      '<div class="wpanel">' + visualPoll(hero.poll, hero.photo, "Have your say") + '</div>' +
+      (RECAPS[e.id] && isLive
+        ? '<div class="wpanel"><h2 class="wh2">The story so far <small>' + esc(e.title) + '</small></h2>' + P.recap({ id: e.id }) + '</div>'
+        : '<div class="wpanel wstory">' + '<div class="wstimg">' + photoSVG(hero.photo, "wide", "story " + hero.head) + '</div>' +
+          '<p class="wkick"><span>' + esc(hero.kicker) + '</span></p><h2 class="wh2 big">' + esc(hero.head) + '</h2><p class="wsub">' + esc(hero.stand) + '</p>' +
+          '<button class="stlisten" type="button" data-storylisten>' + I.speaker + 'Listen <small>2 min</small></button></div>') +
+      '<div class="wpanel"><h2 class="wh2">The conversation <small>' + esc(e.title) + '</small></h2>' + commentsPanel(e.id, 3) + '</div>' +
+      '</section>';
+
+    /* the rest of the day, as a grid rather than a scroll */
+    out += '<section class="wsec"><h2 class="wh2">Following today</h2><div class="wgrid4">' +
+      cards.slice().sort(function (a, b) { return b.c.sig - a.c.sig; }).map(function (x) {
+        var c = x.c;
+        return '<button class="wcard" type="button" data-open="' + x.i + '">' +
+          '<span class="wcimg">' + photoSVG(x.e.photo, "wide", "follow " + x.e.title + c.line2) + liveChip(c.status, true) + '</span>' +
+          '<span class="wcsport">' + esc(x.e.sport) + ' · ' + esc(c.when) + '</span>' +
+          '<b>' + esc(c.line1) + '</b><span class="wcctx">' + esc(c.ctx) + '</span></button>';
+      }).join("") + '</div></section>';
+
+    var v = HOMEFEED.videos;
+    out += '<section class="wsec"><h2 class="wh2">' + esc(v.title) + '</h2><div class="wshorts">' +
+      [1, 7, 2, 9, 5, 0].map(function (ix) {
+        var it = DROP[ix];
+        return '<button class="wshort" type="button" data-play="' + ix + '">' +
+          '<span class="wsimg">' + photoSVG(it, "tall", it.sport + " " + it.t) + '<span class="play">' + I.playtri + '</span>' +
+          '<span class="dur">' + esc(it.dur) + '</span></span>' +
+          '<span class="wcsport">' + esc(it.sport) + '</span><b>' + esc(it.t) + '</b></button>';
+      }).join("") + '</div></section>';
+
+    var st = HOMEFEED.standings, cp = HOMEFEED.comps, tix = S.compTab || 0, ct = cp.tabs[tix];
+    out += '<section class="wsec wtables"><div><h2 class="wh2">' + esc(st.title) + '</h2>' + table(st.cols, st.rows) +
+      '<p class="note">' + esc(st.note) + '</p></div>' +
+      '<div><h2 class="wh2">' + esc(cp.title) + '</h2><div class="comptabs">' + cp.tabs.map(function (t, i) {
+        return '<button class="comptab" type="button" data-comp="' + i + '" aria-pressed="' + (i === tix) + '">' + badge(t.colour, t.initials) + esc(t.name) + '</button>';
+      }).join("") + '</div>' + table(ct.cols, ct.rows, "Club") + '</div></section>';
+    return out;
+  }
+
+  function webEvent() {
+    var e = ev(), st = evState(), tk = tkFor(e), TK = tk.TK, T = tk.T;
+    var card = st.card, isLive = lc() === "live" || lc() === "companion";
+    var R = RECAPS[e.id];
+    var out = "";
+
+    out += '<section class="wevhead"><div class="wwrap">' +
+      '<p class="wcrumb"><button type="button" data-gohome>Sport</button> › ' + esc(e.sport) + ' › ' + esc(e.comp) + '</p>' +
+      '<div class="wevrow"><div>' +
+      '<p class="wkick">' + liveChip(card.status) + (watchingFor(e) ? '<span class="wwatch">' + esc(watchingFor(e)) + ' watching</span>' : "") + '</p>' +
+      '<h1 class="wh1">' + esc(TK.a) + ' <span>' + esc(T.line || "v") + '</span> ' + esc(TK.b) + '</h1>' +
+      (T.sub ? '<p class="wsub">' + esc(T.sub) + '</p>' : "") + '</div>' +
+      '<div class="wbtns">' +
+      (isLive ? '<button class="wbtn pri" type="button" data-tvlaunch="' + S.eventIx + '">' + I.playtri + 'Watch on your TV</button>' : "") +
+      '<button class="wbtn" type="button" data-listenlive="' + S.eventIx + '">' + I.speaker + 'Listen live</button>' +
+      (lc() === "buildup" ? '<button class="wbtn" type="button" data-remind="' + e.id + '">' + I.bell + (S.reminders && S.reminders[e.id] ? "Reminder set" : "Remind me") + '</button>' : "") +
+      '<button class="wbtn ghost" type="button" data-toast="Added to My Sport.">' + I.star + 'Follow</button>' +
+      '</div></div>' + tabBar() + '</div></section>';
+
+    /* left: catch up. centre: the match. right: take part. */
+    out += '<div class="wwrap wcols"><aside class="wleft">' +
+      (R && isLive ? '<div class="wpanel"><h2 class="wh2">The story so far</h2>' + P.recap({ id: e.id }) + '</div>' : "") +
+      (R ? '<div class="wpanel"><h2 class="wh2">Key moments</h2><ol class="rcpline">' + R.moments.map(function (x) {
+        return '<li class="k-' + esc(x[4] || "score") + '"><span>' + esc(x[0]) + '</span><b>' + esc(x[1]) + '</b></li>';
+      }).join("") + '</ol></div>' : "") +
+      '</aside>' +
+
+      '<section class="wcentre"><div id="stage">' +
+      (isLive ? '<div class="wplayer' + (S.webPlay ? " on" : "") + '">' + (T.img ? imgTag(T.img, TK.a + " v " + TK.b, "wide") : photoSVG(e.photo, "wide", e.title)) +
+        '<span class="wpveil"></span><span class="wpchip">' + liveChip("live") + '<span>' + esc(chanFor(e)) + '</span></span>' +
+        (S.webPlay ? '<span class="wpnow">' + I.pause + '</span>' : '<button class="wpplay" type="button" data-webplay aria-label="Play">' + I.playtri + '</button>') +
+        '</div>' : "") +
+      summaryBox() + renderSections(curTab().sections.filter(function (x) {
+        return !(x.panels && x.panels.some(function (pn) { return pn.t === "recap"; }));
+      })) + '</div></section>' +
+
+      '<aside class="wright">' +
+      (T.stats && T.stats.length ? '<div class="wpanel"><h2 class="wh2">In numbers</h2>' + statBars(TK, T) + '</div>' : "") +
+      '<div class="wpanel"><h2 class="wh2">The conversation</h2>' + commentsPanel(e.id, 4) + '</div>' +
+      '<div class="wpanel"><h2 class="wh2">Watch</h2><div class="wshorts two">' +
+      DROP.map(function (it, ix) { return { it: it, ix: ix }; }).filter(function (x) { return x.it.sport.indexOf(e.sport.split(" ")[0]) === 0; }).slice(0, 2).map(function (x) {
+        return '<button class="wshort" type="button" data-play="' + x.ix + '"><span class="wsimg">' + photoSVG(x.it, "tall", x.it.sport + " " + x.it.t) +
+          '<span class="play">' + I.playtri + '</span><span class="dur">' + esc(x.it.dur) + '</span></span><b>' + esc(x.it.t) + '</b></button>';
+      }).join("") + '</div></div>' +
+      '</aside></div>';
+    return out;
+  }
+
+  function renderWeb() {
+    var app = $("#app");
+    var url = S.view === "event" ? "bbc.co.uk/sport/" + ev().id + "/live" : "bbc.co.uk/sport";
+    app.innerHTML = '<div class="web" id="viewport">' +
+      '<div class="wbrowser"><span class="wdots"><i></i><i></i><i></i></span><span class="wurl">' + esc(url) + '</span></div>' +
+      '<div class="wscroll" id="scrollbody">' + webMast() +
+      '<main class="wmain">' + (S.view === "event" ? webEvent() : '<div class="wwrap">' + webHome() + '</div>') + '</main>' +
+      '<footer class="wfoot"><div class="wwrap"><span class="bbcblocks"><i>B</i><i>B</i><i>C</i></span>' +
+      '<nav>' + ["Terms of Use", "About the BBC", "Privacy Policy", "Cookies", "Accessibility Help", "Contact the BBC"].map(function (n) {
+        return '<a href="#" data-toast="' + esc(n) + ' is outside this prototype.">' + esc(n) + '</a>';
+      }).join("") + '</nav></div></footer>' +
+      '</div>' + dockHTML() + drawer() + '<div class="toast" id="toast" role="status"></div></div>';
+  }
+
+  /* ==========================================================================
+     iPlayer on the television
+     ==========================================================================
+     Ten feet away, with a remote. The telly is for watching and listening:
+     the picture, a choice of commentary, a way to catch up, a glance at the
+     numbers, and a sense of how many others are with you. Anything that
+     needs typing, voting or scrolling is handed to the phone in the room.
+
+     Drawn at 1280 x 720 and scaled to fit. Arrow keys move, Enter selects,
+     Escape or Backspace goes back, S toggles the stats.
+     ========================================================================== */
+
+  function tvs() {
+    if (!S.tv) {
+      S.tv = { screen: "home", f: [0, 0], overlay: null, stats: false, audio: "tv", subs: false,
+        ev: null, mode: "live", rix: 0, rel: 0, rplay: true, rmode: "watch",
+        mt: 0, mi: -1, toast: null, toastT: 0, phoneT: 0, paired: false, remind: {}, bump: 0, focus: false };
+    }
+    return S.tv;
+  }
+
+  function tvEvent() {
+    var t = tvs();
+    if (t.ev === null) { t.ev = rankedCards()[0].i; }
+    return EVENTS[t.ev];
+  }
+
+  function tvWatching(e) {
+    var w = watchingFor(e);
+    if (!w) { return null; }
+    var base = Number(String(w).replace(/[^0-9]/g, "")) || 0;
+    return (base + tvs().bump).toLocaleString("en-GB");
+  }
+
+  var AUDIO_OPTS = [
+    ["tv", "TV commentary", "The commentary team on the broadcast"],
+    ["radio", "Radio commentary", "Synced to the picture, not twenty seconds ahead of it"],
+    ["crowd", "Crowd only", "No commentary. Just the ground"],
+    ["ad", "Audio described", "Commentary that describes what is on screen"]
+  ];
+
+  function radioName(e) { return e.audio.station.replace("BBC ", ""); }
+
+  function isAudioLed(e) { return e.id === "cricket"; }
+
+  function tvBtn(r, c, act, label, cls) {
+    return '<button class="tvb' + (cls ? " " + cls : "") + '" type="button" data-tvf="' + r + "," + c + '" data-tvact="' + act + '">' + label + '</button>';
+  }
+
+  /* ---- home ---- */
+
+  function tvHome() {
+    var cards = rankedCards(), top = cards[0], e = top.e, tk = tkFor(e), TK = tk.TK, T = tk.T;
+    var L = lc(), isLive = L === "live" || L === "companion", w = tvWatching(e);
+    var out = '<div class="tvhero">' + (T.img ? imgTag(T.img, "", "wide") : photoSVG(e.photo, "wide", e.title)) +
+      '<span class="tvheroveil"></span></div>';
+
+    out += '<div class="tvrailnav"><span class="tvlogo">BBC <b>iPlayer</b></span>' +
+      ['Search', 'Home', 'Channels', 'Categories', 'My programmes'].map(function (n, i) {
+        return '<span class="tvnav' + (i === 1 ? " on" : "") + '">' + n + '</span>';
+      }).join("") + '</div>';
+
+    out += '<div class="tvherotext">' +
+      '<p class="tvkick">' + (isLive ? '<span class="tvlive"><i></i>LIVE</span>' : L === "buildup" ? '<span class="tvsoon">' + esc(top.c.when) + '</span>' : '<span class="tvsoon">Highlights</span>') +
+      '<span>' + esc(chanFor(e)) + '</span>' +
+      (w && isLive ? '<span class="tvwatch">' + I.stack + esc(w) + ' watching</span>' : "") + '</p>' +
+      '<h1>' + esc(TK.a) + ' <span>' + esc(T.line || "v") + '</span> ' + esc(TK.b) + '</h1>' +
+      '<p class="tvsub">' + esc(e.comp) + (T.sub ? " · " + esc(T.sub) : "") + '</p>' +
+      '<div class="tvbtns">' +
+      (isLive
+        ? tvBtn(0, 0, "watch:" + top.i, I.playtri + (isAudioLed(e) ? "Listen live" : "Watch live"), "pri") +
+          (RECAPS[e.id] ? tvBtn(0, 1, "catchup:" + top.i, "Catch up in 60 seconds") : "") +
+          tvBtn(0, 2, "start:" + top.i, "From the start")
+        : L === "buildup"
+          ? tvBtn(0, 0, "remind:" + e.id, I.bell + (tvs().remind[e.id] ? "Reminder set" : "Remind me"), "pri") +
+            tvBtn(0, 1, "watch:" + top.i, I.playtri + "Watch the build-up")
+          : tvBtn(0, 0, "watch:" + top.i, I.playtri + "Highlights", "pri") +
+            (RECAPS[e.id] ? tvBtn(0, 1, "catchup:" + top.i, "The match in 60 seconds") : "") +
+            tvBtn(0, 2, "start:" + top.i, "Full replay")) +
+      '</div></div>';
+
+    out += '<div class="tvrails"><h2>' + (isLive ? "Live now" : L === "buildup" ? "On today" : "Catch up on today") + '</h2><div class="tvrow">' +
+      cards.map(function (x, k) {
+        var c = x.c, xtk = tkFor(x.e), ww = tvWatching(x.e);
+        var img = xtk.T.img || null;
+        return '<button class="tvcard" type="button" data-tvf="1,' + k + '" data-tvact="watch:' + x.i + '">' +
+          '<span class="tvcimg">' + (img ? imgTag(img, "", "wide") : photoSVG(x.e.photo, "wide", x.e.title)) +
+          (c.status === "live" ? '<span class="tvlive sm"><i></i>' + (isAudioLed(x.e) ? "LIVE · RADIO" : "LIVE") + '</span>' : '<span class="tvsoon sm">' + esc(c.when.split(" ·")[0]) + '</span>') +
+          (c.status === "live" ? '<span class="tvprog"><i style="width:' + (40 + k * 12) + '%"></i></span>' : "") + '</span>' +
+          '<b>' + esc(c.line1) + '</b><span>' + esc(c.status === "live" && ww ? ww + " watching" : c.line2) + '</span></button>';
+      }).join("") + '</div>' +
+
+      '<h2>Coming up</h2><div class="tvrow">' + COMINGUP.map(function (u, k) {
+        var on = !!tvs().remind[u.id];
+        return '<button class="tvcard up" type="button" data-tvf="2,' + k + '" data-tvact="remind:' + u.id + '">' +
+          '<span class="tvcimg">' + imgTag(u.img, "", "wide") + '<span class="tvbell' + (on ? " on" : "") + '">' + I.bell + (on ? "Reminder set" : "Remind me") + '</span></span>' +
+          '<b>' + esc(u.t) + '</b><span>' + esc(u.when) + ' · ' + esc(u.ch) + '</span></button>';
+      }).join("") + '</div></div>';
+    return out;
+  }
+
+  /* ---- catch up ---- */
+
+  function tvCatchup() {
+    var t = tvs(), e = tvEvent(), R = RECAPS[e.id], m = R.moments[t.rix];
+    var out = "";
+    if (t.rmode === "watch") {
+      out += '<div class="tvfull">' + (m[3] ? imgTag(m[3], m[1], "wide") : '<span class="tvgfx k-' + esc(m[4]) + '" style="--acc:' + e.accent + '"><b>' + esc(m[0]) + '</b></span>') +
+        '<span class="tvfullveil"></span></div>' +
+        '<div class="tvsegs">' + R.moments.map(function (x, k) {
+          return '<span class="' + (k < t.rix ? "done" : k === t.rix ? "on" : "") + '"><i' +
+            (k === t.rix ? ' style="width:' + Math.min(100, t.rel / 4.5 * 100).toFixed(1) + '%"' : "") + '></i></span>';
+        }).join("") + '</div>' +
+        '<p class="tvcatchkick">The story so far · ' + esc(e.title) + '</p>' +
+        '<div class="tvcatchtext"><span class="tvtime">' + esc(m[0]) + '</span><h1>' + esc(m[1]) + '</h1><p>' + esc(m[2]) + '</p></div>';
+    } else {
+      var dur = secs(R.listen), pos = Math.min(dur, t.rel), k = Math.min(R.moments.length - 1, Math.floor(pos / dur * R.moments.length));
+      out += '<div class="tvfull dim">' + (T_IMG(e) ? imgTag(T_IMG(e), "", "wide") : "") + '<span class="tvfullveil heavy"></span></div>' +
+        '<div class="tvlisten"><p class="tvcatchkick">Listening · ' + esc(R.voice) + '</p>' +
+        '<h1>' + esc(R.moments[k][0] + " · " + R.moments[k][1]) + '</h1>' +
+        '<div class="tvwave">' + waveSVG("rcpwave") + '<span class="rcpwavefill" style="clip-path:inset(0 ' + (100 - pos / dur * 100).toFixed(1) + '% 0 0)">' + waveSVG("rcpwave on") + '</span></div>' +
+        '<p class="tvtimes"><span>' + mmss(Math.floor(pos)) + '</span><span>' + esc(R.listen) + '</span></p>' +
+        '<p class="tvline">' + esc(R.synopsis[Math.min(R.synopsis.length - 1, Math.floor(pos / dur * R.synopsis.length))]) + '</p></div>';
+    }
+    out += '<div class="tvbtns bottom">' +
+      tvBtn(0, 0, "skip", I.playtri + (lc() === "fulltime" ? "Watch the highlights" : "Join live"), "pri") +
+      tvBtn(0, 1, "rmode", t.rmode === "watch" ? I.speaker + "Listen instead" : "Watch instead") +
+      tvBtn(0, 2, "rpause", t.rplay ? "Pause" : "Play") + '</div>';
+    return out;
+  }
+
+  function centreCourt(e) {
+    var t = tvs();
+    return e.id === "tennis" && lc() === "companion" && !t.c2;
+  }
+
+  function T_IMG(e) { var x = tkFor(e); return x.T.img || null; }
+
+  /* ---- the player ---- */
+
+  function tvPlayer() {
+    var t = tvs(), e = tvEvent(), tk = tkFor(e), TK = tk.TK, T = tk.T, L = lc();
+    var hl = L === "fulltime" || t.mode === "highlights", w = tvWatching(e);
+    var audioLed = isAudioLed(e) && !hl;
+    var cc = centreCourt(e);
+    var out = '<div class="tvfull kb' + (audioLed ? " dim" : "") + (cc ? " blur" : "") + '">' + (T.img ? imgTag(T.img, "", "wide") : photoSVG(e.photo, "wide", e.title)) +
+      '<span class="tvfullveil' + (audioLed ? " heavy" : " light") + '"></span></div>';
+
+    /* the top line: what this is, and how many are with you */
+    out += '<div class="tvtop"><p>' +
+      (hl ? '<span class="tvsoon">Highlights</span>' : t.mode === "start" ? '<span class="tvsoon">From the start</span>' : '<span class="tvlive"><i></i>LIVE</span>') +
+      '<span>' + (audioLed ? "Test Match Special" : cc ? "BBC One" : esc(chanFor(e))) + '</span><span class="tvdim">' + (cc ? "Centre Court" : e.id === "tennis" ? "Court 2 · Raducanu v Vondroušová" : esc(e.title)) + '</span></p>' +
+      (w && !hl ? '<p class="tvwatch">' + I.stack + '<b>' + esc(w) + '</b>&nbsp;watching with you</p>' : "") + '</div>';
+
+    if (t.audio !== "tv" && !audioLed) {
+      out += '<p class="tvaudiochip">' + I.speaker + (t.audio === "radio" ? radioName(e) + " commentary" : t.audio === "crowd" ? "Crowd only" : "Audio described") + '</p>';
+    }
+
+    /* cricket has radio rights and no pictures here: the telly becomes a
+       radio with a scoreboard, rather than a black screen */
+    if (audioLed) {
+      out += '<div class="tvradio"><p class="tvcatchkick">' + I.speaker + 'Test Match Special · listening on your TV</p>' +
+        '<div class="tvscore"><div><span>Australia</span><b>372</b></div><div class="on"><span>England</span><b>284-6</b><small>89.2 overs · trail by 88</small></div></div>' +
+        '<p class="tvbatters"><b>Root 121*</b> (238) &nbsp;·&nbsp; Woakes 4* (11) &nbsp;·&nbsp; New ball in 8 overs</p>' +
+        '<div class="tvover">' + ["1", "•", "4", "•", "2", "•"].map(function (b, k) {
+          return '<span class="' + (b === "4" ? "four" : "") + (k === 5 ? " now" : "") + '">' + b + '</span>';
+        }).join("") + '</div>' +
+        '<div class="tvwave live">' + waveSVG("rcpwave on") + '</div></div>';
+    }
+
+    /* the second-screen tennis story: BBC One is on Centre Court, and the
+       Spine says Court 2 is the better match. On the big screen that is a
+       single, dismissable suggestion with one button, not a feed */
+    if (cc) {
+      out += '<div class="tvradio"><p class="tvcatchkick">Centre Court · third set</p>' +
+        '<div class="tvsets"><p class="on"><span>Alcaraz</span><em>7</em><em>6</em><em>2</em><i></i></p><p><span>Musetti</span><em>6</em><em>3</em><em>1</em></p></div>' +
+        '<p class="tvbatters">Alcaraz serving · 30-15 · on serve all set</p></div>' +
+        (t.stay ? "" : '<div class="tvspine"><p class="tvcatchkick">Worth watching now</p>' +
+        '<p class="tvspinet"><b>Court 2</b><i>0.93</i></p>' +
+        '<p class="tvspines">Raducanu has three break points to level the second set against Vondroušová</p>' +
+        '<div class="tvbtns">' + tvBtn(0, 0, "court2", I.playtri + "Switch to Court 2", "pri") + tvBtn(0, 1, "stay", "Stay here") + '</div></div>');
+    }
+
+    /* a moment, as a lower third, then the hand-off to the phone */
+    if (t.toast) {
+      out += '<div class="tvl3"><span class="tvl3k">' + esc(t.toast[0]) + '</span><div><b>' + esc(t.toast[1]) + '</b><span>' + esc(t.toast[2]) + '</span></div></div>';
+    }
+    if (t.phoneT > 0 && !t.overlay) {
+      out += '<div class="tvphone' + (t.paired ? " paired" : "") + '">' + (t.paired ? '<span class="tvphicon">' + I.phone + '</span>' : qrSVG()) + '<div><b>' + (t.paired ? "On your phone now" : "Play along on your phone") + '</b>' +
+        '<span>' + (e.id === "tennis" ? "Call the next game" : e.id === "rugby" ? "Was it a try?" : e.id === "cricket" ? "Predict the next wicket" : "Rate the players") +
+        ' · 3,109 playing along</span></div></div>';
+    }
+
+    if (t.stats && !hl && !cc) {
+      out += '<aside class="tvstats"><p class="tvcatchkick">In numbers</p>' +
+        '<p class="tvsline"><b>' + esc(TK.a) + '</b><span>' + esc(T.line || "") + '</span><b>' + esc(TK.b) + '</b></p>' +
+        statBars(TK, T) +
+        (e.id === "tennis" ? '<p class="tvcatchkick" style="margin-top:18px">Worth watching now</p>' +
+          '<ol class="tvcourts"><li class="on"><b>Court 2</b>Raducanu v Vondroušová<i>0.93</i></li><li><b>Court 18</b>Boulter v Kalinskaya<i>0.71</i></li><li><b>No.1</b>Sinner v Fils<i>0.66</i></li></ol>' : "") +
+        '</aside>';
+    }
+
+    if (!t.overlay) {
+      out += '<p class="tvhint">OK for options</p>';
+    }
+
+    if (t.overlay === "controls") {
+      var R = RECAPS[e.id];
+      out += '<div class="tvctrl">' +
+        '<div class="tvbar"><span class="tvbarfill" style="width:' + (hl ? 38 : t.mode === "start" ? 6 : 100) + '%"></span>' +
+        (R ? R.moments.map(function (x, k) {
+          return '<span class="tvmark k-' + esc(x[4]) + '" style="left:' + ((k + 1) / (R.moments.length + 1) * 100).toFixed(1) + '%"><em>' + esc(x[0] + " " + x[1]) + '</em></span>';
+        }).join("") : "") +
+        (hl ? "" : '<span class="tvbarlive">' + (t.mode === "start" ? "67 min behind" : "LIVE") + '</span>') + '</div>' +
+        '<div class="tvbtns">' +
+        (t.mode === "start" ? tvBtn(0, 0, "golive", "Jump to live", "pri") : "") +
+        tvBtn(0, 1, "ov:audio", I.speaker + "Audio") +
+        tvBtn(0, 2, "subs", "Subtitles " + (t.subs ? "on" : "off")) +
+        (hl ? "" : tvBtn(0, 3, "stats", "Stats " + (t.stats ? "on" : "off"))) +
+        (RECAPS[e.id] ? tvBtn(0, 4, "catchup:" + t.ev, "Catch up") : "") +
+        tvBtn(0, 5, "ov:others", "Other matches") +
+        tvBtn(0, 6, "ov:phone", "Play along on phone") +
+        '</div></div>';
+    }
+
+    if (t.overlay === "audio") {
+      out += '<div class="tvsheet"><p class="tvcatchkick">Listen to</p>' + AUDIO_OPTS.map(function (o, k) {
+        var label = o[0] === "radio" ? radioName(e) : o[1];
+        return '<button class="tvopt' + (t.audio === o[0] ? " sel" : "") + '" type="button" data-tvf="' + k + ',0" data-tvact="audio:' + o[0] + '">' +
+          '<b>' + esc(label) + '</b><span>' + esc(o[2]) + '</span>' + (t.audio === o[0] ? '<i>' + I.tickplain + '</i>' : "") + '</button>';
+      }).join("") + '</div>';
+    }
+
+    if (t.overlay === "others") {
+      out += '<div class="tvsheet"><p class="tvcatchkick">Also live</p>' + rankedCards().map(function (x, k) {
+        var ww = tvWatching(x.e);
+        return '<button class="tvopt' + (x.i === t.ev ? " sel" : "") + '" type="button" data-tvf="' + k + ',0" data-tvact="switch:' + x.i + '">' +
+          '<b>' + esc(x.c.line1) + '</b><span>' + esc(x.e.comp) + (ww ? " · " + esc(ww) + " watching" : "") + '</span>' +
+          (k === 0 ? '<em class="tvworth">Worth watching</em>' : "") + '</button>';
+      }).join("") + '</div>';
+    }
+
+    if (t.overlay === "phone") {
+      out += '<div class="tvsheet wide"><div class="tvpair">' + qrSVG(true) + '<div>' +
+        '<p class="tvcatchkick">Scan with your phone camera</p>' +
+        '<h1>Play along without covering the match</h1>' +
+        '<ul><li>Predictions and polls, settled as it happens</li><li>Player ratings and the full stats</li><li>The conversation, and your mates\' calls</li></ul>' +
+        '<p class="tvline">Your phone follows this TV, held back to match the picture.</p>' +
+        '<div class="tvbtns">' + tvBtn(0, 0, "pair", t.paired ? "Paired" : "I've scanned it", "pri") + '</div></div></div></div>';
+    }
+    return out;
+  }
+
+  function qrSVG(big) {
+    var n = 21, x = 97531, cells = "";
+    for (var r = 0; r < n; r++) {
+      for (var c = 0; c < n; c++) {
+        var finder = (r < 7 && c < 7) || (r < 7 && c >= n - 7) || (r >= n - 7 && c < 7);
+        var on;
+        if (finder) {
+          var rr = r >= n - 7 ? r - (n - 7) : r, cc = c >= n - 7 ? c - (n - 7) : c;
+          on = rr === 0 || rr === 6 || cc === 0 || cc === 6 || (rr > 1 && rr < 5 && cc > 1 && cc < 5);
+        } else {
+          x = (x * 1103515245 + 12345) & 0x7fffffff;
+          on = (x >> 8) % 2 === 0;
+        }
+        if (on) { cells += '<rect x="' + c + '" y="' + r + '" width="1" height="1"/>'; }
+      }
+    }
+    return '<svg class="tvqr' + (big ? " big" : "") + '" viewBox="-2 -2 25 25" aria-hidden="true"><rect x="-2" y="-2" width="25" height="25" fill="#fff"/><g fill="#000">' + cells + '</g></svg>';
+  }
+
+  function renderTV() {
+    var host = $("#tvapp");
+    if (!host) { return; }
+    var t = tvs();
+    var body = t.screen === "player" ? tvPlayer() : t.screen === "catchup" ? tvCatchup() : tvHome();
+    host.innerHTML = '<div class="tv s-' + t.screen + (t.screen === "home" && t.f[0] >= 2 ? " deep" : "") + (t.overlay ? " ov" : "") + '">' + body + '</div>';
+    tvFocus();
+    $$("[data-tvact]", host).forEach(function (b) {
+      b.onclick = function () {
+        t.f = b.dataset.tvf.split(",").map(Number);
+        t.focus = true;
+        tvAct(b.dataset.tvact);
+      };
+    });
+    fitTV();
+  }
+
+  function tvFocusables() {
+    return $$("[data-tvf]", $("#tvapp")).map(function (el) {
+      var p = el.dataset.tvf.split(",").map(Number);
+      return { el: el, r: p[0], c: p[1] };
+    });
+  }
+
+  function tvFocus() {
+    var t = tvs(), list = tvFocusables();
+    if (!list.length) { return; }
+    var hit = list.filter(function (x) { return x.r === t.f[0] && x.c === t.f[1]; })[0];
+    if (!hit) {
+      var row = list.filter(function (x) { return x.r === t.f[0]; });
+      hit = row.length ? row.reduce(function (a, b) { return Math.abs(b.c - t.f[1]) < Math.abs(a.c - t.f[1]) ? b : a; }) : list[0];
+      t.f = [hit.r, hit.c];
+    }
+    hit.el.classList.add("tvfocus");
+    var row2 = hit.el.closest(".tvrow");
+    if (row2 && row2.children.length > 1) {
+      /* scroll only once the focus would leave the right-hand edge */
+      var kids = [].slice.call(row2.children), ix = kids.indexOf(hit.el);
+      var step = kids[1].offsetLeft - kids[0].offsetLeft;
+      var vis = Math.max(1, Math.floor((row2.clientWidth - 64) / step));
+      row2.scrollLeft = Math.max(0, (ix - vis + 1) * step);
+    }
+  }
+
+  function tvMove(dr, dc) {
+    var t = tvs(), list = tvFocusables();
+    if (!list.length) { return; }
+    if (dr) {
+      var rows = list.map(function (x) { return x.r; }).filter(function (v, i, a) { return a.indexOf(v) === i; }).sort(function (a, b) { return a - b; });
+      var ix = rows.indexOf(t.f[0]) + dr;
+      if (ix < 0 || ix >= rows.length) {
+        /* off the bottom of a clean player opens the controls */
+        if (t.screen === "player" && !t.overlay && dr > 0) { t.overlay = "controls"; t.f = [0, 1]; renderTV(); }
+        return;
+      }
+      t.f = [rows[ix], t.f[1]];
+    } else {
+      var row = list.filter(function (x) { return x.r === t.f[0]; }).map(function (x) { return x.c; }).sort(function (a, b) { return a - b; });
+      var j = row.indexOf(t.f[1]) + dc;
+      if (j < 0 || j >= row.length) { return; }
+      t.f = [t.f[0], row[j]];
+    }
+    renderTV();
+  }
+
+  function tvBack() {
+    var t = tvs();
+    if (t.overlay) { t.overlay = null; t.f = [0, 1]; }
+    else if (t.screen !== "home") { t.screen = "home"; t.f = [0, 0]; t.toast = null; t.phoneT = 0; }
+    renderTV();
+  }
+
+  function tvGo(screen, ix, mode) {
+    var t = tvs();
+    t.screen = screen;
+    if (ix !== undefined && ix !== null) { t.ev = ix; }
+    t.overlay = null; t.toast = null; t.phoneT = 0; t.mt = 0; t.mi = -1;
+    t.mode = mode || (lc() === "fulltime" ? "highlights" : "live");
+    t.f = [0, 0];
+    if (screen === "catchup") { t.rix = 0; t.rel = 0; t.rplay = true; t.rmode = "watch"; }
+    if (S.surface === "together" && screen === "player" && S.eventIx !== t.ev) {
+      /* the phone follows the telly to the new match */
+      syncPhoneTo(t.ev); render(); return;
+    }
+    renderTV();
+  }
+
+  function tvAct(act) {
+    var t = tvs(), p = act.split(":"), k = p[0], v = p[1];
+    if (k === "watch") { tvGo("player", Number(v)); return; }
+    if (k === "start") { tvGo("player", Number(v), lc() === "fulltime" ? "highlights" : "start"); return; }
+    if (k === "catchup") { tvGo("catchup", Number(v)); return; }
+    if (k === "remind") { t.remind[v] = !t.remind[v]; if (!S.reminders) { S.reminders = {}; } S.reminders[v] = t.remind[v]; renderTV(); return; }
+    if (k === "skip") { tvGo("player", t.ev); return; }
+    if (k === "rmode") { t.rmode = t.rmode === "watch" ? "listen" : "watch"; t.rel = 0; t.rplay = true; renderTV(); return; }
+    if (k === "rpause") { t.rplay = !t.rplay; renderTV(); return; }
+    if (k === "golive") { t.mode = "live"; t.overlay = null; renderTV(); return; }
+    if (k === "ov") { t.overlay = v; t.f = [0, 0]; renderTV(); return; }
+    if (k === "audio") { t.audio = v; t.overlay = "controls"; t.f = [0, 1]; renderTV(); return; }
+    if (k === "subs") { t.subs = !t.subs; renderTV(); return; }
+    if (k === "stats") { t.stats = !t.stats; renderTV(); return; }
+    if (k === "switch") { tvGo("player", Number(v)); return; }
+    if (k === "court2") {
+      t.c2 = true; t.mt = 0; t.mi = -1; t.f = [0, 0];
+      if (S.surface === "together") { phoneNudge(["", "Your telly is on Court 2", "Raducanu v Vondroušová. Break points coming up"], tvEvent()); }
+      renderTV(); return;
+    }
+    if (k === "stay") { t.stay = true; renderTV(); return; }
+    if (k === "pair") { t.paired = true; t.overlay = null; if (S.surface !== "together") { setSurface("together"); } else { renderTV(); } return; }
+  }
+
+  function tvKey(e) {
+    var t = tvs(), k = e.key;
+    if (k === "ArrowUp") { e.preventDefault(); tvMove(-1, 0); }
+    else if (k === "ArrowDown") { e.preventDefault(); tvMove(1, 0); }
+    else if (k === "ArrowLeft") { e.preventDefault(); tvMove(0, -1); }
+    else if (k === "ArrowRight") { e.preventDefault(); tvMove(0, 1); }
+    else if (k === "Enter" || k === " ") {
+      e.preventDefault();
+      if (t.screen === "player" && !t.overlay && !$("#tvapp [data-tvf]")) { t.overlay = "controls"; t.f = [0, 1]; renderTV(); return; }
+      var f = $("#tvapp .tvfocus");
+      if (f) { f.click(); }
+    }
+    else if (k === "Escape" || k === "Backspace") { e.preventDefault(); tvBack(); }
+    else if (k === "s" || k === "S") { if (t.screen === "player") { t.stats = !t.stats; renderTV(); } }
+  }
+
+  /* runs on the media clock */
+  function tickTV(dt) {
+    if (S.surface !== "tv" && S.surface !== "together") { return; }
+    var t = tvs(), e, R, redraw = false;
+    if (t.screen === "catchup" && t.rplay) {
+      e = tvEvent(); R = RECAPS[e.id];
+      t.rel += dt;
+      if (t.rmode === "watch" && t.rel >= 4.5) {
+        t.rel = 0;
+        if (t.rix < R.moments.length - 1) { t.rix += 1; } else { tvGo("player", t.ev); return; }
+      }
+      if (t.rmode === "listen" && t.rel >= secs(R.listen)) { tvGo("player", t.ev); return; }
+      /* redraw only when the slide or spoken line changes; otherwise move the
+         progress in place, so the text is not re-animated five times a second */
+      if (t.rmode === "watch") {
+        if (t.rel < dt + 0.001) { redraw = true; }
+        else { var seg = $("#tvapp .tvsegs .on i"); if (seg) { seg.style.width = Math.min(100, t.rel / 4.5 * 100).toFixed(1) + "%"; } else { redraw = true; } }
+      } else {
+        var dur = secs(R.listen), n = R.moments.length, k = Math.min(n - 1, Math.floor(t.rel / dur * n));
+        var fill = $("#tvapp .tvwave .rcpwavefill"), tm = $("#tvapp .tvtimes span");
+        if (fill && k === t.lk) {
+          fill.style.clipPath = "inset(0 " + (100 - Math.min(100, t.rel / dur * 100)).toFixed(1) + "% 0 0)";
+          if (tm) { tm.textContent = mmss(Math.floor(t.rel)); }
+        } else { t.lk = k; redraw = true; }
+      }
+    }
+    if (t.screen === "player" && lc() !== "fulltime" && t.mode !== "highlights" && !centreCourt(tvEvent())) {
+      e = tvEvent();
+      var list = TVMOMENTS[e.id] || [];
+      t.mt += dt;
+      if (Math.random() < 0.02) {
+        t.bump += 1 + Math.floor(Math.random() * 9);
+        var wb = $("#tvapp .tvtop .tvwatch b"), wv = tvWatching(e);
+        if (wb && wv) { wb.textContent = wv; }
+      }
+      if (t.toastT > 0) { t.toastT -= dt; if (t.toastT <= 0) { t.toast = null; t.phoneT = 9; redraw = true; } }
+      else if (t.phoneT > 0) { t.phoneT -= dt; if (t.phoneT <= 0) { redraw = true; } }
+      if (t.mt >= (t.mi < 0 ? 4 : 16) && list.length) {
+        t.mt = 0; t.mi = (t.mi + 1) % list.length;
+        t.toast = list[t.mi]; t.toastT = 7; t.phoneT = 0;
+        if (S.surface === "together") { phoneNudge(list[t.mi], e); }
+        redraw = true;
+      }
+    }
+    if (redraw) { renderTV(); }
+  }
+
+  /* ---- surfaces ---- */
+
+  var SURFACES = [
+    ["phone", "Phone app"],
+    ["web", "Website"],
+    ["tv", "iPlayer TV"],
+    ["together", "TV and phone"]
+  ];
+
+  function setSurface(s) {
+    S.surface = s;
+    var t = tvs();
+    if (s === "together") {
+      /* the second-screen state is the one this pairing exists for */
+      if (lc() !== "companion" && lc() !== "fulltime" && lc() !== "buildup") { S.lcIx = 2; }
+      /* start the pairing on the match: the phone's paired state is written for it */
+      if (t.screen !== "player") {
+        var fb = -1; EVENTS.forEach(function (x, i) { if (x.id === "football") { fb = i; } });
+        t.ev = fb >= 0 ? fb : rankedCards()[0].i; tvGo("player", t.ev);
+      }
+      syncPhoneTo(t.ev);
+      t.paired = true;
+      t.focus = true;
+    }
+    if (s === "tv") { t.focus = true; }
+    $$(".sf").forEach(function (b) { b.setAttribute("aria-selected", String(b.dataset.surface === s)); });
+    document.body.dataset.surface = s;
+    render();
+  }
+
+  function syncPhoneTo(ix) {
+    if (ix === null || ix === undefined) { return; }
+    S.eventIx = ix; S.view = "event"; S.nav = "home";
+  }
+
+  function phoneNudge(m, e) {
+    var vp = $("#app .viewport");
+    if (!vp) { return; }
+    var old = $(".nudge", vp);
+    if (old) { old.remove(); }
+    vp.insertAdjacentHTML("beforeend", '<div class="nudge" role="status"><span class="nudgek">On your telly</span>' +
+      '<b>' + esc(m[1]) + '</b><span>' + esc(m[2]) + '</span></div>');
+    setTimeout(function () { var n = $(".nudge", vp); if (n) { n.classList.add("out"); } }, 6000);
+    setTimeout(function () { var n = $(".nudge", vp); if (n) { n.remove(); } }, 6600);
+  }
+
+  function fitTV() {
+    var set = $("#tvset"), scr = $("#tvapp");
+    if (!set || set.hidden || !scr) { return; }
+    var avail = scr.parentNode.clientWidth;
+    var sc = Math.min(1, avail / 1280);
+    scr.style.transform = "scale(" + sc + ")";
+    set.style.setProperty("--tvh", Math.round(720 * sc) + "px");
+  }
+  window.addEventListener("resize", fitTV);
+
   /* ------------------------------------------------------------- moves */
 
   function goLc(ix) {
@@ -2551,6 +3311,7 @@
 
     document.addEventListener("keydown", function (e) {
       if (e.target.matches("input, select, textarea")) { return; }
+      if (S.player === null && (S.surface === "tv" || (S.surface === "together" && tvs().focus))) { tvKey(e); return; }
       if (S.player !== null) {
         if (e.key === "Escape") { closePlayer(); }
         if (e.key === "ArrowDown" || e.key === "ArrowRight") { e.preventDefault(); stepClip(1); }
@@ -2649,6 +3410,17 @@
     }).join("");
 
     seedRecaps();
+    S.surface = "phone";
+    var sfh = $("#surface");
+    if (sfh) {
+      sfh.innerHTML = SURFACES.map(function (x) {
+        return '<button class="sf" role="tab" type="button" data-surface="' + x[0] + '" aria-selected="' + (x[0] === "phone") + '">' + esc(x[1]) + '</button>';
+      }).join("");
+      $$(".sf").forEach(function (b) { b.onclick = function () { setSurface(b.dataset.surface); }; });
+    }
+    var tvset = $("#tvset"), dev = $("#device");
+    if (tvset) { tvset.addEventListener("pointerdown", function () { tvs().focus = true; }); }
+    if (dev) { dev.addEventListener("pointerdown", function () { if (S.surface === "together") { tvs().focus = false; } }); }
     render();
     attachSwipe();
     startClocks();

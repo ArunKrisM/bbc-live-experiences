@@ -29,7 +29,9 @@ branch*, branch `main`, folder `/ (root)`. The site appears at
 
 | Control | What it does |
 | --- | --- |
-| Lifecycle pills, top of the page | Build-up, Live, Second screen, Full time |
+| Screen pills, top of the page | Phone app, Website, iPlayer TV, and TV and phone together |
+| Lifecycle pills, top of the page | Build-up, Live, Second screen, Near-live |
+| On the TV | Click the TV, then arrow keys move, `Enter` selects or opens the controls, `Esc` goes back, `S` toggles stats |
 | Swipe left/right on the phone | Same thing, on a touch device |
 | `←` `→` arrow keys | Same thing, on a desktop. `Esc` returns to Home |
 | Home | A full-bleed takeover of whatever is most worth watching, a picture-led poll, then one card per sport |
@@ -72,6 +74,27 @@ archive inside the live page rather than in a collection nobody visits.
 for why the whistle went, a live TMO review timer, territory against possession
 and a phase tracker. The strongest public-service case in the set.
 
+## Big screen, small screen
+
+The same four events and the same data run on four surfaces. The TV is drawn
+at 1280 x 720 and scaled to fit, and is driven like a remote.
+
+The telly carries what suits a shared screen ten feet away: the picture, a
+choice of audio (TV commentary, radio synced to the picture, crowd only, audio
+described), the story so far in sixty seconds watched or listened to, From the
+start with Jump to live, a stats overlay you turn on and off, how many others
+are watching, and reminders on what is coming up.
+
+Anything participatory goes to the phone: polls, predictions, ratings and the
+conversation. The TV shows a moment as a lower third, then offers the phone by
+QR code, and a paired phone is nudged with what just happened on the telly.
+Cricket is radio only here, so iPlayer becomes Test Match Special with a
+scoreboard. On the second-screen tennis afternoon BBC One is on Centre Court
+and the TV offers one suggestion, Switch to Court 2.
+
+The website lays the live page out in three columns: the story so far, the
+match, and the conversation, side by side.
+
 ## Live is teal
 
 Anything labelled Live uses BBC Live Light, `#00CCC7`, with the Core and Dark shades
@@ -84,7 +107,7 @@ Photographs live in `img/`, three crops each: `-wide` (16:9), `-tall` (9:13)
 and `-sq`. Each one is tagged with the phase of a fixture it belongs to as
 well as the sport, and `photoSVG()` in `app.js` asks for the phase the page
 is currently in. Build-up shows team news and previews, live shows the ball
-in play, full time shows the celebration. The same card in a different
+in play, near-live shows the celebration. The same card in a different
 lifecycle state gets a different picture, which is the point of the tagging.
 
 A picture whose shape disagrees badly with the frame is laid across a

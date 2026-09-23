@@ -1071,7 +1071,7 @@ const LIFECYCLE = [
   { id: "buildup", label: "Build-up", blurb: "before it starts" },
   { id: "live", label: "Live", blurb: "while it's happening" },
   { id: "companion", label: "Second screen", blurb: "on the sofa, paired" },
-  { id: "fulltime", label: "Full time", blurb: "after the whistle" }
+  { id: "fulltime", label: "Near-live", blurb: "highlights, clips and catch-up, straight after" }
 ];
 
 /* =========================================================================
@@ -1151,7 +1151,7 @@ const HOMEFEED = {
       stand: "Root and Brook resume with seven wickets standing and a forecast that favours the bowlers",
       photo: { motif: "oval", sport: "Cricket", g: ["#24384B", "#0B1219"] },
       comments: "418", likes: "5k", shares: "204",
-      poll: { id: "hero-buildup", q: "Have your say: Can England avoid the follow-on?",
+      poll: { id: "hero-buildup", imgs: ["ck-bat", "ck-ball"],  q: "Have your say: Can England avoid the follow-on?",
         opts: ["They will", "No chance"], split: [61, 39],
         after: "The country is more optimistic than the forecast." }
     },
@@ -1161,7 +1161,7 @@ const HOMEFEED = {
       stand: "The Spine has this at 0.93, the highest of anything live across four sports this afternoon",
       photo: { motif: "court", g: ["#22461F", "#0C1A0B"] },
       comments: "262", likes: "3k", shares: "123",
-      poll: { id: "hero-live", q: "Have your say: Does she break here?",
+      poll: { id: "hero-live", imgs: ["tn-stretch", "tn-dejected"],  q: "Have your say: Does she break here?",
         opts: ["She breaks", "Vondroušová holds"], split: [68, 32],
         after: "68% of 18,440 fans backed the break." }
     },
@@ -1171,7 +1171,7 @@ const HOMEFEED = {
       stand: "The broadcast can show one court. The companion can tell you which of the other seventeen deserves your attention",
       photo: { motif: "court", g: ["#1F3A4A", "#0A1319"] },
       comments: "188", likes: "2k", shares: "96",
-      poll: { id: "hero-companion", q: "Have your say: Should BBC One switch to Court 2?",
+      poll: { id: "hero-companion", imgs: ["tn-tracking", "tn-plan"],  q: "Have your say: Should BBC One switch to Court 2?",
         opts: ["Switch it", "Stay on Centre"], split: [59, 41],
         after: "The gallery sees this at the next changeover." }
     },
@@ -1181,7 +1181,7 @@ const HOMEFEED = {
       stand: "Four sports, four results, and everything you predicted this afternoon settled within the hour",
       photo: { motif: "crowd", sport: "Cricket", g: ["#2A2438", "#100C18"] },
       comments: "902", likes: "11k", shares: "477",
-      poll: { id: "hero-fulltime", q: "Have your say: Performance of the day?",
+      poll: { id: "hero-fulltime", imgs: ["ck-root", "tn-best", "rg-roar"],  q: "Have your say: Performance of the day?",
         opts: ["Root", "Raducanu", "Ireland"], split: [52, 31, 17],
         after: "Root takes it, and it was not close." }
     }
@@ -1331,3 +1331,53 @@ const TRANSCRIPTS = {
   "rg-wales": "Wales players leave the field after the autumn defeat, with the coaching team's week in Cardiff as the backdrop to Saturday.",
   "rg-roar": "The fourth Ireland try from two angles: held up twice on the line, then grounded, and the celebration that followed."
 };
+
+/* ---------------------------------------------------------------------------
+   Other screens. The same events, told for the website and for iPlayer on a
+   television. What differs is not the data but what each screen is for.
+   ------------------------------------------------------------------------- */
+
+/* the conversation: lives on the phone and the website, never on the telly */
+const COMMENTS = {
+  football: [
+    ["JM", "Jess M", "2m", "Saka's goal came from Kane dropping deep. Nobody tracked him. Twice now.", "412"],
+    ["RK", "Rav K", "4m", "We have been sitting too deep since 55. Asking for trouble.", "287"],
+    ["TO", "Tom O", "7m", "Rice one booking from missing the next match and still going into every tackle.", "166"],
+    ["AB", "Aisha B", "9m", "Netherlands have had the ball and done nothing with it. Happy with that.", "98"]
+  ],
+  cricket: [
+    ["DP", "Dave P", "1m", "Root at Lord's with the new ball eight overs away. This is the session.", "644"],
+    ["SH", "Sarah H", "3m", "Stokes drive was the only loose shot all afternoon and it cost him.", "309"],
+    ["NC", "Neil C", "6m", "TMS on, telly off, scorecard open. Perfect Saturday.", "251"],
+    ["PL", "Priya L", "11m", "Follow-on saved. Now bat all of tomorrow please.", "120"]
+  ],
+  tennis: [
+    ["EW", "Ellie W", "30s", "Three break points and Court 2 has never been this full.", "902"],
+    ["MJ", "Marcus J", "2m", "Her first serve percentage is the whole story of this match.", "344"],
+    ["KF", "Kat F", "5m", "Switched from Centre for this. Right call.", "217"],
+    ["OB", "Olly B", "8m", "Vondroušová's lob at 2-3 was absurd. Credit where it is due.", "133"]
+  ],
+  rugby: [
+    ["GW", "Gareth W", "40s", "If that is given it is 23-13 and the bonus point is on.", "518"],
+    ["CN", "Ciara N", "3m", "Two missed conversions. That is the only reason Wales are in this.", "402"],
+    ["HR", "Huw R", "6m", "Our maul is the one thing working. Keep kicking to the corner.", "190"],
+    ["LD", "Liam D", "10m", "Territory 56% and a three-point lead. Should be out of sight.", "141"]
+  ]
+};
+
+/* what the telly shows as it happens, one line at a time */
+const TVMOMENTS = {
+  football: [["70'", "Chance", "Kane's shot is blocked on the line", "fb-kane"], ["72'", "Corner", "England's seventh of the half", null], ["74'", "Save", "Pickford tips over from Simons", null]],
+  cricket: [["89.3", "FOUR", "Root drives Starc through extra cover", "ck-bat"], ["89.5", "Appeal", "Not out. Australia have no reviews left", null], ["90.0", "Drinks", "England 288-6, trail by 84", null]],
+  tennis: [["0-40", "Break point", "Vondroušová saves the first with an ace", "tn-stretch"], ["15-40", "Break point", "Second saved at the net", "tn-dejected"], ["Break", "Raducanu breaks", "Five games all in the second set", "tn-best"]],
+  rugby: [["64'", "TMO", "Checking the grounding in the corner", "rg-run"], ["65'", "Try given", "Ireland 21-13. Conversion to come", "rg-roar"], ["67'", "Penalty", "Wales kick to the corner", "rg-maul"]]
+};
+
+/* the next things on, for the reminders rail */
+const COMINGUP = [
+  { t: "Wales v Ireland", s: "Six Nations", when: "17:15", ch: "BBC One", img: "rg-wales", id: "rg-ko" },
+  { t: "England v Netherlands", s: "Nations League", when: "19:45", ch: "BBC One", img: "fb-debate", id: "fb-ko" },
+  { t: "Match of the Day", s: "Nations League special", when: "22:30", ch: "BBC One", img: "fb-celebrate", id: "motd" },
+  { t: "The Ashes, day 4", s: "Test Match Special", when: "Sun 10:30", ch: "Radio 5 Sports Extra", img: "ck-squad", id: "ck-d4" },
+  { t: "Wimbledon, day 7", s: "Middle Sunday", when: "Sun 11:00", ch: "BBC Two", img: "tn-smile", id: "tn-d7" }
+];

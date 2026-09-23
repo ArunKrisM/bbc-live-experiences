@@ -14,14 +14,24 @@
 
   <header class="deskbar">
     <span class="brandline">BBC Sport &nbsp;·&nbsp; <b>Live Experiences</b> &nbsp;·&nbsp; Prototype</span>
+    <div class="surface" id="surface" role="tablist" aria-label="Screen"></div>
     <div class="lifecycle" id="lifecycle" role="tablist" aria-label="Fixture lifecycle"></div>
     <span class="hintline">Swipe, or <kbd>←</kbd> <kbd>→</kbd> &nbsp;·&nbsp; <span id="lcblurb"></span></span>
   </header>
 
   <main class="deskstage">
-    <div class="device">
-      <div id="app"></div>
-    </div>
+    <figure class="devwrap tvwrap">
+      <div class="tvset" id="tvset" hidden>
+        <div class="tvscreen"><div id="tvapp"></div></div>
+      </div>
+      <figcaption class="devcap tvcap">On the telly: watch, listen, catch up, glance at the numbers</figcaption>
+    </figure>
+    <figure class="devwrap phonewrap">
+      <div class="device" id="device">
+        <div id="app"></div>
+      </div>
+      <figcaption class="devcap phonecap">On the phone: play along, go deeper, join the conversation</figcaption>
+    </figure>
   </main>
 
   <div class="swipehint" id="swipehint" aria-hidden="true"></div>
