@@ -660,15 +660,7 @@
     var h = ratio === "wide" ? 56 : ratio === "square" ? 100
       : ratio === "cine" ? 66 : ratio === "tall" ? 133 : 56;
 
-    var kind = motif === "court" ? "tennis"
-      : motif === "oval" ? "cricket"
-      : motif === "ring" ? "boxing"
-      : /rugby|six nations|ireland|wales/.test(sport) ? "rugby"
-      : /cricket|ashes|test match|lord/.test(sport) ? "cricket"
-      : /tennis|wimbledon|raducanu/.test(sport) ? "tennis"
-      : /box|fight/.test(sport) ? "boxing"
-      : motif === "pitch" ? "football"
-      : "football";
+    var kind = resolveKind(motif, sport);
 
     var uid = "gx" + hashStr(seed + ratio).toString(36);
     var g0 = (p.g && p.g[0]) || "#22314A";
@@ -720,8 +712,62 @@
       out + '</svg>';
   }
 
-  /* kept for the call sites that already exist */
-  function photoSVG(p, ratio, key) { return scene(p, ratio, key); }
+  function resolveKind(motif, sport) {
+    sport = String(sport || "").toLowerCase();
+    return motif === "court" ? "tennis"
+      : motif === "oval" ? "cricket"
+      : motif === "ring" ? "boxing"
+      : /rugby|six nations|ireland|wales/.test(sport) ? "rugby"
+      : /cricket|ashes|test match|lord/.test(sport) ? "cricket"
+      : /tennis|wimbledon|raducanu/.test(sport) ? "tennis"
+      : /box|fight/.test(sport) ? "boxing"
+      : motif === "pitch" ? "football"
+      : "football";
+  }
+
+  /* ==========================================================================
+     Photography
+     ==========================================================================
+     Real pictures where we have them, the generated scene where we do not.
+     Each item picks from its sport's pool by the same seed that drove the
+     drawn version, so a card keeps the same photograph on every visit.
+
+     Three crops per picture live in img/: wide (16:9), tall (9:16) and sq.
+     Sources too small for a crop are laid across a blurred bed of themselves
+     rather than upscaled, which is why a few of the tall ones are letterboxed.
+     ========================================================================== */
+
+  var PHOTOS = {
+    football: [["fb-kane", "England attack the Netherlands penalty area"]],
+    cricket: [
+      ["ck-root", "An England batter celebrates a Test century"],
+      ["ck-lords", "England celebrate a wicket at Lord's"],
+      ["ck-huddle", "England celebrate together in the field"],
+      ["ck-ball", "An England bowler works on the ball"]
+    ],
+    tennis: [
+      ["tn-raducanu", "A British player strikes a forehand"],
+      ["tn-field", "The field at a grand slam"]
+    ],
+    rugby: [
+      ["rg-maul", "Wales and Ireland forwards contest a maul"],
+      ["rg-flyhalves", "Two international fly-halves"],
+      ["rg-run", "A back runs at the defence"]
+    ]
+  };
+
+  function photoSVG(p, ratio, key) {
+    p = p || {};
+    var kind = resolveKind(p.motif || "crowd", p.sport || key);
+    var pool = PHOTOS[kind];
+    if (pool && pool.length) {
+      var pick = pool[hashStr(String(key) + "|" + kind) % pool.length];
+      var slot = ratio === "tall" ? "tall" : ratio === "square" ? "sq" : "wide";
+      return '<img class="photo" src="img/' + pick[0] + '-' + slot + '.jpg" ' +
+        'loading="lazy" decoding="async" alt="' + esc(pick[1]) + '">';
+    }
+    return scene(p, ratio, key);
+  }
 
 
   function badge(colour, initials) {

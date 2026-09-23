@@ -72,15 +72,21 @@ and a phase tracker. The strongest public-service case in the set.
 
 ## Pictures
 
-There is no licensed photography here, so every picture is drawn rather than
-loaded. `scene()` in `app.js` reads the item it illustrates and builds a
-stadium from it: stands and crowd, floodlights, the playing surface in
-perspective, the markings for that sport and a few figures on it. The seed
-comes from the item's own title, so a card keeps the same picture on every
-visit and no two cards get the same one.
+Photographs live in `img/`, three crops each: `-wide` (16:9), `-tall` (9:13)
+and `-sq`. `photoSVG()` in `app.js` picks one from the pool for that sport
+using the same seed that identifies the item, so a card keeps the same
+photograph on every visit and neighbouring cards do not repeat.
 
-That is a placeholder, not a proposal. Swapping `scene()` for real images is a
-one-line change and nothing else in the app has to move.
+**These photographs are third-party sports photography, not BBC-owned
+material, and several carry agency credit.** They are here to show what the
+layouts look like with real pictures in them. Clear them properly or replace
+them before this repository is public or shown outside the team.
+
+Where a sport has no photograph, `scene()` draws one instead: a seeded
+generator that builds a stadium from the item, with stands, crowd,
+floodlights, the playing surface in perspective, the markings for that sport
+and figures on it. The boxing short in the drop deck is the one that still
+falls through to it, which is a useful thing to keep working.
 
 ## Files
 
