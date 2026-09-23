@@ -17,7 +17,13 @@
 
   --yellow: #FFD230;
   --red: #BB1919;
-  --live: #E8443C;
+  /* BBC Live: the label colour for anything happening now, and nothing else */
+  --live: #00CCC7;
+  --live-core: #009E9E;
+  --live-dark: #006666;
+  --live-ink: #001A19;
+  /* red is kept for things going wrong: warnings, wickets, wrong answers */
+  --alert: #E8443C;
   --green: #007A3D;
   --blue: #3B7DD8;
 
@@ -629,8 +635,8 @@ input[type="range"]:focus-visible { outline: 2px solid var(--yellow); outline-of
 .ck.tv .cv { color: #B79CFF; }
 .ckgap { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
 
-.warn { border-radius: 6px; padding: 12px 13px; font-size: 13.5px; line-height: 1.45; border: 1px solid var(--live); background: rgba(232,68,60,.14); }
-.warn b { color: var(--live); }
+.warn { border-radius: 6px; padding: 12px 13px; font-size: 13.5px; line-height: 1.45; border: 1px solid var(--alert); background: rgba(232,68,60,.14); }
+.warn b { color: var(--alert); }
 .warn.ok { border-color: #B79CFF; background: rgba(183,156,255,.13); }
 .warn.ok b { color: #B79CFF; }
 
@@ -784,7 +790,7 @@ input[type="range"]:focus-visible { outline: 2px solid var(--yellow); outline-of
 /* ---- shared smaller bits ---- */
 .sgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .c.alert { border: 1px solid rgba(232,68,60,.55); background: rgba(232,68,60,.08); }
-.alerttag { font-size: 11.5px; font-weight: 700; letter-spacing: .07em; color: var(--live); margin-bottom: 9px; }
+.alerttag { font-size: 11.5px; font-weight: 700; letter-spacing: .07em; color: var(--alert); margin-bottom: 9px; }
 .c.dashed { border: 1px dashed var(--line); }
 .signp { margin: 0 0 12px; font-size: 14.5px; line-height: 1.45; }
 .signnote { margin: 0 0 12px; color: #B79CFF; }
@@ -839,7 +845,7 @@ input[type="range"]:focus-visible { outline: 2px solid var(--yellow); outline-of
   border: 1px solid var(--line); font-variant-numeric: tabular-nums;
 }
 .ball.four { background: rgba(255,210,48,.2); border-color: var(--yellow); color: var(--yellow); }
-.ball.wkt { background: rgba(232,68,60,.22); border-color: var(--live); color: var(--live); }
+.ball.wkt { background: rgba(232,68,60,.22); border-color: var(--alert); color: var(--alert); }
 .ball.now { box-shadow: 0 0 0 2px var(--card), 0 0 0 3px var(--muted); }
 .overcap { margin: 0; font-size: 14px; font-weight: 500; line-height: 1.4; }
 
@@ -1008,7 +1014,7 @@ input[type="range"]:focus-visible { outline: 2px solid var(--yellow); outline-of
   font-size: 10.5px; font-weight: 700; letter-spacing: .08em;
   padding: 4px 8px; border-radius: 4px;
 }
-.chiplive { background: #2DD4BF; color: #05231F; }
+.chiplive { background: var(--live); color: var(--live-ink); }
 .chipsoon { background: rgba(0,0,0,.72); color: var(--yellow); border: 1px solid var(--yellow); }
 .chipdone { background: rgba(0,0,0,.72); color: var(--text-2); }
 .lbadge {
@@ -1042,7 +1048,7 @@ input[type="range"]:focus-visible { outline: 2px solid var(--yellow); outline-of
 .rail { grid-auto-columns: 214px; }
 
 /* ---- sport on the BBC ---- */
-.bcard.live .bphoto { box-shadow: 0 0 0 1.5px #2DD4BF; }
+.bcard.live .bphoto { box-shadow: 0 0 0 1.5px var(--live); }
 .btitle { font-size: 15px; font-weight: 700; line-height: 1.28; }
 .bsub { font-size: 12.5px; color: var(--muted); }
 
@@ -1206,7 +1212,7 @@ input[type="range"]:focus-visible { outline: 2px solid var(--yellow); outline-of
    Live page: status strip, Listen live, summary, reporting, scorecard
    ========================================================================== */
 
-:root { --teal: #4FC3C3; --teal-ink: #062B2B; }
+:root { --teal: var(--live); --teal-ink: var(--live-ink); }
 
 /* ---- In Play chip + viewing count ---- */
 .statestrip {
@@ -1497,7 +1503,8 @@ input[type="range"]:focus-visible { outline: 2px solid var(--yellow); outline-of
   backdrop-filter: blur(6px);
 }
 .tochip i { width: 6px; height: 6px; border-radius: 50%; background: var(--text-2); }
-.tochip.on { background: var(--live); border-color: transparent; }
+.tochip.on { background: var(--live); border-color: transparent; color: var(--live-ink); }
+.tochip.on i { background: var(--live-ink) !important; }
 .tochip.on i { background: #fff; animation: tobeat 1.6s ease-in-out infinite; }
 @keyframes tobeat { 0%,100% { opacity: 1; } 50% { opacity: .25; } }
 
@@ -1808,7 +1815,7 @@ button.dh2:hover .secarrow { color: var(--yellow); }
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
 }
 
-.drew { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.drew { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
 .dbadge2 {
   border: 1px solid var(--line); border-radius: 10px; background: #131313;
   padding: 13px 9px 11px; text-align: center; display: grid; gap: 5px; justify-items: center;
@@ -1837,3 +1844,233 @@ button.dh2:hover .secarrow { color: var(--yellow); }
 .dwhen { font-size: 12px; font-weight: 700; color: var(--muted); font-variant-numeric: tabular-nums; }
 
 @media (prefers-reduced-motion: reduce) { .drawer { transition: none; } }
+
+/* ==========================================================================
+   Header: the menu sits on the right, where the menu opens from
+   ========================================================================== */
+
+.headrow { grid-template-columns: 1fr 44px 44px auto; }
+.headrow .bbcblocks { justify-self: start; margin-left: 10px; }
+.menubtn {
+  width: auto; height: 36px; padding: 0 9px 0 3px; margin-right: 4px;
+  display: inline-flex; align-items: center; gap: 7px;
+  border: 1px solid #333; border-radius: 999px; background: #141414;
+}
+.menubtn:hover { border-color: #555; }
+.menubtn svg { width: 18px; height: 18px; }
+.meav, .dav {
+  display: grid; place-items: center; border-radius: 50%;
+  background: #3A3A3A; color: #E4E4E4; font-weight: 800;
+  border: 1px dashed #6A6A6A;
+}
+.meav { width: 28px; height: 28px; font-size: 13px; }
+
+.dav { width: 56px; height: 56px; font-size: 23px; position: relative; flex: none; cursor: pointer; }
+.dav:hover { border-color: #9A9A9A; }
+.davadd {
+  position: absolute; right: -2px; bottom: -2px; width: 20px; height: 20px;
+  border-radius: 50%; background: var(--yellow); color: #000;
+  font-size: 15px; font-weight: 800; line-height: 1;
+  display: grid; place-items: center; border: 2px solid #0C0C0C;
+}
+
+/* Live today in the menu: the Home cards, scaled to the drawer */
+.drail { margin: 0 calc(var(--gut) * -1); padding-inline: var(--gut); grid-auto-columns: 214px; }
+.drail .lcard.top { outline: 1.5px solid var(--yellow); outline-offset: 2px; border-radius: 8px; }
+
+/* ==========================================================================
+   The story so far
+   ========================================================================== */
+
+.rcp { display: grid; gap: 12px; }
+.rcpmodes {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px;
+  background: #151515; border: 1px solid var(--line); border-radius: 10px; padding: 4px;
+}
+.rcpmodes button {
+  border: 0; background: transparent; color: var(--text-2);
+  border-radius: 7px; padding: 8px 6px 7px; display: grid; gap: 1px; justify-items: center;
+}
+.rcpmodes button span { font-size: 14px; font-weight: 700; }
+.rcpmodes button small { font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.rcpmodes button[aria-selected="true"] { background: #fff; color: #000; }
+.rcpmodes button[aria-selected="true"] small { color: #555; }
+
+.rcpstage {
+  position: relative; overflow: hidden; border-radius: 12px;
+  aspect-ratio: 4 / 5; background: #0B0B0B; isolation: isolate;
+}
+.rcpslide { position: absolute; inset: 0; animation: rcpin .45s ease both; }
+.rcpslide .photo { width: 100%; height: 100%; object-fit: cover; }
+@keyframes rcpin { from { opacity: 0; transform: scale(1.04); } to { opacity: 1; transform: none; } }
+.rcpscrim {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,.55) 0%, rgba(0,0,0,0) 22%, rgba(0,0,0,0) 42%, rgba(0,0,0,.92) 100%);
+}
+.rcpgfx {
+  position: absolute; inset: 0; display: grid; align-content: center; justify-items: start;
+  padding: 0 22px 90px; gap: 6px;
+  background:
+    radial-gradient(120% 80% at 90% 10%, color-mix(in srgb, var(--acc) 34%, transparent), transparent 60%),
+    linear-gradient(160deg, #1B1B1B, #0A0A0A);
+}
+.rcpgfx b { font-size: 56px; font-weight: 800; letter-spacing: -.03em; line-height: 1; color: var(--acc); }
+.rcpgfx { align-content: start; padding-top: 70px; }
+.rcpgfx b { font-size: 72px; }
+.rcpgfx i { position: absolute; right: 18px; top: 64px; opacity: .35; }
+.rcpgfx i svg { width: 64px; height: 64px; }
+.rcpgfx.k-wicket b, .rcpgfx.k-card b { color: var(--alert); }
+.rcpgfx.k-break b { color: var(--text-2); }
+
+.rcpsegs {
+  position: absolute; top: 10px; left: 10px; right: 10px; z-index: 3;
+  display: flex; gap: 4px;
+}
+.rcpseg { flex: 1; height: 3px; border-radius: 2px; background: rgba(255,255,255,.3); overflow: hidden; }
+.rcpseg.done { background: #fff; }
+.rcpseg i { display: block; height: 100%; width: 100%; background: #fff; transform: scaleX(0); transform-origin: left; }
+.rcpseg.on i { animation-name: rcpfill; animation-timing-function: linear; animation-fill-mode: forwards; }
+.rcpstage.paused .rcpseg.on i { animation-play-state: paused; }
+@keyframes rcpfill { to { transform: scaleX(1); } }
+
+.rcptext { position: absolute; left: 16px; right: 16px; bottom: 16px; z-index: 3; display: grid; gap: 5px; }
+.rcptime {
+  justify-self: start; font-size: 11.5px; font-weight: 700; letter-spacing: .04em;
+  background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.22);
+  padding: 3px 8px; border-radius: 4px; font-variant-numeric: tabular-nums;
+}
+.rcptext b { font-size: 21px; font-weight: 800; line-height: 1.15; letter-spacing: -.01em; }
+.rcptext p { margin: 0; font-size: 14px; line-height: 1.4; color: #DADADA; }
+
+.rcpzone { position: absolute; top: 0; bottom: 0; width: 38%; z-index: 2; background: none; border: 0; }
+.rcpzone.prev { left: 0; } .rcpzone.next { right: 0; }
+.rcpplay {
+  position: absolute; top: 22px; right: 12px; z-index: 4;
+  width: 34px; height: 34px; border-radius: 50%; border: 1px solid rgba(255,255,255,.3);
+  background: rgba(0,0,0,.45); display: grid; place-items: center;
+}
+.rcpcount {
+  position: absolute; top: 30px; left: 14px; z-index: 4;
+  font-size: 11px; font-weight: 700; color: rgba(255,255,255,.8); font-variant-numeric: tabular-nums;
+}
+
+.rcpaudio {
+  display: grid; gap: 10px; background: #141414; border: 1px solid var(--line);
+  border-radius: 12px; padding: 16px;
+}
+.rcpbig {
+  justify-self: start; width: 52px; height: 52px; border-radius: 50%;
+  background: var(--yellow); border: 0; display: grid; place-items: center;
+}
+.rcpbig svg { width: 20px; height: 20px; }
+.rcpbig svg path, .rcpbig svg rect { fill: #000; }
+.rcpwavebox { position: relative; height: 44px; }
+.rcpwave { position: absolute; inset: 0; width: 100%; height: 100%; fill: #3A3A3A; }
+.rcpwavefill { position: absolute; inset: 0; }
+.rcpwavefill .rcpwave { fill: var(--yellow); }
+.rcptimes { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.rcpspeed {
+  border: 1px solid #3A3A3A; background: transparent; color: #fff; border-radius: 999px;
+  padding: 3px 10px; font-size: 12px; font-weight: 700;
+}
+.rcpnow { margin: 2px 0 0; font-size: 14px; line-height: 1.35; }
+.rcpnow span { font-size: 10.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--yellow); margin-right: 4px; }
+.rcpvoice { margin: 0; font-size: 12px; color: var(--muted); }
+
+.rcpread p { margin: 0 0 12px; font-size: 15.5px; line-height: 1.55; color: #E6E6E6; }
+.rcpread p:first-child { font-size: 17px; font-weight: 500; color: #fff; }
+.rcpline {
+  list-style: none; margin: 6px 0 0; padding: 0 0 0 14px; display: grid; gap: 10px;
+  border-left: 2px solid #2E2E2E;
+}
+.rcpline li { position: relative; display: grid; grid-template-columns: 78px 1fr; gap: 10px; font-size: 13.5px; }
+.rcpline li::before {
+  content: ""; position: absolute; left: -20px; top: 5px; width: 10px; height: 10px; border-radius: 50%;
+  background: #0D0D0D; border: 2px solid #555;
+}
+.rcpline li.k-goal::before { border-color: var(--yellow); background: var(--yellow); }
+.rcpline li.k-wicket::before, .rcpline li.k-card::before { border-color: var(--alert); }
+.rcpline li.k-milestone::before { border-color: var(--live); }
+.rcpline li span { color: var(--muted); font-variant-numeric: tabular-nums; font-weight: 700; font-size: 12px; padding-top: 1px; }
+
+/* ==========================================================================
+   Audio dock: sits between the page and the navigation, keeps playing
+   ========================================================================== */
+
+.dock[hidden] { display: none; }
+.dock {
+  flex: none; position: relative; z-index: 30;
+  display: grid; grid-template-columns: 40px 1fr auto auto; gap: 10px; align-items: center;
+  padding: 9px 10px 11px 12px; background: #1A1A1A; border-top: 1px solid #2A2A2A;
+  animation: dockin .28s cubic-bezier(.2,.7,.3,1) both;
+}
+@keyframes dockin { from { transform: translateY(100%); opacity: 0; } }
+.dkplay {
+  width: 40px; height: 40px; border-radius: 50%; border: 0; background: #fff;
+  display: grid; place-items: center;
+}
+.dkplay svg path, .dkplay svg rect { fill: #000; }
+.dktext { display: grid; gap: 1px; min-width: 0; }
+.dktext b { font-size: 14px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dktext small { font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dklive {
+  display: inline-flex; align-items: center; gap: 5px; justify-self: start;
+  font-size: 10px; font-weight: 800; letter-spacing: .1em; color: var(--live-ink);
+  background: var(--live); padding: 2px 6px; border-radius: 3px; margin-bottom: 2px;
+}
+.dklive i { width: 5px; height: 5px; border-radius: 50%; background: var(--live-ink); animation: tobeat 1.6s ease-in-out infinite; }
+.dkread {
+  border: 1px solid #3A3A3A; background: transparent; color: #fff;
+  border-radius: 999px; padding: 6px 11px; font-size: 12px; font-weight: 700;
+}
+.dkread[aria-pressed="true"] { background: #fff; color: #000; }
+.dkclose { width: 32px; height: 32px; border: 0; background: none; display: grid; place-items: center; }
+.dkbar { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: #2A2A2A; }
+.dkbar i { display: block; height: 100%; background: var(--yellow); }
+.dkbar.live i { width: 100%; background: var(--live); opacity: .7; }
+.dktranscript {
+  grid-column: 1 / -1; max-height: 160px; overflow-y: auto;
+  border-top: 1px solid #2A2A2A; padding-top: 10px;
+}
+.dktranscript p { margin: 0 0 8px; font-size: 14px; line-height: 1.5; color: #DDD; }
+
+/* ==========================================================================
+   Other ways in: listen to the lead story, read a short
+   ========================================================================== */
+
+.tocatch {
+  width: 100%; margin-top: 8px; display: flex; align-items: center; gap: 9px;
+  background: transparent; border: 1px solid rgba(255,255,255,.22); border-radius: 8px;
+  padding: 10px 12px; color: #fff; font-size: 13.5px; font-weight: 600; text-align: left;
+}
+.tocatch svg { width: 13px; height: 13px; flex: none; }
+.tocatch:hover { border-color: rgba(255,255,255,.5); }
+
+.stlisten {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 1px solid #3A3A3A; background: #151515; color: #fff; border-radius: 999px;
+  padding: 6px 12px 6px 9px; font-size: 13px; font-weight: 700; margin-right: 4px;
+}
+.stlisten small { color: var(--muted); font-weight: 500; }
+.stlisten svg { width: 15px; height: 15px; }
+
+.toaa { font-size: 17px; font-weight: 800; line-height: 1; height: 28px; display: grid; place-items: center; }
+.toact.texton, .toact.texton .toaa { color: var(--yellow); }
+.totext {
+  position: absolute; left: 12px; right: 70px; top: 64px; z-index: 5;
+  background: rgba(10,10,10,.86); border: 1px solid rgba(255,255,255,.14);
+  border-radius: 10px; padding: 12px 14px; backdrop-filter: blur(8px);
+}
+.totext b { display: block; font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--yellow); margin-bottom: 6px; }
+.totext p { margin: 0; font-size: 14.5px; line-height: 1.5; }
+.tosounds {
+  display: inline-flex; align-items: center; gap: 7px; margin: 2px 0 8px;
+  border: 0; border-radius: 999px; background: #fff; color: #000;
+  padding: 7px 13px 7px 10px; font-size: 13px; font-weight: 700;
+}
+.tosounds svg path { fill: #000; stroke: #000; }
+
+@media (prefers-reduced-motion: reduce) {
+  .rcpslide, .dock { animation: none; }
+  .rcpseg.on i { animation: none; transform: none; }
+}

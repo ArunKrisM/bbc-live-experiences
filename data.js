@@ -52,63 +52,46 @@ const MOMENTS = [
    ========================================================================= */
 
 const DROP = [
-  /* 0-2 cricket, 3-6 tennis, 7-11 football, 12-14 rugby, 15 keeps the drawn
-     fallback alive so it stays exercised */
-  { t: "Root reaches three figures at Lord's", dur: "1:04", sport: "Cricket", chan: "BBC Cricket", handle: "bbccricket",
-    cap: "His second Ashes hundred at Lord's, and his slowest in eleven years. England still trail by 88.",
-    tags: ["Ashes", "Root"], likes: "4.1k", comments: "612", img: "ck-root", motif: "oval", g: ["#1B3A22", "#08170E"] },
-  { t: "Starc removes Stokes", dur: "0:28", sport: "Cricket", chan: "BBC Cricket", handle: "bbccricket",
-    cap: "Loose drive at a wide one and Australia are back in it. Stokes goes for 43.",
-    tags: ["Ashes", "Wickets"], likes: "2.8k", comments: "410", img: "ck-lords", motif: "oval", g: ["#3A1622", "#170A0F"] },
-  { t: "Day two in seven minutes", dur: "7:02", sport: "Cricket", chan: "BBC Cricket", handle: "bbccricket",
-    cap: "Labuschagne's 118, Smith's 91 and a final session that swung twice.",
-    tags: ["Ashes", "Highlights"], likes: "9.2k", comments: "1.1k", img: "ck-huddle", motif: "oval", g: ["#1F3A4A", "#0A1319"] },
+  /* ten cards, all made for the vertical feed. Match photography lives on
+     Home, where a still picture is doing the work; these are the things
+     people actually swipe through. 0-1 cricket, 2-4 tennis, 5-7 football,
+     8-9 rugby */
+  { t: "England given hope for Lord's", dur: "0:48", sport: "Cricket", chan: "BBC Cricket", handle: "bbccricket",
+    cap: "An Australian who has seen a lot of England sides thinks this one has turned a corner since Perth.",
+    tags: ["Ashes", "Build-up"], likes: "5.2k", comments: "731", img: "ck-hope", baked: true, motif: "oval", g: ["#1B3A22", "#08170E"] },
+  { t: "It has been a while", dur: "0:41", sport: "Cricket", chan: "Test Match Special", handle: "bbctms",
+    cap: "The moment the TMS box stopped pretending to be neutral. Listen to the full call on Sounds.",
+    tags: ["Ashes", "TMS"], likes: "14k", comments: "2.2k", img: "ck-tms", baked: true, motif: "oval", g: ["#1F3A4A", "#0A1319"], audio: true },
 
-  { t: "Three break points on Court 2", dur: "0:47", sport: "Tennis", chan: "BBC Tennis", handle: "bbctennis",
-    cap: "Second serve, and the whole of the outside courts starts walking the same way.",
-    tags: ["Wimbledon", "Raducanu"], likes: "12k", comments: "2.4k", img: "tn-forehand", motif: "court", g: ["#22461F", "#0C1A0B"] },
-  { t: "Court 2 erupts", dur: "0:31", sport: "Tennis", chan: "BBC Tennis", handle: "bbctennis",
-    cap: "Break taken, arms up, and the loudest noise on the grounds all afternoon.",
-    tags: ["Wimbledon", "Match point"], likes: "18k", comments: "3.1k", img: "tn-roar", motif: "court", g: ["#1D3A1F", "#0B1A0D"] },
+  { t: "Secret talent?", dur: "0:34", sport: "Tennis", chan: "BBC Sport", handle: "bbcsport",
+    cap: "Not the answer anyone in the room was expecting.",
+    tags: ["Wimbledon", "Off court"], likes: "11k", comments: "1.6k", img: "tn-secret", baked: true, motif: "court", g: ["#22461F", "#0C1A0B"] },
   { t: "The challenge that did not go to plan", dur: "0:36", sport: "Tennis", chan: "BBC Sport", handle: "bbcsport",
     cap: "She has beaten the best in the world. This, she could not do.",
-    tags: ["Wimbledon", "Off court"], likes: "7.4k", comments: "988", img: "tn-challenge", motif: "court", g: ["#2A3A22", "#101608"] },
+    tags: ["Wimbledon", "Off court"], likes: "7.4k", comments: "988", img: "tn-challenge", baked: true, motif: "court", g: ["#2A3A22", "#101608"] },
   { t: "What she is reading this fortnight", dur: "0:52", sport: "Tennis", chan: "BBC Sport", handle: "bbcsport",
     cap: "Three books, two weeks, and a straight face throughout.",
-    tags: ["Wimbledon", "Off court"], likes: "5.6k", comments: "744", img: "tn-books", motif: "court", g: ["#3A2A14", "#170F06"] },
+    tags: ["Wimbledon", "Off court"], likes: "5.6k", comments: "744", img: "tn-books", baked: true, motif: "court", g: ["#3A2A14", "#170F06"] },
 
-  { t: "The case for Cole Palmer", dur: "1:18", sport: "Football", chan: "BBC Sport", handle: "bbcsport",
-    cap: "He has started three of the last four. Our man thinks that should be four of four.",
-    tags: ["England", "Team news"], likes: "6.8k", comments: "1.9k", img: "fb-palmer", motif: "pitch", g: ["#123D22", "#071A0E"] },
   { t: "Palmer or Trent: who starts tonight?", dur: "0:58", sport: "Football", chan: "BBC Sport", handle: "bbcsport",
     cap: "One shape needs a right-back who can cross. The other needs a ten who can finish.",
     tags: ["England", "Team news"], likes: "9.4k", comments: "3.3k", img: "fb-debate", motif: "pitch", g: ["#1B3A22", "#08170E"] },
   { t: "Why Tuchel fits England", dur: "1:41", sport: "Football", chan: "BBC Sport", handle: "bbcsport",
     cap: "Two years in, and the argument that seemed strange in 2025 looks obvious now.",
-    tags: ["England", "Analysis"], likes: "11k", comments: "2.6k", img: "fb-tuchel", motif: "pitch", g: ["#24384B", "#0B1219"] },
+    tags: ["England", "Analysis"], likes: "11k", comments: "2.6k", img: "fb-tuchel", baked: true, motif: "pitch", g: ["#24384B", "#0B1219"] },
   { t: "Bellingham owned the second half", dur: "1:12", sport: "Football", chan: "BBC Sport", handle: "bbcsport",
     cap: "Eleven touches in the box after the break. Nobody else managed four.",
     tags: ["England", "Player of the match"], likes: "21k", comments: "4.2k", img: "fb-bellingham", motif: "pitch", g: ["#123D22", "#071A0E"] },
-  { t: "All the goals", dur: "2:24", sport: "Football", chan: "BBC Sport", handle: "bbcsport",
-    cap: "Saka on 52, Kane on 79, and a Netherlands consolation that arrived two minutes too late.",
-    tags: ["England", "Highlights"], likes: "16k", comments: "2.6k", img: "fb-celebrate", motif: "pitch", g: ["#1B2440", "#0B0F1C"] },
 
   { t: "Wales, three days out", dur: "0:44", sport: "Rugby Union", chan: "BBC Sport Wales", handle: "bbcsportwales",
-    cap: "Beaten by Fiji in the autumn, one win in five since. Cardiff has been quiet all week.",
+    cap: "One win in five since the autumn. Cardiff has been quiet all week.",
     tags: ["Six Nations", "Wales"], likes: "3.9k", comments: "870", img: "rg-wales", motif: "pitch", g: ["#22314A", "#0C121C"] },
-  { t: "Ireland name their side", dur: "0:39", sport: "Rugby Union", chan: "BBC Sport", handle: "bbcsport",
-    cap: "Unchanged from Round 4, which tells you what they think of the bonus point.",
-    tags: ["Six Nations", "Team news"], likes: "6.8k", comments: "1.2k", img: "rg-squad", motif: "pitch", g: ["#1B2440", "#0B0F1C"] },
   { t: "The fourth try, with a minute left", dur: "0:33", sport: "Rugby Union", chan: "BBC Sport", handle: "bbcsport",
     cap: "Held up twice, then over. The bonus point and the title race both turn on it.",
-    tags: ["Six Nations", "Bonus point"], likes: "8.1k", comments: "1.5k", img: "rg-roar", motif: "pitch", g: ["#22314A", "#0C121C"] },
-
-  { t: "Three fights, one night", dur: "1:29", sport: "Boxing", chan: "BBC Sport", handle: "bbcsport",
-    cap: "The undercard nobody expected to matter, and the one that did.",
-    tags: ["Boxing", "Predictions"], likes: "4.4k", comments: "1.3k", motif: "ring", g: ["#3A1622", "#170A0F"] }
+    tags: ["Six Nations", "Bonus point"], likes: "8.1k", comments: "1.5k", img: "rg-roar", motif: "pitch", g: ["#22314A", "#0C121C"] }
 ];
 
-const SHORTS_LIVE = { t: "shorts", label: "Your daily drop", deck: [4, 10, 0, 13] };
+const SHORTS_LIVE = { t: "shorts", label: "Your daily drop", deck: [1, 7, 2, 9] };
 
 const FEED_FOOTBALL = { t: "feed", author: "Written by Emma Sanders and Phil McNulty at Wembley", posts: [
   ["67 mins", "Saka goes close again", "Drifts inside off the right and curls one towards the far corner. Verbruggen tips it over.", false],
@@ -152,16 +135,16 @@ const EVENTS = [
        one set per lifecycle state */
     takeover: {
       a: "England", b: "Netherlands", ca: "#C8102E", cb: "#F26D1B",
-      buildup: { line: "19:45", sub: "Wembley · live on BBC One",
+      buildup: { img: "fb-debate", line: "19:45", sub: "Wembley · live on BBC One",
         stats: [["Wins in last 5", 3, 2], ["Goals scored", 11, 9], ["Clean sheets", 2, 1]],
         cta: "Open the build-up" },
-      live: { line: "1 – 0", sub: "67:57 · Saka 52'",
+      live: { img: "fb-kane", line: "1 – 0", sub: "67:57 · Saka 52'",
         stats: [["Shots", 14, 6], ["Possession %", 58, 42], ["Expected goals", 1.9, 0.7]],
         cta: "Open the live experience" },
-      companion: { line: "1 – 0", sub: "Paired with BBC One · held back 23s",
+      companion: { img: "fb-kane", line: "1 – 0", sub: "Paired with BBC One · held back 23s",
         stats: [["Shots", 14, 6], ["Possession %", 58, 42], ["Expected goals", 1.9, 0.7]],
         cta: "Follow it on your phone" },
-      fulltime: { line: "2 – 1", sub: "Full time · Saka 52', Kane 79'",
+      fulltime: { img: "fb-celebrate", line: "2 – 1", sub: "Full time · Saka 52', Kane 79'",
         stats: [["Shots", 19, 11], ["Possession %", 55, 45], ["Expected goals", 2.4, 1.3]],
         cta: "Highlights and how your night went" }
     },
@@ -188,7 +171,7 @@ const EVENTS = [
               { t: "storyline", kicker: "The tactical angle",
                 body: "Netherlands have conceded six of their last nine goals from crosses into the six-yard box. Saka has delivered more of those than any England player this cycle. Watch the far post." }
             ]},
-            { h: "Watch: Build-up", meta: "Swipe for more", panels: [{ t: "shorts", label: "Build-up", deck: [7, 8, 9, 15] }]},
+            { h: "Watch: Build-up", meta: "Swipe for more", panels: [{ t: "shorts", label: "Build-up", deck: [5, 6, 0] }]},
             { h: "The numbers", meta: "Opta", panels: [
               { t: "kv", items: [["At Wembley", "W4", "of last 5"], ["Both scored", "7", "of last 8"], ["Avg goals", "3.1", "this fixture"]] },
               { t: "note", body: "England have scored first in four of the last five meetings and won only two of them." }
@@ -326,7 +309,7 @@ const EVENTS = [
           { id: "report", label: "Report", sections: [
             { ruleY: true, panels: [{ t: "storyline", kicker: "Full-time report",
               body: "England held on. Two goals of real quality, a nervous last ten minutes after Gakpo's header, and a first win over the Netherlands at Wembley since 2018." }]},
-            { h: "Watch: The best of it", meta: "Swipe for more", panels: [{ t: "shorts", label: "The best of it", deck: [11, 10, 9, 4] }]},
+            { h: "Watch: The best of it", meta: "Swipe for more", panels: [{ t: "shorts", label: "The best of it", deck: [7, 6, 1] }]},
             { h: "Pundit verdict", meta: "Full time", panels: [{ t: "pundit", initials: "AS", who: "Alan Shearer", when: "FT",
               quote: "Better. Still made the last ten minutes harder than they needed to be.",
               opts: ["Fair", "Too kind"], split: [51, 49], after: "The country is genuinely split on this one." }]}
@@ -378,16 +361,16 @@ const EVENTS = [
 
     takeover: {
       a: "England", b: "Australia", ca: "#1A3A6B", cb: "#F1B434",
-      buildup: { line: "148-3", sub: "Day 3 · England trail by 224",
+      buildup: { img: "ck-squad", line: "148-3", sub: "Day 3 · England trail by 224",
         stats: [["Runs", 148, 372], ["Overs faced", 51, 118.4], ["Wickets down", 3, 10]],
         cta: "Open day three" },
-      live: { line: "284-6", sub: "89.2 overs · trail by 88",
+      live: { img: "ck-bat", line: "284-6", sub: "89.2 overs · trail by 88",
         stats: [["Runs", 284, 372], ["Overs faced", 89.2, 118.4], ["Wickets down", 6, 10]],
         cta: "Open the live experience" },
-      companion: { line: "284-6", sub: "Following Test Match Special",
+      companion: { img: "ck-wicket", line: "284-6", sub: "Following Test Match Special",
         stats: [["Runs", 284, 372], ["Overs faced", 89.2, 118.4], ["Wickets down", 6, 10]],
         cta: "Follow along with the radio" },
-      fulltime: { line: "361-8", sub: "Stumps · England trail by 11",
+      fulltime: { img: "ck-root", line: "361-8", sub: "Stumps · England trail by 11",
         stats: [["Runs", 361, 372], ["Overs faced", 114, 118.4], ["Wickets down", 8, 10]],
         cta: "The day in eleven balls" }
     },
@@ -422,7 +405,7 @@ const EVENTS = [
             ]},
             { h: "One thing to watch for", meta: "BBC Sport", panels: [{ t: "storyline", kicker: "The tactical angle",
               body: "The Lord's slope brings the ball back into the right-hander from the Pavilion End. Root has been beaten on the inside edge four times in this innings and has not been out to it. Australia will keep coming from that end for the first hour." }]},
-            { h: "Watch: Build-up", meta: "Swipe for more", panels: [{ t: "shorts", label: "Build-up", deck: [2, 0, 1] }]}
+            { h: "Watch: Build-up", meta: "Swipe for more", panels: [{ t: "shorts", label: "Build-up", deck: [0, 1, 5] }]}
           ]},
           { id: "predict", label: "Predict", sections: [
             { h: "Predict the morning session", meta: "28,104 in", ruleY: true, panels: [
@@ -580,7 +563,7 @@ const EVENTS = [
           { id: "report", label: "Report", sections: [
             { ruleY: true, panels: [{ t: "storyline", kicker: "Close of play",
               body: "Root's 148 not out dragged England from 168-5 to within eleven of Australia's total. Two days left, a flattening pitch and a bowling attack that looked tired for the last hour. This Test is drifting towards a draw, and England will take it." }]},
-            { h: "Watch: The day", meta: "Swipe for more", panels: [{ t: "shorts", label: "The day", deck: [0, 1, 2] }]},
+            { h: "Watch: The day", meta: "Swipe for more", panels: [{ t: "shorts", label: "The day", deck: [1, 0, 2] }]},
             { h: "From the box", meta: "Stumps", panels: [{ t: "pundit", initials: "EB", who: "Ebony Rainford-Brent", when: "Stumps",
               quote: "The best innings he has played in this country. It has changed nothing about the pitch and everything about the series.",
               opts: ["Right", "Overstated"], split: [77, 23], after: "Not much argument in the country on this one." }]}
@@ -636,17 +619,17 @@ const EVENTS = [
     accent: "#9ADFA0",
 
     takeover: {
-      a: "Raducanu", b: "Vondroušová", ca: "#BB1919", cb: "#4FC3C3",
-      buildup: { line: "Day 6", sub: "18 courts in play from 11:00",
+      a: "Raducanu", b: "Vondroušová", ca: "#BB1919", cb: "#9C8BD9",
+      buildup: { img: "tn-smile", line: "Day 6", sub: "18 courts in play from 11:00",
         stats: [["Career meetings won", 3, 1], ["Grass win %", 71, 58], ["Aces last round", 6, 2]],
         cta: "See what is coming on" },
-      live: { line: "6-4, 4-5", sub: "0-40 · Court 2 · three break points",
+      live: { img: "tn-stretch", line: "6-4, 4-5", sub: "0-40 · Court 2 · three break points",
         stats: [["Break points won", 4, 1], ["First serve %", 68, 55], ["Winners", 22, 15]],
         cta: "Open the live experience" },
-      companion: { line: "6-4, 4-5", sub: "Your telly is on Centre Court",
+      companion: { img: "tn-stretch", line: "6-4, 4-5", sub: "Your telly is on Centre Court",
         stats: [["Break points won", 4, 1], ["First serve %", 68, 55], ["Winners", 22, 15]],
         cta: "Watch the better match" },
-      fulltime: { line: "6-4, 7-5", sub: "Raducanu through in straight sets",
+      fulltime: { img: "tn-best", line: "6-4, 7-5", sub: "Raducanu through in straight sets",
         stats: [["Winners", 31, 22], ["First serve %", 66, 57], ["Break points won", 5, 2]],
         cta: "How Court 2 was won" }
     },
@@ -682,7 +665,7 @@ const EVENTS = [
               ["Court 2", "11:00", "Boulter v Kalinskaya", "then Draper v Shelton"],
               ["Court 18", "11:00", "Fearnley v Rune", "then two more"]
             ]}]},
-            { h: "Watch: Build-up", meta: "Swipe for more", panels: [{ t: "shorts", label: "Build-up", deck: [5, 6, 3] }]}
+            { h: "Watch: Build-up", meta: "Swipe for more", panels: [{ t: "shorts", label: "Build-up", deck: [2, 3, 4] }]}
           ]},
           { id: "predict", label: "Predict", sections: [
             { h: "Predict the day", meta: "62,400 in", ruleY: true, panels: [
@@ -763,7 +746,7 @@ const EVENTS = [
                 ["2013", "Murray ends the wait", "77 years, and the BBC audience peaks at 17.3 million."]
               ],
               note: "" }]},
-            { h: "Watch: Beyond the court", meta: "Swipe for more", panels: [{ t: "shorts", label: "Off court", deck: [5, 6, 4, 3] }]}
+            { h: "Watch: Beyond the court", meta: "Swipe for more", panels: [{ t: "shorts", label: "Off court", deck: [3, 4, 2] }]}
           ]}
         ]
       },
@@ -821,7 +804,7 @@ const EVENTS = [
               ["No.1", "Sinner", "def Fils", "6-2, 6-2, 6-3"],
               ["Court 18", "Kalinskaya", "def Boulter", "6-3, 4-6, 7-5"]
             ]}]},
-            { h: "Watch: The day", meta: "Swipe for more", panels: [{ t: "shorts", label: "The day", deck: [4, 3, 5] }]}
+            { h: "Watch: The day", meta: "Swipe for more", panels: [{ t: "shorts", label: "The day", deck: [2, 4, 3] }]}
           ]},
           { id: "yourday", label: "Your day", sections: [
             { h: "Your day", meta: "Scored at the last ball", ruleY: true, panels: [{ t: "scored", total: 41, max: 55, rows: [
@@ -868,16 +851,16 @@ const EVENTS = [
 
     takeover: {
       a: "Wales", b: "Ireland", ca: "#C8102E", cb: "#128D51",
-      buildup: { line: "17:15", sub: "Principality Stadium · roof closed",
+      buildup: { img: "rg-wales", line: "17:15", sub: "Principality Stadium · roof closed",
         stats: [["Wins in last 5", 1, 4], ["Points scored", 68, 131], ["Tries", 7, 17]],
         cta: "Open the build-up" },
-      live: { line: "13 – 16", sub: "64:12 · TMO reviewing a grounding",
+      live: { img: "rg-maul", line: "13 – 16", sub: "64:12 · TMO reviewing a grounding",
         stats: [["Territory %", 44, 56], ["Possession %", 47, 53], ["Tackles made", 118, 96]],
         cta: "Open the live experience" },
-      companion: { line: "13 – 16", sub: "Following your telly · held back 18s",
+      companion: { img: "rg-run", line: "13 – 16", sub: "Following your telly · held back 18s",
         stats: [["Territory %", 44, 56], ["Possession %", 47, 53], ["Tackles made", 118, 96]],
         cta: "See why the whistle went" },
-      fulltime: { line: "16 – 23", sub: "Full time · Ireland take the bonus point",
+      fulltime: { img: "rg-roar", line: "16 – 23", sub: "Full time · Ireland take the bonus point",
         stats: [["Territory %", 42, 58], ["Possession %", 45, 55], ["Tries", 1, 4]],
         cta: "The four tries and the table" }
     },
@@ -906,7 +889,7 @@ const EVENTS = [
               { t: "kv", items: [["Ireland", "2nd", "17 pts"], ["Wales", "6th", "2 pts"], ["Bonus point", "4 tries", "Ireland need it"]] },
               { t: "note", body: "Ireland need a bonus-point win and France to slip. Wales need a performance more than a result, which is a different match to watch." }
             ]},
-            { h: "Watch: Build-up", meta: "Swipe for more", panels: [{ t: "shorts", label: "Build-up", deck: [12, 13, 14] }]}
+            { h: "Watch: Build-up", meta: "Swipe for more", panels: [{ t: "shorts", label: "Build-up", deck: [8, 0, 2] }]}
           ]},
           { id: "predict", label: "Predict", sections: [
             { h: "Predict the match", meta: "52,220 in", ruleY: true, panels: [{ t: "predict" }] },
@@ -942,7 +925,7 @@ const EVENTS = [
         head: { kind: "teams", status: { kind: "live", text: "LIVE · TMO REVIEW", beat: true },
           centre: { big: "13 – 16", sub: "64:12" },
           home: { code: "WAL", name: "Wales", sub: "1T 1C 2P" },
-          away: { code: "IRE", name: "Ireland", sub: "2T 1C 1P" } },
+          away: { code: "IRE", name: "Ireland", sub: "2T 2P" } },
         clock: "rugby",
         tabs: [
           { id: "live", label: "Live", sections: [
@@ -1006,7 +989,7 @@ const EVENTS = [
         head: { kind: "teams", status: { kind: "paired", text: "FOLLOWING YOUR TELLY", beat: true },
           centre: { big: "13 – 16", sub: "63:41" },
           home: { code: "WAL", name: "Wales", sub: "1T 1C 2P" },
-          away: { code: "IRE", name: "Ireland", sub: "2T 1C 1P" } },
+          away: { code: "IRE", name: "Ireland", sub: "2T 2P" } },
         clock: "rugby", sofa: true,
         tabs: [
           { id: "watch", label: "Watch", sections: [
@@ -1049,7 +1032,7 @@ const EVENTS = [
               ref: "LAW 15.6(c) · THE 64TH-MINUTE PENALTY",
               body: "Wales kicked the three and drew within one score. The alternative was the corner, where they had already lost two lineouts. 58% of fans said take the three, and on the night it was the right call that still lost.",
               meta: "Checked by the BBC Sport rugby team" }]},
-            { h: "Watch: The best of it", meta: "Swipe for more", panels: [{ t: "shorts", label: "The best of it", deck: [14, 12, 13] }]}
+            { h: "Watch: The best of it", meta: "Swipe for more", panels: [{ t: "shorts", label: "The best of it", deck: [9, 8, 7] }]}
           ]},
           { id: "yourday", label: "Your afternoon", sections: [
             { h: "Your afternoon", meta: "Scored at the whistle", ruleY: true, panels: [{ t: "scored", total: 33, max: 55, rows: [
@@ -1110,7 +1093,7 @@ const NAVSCREENS = {
   shorts: {
     title: "Shorts",
     sections: [
-      { h: "Today on Shorts", meta: "All sports", panels: [{ t: "shortsgrid", deck: [4,10,5,3,7,12,0,9,14,8,1,6,11,2,13,15] }]}
+      { h: "Today on Shorts", meta: "All sports", panels: [{ t: "shortsgrid", deck: [1, 2, 7, 9, 5, 0, 3, 8, 6, 4] }]}
     ]
   },
   mysport: {
@@ -1256,5 +1239,95 @@ const HOMEFEED = {
     ]
   },
 
-  videos: { title: "Watch: Today's best", deck: [4, 10, 0, 12] }
+  videos: { title: "Watch: Today's best", deck: [1, 7, 2, 9] }
+};
+
+/* ---------------------------------------------------------------------------
+   The story so far. One per event, shown at the top of the live and
+   second-screen states. Three ways into the same story: watch the moments
+   as a rapid recap, listen to it read, or read it. Moments with no picture
+   render as a graphic card rather than borrowing a photo that shows the
+   wrong side celebrating.
+   ------------------------------------------------------------------------- */
+const RECAPS = {
+  football: {
+    listen: "1:40", read: "1 min", voice: "Read by BBC Radio 5 Live",
+    synopsis: [
+      "England lead through Bukayo Saka's goal seven minutes after half-time, and have looked more comfortable since than at any point before it.",
+      "The Netherlands had the better of the first half. They pressed high, won the ball back in England's third eleven times, and Cody Gakpo hit the bar on 24 minutes. England's best chance before the break fell to Harry Kane, whose shot from the edge of the area was tipped round the post.",
+      "Since the goal England have sat deeper and let the Netherlands have the ball. Jordan Pickford has had one save to make, from Xavi Simons on 64 minutes."
+    ],
+    moments: [
+      ["12'", "Kane tests Verbruggen", "Low shot from the edge of the area, tipped round the post.", "fb-kane", "chance"],
+      ["24'", "Gakpo hits the bar", "Curled from the corner of the box with Pickford beaten.", null, "chance"],
+      ["38'", "Rice booked", "Late on Reijnders. One more yellow and he misses the next match.", null, "card"],
+      ["HT", "Half-time: 0-0", "Netherlands 58% of the ball. England two shots on target to one.", null, "break"],
+      ["52'", "Goal: Saka", "Kane's pass inside the full-back, one touch past Van Dijk, near post.", "fb-celebrate", "goal"],
+      ["64'", "Pickford saves from Simons", "The Netherlands' only shot on target. Parried and cleared.", null, "chance"]
+    ]
+  },
+  cricket: {
+    listen: "2:05", read: "1 min", voice: "Read by Test Match Special",
+    synopsis: [
+      "Joe Root is 121 not out and England are 284-6, 88 behind Australia's 372. He started the day on 62 and has batted through every session.",
+      "The morning belonged to Australia. Harry Brook was bowled by Nathan Lyon for 29, two more wickets followed before lunch, and England went in at 168-5 with the follow-on still five runs away.",
+      "Root and Ben Stokes then put on 88 across the afternoon. Root reached his second Ashes hundred at Lord's after tea, Stokes fell for 43 caught behind off Mitchell Starc, and the new ball is due in eight overs."
+    ],
+    moments: [
+      ["11:00", "Play resumes on 148-3", "Root 62, Brook 11. England 224 behind.", "ck-bat", "start"],
+      ["11:48", "Brook b Lyon 29", "Went back to one that skidded on. Australia's first breakthrough of the day.", null, "wicket"],
+      ["12:55", "Lunch: 168-5", "Two more gone in the last half-hour. The follow-on is five runs away.", null, "break"],
+      ["13:41", "Follow-on saved", "Stokes drives Cummins through the covers.", null, "milestone"],
+      ["16:42", "Root's hundred", "His second Ashes century at Lord's, from 243 balls. The slowest of his career and the most needed.", "ck-root", "milestone"],
+      ["17:31", "Stokes c Carey b Starc 43", "Loose drive at a wide one. The stand ends on 88.", null, "wicket"]
+    ]
+  },
+  tennis: {
+    listen: "1:15", read: "1 min", voice: "Read by BBC Radio 5 Sports Extra",
+    synopsis: [
+      "Emma Raducanu won the first set 6-4 and has three break points to level the second at 5-5, with Markéta Vondroušová serving for the set.",
+      "She broke early in the first, was broken straight back, then broke again at 4-4 and served it out to love. Her first serve has been the difference: 68% in, and four of five break points taken.",
+      "Vondroušová found her range at the start of the second, broke to lead 3-2 and has held every time since. The crowd walking over from the outside courts tells you what the next point is worth."
+    ],
+    moments: [
+      ["Set 1 · 2-1", "Early break", "Backhand return down the line on the first break point of the match.", "tn-tracking", "score"],
+      ["Set 1 · 3-3", "Broken straight back", "Two double faults in one game. The only loose one she has played.", "tn-dejected", "chance"],
+      ["Set 1 · 6-4", "First set Raducanu", "Broke at 4-4 and served it out to love.", "tn-stretch", "goal"],
+      ["Set 2 · 2-3", "Vondroušová breaks", "A lob off the frame lands on the baseline.", null, "chance"],
+      ["Set 2 · 4-5", "0-40 on the Vondroušová serve", "Serving for the set, three break points down. Court 2 is filling up.", null, "milestone"]
+    ]
+  },
+  rugby: {
+    listen: "1:50", read: "1 min", voice: "Read by BBC Radio 5 Live",
+    synopsis: [
+      "Ireland lead 16-13 with a quarter of an hour left, and the TMO is looking at what would be their third try.",
+      "They have scored the only two tries from open play but missed both conversions, which is why Wales are still within a score. Wales' try came from a driving maul after 33 minutes and put them 10-8 up at half-time.",
+      "The second half has been a kicking contest. Ireland need two more tries for the bonus point that keeps them in the title race."
+    ],
+    moments: [
+      ["6'", "Try: Keenan", "Eleven phases, finished in the right corner. Conversion missed. 0-5.", "rg-run", "goal"],
+      ["33'", "Try: Wales, converted", "Driving maul from a lineout fifteen metres out. 10-8.", "rg-maul", "goal"],
+      ["HT", "Wales 10-8 Ireland", "Ireland have had 61% of the territory and not 61% of the scoreboard.", null, "break"],
+      ["47'", "Try: Ireland", "Over from a scrum on the Wales line. Conversion hits the post. 10-13.", null, "goal"],
+      ["61'", "Penalty: Ireland", "Wales offside at the ruck, 35 metres out. 13-16.", null, "score"],
+      ["64'", "TMO: grounding in the corner", "A third try would put the bonus point back in reach.", null, "milestone"]
+    ]
+  }
+};
+
+/* what is said in each short, for anyone watching with the sound off.
+   Written as a summary rather than as quotation: these are real people and
+   the prototype does not put words in their mouths. Where the frame itself
+   carries a subtitle, that line is used as it appears. */
+const TRANSCRIPTS = {
+  "ck-hope": "A former Australia captain on England's chances going into Lord's. Subtitle on screen: \u201cI know everyone judged the English boys really harshly in Perth.\u201d He goes on to say the conditions at Lord's should suit England's seamers better.",
+  "ck-tms": "The Test Match Special box as a wicket falls. The commentators are out of their seats, one with both arms up, and the call is drowned out by the ground. The full passage is on BBC Sounds.",
+  "tn-secret": "Raducanu is asked for a secret talent and laughs before answering. Subtitle on screen: \u201cspeak a few languages\u201d.",
+  "tn-challenge": "A trick-shot challenge filmed off court. Several attempts, one near miss, and a lot of laughing at the result.",
+  "tn-books": "At a press conference Raducanu is asked what she is reading during the fortnight and talks through the books she has on the go.",
+  "fb-debate": "A pundit sets out the selection question for tonight: which of the two starts depends on whether England line up with a back four or a back three.",
+  "fb-tuchel": "A studio piece on why the England head coach has suited this squad, looking back at how the appointment was received and what has changed since.",
+  "fb-bellingham": "A short on the second-half performance, built around the number of touches in the opposition box after the break.",
+  "rg-wales": "Wales players leave the field after the autumn defeat, with the coaching team's week in Cardiff as the backdrop to Saturday.",
+  "rg-roar": "The fourth Ireland try from two angles: held up twice on the line, then grounded, and the celebration that followed."
 };

@@ -746,18 +746,20 @@
   var PHOTOS = {
     football: [
       { s: "fb-xi", p: "pre", a: "A pundit's England XI for tonight" },
-      { s: "fb-palmer", p: "pre", a: "A pundit makes the case for Cole Palmer" },
       { s: "fb-debate", p: "pre", a: "Two England selection calls, side by side" },
+      { s: "fb-palmer", p: "pre", a: "A pundit makes the case for Cole Palmer" },
       { s: "fb-kane", p: "live", a: "England shoot from the edge of the area" },
       { s: "fb-celebrate", p: "post", a: "England players celebrate a goal" },
       { s: "fb-highlights", p: "post", a: "Highlights of the England match" },
       { s: "fb-bellingham", p: "post", a: "England's best player of the night" }
     ],
     tennis: [
-      { s: "tn-field", p: "pre", a: "The field at a grand slam" },
-      { s: "tn-forehand", p: "live", a: "Raducanu strikes a forehand" },
-      { s: "tn-raducanu", p: "live", a: "Raducanu stretches wide for a forehand" },
-      { s: "tn-roar", p: "post", a: "Raducanu roars after taking the point" }
+      { s: "tn-smile", p: "pre", a: "Raducanu at the All England Club before her match" },
+      { s: "tn-plan", p: "pre", a: "Raducanu on her Wimbledon plans" },
+      { s: "tn-stretch", p: "live", a: "Raducanu stretches for a backhand on grass" },
+      { s: "tn-tracking", p: "live", a: "Raducanu tracks the ball on the baseline" },
+      { s: "tn-dejected", p: "live", a: "Raducanu after dropping serve" },
+      { s: "tn-best", p: "post", a: "Raducanu roars after taking the match" }
     ],
     rugby: [
       { s: "rg-squad", p: "pre", a: "The Ireland side for this afternoon" },
@@ -769,6 +771,11 @@
       { s: "rg-roar", p: "post", a: "An Ireland player roars at the final whistle" }
     ],
     cricket: [
+      { s: "ck-squad", p: "pre", a: "The England Test squad" },
+      { s: "ck-xi", p: "pre", a: "Readers pick a combined Ashes XI" },
+      { s: "ck-bat", p: "live", a: "Root works the ball away at Lord's" },
+      { s: "ck-wicket", p: "live", a: "England celebrate a wicket" },
+      { s: "ck-stokes", p: "live", a: "Stokes rallies the crowd from the outfield" },
       { s: "ck-ball", p: "live", a: "An England bowler works on the ball" },
       { s: "ck-root", p: "post", a: "Root celebrates a Test century" },
       { s: "ck-lords", p: "post", a: "England celebrate a wicket at Lord's" },
@@ -779,16 +786,41 @@
   /* every slug and the crops that exist for it, so a card never asks for a
      file that was never cut */
   var SLOTS = {
-    "fb-kane": "wide tall sq", "fb-xi": "wide tall sq", "fb-palmer": "wide tall sq",
-    "fb-debate": "wide tall sq", "fb-celebrate": "wide tall sq", "fb-highlights": "wide sq",
-    "fb-bellingham": "wide tall sq", "fb-tuchel": "tall sq",
-    "tn-roar": "wide tall sq", "tn-forehand": "wide tall sq", "tn-raducanu": "wide sq",
-    "tn-field": "wide sq", "tn-challenge": "tall sq", "tn-books": "tall sq",
-    "rg-maul": "wide tall sq", "rg-run": "wide tall sq", "rg-flyhalves": "wide sq",
-    "rg-wales": "wide tall sq", "rg-squad": "wide tall sq", "rg-listen": "wide tall sq",
+    "ck-ball": "wide tall sq",
+    "ck-bat": "wide tall sq",
+    "ck-hope": "tall sq",
+    "ck-huddle": "wide tall sq",
+    "ck-lords": "wide tall sq",
+    "ck-root": "wide tall sq",
+    "ck-squad": "wide tall sq",
+    "ck-stokes": "wide tall sq",
+    "ck-tms": "tall sq",
+    "ck-wicket": "wide tall sq",
+    "ck-xi": "wide tall sq",
+    "fb-bellingham": "wide tall sq",
+    "fb-celebrate": "wide tall sq",
+    "fb-debate": "wide tall sq",
+    "fb-highlights": "wide sq",
+    "fb-kane": "wide tall sq",
+    "fb-palmer": "wide tall sq",
+    "fb-tuchel": "tall sq",
+    "fb-xi": "wide tall sq",
+    "rg-flyhalves": "wide sq",
+    "rg-listen": "wide tall sq",
+    "rg-maul": "wide tall sq",
     "rg-roar": "wide tall sq",
-    "ck-root": "wide tall sq", "ck-lords": "wide tall sq",
-    "ck-huddle": "wide tall sq", "ck-ball": "wide tall sq"
+    "rg-run": "wide tall sq",
+    "rg-squad": "wide tall sq",
+    "rg-wales": "wide tall sq",
+    "tn-best": "wide tall sq",
+    "tn-books": "tall sq",
+    "tn-challenge": "tall sq",
+    "tn-dejected": "wide tall sq",
+    "tn-plan": "wide tall sq",
+    "tn-secret": "tall sq",
+    "tn-smile": "wide tall sq",
+    "tn-stretch": "wide tall sq",
+    "tn-tracking": "wide sq"
   };
 
   function slotFor(slug, ratio) {
@@ -900,7 +932,7 @@
         '<span class="play">' + I.playtri + '</span>' +
         '<span class="dur">' + esc(it.dur) + '</span>' +
         '<span class="fmeta"><span class="fkick">' + esc(it.sport) + '</span>' +
-        '<span class="ftitle">' + esc(it.t) + '</span></span></span></button>';
+        (it.baked ? "" : '<span class="ftitle">' + esc(it.t) + '</span>') + '</span></span></button>';
     }).join("") + '</div>';
   };
 
@@ -1353,10 +1385,11 @@
 
   function appHead(sectionLabel) {
     return '<div class="apphead"><div class="headrow">' +
-      '<button class="iconbtn" type="button" id="burger" aria-label="Menu" aria-expanded="false">' + I.burger + '</button>' +
       '<span class="bbcblocks" aria-label="BBC"><i>B</i><i>B</i><i>C</i></span>' +
       '<button class="iconbtn" type="button" data-toast="Notifications are not wired up in this prototype." aria-label="Notifications">' + I.bell + '</button>' +
       '<button class="iconbtn" type="button" data-toast="Share sheet is not wired up in this prototype." aria-label="Share">' + I.share + '</button>' +
+      '<button class="iconbtn menubtn" type="button" id="burger" aria-label="Your account and menu" aria-expanded="false">' +
+      '<span class="meav" aria-hidden="true">A</span>' + I.burger + '</button>' +
       '</div><div class="sportrow"><span class="sportmark">SPORT</span><span class="sportsection">' + esc(sectionLabel) + '</span></div></div>';
   }
 
@@ -1404,7 +1437,7 @@
 
     if (e.audio) {
       out += '<div class="listenrow">' +
-        '<button class="listenbtn" type="button" data-toast="' + esc(e.audio.station) + ' is a placeholder in this prototype.">' +
+        '<button class="listenbtn" type="button" data-listenlive="' + S.eventIx + '">' +
         I.speaker + 'Listen live</button>' +
         '<span class="listenmeta"><b>' + esc(e.audio.prog) + '</b><br>' + esc(e.audio.station) + '</span></div>';
     }
@@ -1469,7 +1502,7 @@
 
     return '<section class="livetake">' +
       '<div class="tostill"><div class="tokb">' +
-      photoSVG(e.photo, "tall", e.sport + " " + e.title + " " + lc()) +
+      photoSVG(T.img ? { img: T.img, cap: TK.a + " v " + TK.b } : e.photo, "tall", e.sport + " " + e.title + " " + lc()) +
       '</div><span class="toveil"></span><span class="tosweep"></span></div>' +
 
       '<div class="totop">' +
@@ -1490,6 +1523,9 @@
       '<div class="tostats">' + bars + '</div>' +
       '<button class="tocta" type="button" data-open="' + x.i + '">' +
       '<span>' + esc(T.cta || "Open the experience") + '</span>' + I.chevron + '</button>' +
+      (RECAPS[e.id] && (lc() === "live" || lc() === "companion")
+        ? '<button class="tocatch" type="button" data-open="' + x.i + '">' + I.play +
+          '<span>Just arrived? The story so far in 60 seconds</span></button>' : "") +
       '</div></section>';
   }
 
@@ -1528,6 +1564,7 @@
       '<h2 class="sthead">' + esc(hero.head) + '</h2></div>' +
       '<div class="stbody"><p class="ststand">' + esc(hero.stand) + '</p>' +
       '<div class="engage">' +
+      '<button class="stlisten" type="button" data-storylisten>' + I.speaker + 'Listen <small>2 min</small></button>' +
       '<span class="eng">' + I.comment + esc(hero.comments) + '</span>' +
       '<span class="eng">' + I.heart + esc(hero.likes) + '</span>' +
       '<span class="eng">' + I.send + esc(hero.shares) + '</span></div></div></section>';
@@ -1591,7 +1628,7 @@
           '<span class="play">' + I.playtri + '</span>' +
           '<span class="dur">' + esc(it.dur) + '</span>' +
           '<span class="fmeta"><span class="fkick">' + esc(it.sport) + '</span>' +
-          '<span class="ftitle">' + esc(it.t) + '</span></span></span></button>';
+          (it.baked ? "" : '<span class="ftitle">' + esc(it.t) + '</span>') + '</span></span></button>';
       }).join("") + '</div></section>';
 
     /* 7. sport on the BBC */
@@ -1659,10 +1696,10 @@
       body = summaryBox() + renderSections(curTab().sections);
     }
 
-    app.innerHTML = '<div class="viewport' + (evState().sofa && !isHome && S.nav === "home" ? " sofa" : "") + '" id="viewport">' +
+    app.innerHTML = '<div class="viewport' + (evState().sofa && !isHome && S.nav === "home" ? " sofa" : "") + (S.dock ? " docked" : "") + '" id="viewport">' +
       head + '<div class="body" id="scrollbody"><div id="stage"' +
       (dir ? ' class="stage-anim" style="--from:' + (dir > 0 ? "18px" : "-18px") + '"' : "") + '>' + body + '</div></div>' +
-      navBar() + drawer() + '<div class="toast" id="toast" role="status"></div></div>';
+      dockHTML() + navBar() + drawer() + '<div class="toast" id="toast" role="status"></div></div>';
 
     var sb = $("#scrollbody"), vp = $("#viewport");
     if (sb && vp) {
@@ -1709,6 +1746,276 @@
         I.nav[n[0]] + '<span>' + esc(n[1]) + '</span></button>';
     }).join("") + '</div>';
   }
+
+  /* ==========================================================================
+     The story so far, and the audio dock
+     ==========================================================================
+     Somebody arriving at minute 67 needs the match explained before any of
+     the live furniture makes sense. The recap tells it three ways: watch the
+     moments go by in sixty seconds, listen to it read while doing something
+     else, or read it properly. Same story, three levels of attention.
+
+     The dock is where anything audio lives: Listen live, a story read aloud,
+     a clip from Test Match Special. It sits above the navigation and keeps
+     playing as you move around the app.
+     ========================================================================== */
+
+  var RECAP_SLIDE = 3.4;
+
+  function secs(t) {
+    var m = String(t || "0:00").split(":");
+    return Number(m[0]) * 60 + Number(m[1] || 0);
+  }
+
+  function rstate(id) {
+    if (!S.recap) { S.recap = {}; }
+    if (!S.recap[id]) { S.recap[id] = { mode: "watch", ix: 0, el: 0, play: true, pos: 0, speed: 1, heard: false }; }
+    return S.recap[id];
+  }
+
+  var WAVE = (function () {
+    var out = [], x = 1234567;
+    for (var i = 0; i < 64; i++) {
+      x = (x * 1103515245 + 12345) & 0x7fffffff;
+      out.push(0.25 + (x % 1000) / 1000 * 0.75);
+    }
+    return out;
+  })();
+
+  function waveSVG(cls) {
+    return '<svg class="' + cls + '" viewBox="0 0 256 40" preserveAspectRatio="none" aria-hidden="true">' +
+      WAVE.map(function (v, i) {
+        var h = v * 34;
+        return '<rect x="' + (i * 4 + 0.5) + '" y="' + (20 - h / 2).toFixed(1) + '" width="2.4" height="' + h.toFixed(1) + '" rx="1.2"/>';
+      }).join("") + '</svg>';
+  }
+
+  function momentTile(m, e) {
+    if (m[3]) { return imgTag(m[3], m[1], "wide"); }
+    /* no picture: a graphic card, coloured by what kind of moment it was */
+    return '<span class="rcpgfx k-' + esc(m[4] || "score") + '" style="--acc:' + (e ? e.accent : "#FFD230") + '">' +
+      '<b>' + esc(m[0]) + '</b>' + (e && I.sport[e.sport] ? '<i>' + I.sport[e.sport] + '</i>' : "") + '</span>';
+  }
+
+  function nowLine(R, r) {
+    var dur = secs(R.listen), n = R.moments.length;
+    var k = Math.min(n - 1, Math.floor(r.pos / dur * n));
+    return R.moments[k];
+  }
+
+  P.recap = function (p) {
+    var R = RECAPS[p.id];
+    if (!R) { return ""; }
+    var r = rstate(p.id), e = EVENTS.filter(function (x) { return x.id === p.id; })[0];
+    var n = R.moments.length, out = "";
+
+    out += '<div class="rcp" data-recap="' + esc(p.id) + '">' +
+      '<div class="rcpmodes" role="tablist" aria-label="How to catch up">' +
+      [["watch", "Watch", "60 sec"], ["listen", "Listen", R.listen], ["read", "Read", R.read]].map(function (m) {
+        return '<button type="button" role="tab" data-rmode="' + m[0] + '" aria-selected="' + (r.mode === m[0]) + '">' +
+          '<span>' + m[1] + '</span><small>' + esc(m[2]) + '</small></button>';
+      }).join("") + '</div>';
+
+    if (r.mode === "watch") {
+      var m = R.moments[r.ix];
+      out += '<div class="rcpstage' + (r.play ? "" : " paused") + '">' +
+        '<div class="rcpslide">' + momentTile(m, e) + '</div>' +
+        '<span class="rcpscrim"></span>' +
+        '<div class="rcpsegs">' + R.moments.map(function (x, k) {
+          var st = k < r.ix ? "done" : k === r.ix ? "on" : "";
+          return '<span class="rcpseg ' + st + '"><i' +
+            (k === r.ix ? ' style="animation-duration:' + RECAP_SLIDE + 's;animation-delay:-' + r.el.toFixed(2) + 's"' : "") +
+            '></i></span>';
+        }).join("") + '</div>' +
+        '<div class="rcptext"><span class="rcptime">' + esc(m[0]) + '</span>' +
+        '<b>' + esc(m[1]) + '</b><p>' + esc(m[2]) + '</p></div>' +
+        '<button class="rcpzone prev" type="button" data-rstep="-1" aria-label="Previous moment"></button>' +
+        '<button class="rcpzone next" type="button" data-rstep="1" aria-label="Next moment"></button>' +
+        '<button class="rcpplay" type="button" data-rplay aria-label="' + (r.play ? "Pause" : "Play") + '">' +
+        (r.play ? I.pause : I.play) + '</button>' +
+        '<span class="rcpcount">' + (r.ix + 1) + ' of ' + n + '</span>' +
+        '</div>';
+    } else if (r.mode === "listen") {
+      var dur = secs(R.listen), pct = Math.min(100, r.pos / dur * 100), now = nowLine(R, r);
+      out += '<div class="rcpaudio">' +
+        '<button class="rcpbig" type="button" data-rplay aria-label="' + (r.play ? "Pause" : "Play") + '">' +
+        (r.play ? I.pause : I.play) + '</button>' +
+        '<div class="rcpwavebox">' + waveSVG("rcpwave") +
+        '<span class="rcpwavefill" style="clip-path:inset(0 ' + (100 - pct).toFixed(1) + '% 0 0)">' + waveSVG("rcpwave on") + '</span></div>' +
+        '<div class="rcptimes"><span data-rel>' + mmss(Math.floor(r.pos)) + '</span>' +
+        '<button type="button" class="rcpspeed" data-rspeed>' + r.speed + '×</button>' +
+        '<span>' + esc(R.listen) + '</span></div>' +
+        '<p class="rcpnow"><span>Now</span> <b data-rnow>' + esc(now[0] + " · " + now[1]) + '</b></p>' +
+        '<p class="rcpvoice">' + esc(R.voice) + '</p>' +
+        '</div>';
+    } else {
+      out += '<div class="rcpread">' + R.synopsis.map(function (para) { return '<p>' + esc(para) + '</p>'; }).join("") +
+        '<ol class="rcpline">' + R.moments.map(function (x) {
+          return '<li class="k-' + esc(x[4] || "score") + '"><span>' + esc(x[0]) + '</span><b>' + esc(x[1]) + '</b></li>';
+        }).join("") + '</ol></div>';
+    }
+    return out + '</div>';
+  };
+
+  function refreshRecap(id) {
+    var el = $('[data-recap="' + id + '"]');
+    if (!el) { return; }
+    var holder = document.createElement("div");
+    holder.innerHTML = P.recap({ id: id });
+    var fresh = holder.firstChild;
+    el.parentNode.replaceChild(fresh, el);
+    wireRecap(fresh);
+  }
+
+  function wireRecap(el) {
+    var id = el.dataset.recap, R = RECAPS[id], r = rstate(id);
+    $$("[data-rmode]", el).forEach(function (b) {
+      b.onclick = function () {
+        var m = b.dataset.rmode;
+        if (m === r.mode) { return; }
+        r.mode = m;
+        r.play = m !== "read";
+        if (m === "watch") { r.el = 0; if (r.ix >= R.moments.length - 1) { r.ix = 0; } }
+        if (m === "listen") { stopDock(); if (r.pos >= secs(R.listen)) { r.pos = 0; } }
+        refreshRecap(id);
+      };
+    });
+    var pb = $("[data-rplay]", el);
+    if (pb) {
+      pb.onclick = function () {
+        r.play = !r.play;
+        if (r.play && r.mode === "watch" && r.ix >= R.moments.length - 1 && r.el >= RECAP_SLIDE) { r.ix = 0; r.el = 0; }
+        if (r.play && r.mode === "listen") { stopDock(); if (r.pos >= secs(R.listen)) { r.pos = 0; } }
+        refreshRecap(id);
+      };
+    }
+    $$("[data-rstep]", el).forEach(function (b) {
+      b.onclick = function () {
+        r.ix = Math.max(0, Math.min(R.moments.length - 1, r.ix + Number(b.dataset.rstep)));
+        r.el = 0;
+        refreshRecap(id);
+      };
+    });
+    var sp = $("[data-rspeed]", el);
+    if (sp) {
+      sp.onclick = function () {
+        r.speed = r.speed === 1 ? 1.5 : r.speed === 1.5 ? 2 : 1;
+        refreshRecap(id);
+      };
+    }
+  }
+
+  /* ---- the dock ---- */
+
+  function dockHTML() {
+    var d = S.dock;
+    if (!d) { return '<div class="dock" id="dock" hidden></div>'; }
+    var pct = d.dur ? Math.min(100, d.pos / d.dur * 100) : 0;
+    return '<div class="dock' + (d.live ? " live" : "") + '" id="dock" role="region" aria-label="Now playing">' +
+      '<button class="dkplay" type="button" data-dkplay aria-label="' + (d.play ? "Pause" : "Play") + '">' +
+      (d.play ? I.pause : I.play) + '</button>' +
+      '<span class="dktext">' +
+      (d.live ? '<span class="dklive"><i></i>LIVE</span>' : "") +
+      '<b>' + esc(d.title) + '</b><small>' + esc(d.sub) + '</small></span>' +
+      (d.transcript ? '<button class="dkread" type="button" data-dkread aria-pressed="' + !!d.showText + '">Text</button>' : "") +
+      '<button class="dkclose" type="button" data-dkclose aria-label="Stop">' + I.close + '</button>' +
+      (d.dur ? '<span class="dkbar"><i style="width:' + pct.toFixed(1) + '%"></i></span>' : '<span class="dkbar live"><i></i></span>') +
+      (d.transcript && d.showText ? '<div class="dktranscript">' + d.transcript.map(function (t) { return '<p>' + esc(t) + '</p>'; }).join("") + '</div>' : "") +
+      '</div>';
+  }
+
+  function paintDock() {
+    var old = $("#dock");
+    if (!old) { return; }
+    var holder = document.createElement("div");
+    holder.innerHTML = dockHTML();
+    old.parentNode.replaceChild(holder.firstChild, old);
+    wireDock();
+    var vp = $("#viewport");
+    if (vp) { vp.classList.toggle("docked", !!S.dock); }
+  }
+
+  function wireDock() {
+    var el = $("#dock");
+    if (!el || !S.dock) { return; }
+    var p = $("[data-dkplay]", el), c = $("[data-dkclose]", el), t = $("[data-dkread]", el);
+    if (p) { p.onclick = function () { S.dock.play = !S.dock.play; paintDock(); }; }
+    if (c) { c.onclick = stopDock; }
+    if (t) { t.onclick = function () { S.dock.showText = !S.dock.showText; paintDock(); }; }
+  }
+
+  function playDock(d) {
+    /* one thing plays at a time: the recap's own player stops */
+    for (var id in (S.recap || {})) {
+      if (S.recap.hasOwnProperty(id) && S.recap[id].mode === "listen") { S.recap[id].play = false; refreshRecap(id); }
+    }
+    d.play = true; d.pos = 0;
+    S.dock = d;
+    paintDock();
+  }
+
+  function stopDock() {
+    if (!S.dock) { return; }
+    S.dock = null;
+    paintDock();
+  }
+
+  function listenLive(e) {
+    playDock({ live: true, title: e.audio.station, sub: e.audio.prog, dur: 0 });
+  }
+
+  /* one clock for everything that moves on its own */
+  function tickMedia() {
+    var dt = 0.2;
+    var id, r, R, el;
+    for (id in (S.recap || {})) {
+      if (!S.recap.hasOwnProperty(id)) { continue; }
+      r = S.recap[id]; R = RECAPS[id];
+      el = $('[data-recap="' + id + '"]');
+      if (!el || !r.play) { continue; }
+      if (r.mode === "watch") {
+        r.el += dt;
+        if (r.el >= RECAP_SLIDE) {
+          if (r.ix < R.moments.length - 1) { r.ix += 1; r.el = 0; }
+          else { r.el = RECAP_SLIDE; r.play = false; }
+          refreshRecap(id);
+        }
+      } else if (r.mode === "listen") {
+        var dur = secs(R.listen);
+        r.pos = Math.min(dur, r.pos + dt * r.speed);
+        var f = $(".rcpwavefill", el), rel = $("[data-rel]", el), nw = $("[data-rnow]", el);
+        if (f) { f.style.clipPath = "inset(0 " + (100 - r.pos / dur * 100).toFixed(1) + "% 0 0)"; }
+        if (rel) { rel.textContent = mmss(Math.floor(r.pos)); }
+        if (nw) { var m = nowLine(R, r); nw.textContent = m[0] + " · " + m[1]; }
+        if (r.pos >= dur) { r.play = false; refreshRecap(id); }
+      }
+    }
+    var d = S.dock;
+    if (d && d.play && d.dur) {
+      d.pos = Math.min(d.dur, d.pos + dt);
+      var bar = $("#dock .dkbar i");
+      if (bar) { bar.style.width = (d.pos / d.dur * 100).toFixed(1) + "%"; }
+      if (d.pos >= d.dur) { d.play = false; paintDock(); }
+    }
+  }
+
+  /* the recap goes into every live and second-screen state, at the top of
+     the first tab, or straight after the delay control where there is one */
+  function seedRecaps() {
+    EVENTS.forEach(function (e) {
+      if (!RECAPS[e.id]) { return; }
+      ["live", "companion"].forEach(function (st) {
+        var s = e.states[st];
+        if (!s || !s.tabs || !s.tabs[0]) { return; }
+        var secs0 = s.tabs[0].sections;
+        if (secs0.some(function (x) { return x.panels && x.panels.some(function (pn) { return pn.t === "recap"; }); })) { return; }
+        var at = 0;
+        secs0.forEach(function (x, i) { if (/^Match your/.test(x.h || "")) { at = i + 1; } });
+        secs0.splice(at, 0, { h: "The story so far", meta: "Catch up", panels: [{ t: "recap", id: e.id }] });
+      });
+    });
+  }
+
 
   /* ==========================================================================
      The menu: a profile rather than a nav list
@@ -1816,7 +2123,8 @@
       '<button class="iconbtn" type="button" data-toast="Settings are not built out in this prototype." aria-label="Settings">' + I.gear + '</button>' +
       '</div>' +
 
-      '<div class="dme"><span class="dav">M</span><h2>Matt</h2></div>' +
+      '<div class="dme"><button class="dav" type="button" data-toast="Adding a profile picture is not built out in this prototype." aria-label="Add a profile picture">A' +
+      '<span class="davadd" aria-hidden="true">+</span></button><h2>Arun</h2></div>' +
 
       '<section class="dblock">' + dhead("Follows", "Your followed sports are not built out in this prototype.") +
       '<div class="dchips"><button class="dchip ic" type="button" data-toast="Follow settings are not built out in this prototype." aria-label="Edit follows">' +
@@ -1849,13 +2157,17 @@
       }).join("") + '</div></section>' +
 
       '<section class="dblock last">' + dhead("Live today", "") +
-      '<nav>' + live.map(function (x) {
+      '<div class="rail liverail drail">' + live.map(function (x, k) {
         var c = x.c;
-        return '<button class="dl' + (S.view === "event" && x.i === S.eventIx ? " on" : "") + '" type="button" data-open="' + x.i + '">' +
-          '<span>' + esc(x.e.sport) + '<span class="dsub">' + esc(c.line1) + '</span></span>' +
-          (c.status === "live" ? '<span class="dlive">LIVE</span>' : '<span class="dwhen">' + esc(c.when.split(" ·")[0]) + '</span>') +
-          '</button>';
-      }).join("") + '</nav></section>' +
+        var chip = c.status === "live" ? '<span class="chiplive">LIVE</span>'
+          : c.status === "soon" ? '<span class="chipsoon">' + esc(c.when.split(" \u00b7")[0]) + '</span>'
+          : '<span class="chipdone">' + esc(c.when.split(" \u00b7")[0]) + '</span>';
+        return '<button class="lcard' + (S.view === "event" && x.i === S.eventIx ? " top" : "") + '" type="button" data-open="' + x.i + '">' +
+          '<span class="lphoto">' + photoSVG(x.e.photo, "wide", x.e.sport + " " + x.e.title) + chip + '</span>' +
+          '<span class="lsport">' + (I.sport[x.e.sport] || "") + esc(x.e.sport) + '</span>' +
+          '<span class="ltitle">' + esc(c.line1) + '</span>' +
+          '<span class="lsub">' + esc(c.line2) + '</span></button>';
+      }).join("") + '</div></section>' +
 
       '</aside>';
   }
@@ -1945,6 +2257,18 @@
 
     $$("[data-play]").forEach(function (b) {
       b.onclick = function () { openPlayer(Number(b.dataset.play)); };
+    });
+
+    $$("[data-recap]").forEach(wireRecap);
+    wireDock();
+    $$("[data-listenlive]").forEach(function (b) {
+      b.onclick = function () { listenLive(EVENTS[Number(b.dataset.listenlive)] || ev()); };
+    });
+    $$("[data-storylisten]").forEach(function (b) {
+      b.onclick = function () {
+        var h = HOMEFEED.hero[lc()] || HOMEFEED.hero.live;
+        playDock({ title: h.head, sub: "Read by BBC Sport \u00b7 2 min", dur: 120, transcript: [h.stand].concat(h.body || []) });
+      };
     });
 
     var optaBtn = $("[data-optatoggle]");
@@ -2081,12 +2405,16 @@
       I.heartbig + '<span>' + (liked ? bumpCount(it.likes) : it.likes) + '</span></button>' +
       '<button class="toact" type="button" data-toast="Comments are not built out in this prototype.">' + I.commentbig + '<span>' + esc(it.comments) + '</span></button>' +
       '<button class="toact" type="button" data-toast="Share sheet is not wired up in this prototype.">' + I.sharebig + '<span>Share</span></button>' +
+      (TRANSCRIPTS[it.img] ? '<button class="toact' + (S.transcript ? " texton" : "") + '" type="button" data-cliptext aria-pressed="' + !!S.transcript + '">' +
+        '<span class="toaa">Aa</span><span>Text</span></button>' : "") +
       '</div>' +
+      (S.transcript && TRANSCRIPTS[it.img] ? '<div class="totext"><b>What is said</b><p>' + esc(TRANSCRIPTS[it.img]) + '</p></div>' : "") +
       '<div class="tofoot">' +
       '<div class="tochan"><span class="toav">' + esc(it.chan.replace("BBC ", "").slice(0, 2).toUpperCase()) + '</span>' +
       '<span><span class="tocn">' + esc(it.chan) + '</span><br>' +
       '<span class="tohandle">' + I.tick + esc(it.handle) + '</span></span></div>' +
       '<p class="tocap">' + esc(it.cap) + '</p>' +
+      (it.audio ? '<button class="tosounds" type="button" data-cliplisten>' + I.speaker + 'Listen to the full call on Sounds</button>' : "") +
       '<div class="totags">' + it.tags.map(function (tg) {
         return '<button class="totag" type="button" data-toast="' + esc(tg) + ' is not built out in this prototype.">' + esc(tg) + '</button>';
       }).join("") + '</div></div>' +
@@ -2128,6 +2456,17 @@
     var el = $("#takeover");
     if (!el) { return; }
     $$("[data-closeplayer]", el).forEach(function (b) { b.onclick = closePlayer; });
+    $$("[data-cliptext]", el).forEach(function (b) {
+      b.onclick = function () { S.transcript = !S.transcript; mountPlayer(); };
+    });
+    $$("[data-cliplisten]", el).forEach(function (b) {
+      b.onclick = function () {
+        var it = DROP[S.player];
+        closePlayer();
+        playDock({ live: false, title: "Test Match Special", sub: it.t + " \u00b7 the full call", dur: 312,
+          transcript: TRANSCRIPTS[it.img] ? [TRANSCRIPTS[it.img]] : null });
+      };
+    });
     $$("[data-step-clip]", el).forEach(function (b) {
       b.onclick = function () { stepClip(Number(b.dataset.stepClip)); };
     });
@@ -2309,9 +2648,11 @@
       return '<i class="' + (i === S.lcIx ? "on" : "") + '"></i>';
     }).join("");
 
+    seedRecaps();
     render();
     attachSwipe();
     startClocks();
+    setInterval(tickMedia, 200);
   }
 
   if (document.readyState === "loading") { document.addEventListener("DOMContentLoaded", boot); }

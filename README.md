@@ -36,8 +36,10 @@ branch*, branch `main`, folder `/ (root)`. The site appears at
 | The takeover card | Scoreline and three comparisons for the event at the top of the ranking, in every lifecycle state |
 | Tapping a card | Opens that event in the current lifecycle state |
 | Match tabs | Each sport in each state has its own tab set |
-| The menu, top left | Opens from the right as a profile: follows, your voting record, your comments, rewards, and what is live. Answer a poll anywhere and it appears in Votes |
-| Your daily drop | The shorts carousel. Tapping a card takes over the screen; swipe up/down or tap the left/right halves to move through the deck, `Esc` to close |
+| The menu, top right | Opens from the right as a profile: follows, your voting record, your comments, rewards, and what is live as cards. Answer a poll anywhere and it appears in Votes |
+| Your daily drop | Ten short-form cards. Tapping one takes over the screen; swipe up/down or tap the halves to move, `Text` shows what is said, `Esc` closes |
+| The story so far | At the top of every live and second-screen page: watch the key moments in sixty seconds, listen to them read, or read them |
+| Audio | Listen live, a story read aloud and the TMS clip all play in a bar above the navigation that keeps going as you move around |
 | Bottom navigation | Home, Shorts, My Sport, Scores and Search all render something |
 
 The prototype carries no commentary about its own design. A separate one-page
@@ -69,6 +71,12 @@ archive inside the live page rather than in a collection nobody visits.
 **Rugby** — Six Nations, Wales v Ireland, Principality Stadium. Law explainers
 for why the whistle went, a live TMO review timer, territory against possession
 and a phase tracker. The strongest public-service case in the set.
+
+## Live is teal
+
+Anything labelled Live uses BBC Live Light, `#00CCC7`, with the Core and Dark shades
+kept for contrast. Red is kept for things going wrong: warnings, wickets, wrong
+answers.
 
 ## Pictures
 
