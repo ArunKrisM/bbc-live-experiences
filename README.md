@@ -25,13 +25,25 @@ Push the folder to a repository, then Settings → Pages → Source: *Deploy fro
 branch*, branch `main`, folder `/ (root)`. The site appears at
 `https://<user>.github.io/<repo>/` within a minute or two.
 
+## Access
+
+The prototype opens behind a passphrase. `app.enc` holds the code and data,
+encrypted with AES-256-GCM under a key derived from the passphrase
+(PBKDF2-SHA-256, 310,000 rounds), and the page decrypts it in the browser.
+Without the passphrase the repository holds no readable prototype code.
+The pictures in `img/` are not encrypted, and earlier commits still contain
+the readable code in the history.
+
+The readable source and the build script live outside this repository, in
+`bbc-live-experiences-source`.
+
 ## Getting around
 
 | Control | What it does |
 | --- | --- |
 | Screen pills, top of the page | App, Website, iPlayer TV and Multiscreen (a TV and a phone paired on one match). iPlayer TV and Multiscreen are work in progress |
 | Lifecycle pills, top of the page | Build-up, Live, Near-live |
-| Sport nav on the website | Laid out like bbc.co.uk/sport today. Football, Cricket, Tennis and Rugby U open a sport page: title and Follow, one compact row of today's scores and fixtures, the lead-and-six story grid, then journalist posts, expert clips, creator posts, shorts and most read. Some stories are real BBC Sport headlines and pictures from September 2026, used as placeholders |
+| Sport nav on the website | Laid out like bbc.co.uk/sport today. Formula 1 has a radio-led live experience (first practice); Golf, Boxing and Athletics are story pages; My Sport lets you follow and unfollow. Football, Cricket, Tennis and Rugby U open a sport page: title and Follow, one compact row of today's scores and fixtures, the lead-and-six story grid, then journalist posts, expert clips, creator posts, shorts and most read. Some stories are real BBC Sport headlines and pictures from September 2026, used as placeholders |
 | On the TV | Click the TV, then arrow keys move, `Enter` selects or opens the controls, `Esc` goes back, `S` toggles stats |
 | Swipe left/right on the phone | Same thing, on a touch device |
 | `←` `→` arrow keys | Same thing, on a desktop. `Esc` returns to Home |

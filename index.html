@@ -4,19 +4,51 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>BBC Sport — Live Experiences prototype</title>
-<meta name="description" content="Interactive prototype of a sense-making layer on the BBC Sport live match page, across the fixture lifecycle.">
+<meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#000000">
-<link rel="stylesheet" href="styles.css?v22">
+<link rel="stylesheet" href="styles.css?v23">
+<style>.gate { position: fixed; inset: 0; z-index: 9999; display: grid; place-items: center; padding: 16px; background: #000; color: #fff;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+.gate[hidden] { display: none; }
+.gatebox { width: min(420px, 100%); display: grid; gap: 12px; }
+.gatebbc { display: flex; gap: 3px; }
+.gatebbc i { width: 26px; height: 26px; background: #fff; color: #000; font: 700 17px/26px Helvetica, Arial, sans-serif; font-style: normal; text-align: center; }
+.gatekick { margin: 6px 0 0; color: #FFD230; font-weight: 800; font-size: 13px; letter-spacing: .06em; }
+.gatebox h1 { margin: 0; font-size: 30px; line-height: 1.1; }
+.gatesub { margin: 0 0 8px; color: #BDBDBD; font-size: 15px; line-height: 1.45; }
+.gatelab { font-size: 13px; font-weight: 700; }
+#gatepw { height: 48px; padding: 0 14px; font-size: 17px; color: #fff; background: #1A1A1A; border: 2px solid #444; border-radius: 0; }
+#gatepw:focus { outline: none; border-color: #FFD230; }
+.gaterem { display: flex; align-items: center; gap: 8px; font-size: 14px; color: #D0D0D0; }
+#gatego { height: 48px; border: 0; background: #FFD230; color: #000; font-size: 16px; font-weight: 800; cursor: pointer; }
+#gatego:disabled { opacity: .6; cursor: progress; }
+.gateerr { min-height: 20px; margin: 0; color: #FF8A80; font-size: 14px; }
+</style>
 </head>
 <body>
 
+<div class="gate" id="gate">
+  <form class="gatebox" id="gateform" autocomplete="off">
+    <span class="gatebbc" aria-label="BBC"><i>B</i><i>B</i><i>C</i></span>
+    <p class="gatekick">SPORT · Live Experiences</p>
+    <h1>This prototype is private</h1>
+    <p class="gatesub">Enter the passphrase to open it. Everything here is encrypted until you do.</p>
+    <label class="gatelab" for="gatepw">Passphrase</label>
+    <input id="gatepw" type="password" autocomplete="current-password" spellcheck="false" autocapitalize="off" required>
+    <label class="gaterem"><input type="checkbox" id="gaterem"> Remember on this device</label>
+    <button type="submit" id="gatego">Open the prototype</button>
+    <p class="gateerr" id="gateerr" role="alert"></p>
+  </form>
+</div>
+
+<div id="deskwrap" hidden>
 <div class="deskframe">
 
   <header class="deskbar">
-    <span class="brandline">BBC Sport &nbsp;·&nbsp; <b>Live Experiences</b> &nbsp;·&nbsp; Prototype <i class="build">v22</i></span>
+    <span class="brandline">BBC Sport &nbsp;·&nbsp; <b>Live Experiences</b> &nbsp;·&nbsp; Prototype <i class="build">v23</i></span>
     <div class="surface" id="surface" role="tablist" aria-label="Screen"></div>
     <div class="lifecycle" id="lifecycle" role="tablist" aria-label="Fixture lifecycle"></div>
-    <i class="build mob">Prototype v22</i>
+    <i class="build mob">Prototype v23</i>
     <span class="hintline"><span id="lcblurb"></span></span>
   </header>
 
@@ -39,7 +71,55 @@
 
 </div>
 
-<script src="data.js?v22"></script>
-<script src="app.js?v22"></script>
+</div>
+<script>window.ENCV="v23";</script>
+<script>/* The prototype's code and data ship encrypted (AES-256-GCM, key derived
+   from the passphrase with PBKDF2-SHA-256). Nothing readable is on the page
+   until the passphrase is entered; a wrong one simply fails to decrypt. */
+(function () {
+  var KEYNAME = "bbc-live-exp-key";
+  var form = document.getElementById("gateform"), pw = document.getElementById("gatepw");
+  var err = document.getElementById("gateerr"), go = document.getElementById("gatego"), rem = document.getElementById("gaterem");
+  function b64(s) { var b = atob(s), u = new Uint8Array(b.length); for (var i = 0; i < b.length; i++) { u[i] = b.charCodeAt(i); } return u; }
+  function unb64(u) { var s = ""; u = new Uint8Array(u); for (var i = 0; i < u.length; i++) { s += String.fromCharCode(u[i]); } return btoa(s); }
+  function store(get, k, v) {
+    try { if (get) { return localStorage.getItem(k) || sessionStorage.getItem(k); } (v.remember ? localStorage : sessionStorage).setItem(k, v.val); } catch (e) { return null; }
+    return null;
+  }
+  var bundle = fetch("app.enc?" + (window.ENCV || "")).then(function (r) { return r.json(); });
+  function run(key) {
+    return bundle.then(function (B) {
+      return crypto.subtle.decrypt({ name: "AES-GCM", iv: b64(B.iv) }, key, b64(B.ct));
+    }).then(function (plain) {
+      var s = document.createElement("script");
+      s.textContent = new TextDecoder().decode(plain);
+      document.getElementById("gate").hidden = true;
+      document.getElementById("deskwrap").hidden = false;
+      document.body.appendChild(s);
+    });
+  }
+  function fromRaw(raw) { return crypto.subtle.importKey("raw", b64(raw), "AES-GCM", true, ["decrypt"]); }
+  var saved = store(true, KEYNAME);
+  if (saved) {
+    fromRaw(saved).then(run).catch(function () { try { localStorage.removeItem(KEYNAME); sessionStorage.removeItem(KEYNAME); } catch (e) {} });
+  }
+  form.addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    err.textContent = ""; go.disabled = true; go.textContent = "Opening…";
+    var key;
+    bundle.then(function (B) {
+      return crypto.subtle.importKey("raw", new TextEncoder().encode(pw.value.trim().toLowerCase().replace(/\s+/g, "-")), "PBKDF2", false, ["deriveKey"]).then(function (base) {
+        return crypto.subtle.deriveKey({ name: "PBKDF2", salt: b64(B.salt), iterations: B.iter, hash: "SHA-256" }, base,
+          { name: "AES-GCM", length: 256 }, true, ["decrypt"]);
+      });
+    }).then(function (k) { key = k; return run(k); }).then(function () {
+      return crypto.subtle.exportKey("raw", key).then(function (raw) { store(false, KEYNAME, { remember: rem.checked, val: unb64(raw) }); });
+    }).catch(function () {
+      err.textContent = "That passphrase did not open it. Check the spelling and try again.";
+      go.disabled = false; go.textContent = "Open the prototype"; pw.select();
+    });
+  });
+})();
+</script>
 </body>
 </html>
