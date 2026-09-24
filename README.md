@@ -29,8 +29,8 @@ branch*, branch `main`, folder `/ (root)`. The site appears at
 
 | Control | What it does |
 | --- | --- |
-| Screen pills, top of the page | Phone app, Website, iPlayer TV, and TV and phone together |
-| Lifecycle pills, top of the page | Build-up, Live, Second screen, Near-live |
+| Screen pills, top of the page | Phone app, Website, iPlayer TV, and Multiscreen (a TV and a phone paired on one match) |
+| Lifecycle pills, top of the page | Build-up, Live, Near-live |
 | On the TV | Click the TV, then arrow keys move, `Enter` selects or opens the controls, `Esc` goes back, `S` toggles stats |
 | Swipe left/right on the phone | Same thing, on a touch device |
 | `←` `→` arrow keys | Same thing, on a desktop. `Esc` returns to Home |
@@ -106,6 +106,17 @@ the answers that went out on air as audio. On the TV the same people appear
 under The experts in the player controls, with Watch with, the answers on air,
 and a code to ask from your phone. Answers are summarised by topic and never
 written up as quotes. The creator channels are invented placeholders.
+
+## Multiscreen
+
+The second-screen experience is a screen choice rather than a part of the
+day. Multiscreen pairs a TV and a phone on England v Netherlands and runs
+through all three states. Build-up: the match leads the TV's home screen and
+the phone is nudged to predict the score and check team news. Live: the TV
+plays the match, the phone follows it held back to the picture, with nudges
+for have your say, the stats, and a better match elsewhere that can be put
+on the TV. Near-live: highlights on the TV, player ratings, how your
+predictions did and the next fixture on the phone.
 
 ## Big screen, small screen
 

@@ -100,7 +100,12 @@
     article: null, reader: null, vid: null, push: null, ntypes: {}, csort: "top", shareAsCard: false, reminders: {}, myQs: {}
   };
 
-  function lc() { return LIFECYCLE[S.lcIx].id; }
+  /* three parts of the day. Paired with a TV, the live part becomes the
+     second-screen experience: same match, the phone playing a different role */
+  function lc() {
+    var id = LIFECYCLE[S.lcIx].id;
+    return id === "live" && S.surface === "together" ? "companion" : id;
+  }
   function ev() { return EVENTS[S.eventIx]; }
   function evState(e, id) { return (e || ev()).states[id || lc()] || (e || ev()).states.live; }
   function tabKey() { return ev().id + ":" + lc(); }
@@ -1178,14 +1183,16 @@
       cls = "warn ok"; label = "In sync";
       msg = "<b>Matched.</b> Nothing on this screen will get ahead of your " + src + ".";
     }
-    return '<div class="c"><div class="synctop"><span>Status</span><b id="syncstate">' + label + '</b></div>' +
-      '<div class="clocks"><span class="ck"><span class="cl">Data feed</span><span class="cv" id="c-data">' + mmss(data) + '</span></span>' +
+    return '<div class="c"><p class="syncwhy">Live data reaches this phone about 23 seconds before the picture reaches your ' + src +
+      '. This screen waits, so a goal never turns up here before you see it.</p>' +
+      '<div class="synctop"><span>Status</span><b id="syncstate">' + label + '</b></div>' +
+      '<div class="clocks"><span class="ck"><span class="cl">Live data</span><span class="cv" id="c-data">' + mmss(data) + '</span></span>' +
       '<span class="ckgap">' + (off === 0 ? "0s" : "−" + off + "s") + '</span>' +
-      '<span class="ck tv"><span class="cl">Your ' + src + '</span><span class="cv" id="c-tv">' + mmss(Math.max(0, data - off)) + '</span></span></div>' +
+      '<span class="ck ckyour"><span class="cl">Your ' + src + '</span><span class="cv" id="c-tv">' + mmss(Math.max(0, data - off)) + '</span></span></div>' +
       '<input type="range" id="offset" min="0" max="45" step="1" value="' + off + '" aria-label="Seconds your broadcast is behind the live data">' +
       '<div class="rangeends"><span>Live data</span><span>45s behind</span></div>' +
       '<div class="' + cls + '" style="margin-top:14px">' + msg + '</div>' +
-      '<p class="tally">Set once. Remembered for every match on this device.</p></div>';
+      '<p class="tally">Only move the slider if this screen gets ahead of your ' + src + '. Set once, remembered for every match.</p></div>';
   };
 
   P.quiz = function (p) {
@@ -2119,7 +2126,7 @@
         var secs0 = s.tabs[0].sections;
         if (secs0.some(function (x) { return x.panels && x.panels.some(function (pn) { return pn.t === "recap"; }); })) { return; }
         var at = 0;
-        secs0.forEach(function (x, i) { if (/^Match your/.test(x.h || "")) { at = i + 1; } });
+        secs0.forEach(function (x, i) { if (/^(Match your|In step)/.test(x.h || "")) { at = i + 1; } });
         secs0.splice(at, 0, { h: "The story so far", meta: "Catch up", panels: [{ t: "recap", id: e.id }] });
       });
     });
@@ -2810,7 +2817,7 @@
   }
 
   function sendCompanionPush() {
-    if (S.surface === "tv" || S.surface === "web" || lc() !== "companion") { return; }
+    if (S.surface !== "together" || lc() !== "companion") { return; }
     S.push = { title: "Worth a switch: Court 2",
       body: "Your living room TV is on Centre Court. Raducanu has three break points on Court 2.",
       actions: [["switchtv", "Put Court 2 on the TV"], ["watchhere", "Watch on this phone"]] };
@@ -3449,6 +3456,18 @@
     $$("[data-pushact]", root).forEach(function (b) {
       b.onclick = function () {
         var a = b.dataset.pushact; S.push = null;
+        clearTimeout(S.pushT);
+        if (S.surface === "together") { queueMulti(); }
+        if (a === "later") { refreshOverlays(); return; }
+        if (a === "predict") { openTab("football", "predict"); return; }
+        if (a === "lineups") { openTab("football", "lineups"); return; }
+        if (a === "rate") { openTab("football", lc() === "fulltime" ? "ratings" : "playalong"); return; }
+        if (a === "stats") { openTab("football", "livetab"); return; }
+        if (a === "yourday") { openTab("football", "yournight"); return; }
+        if (a === "nextgame") {
+          if (!S.reminders) { S.reminders = {}; } S.reminders.eng2 = true;
+          refreshOverlays(); toast("Reminder set for England v Serbia. Your phone and your TV will both tell you."); return;
+        }
         if (a === "switchtv") {
           /* the phone acts as a remote for the paired TV: iPlayer on the TV
              changes stream, and the phone's own page follows the new match */
@@ -3966,7 +3985,10 @@
   /* ---- home ---- */
 
   function tvHome() {
-    var cards = rankedCards(), top = cards[0], e = top.e, tk = tkFor(e), TK = tk.TK, T = tk.T;
+    var cards = rankedCards(), top = cards[0];
+    /* paired with a phone, the TV leads with the match the pair is following */
+    if (S.surface === "together" && S.tv && S.tv.ev !== null) { top = cards.filter(function (x) { return x.i === S.tv.ev; })[0] || top; }
+    var e = top.e, tk = tkFor(e), TK = tk.TK, T = tk.T;
     var L = lc(), isLive = L === "live" || L === "companion", w = tvWatching(e);
     var out = '<div class="tvhero">' + (T.img ? imgTag(T.img, "", "wide") : photoSVG(e.photo, "wide", e.title)) +
       '<span class="tvheroveil"></span></div>';
@@ -4396,21 +4418,14 @@
     ["phone", "Phone app"],
     ["web", "Website"],
     ["tv", "iPlayer TV"],
-    ["together", "TV and phone"]
+    ["together", "Multiscreen"]
   ];
 
   function setSurface(s) {
     S.surface = s;
     var t = tvs();
     if (s === "together") {
-      /* the second-screen state is the one this pairing exists for */
-      if (lc() !== "companion" && lc() !== "fulltime" && lc() !== "buildup") { S.lcIx = 2; }
-      /* start the pairing on the match: the phone's paired state is written for it */
-      if (t.screen !== "player") {
-        var fb = -1; EVENTS.forEach(function (x, i) { if (x.id === "football") { fb = i; } });
-        t.ev = fb >= 0 ? fb : rankedCards()[0].i; tvGo("player", t.ev);
-      }
-      syncPhoneTo(t.ev);
+      multiPair();
       t.paired = true;
       t.focus = true;
     }
@@ -4418,6 +4433,77 @@
     $$(".sf").forEach(function (b) { b.setAttribute("aria-selected", String(b.dataset.surface === s)); });
     document.body.dataset.surface = s;
     render();
+    if (s === "together") { startMultiNudges(); } else { stopMultiNudges(); }
+  }
+
+  /* Multiscreen: a TV and a phone paired on one match, England v Netherlands,
+     through the whole day. The TV shows what suits a room; the phone gets a
+     few well-timed nudges for what suits a hand */
+  function multiPair() {
+    var t = tvs(), fb = evIxById("football"), L = lc();
+    t.c2 = false; t.ev = fb;
+    if (L === "buildup") { t.screen = "home"; t.overlay = null; t.f = [0, 0]; }
+    else { t.screen = "player"; t.overlay = null; t.toast = null; t.phoneT = 0; t.mt = 0; t.mi = -1; t.mode = L === "fulltime" ? "highlights" : "live"; t.f = [0, 0]; }
+    syncPhoneTo(fb);
+    S.tabIx[EVENTS[fb].id + ":" + lc()] = 0;
+  }
+
+  var MULTI = {
+    buildup: [
+      { title: "England v Netherlands, 19:45 on your TV", body: "It's on BBC One in the living room. Your phone keeps in step with the TV from kick-off.",
+        actions: [["predict", "Predict the score"], ["later", "Later"]] },
+      { title: "Team news is in", body: "England have named their side. The line-ups are on your phone while the TV shows the build-up.",
+        actions: [["lineups", "See the line-ups"], ["later", "Later"]] }
+    ],
+    companion: [
+      { title: "Have your say", body: "Who has been England's best player so far? 41,000 fans have voted. The TV carries on without you missing a thing.",
+        actions: [["rate", "Rate the players"], ["later", "Later"]] },
+      { title: "The numbers, without covering the picture", body: "England have seven corners to one this half. The live stats are on your phone.",
+        actions: [["stats", "See the stats"], ["later", "Later"]] },
+      { title: "Worth a switch: Court 2", body: "While your TV shows England v Netherlands, Raducanu has three break points at Wimbledon.",
+        actions: [["switchtv", "Put Court 2 on the TV"], ["watchhere", "Watch on this phone"]] }
+    ],
+    fulltime: [
+      { title: "Full time. Rate the players", body: "Your TV is showing the highlights. Give your ratings before the studio gives theirs.",
+        actions: [["rate", "Rate the players"], ["later", "Later"]] },
+      { title: "How your predictions did", body: "Two of three right tonight, and your Predictor streak is still going.",
+        actions: [["yourday", "See your night"], ["later", "Later"]] },
+      { title: "Next: England v Serbia, Tuesday 19:45", body: "Predict the score now and your TV and phone will both remind you at kick-off.",
+        actions: [["nextgame", "Predict and remind me"], ["later", "Later"]] }
+    ]
+  };
+
+  function stopMultiNudges() { clearTimeout(S.multiT); clearTimeout(S.pushT); S.multiQ = null; S.push = null; }
+
+  function startMultiNudges() {
+    stopMultiNudges();
+    if (S.surface !== "together") { return; }
+    S.multiQ = (MULTI[lc()] || []).slice();
+    S.multiT = setTimeout(nextMultiNudge, 1600);
+  }
+
+  function nextMultiNudge() {
+    if (S.surface !== "together" || !S.multiQ || !S.multiQ.length) { return; }
+    var n = S.multiQ.shift();
+    S.push = { title: n.title, body: n.body, actions: n.actions, multi: true };
+    refreshOverlays();
+    clearTimeout(S.pushT);
+    S.pushT = setTimeout(function () {
+      if (S.push) { S.push.out = true; refreshOverlays(); setTimeout(function () { S.push = null; refreshOverlays(); queueMulti(); }, 450); }
+    }, 11000);
+  }
+
+  function queueMulti() { clearTimeout(S.multiT); S.multiT = setTimeout(nextMultiNudge, 5000); }
+
+  function openTab(evId, tabId) {
+    var ix = evIxById(evId), e = EVENTS[ix];
+    S.eventIx = ix; S.view = "event"; S.nav = "home";
+    var tabs = evState(e).tabs || [], k = 0;
+    tabs.forEach(function (x, i) { if (x.id === tabId) { k = i; } });
+    S.tabIx[e.id + ":" + lc()] = k;
+    render();
+    var sb = $("#scrollbody"), st = $("#stage"), tb = $("#scrollbody > .tabbar");
+    if (sb && st && tb) { sb.scrollTop = st.offsetTop - tb.offsetHeight; }
   }
 
   function syncPhoneTo(ix) {
@@ -4456,7 +4542,7 @@
     S.push = null;
     render(dir);
     if ($("#scrollbody")) { $("#scrollbody").scrollTop = 0; }
-    if (LIFECYCLE[ix].id === "companion") { setTimeout(sendCompanionPush, 1400); }
+    if (S.surface === "together") { multiPair(); render(); startMultiNudges(); }
   }
 
   function openEvent(ix) {

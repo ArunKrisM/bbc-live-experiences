@@ -234,7 +234,7 @@ const EVENTS = [
               { t: "kv", items: [["Score", "1-0", "Saka 52'"], ["Shots", "14", "v 6"], ["xG", "1.42", "v 0.38"]] },
               { t: "note", body: "England have not let Netherlands past halfway in six minutes." }
             ]},
-            { h: "Pundit verdict", meta: "Live from the gantry", panels: [{ t: "pundit", initials: "AS", who: "Alan Shearer", when: "66'",
+            { h: "Pundit verdict", meta: "Live from the gantry", panels: [{ t: "pundit", initials: "BBC", who: "The studio", when: "66'",
               quote: "England are winning this comfortably and playing like a side that doesn't believe it.",
               opts: ["He's right", "Harsh"], split: [64, 36], after: "Close enough to go on air. Counted in the last 90 seconds." }]}
           ]},
@@ -281,8 +281,8 @@ const EVENTS = [
         clock: "football", sofa: true,
         tabs: [
           { id: "watch", label: "Watch", sections: [
-            { h: "Match your telly", meta: "Set once per device", panels: [{ t: "sync" }] },
-            { h: "From the gantry", meta: "Live", panels: [{ t: "pundit", initials: "AS", who: "Alan Shearer", when: "66'",
+            { h: "In step with your TV", meta: "Paired", panels: [{ t: "sync" }] },
+            { h: "From the gantry", meta: "Live", panels: [{ t: "pundit", initials: "BBC", who: "The studio", when: "66'",
               quote: "England are winning this comfortably and playing like a side that doesn't believe it.",
               opts: ["He's right", "Harsh"], split: [64, 36], after: "The split goes on air if it stays this close." }]}
           ]},
@@ -292,7 +292,7 @@ const EVENTS = [
               opts: ["Rice", "Foden", "Bellingham", "Maddison"], correct: 1,
               why: "Foden, against Bosnia, June 2024. 68% of fans got it.", seconds: 20 }]},
             { h: "The big call", meta: "88,402 voted", panels: [{ t: "poll", id: "fb-bigcall", big: true,
-              q: "Southgate has 20 minutes and one change left. What would you do?",
+              q: "Tuchel has 20 minutes and one change left. What would you do?",
               opts: ["Go again, bring on Gordon", "Shut it down, Guéhi on"], split: [57, 43],
               tally: "Results go to the studio at 75 minutes.", after: "Counted. The studio sees this at 75 minutes." }]},
             { h: "Keep your night", meta: "30 seconds", panels: [{ t: "signin" }] }
@@ -318,7 +318,7 @@ const EVENTS = [
             { ruleY: true, panels: [{ t: "storyline", kicker: "Full-time report",
               body: "England held on. Two goals of real quality, a nervous last ten minutes after Gakpo's header, and a first win over the Netherlands at Wembley since 2018." }]},
             { h: "Watch: The best of it", meta: "Swipe for more", panels: [{ t: "shorts", label: "The best of it", deck: [7, 6, 1] }]},
-            { h: "Pundit verdict", meta: "Full time", panels: [{ t: "pundit", initials: "AS", who: "Alan Shearer", when: "FT",
+            { h: "Pundit verdict", meta: "Full time", panels: [{ t: "pundit", initials: "BBC", who: "The studio", when: "FT",
               quote: "Better. Still made the last ten minutes harder than they needed to be.",
               opts: ["Fair", "Too kind"], split: [51, 49], after: "The country is genuinely split on this one." }]}
           ]},
@@ -540,8 +540,8 @@ const EVENTS = [
             { h: "Test Match Special", meta: "Live", panels: [{ t: "audio",
               title: "Test Match Special", sub: "Aggers and Tuffers · Lord's, Day 3 evening",
               note: "" }]},
-            { h: "Match your radio", meta: "Digital radio runs behind", panels: [{ t: "sync" }] },
-            { h: "From the commentary box", meta: "Live", panels: [{ t: "pundit", initials: "JA", who: "Jonathan Agnew", when: "89 ov",
+            { h: "In step with your radio", meta: "Digital radio runs behind", panels: [{ t: "sync" }] },
+            { h: "From the commentary box", meta: "Live", panels: [{ t: "pundit", initials: "TMS", who: "The TMS box", when: "89 ov",
               quote: "Root is batting as though the result has already been decided and he is simply making sure of it.",
               opts: ["Agreed", "Too soon"], split: [72, 28], after: "The box is more relaxed than the dressing room." }]}
           ]},
@@ -572,7 +572,7 @@ const EVENTS = [
             { ruleY: true, panels: [{ t: "storyline", kicker: "Close of play",
               body: "Root's 148 not out dragged England from 168-5 to within eleven of Australia's total. Two days left, a flattening pitch and a bowling attack that looked tired for the last hour. This Test is drifting towards a draw, and England will take it." }]},
             { h: "Watch: The day", meta: "Swipe for more", panels: [{ t: "shorts", label: "The day", deck: [1, 0, 2] }]},
-            { h: "From the box", meta: "Stumps", panels: [{ t: "pundit", initials: "EB", who: "Ebony Rainford-Brent", when: "Stumps",
+            { h: "From the box", meta: "Stumps", panels: [{ t: "pundit", initials: "TMS", who: "The TMS box", when: "Stumps",
               quote: "The best innings he has played in this country. It has changed nothing about the pitch and everything about the series.",
               opts: ["Right", "Overstated"], split: [77, 23], after: "Not much argument in the country on this one." }]}
           ]},
@@ -795,7 +795,7 @@ const EVENTS = [
               ]},
               { t: "btnrow", label: "Follow Court 2 on this screen", toast: "Court 2 on your phone, Centre on your telly. Both scores stay pinned." }
             ]},
-            { h: "Match your telly", meta: "Set once per device", panels: [{ t: "sync" }] }
+            { h: "In step with your TV", meta: "Paired", panels: [{ t: "sync" }] }
           ]},
           { id: "playalong", label: "Play along", sections: [
             { h: "Play along", meta: "Changeovers only", ruleY: true, panels: [{ t: "quiz", id: "tn",
@@ -1029,7 +1029,7 @@ const EVENTS = [
               { t: "tmo", q: "Was there a knock-on in the build-up?", elapsed: 48,
                 note: "" }
             ]},
-            { h: "Match your telly", meta: "Set once per device", panels: [{ t: "sync" }] }
+            { h: "In step with your TV", meta: "Paired", panels: [{ t: "sync" }] }
           ]},
           { id: "playalong", label: "Play along", sections: [
             { h: "Play along", meta: "Stoppages only", ruleY: true, panels: [{ t: "quiz", id: "rg",
@@ -1099,7 +1099,6 @@ const EVENTS = [
 const LIFECYCLE = [
   { id: "buildup", label: "Build-up", blurb: "before it starts" },
   { id: "live", label: "Live", blurb: "while it's happening" },
-  { id: "companion", label: "Second screen", blurb: "on the sofa, paired" },
   { id: "fulltime", label: "Near-live", blurb: "highlights, clips and catch-up, straight after" }
 ];
 

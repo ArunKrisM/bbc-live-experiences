@@ -3449,3 +3449,5 @@ body[data-theme="light"] #app .mscta.ww { background: #F1EAFD; }
 .build { font-style: normal; color: #6A6A6A; margin-left: 6px; }
 .build.mob { display: none; }
 @media (max-width: 460px) { .build.mob { display: block; font-size: 10px; text-align: right; margin: -2px 4px 0; } }
+.ck.ckyour .cv { color: #B79CFF; }
+.syncwhy { margin: 0 0 14px; font-size: 14px; line-height: 1.45; color: var(--text-2); }
