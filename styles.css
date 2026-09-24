@@ -4374,3 +4374,174 @@ body[data-theme="light"] #app .fowr { border-color: #E2E2E2; }
 .post { position: relative; }
 .pnew { position: absolute; top: 0; right: 0; background: #000; color: var(--teal); font-size: 13px; font-weight: 800; letter-spacing: .04em; padding: 6px 14px; }
 body[data-theme="light"] #app .pnew { background: #fff; color: var(--live-text); }
+
+/* ==========================================================================
+   v30: football in the live page's current design. The head, the slim
+   live block, clip rail, fixtures, tables, line-ups on a pitch, match
+   stats, watch & listen with coming up, and the form guide.
+   ========================================================================== */
+.fbhead { padding: 10px var(--gut) 14px; text-align: center; display: grid; gap: 4px; }
+.lvlive.c { justify-content: center; font-size: 17px; margin-bottom: 8px; }
+.lvlive.c .lvring { width: 18px; height: 18px; border-width: 3.5px; }
+.fbline { display: grid; grid-template-columns: 1fr auto 1fr; align-items: start; gap: 8px; margin-top: 10px; }
+.fbside { display: grid; justify-items: center; gap: 8px; font-size: 17px; }
+.fbside b { font-weight: 500; }
+.fbmark { height: 42px; display: grid; place-items: center; }
+.fbmark .fxflag { width: 56px; height: 37px; }
+.fbmark .crimg.fbc { width: 44px; height: 44px; background: #fff; border-radius: 4px; padding: 3px; box-sizing: border-box; }
+.fbmark .crimg.fbc img { width: 100%; height: 100%; object-fit: contain; }
+.fbmid { display: grid; justify-items: center; gap: 2px; padding-top: 2px; }
+.fbbig { font-size: 44px; font-weight: 700; line-height: 1; letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
+.fbbig.sc { color: #fff; }
+.fbbig.hid { color: var(--muted); }
+.fbclock { font-size: 13px; font-weight: 800; color: var(--text-2); }
+.fbclock.live { color: var(--teal); }
+.fbscorers { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; font-size: 13px; font-weight: 700; margin-top: 6px; }
+.fbdash { justify-self: center; width: 16px; height: 2px; background: #FFD230; margin: 10px 0 6px; }
+.fbvenue { margin: 0; font-size: 13.5px; }
+.fbvenue span { color: var(--muted); }
+.lvblock.slim { background: var(--panel); border-top: 0; padding-top: 4px; }
+.lvprog.c { text-align: center; font-size: 14.5px; }
+.lvbtns { display: flex; gap: 8px; }
+.lvbtns > * { flex: 1; margin-top: 4px; }
+.lvwatch { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 13px 16px; border: 0; background: #fff; color: #000; font-size: 16px; font-weight: 700; margin-top: 4px; }
+.lvwatch svg path { fill: #000; }
+
+/* posts */
+.psub { margin: -2px 0 12px !important; font-size: 14px !important; color: var(--text) !important; }
+.pcrest { display: flex; align-items: center; gap: 12px; margin: 4px 0 14px !important; }
+.pcrest .crimg.pc { width: 54px; height: 54px; background: #fff; border-radius: 50%; padding: 6px; box-sizing: border-box; }
+.pcrest .crimg.pc img { width: 100%; height: 100%; object-fit: contain; }
+.pcrest b { color: var(--text); font-size: 14px; }
+.postbody p + p { margin-top: 12px; }
+.postbody p b { color: var(--text); }
+
+/* clips with the site's yellow corners */
+.swrail { display: grid; grid-auto-flow: column; grid-auto-columns: 42%; gap: 8px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+.swclip { position: relative; aspect-ratio: 9 / 16; overflow: hidden; border: 0; padding: 0; background: #111; text-align: left; color: #fff; }
+.swimg { position: absolute; inset: 0; }
+.swimg .photo { width: 100%; height: 100%; object-fit: cover; }
+.swclip::before, .swclip::after { content: ""; position: absolute; z-index: 1; background: #FFD230; }
+.swclip::before { top: -30%; left: -40%; width: 70%; height: 55%; border-radius: 50%; clip-path: inset(50% 0 0 50%); }
+.swclip::after { right: -35%; bottom: 8%; width: 55%; height: 55%; border-radius: 50%; clip-path: inset(0 50% 0 0); opacity: .95; }
+.swveil { position: absolute; inset: 0; z-index: 2; background: linear-gradient(180deg, transparent 45%, rgba(0,0,0,.85) 100%); }
+.swtx { position: absolute; z-index: 3; left: 10px; right: 10px; bottom: 10px; display: grid; gap: 4px; }
+.swdur { display: inline-flex; align-items: center; gap: 5px; font-size: 13px; }
+.swdur svg { width: 11px; height: 11px; }
+.swtx b { font-size: 15px; line-height: 1.2; }
+
+/* fixtures */
+.fxdate { text-align: center; font-size: 18px; font-weight: 800; color: var(--text-2); margin: 6px 0 10px; }
+.fxlist { display: grid; gap: 8px; }
+.flr { display: grid; grid-template-columns: 1fr 76px 1fr; align-items: center; min-height: 52px; background: var(--panel); border-left: 4px solid #E6E6E6; padding: 6px 8px; font-size: 14.5px; }
+.flr.live, .flr.done { border-left-color: #FFD230; }
+.flr.me { box-shadow: inset 0 0 0 1px rgba(255,210,48,.4); }
+.fla { display: flex; justify-content: flex-end; align-items: center; gap: 8px; text-align: right; }
+.flb { display: flex; align-items: center; gap: 8px; }
+.flr .fxflag { width: 26px; height: 17px; }
+.flm { display: grid; justify-items: center; }
+.flt { font-size: 21px; font-variant-numeric: tabular-nums; }
+.fls { display: flex; align-items: center; gap: 8px; font-size: 22px; }
+.fls i { width: 2px; height: 22px; background: #FFD230; }
+.flm small { font-size: 12px; color: var(--text-2); }
+.flr.live .flm small { color: var(--teal); font-weight: 700; }
+.fxmore { display: inline-flex; align-items: center; gap: 6px; margin-top: 14px; background: none; border: 0; padding: 0; color: var(--text); font-size: 15px; }
+.fxmore svg { width: 14px; height: 14px; }
+
+/* tables */
+.gth { margin: 4px 0 8px; font-size: 15px; color: var(--text-2); }
+.gth small { color: var(--muted); }
+.gtab { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.gtab th { background: var(--panel); font-size: 13px; font-weight: 500; padding: 10px 6px; text-align: center; color: var(--text); }
+.gtab td { padding: 12px 6px; text-align: center; color: var(--text-2); border-bottom: 1px solid #2A2A2A; }
+.gtab .gtn { text-align: left; }
+.gtab td.gtn { display: flex; align-items: center; gap: 8px; }
+.gtab td.gtn b { color: var(--text); }
+.gtab td.pts { color: var(--text); font-size: 17px; }
+.gtab tr.cut td { border-bottom: 2px solid #8A8A8A; }
+.gtab .fxflag { width: 24px; height: 16px; }
+
+/* line-ups on a pitch */
+.pcard { background: var(--panel); padding: 14px 14px 10px; }
+.pch { display: flex; align-items: center; gap: 10px; margin: 0 0 6px; font-size: 19px; }
+.pch .fxflag { width: 30px; height: 20px; }
+.pch .crimg.pc { width: 30px; height: 30px; background: #fff; border-radius: 3px; padding: 2px; box-sizing: border-box; }
+.pch .crimg.pc img { width: 100%; height: 100%; object-fit: contain; }
+.pcm { display: flex; gap: 18px; flex-wrap: wrap; margin: 0 0 10px; padding-bottom: 10px; border-bottom: 1px solid #333; font-size: 13.5px; color: var(--text-2); }
+.pcm b { color: var(--text); }
+.ppitch { position: relative; aspect-ratio: 3 / 3.6; }
+.ppitch svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.ppitch svg * { fill: none; stroke: #4A4A4A; stroke-width: .4; vector-effect: non-scaling-stroke; }
+.pdot { position: absolute; transform: translate(-50%, -30%); display: grid; justify-items: center; gap: 3px; width: 76px; }
+.pdot i { width: 34px; height: 34px; border-radius: 50%; background: #FFD230; color: #000; font-style: normal; font-weight: 700; font-size: 14px; display: grid; place-items: center; box-shadow: 0 0 0 2px #1B1B1B; }
+.pdot b { font-size: 11.5px; font-weight: 500; text-align: center; line-height: 1.15; }
+.pcsub { margin: 4px 0 0; font-size: 12.5px; color: var(--muted); text-align: center; }
+.plist { list-style: none; margin: 8px 0 0; padding: 0; }
+.plist li { display: flex; align-items: center; gap: 14px; padding: 10px 2px; border-bottom: 1px solid #2A2A2A; }
+.plist i { width: 30px; height: 30px; border-radius: 50%; background: #FFD230; color: #000; font-style: normal; font-weight: 700; font-size: 13px; display: grid; place-items: center; flex: none; }
+.plist b { flex: 1; font-size: 15px; }
+.plist span { font-size: 12.5px; color: var(--muted); }
+
+/* match stats */
+.msk { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 12px 0; border-top: 1px solid #333; border-bottom: 1px solid #333; margin-bottom: 14px; font-size: 16px; }
+.msk span { display: flex; align-items: center; gap: 10px; }
+.msk span:last-child { justify-content: flex-end; }
+.msk .kk { color: var(--muted); font-size: 14px; }
+.ka, .kb { width: 18px; height: 18px; display: inline-block; flex: none; }
+.ka { background: #FFD230; }
+.kb { background: #F4F4F4; }
+.mspos { background: var(--panel); padding: 14px; text-align: center; }
+.mspos p { margin: 0 0 10px; font-size: 16px; }
+.msdo { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 12px; }
+.msl { display: grid; grid-template-columns: auto auto; gap: 6px 8px; justify-content: center; font-size: 14px; }
+.msl .ka, .msl .kb { width: 10px; height: 10px; align-self: center; }
+.msl b { grid-column: 1 / -1; font-weight: 400; font-size: 16px; }
+.donut { width: 120px; height: 120px; border-radius: 50%; background: conic-gradient(#FFD230 0 var(--deg), #F4F4F4 var(--deg) 360deg); position: relative; }
+.donut::after { content: ""; position: absolute; inset: 26px; border-radius: 50%; background: var(--panel); }
+.msrows { display: grid; gap: 16px; margin-top: 18px; }
+.msr p { display: flex; justify-content: space-between; margin: 0 0 6px; font-size: 15px; }
+.msr p b { font-weight: 500; min-width: 22px; }
+.msr p b:last-child { text-align: right; }
+.msbar { display: flex; justify-content: center; gap: 4px; background: var(--panel); height: 8px; }
+.msbar i { display: block; height: 100%; }
+.msbar .ba { background: #FFD230; }
+.msbar .bb { background: #F4F4F4; }
+
+/* watch & listen: station art, coming up */
+.start.fl { background: linear-gradient(135deg, #1FC7C7 0 55%, #0FA2A2 55% 100%); }
+.start.sx { background: linear-gradient(135deg, #2A2A2A, #111); }
+.start small { color: #fff; font-size: 10px; font-weight: 800; letter-spacing: .08em; opacity: .85; }
+.cups { display: grid; gap: 10px; }
+.cup { display: grid; gap: 6px; text-align: left; background: var(--panel); border: 0; padding: 14px 16px; color: var(--text); }
+.cup b { font-size: 16px; }
+.cup span { font-size: 13.5px; color: var(--text-2); font-weight: 700; }
+.cup em { font-style: normal; font-size: 14px; color: var(--text-2); }
+
+/* form guide */
+.fgbox { background: var(--panel); text-align: center; padding: 14px; display: grid; gap: 4px; margin: 0 0 12px; }
+.fgbox b { font-size: 18px; }
+.fgbox span { font-size: 14px; color: var(--text-2); }
+.fgcols { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+.fgh { text-align: center; font-weight: 800; font-size: 16px; margin: 4px 0 10px; }
+.fgc { background: var(--panel); padding: 10px; margin-bottom: 8px; display: grid; gap: 8px; }
+.fgt { display: flex; align-items: center; gap: 8px; margin: 0; font-size: 14px; }
+.fgt i { font-style: normal; width: 24px; height: 24px; display: grid; place-items: center; font-size: 13px; font-weight: 700; color: #fff; flex: none; }
+.fgW { background: #1E8E3E; }
+.fgL { background: #D6245C; }
+.fgD { background: #9A9A9A; color: #000 !important; }
+.fgs { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 0; font-size: 20px; }
+.fgs i { width: 2px; height: 20px; background: #888; }
+.fgs .fxflag { width: 24px; height: 16px; }
+.fgcomp { margin: 0; text-align: center; font-size: 12.5px; color: var(--text-2); }
+.fgmeet { display: grid; gap: 8px; }
+.fgmeet p { margin: 0; background: var(--panel); padding: 12px 14px; display: grid; gap: 2px; }
+.fgmeet span { font-size: 12.5px; color: var(--muted); }
+.fgmeet b { font-size: 15px; }
+.fgmeet small { font-size: 12.5px; color: var(--text-2); }
+
+body[data-theme="light"] #app .lvwatch { background: #121212; color: #fff; }
+body[data-theme="light"] #app .lvwatch svg path { fill: #fff; }
+body[data-theme="light"] #app .kb, body[data-theme="light"] #app .msbar .bb { background: #BDBDBD; }
+body[data-theme="light"] #app .donut { background: conic-gradient(#FFD230 0 var(--deg), #BDBDBD var(--deg) 360deg); }
+body[data-theme="light"] #app .gtab td, body[data-theme="light"] #app .plist li { border-color: #E2E2E2; }
+.postbody .psub { text-transform: none; letter-spacing: 0; font-weight: 400; }
