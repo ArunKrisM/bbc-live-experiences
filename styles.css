@@ -3675,3 +3675,183 @@ body[data-theme="light"] #app .wpost, body[data-theme="light"] #app .wbite, body
 body[data-theme="light"] #app .wfx, body[data-theme="light"] #app .wfxgo, body[data-theme="light"] #app .wspst,
 body[data-theme="light"] #app .wspsh, body[data-theme="light"] #app .wbite, body[data-theme="light"] #app .wmost button,
 body[data-theme="light"] #app .wptext, body[data-theme="light"] #app .wsptabs a.on { color: #121212; }
+
+/* ==========================================================================
+   v22: the website chrome and sport pages as bbc.co.uk/sport has them now.
+   The BBC bar and the Sport bars stay black in both themes, as on the site.
+   ========================================================================== */
+.wmast { background: #000; border-bottom: 1px solid #2B2B2B; }
+.wmastin { gap: 18px; height: 58px; }
+.wmast .bbcblocks i { width: 27px; height: 27px; font-size: 18px; }
+.wforyou {
+  display: inline-flex; align-items: center; gap: 8px; background: none; border: 0; padding: 0;
+  color: #fff; font-size: 14px; font-weight: 700; white-space: nowrap;
+}
+.wforyou .meav { background: #1F6FEB; color: #fff; width: 28px; height: 28px; }
+.wmsep { width: 1px; height: 26px; background: #444; }
+.wnav { gap: 0; align-items: center; }
+.wnav a {
+  display: inline-flex; align-items: center; gap: 7px; font-size: 14px; font-weight: 700;
+  padding: 19px 10px 17px; border-bottom: 0; color: #fff; white-space: nowrap;
+}
+.wnav a:hover { text-decoration: underline; }
+.wni {
+  width: 13px; height: 13px; flex: none; background: var(--c);
+  clip-path: polygon(0 30%, 55% 30%, 55% 0, 100% 0, 100% 70%, 45% 70%, 45% 100%, 0 100%);
+}
+.wdots3 { letter-spacing: .1em; font-size: 18px !important; padding-top: 14px !important; }
+.wsearch {
+  display: inline-flex; align-items: center; gap: 10px; width: 230px; height: 40px;
+  background: #242424; border: 0; border-radius: 0; color: #fff; font-size: 14px; font-weight: 700; padding: 0 14px;
+}
+.wsearch svg { flex: none; }
+
+.wsport { background: #000; border-bottom: 0; }
+.wsportmk { padding-top: 12px; padding-bottom: 10px; }
+.wsportmark { font-size: 40px; line-height: 1; letter-spacing: .01em; color: #FFD230; }
+.wsportbar { border-top: 1px solid #3A3A3A; }
+.wsportin { height: auto; gap: 0; align-items: stretch; }
+.wsnav { flex: 1; display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
+.wsnav::-webkit-scrollbar, .wsub2::-webkit-scrollbar { display: none; }
+.wsport nav.wsnav a, .wsub2 a {
+  position: relative; display: inline-flex; align-items: center; gap: 6px; flex: none;
+  color: #fff; font-size: 15px; font-weight: 400; text-decoration: none; white-space: nowrap;
+  padding: 13px 11px 12px; border: 0;
+}
+.wsport nav.wsnav a + a::before, .wsub2 a + a::before {
+  content: ""; position: absolute; left: 0; top: 50%; width: 1px; height: 18px; margin-top: -9px; background: #555;
+}
+.wsport nav.wsnav a:first-child, .wsub2 a:first-child { padding-left: 0; }
+.wsport nav.wsnav a.on, .wsub2 a.on { font-weight: 400; }
+.wsport nav.wsnav a.on::after, .wsub2 a.on::after {
+  content: ""; position: absolute; left: -8px; right: 0; bottom: 0; height: 4px; background: #FFD230;
+}
+.wsport nav.wsnav a:first-child.on::after, .wsub2 a:first-child.on::after { left: -8px; }
+.wsport nav.wsnav a:hover, .wsub2 a:hover { text-decoration: underline; }
+.wsub2 a svg { width: 13px; height: 13px; }
+.wmorebtn {
+  flex: none; display: inline-flex; align-items: center; gap: 10px; background: none; border: 0;
+  border-left: 1px solid #3A3A3A; color: #fff; font-size: 15px; padding: 0 4px 0 18px;
+}
+.wmorebtn svg { width: 20px; height: 20px; }
+.wsubbar { background: #202020; }
+.wsub2 { display: flex; overflow-x: auto; scrollbar-width: none; }
+.wsub2 a { font-size: 14.5px; padding-top: 11px; padding-bottom: 11px; }
+
+/* the sport page */
+.wsppage { padding-top: 4px; }
+.bsphead { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; margin: 0 0 18px; }
+.bsphead h1 { font-size: 46px; font-weight: 800; line-height: 1.05; margin: 0; letter-spacing: -.01em; }
+.bfollow {
+  display: inline-flex; align-items: center; gap: 9px; height: 42px; padding: 0 18px;
+  background: transparent; color: #fff; border: 2px solid #fff; border-radius: 0; font-size: 16px; font-weight: 700;
+}
+.bfollow b { font-size: 24px; font-weight: 400; line-height: 1; margin-top: -2px; }
+.bfollow svg { width: 18px; height: 18px; }
+.bfollow.on { background: #1F6FEB; border-color: #1F6FEB; }
+
+/* scores and fixtures, compact */
+.fxstrip { margin: 0 0 26px; }
+.fxbar { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
+.fxbar h2 { margin: 0; font-size: 15px; font-weight: 800; }
+.fxbar h2 small { font-weight: 400; color: var(--muted); margin-left: 6px; }
+.fxall { display: inline-flex; align-items: center; gap: 4px; background: none; border: 0; padding: 0; color: var(--text); font-size: 13px; font-weight: 700; }
+.fxall svg { width: 12px; height: 12px; }
+.fxrow { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: thin; padding-bottom: 4px; scroll-snap-type: x proximity; }
+.fxc {
+  flex: 0 0 196px; scroll-snap-align: start; display: grid; gap: 3px; text-align: left;
+  background: var(--panel); color: var(--text); border: 0; border-top: 3px solid transparent; border-radius: 3px;
+  padding: 8px 11px 9px;
+}
+.fxc.fxfeat { border-top-color: #FFD230; background: var(--card, #1A1A1A); }
+.fxc:hover .fxt b { text-decoration: underline; }
+.fxhead { display: flex; align-items: center; gap: 7px; font-size: 11.5px; color: var(--muted); margin-bottom: 2px; min-height: 17px; }
+.fxlive { display: inline-flex; align-items: center; gap: 5px; background: var(--live); color: var(--live-ink); font-weight: 800; font-size: 10.5px; padding: 2px 6px; border-radius: 2px; }
+.fxlive i { width: 6px; height: 6px; border-radius: 50%; background: var(--live-ink); }
+.fxsoon { color: var(--text); font-weight: 700; }
+.fxdone { color: var(--muted); font-weight: 700; }
+.fxt { display: flex; align-items: center; gap: 6px; font-size: 14px; line-height: 1.25; }
+.fxt b { flex: 1; min-width: 0; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fxt em { font-style: normal; font-weight: 800; font-variant-numeric: tabular-nums; white-space: pre; }
+.fxt .crimg.xs { flex: none; }
+.fxcomp { font-size: 11.5px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
+.fxcomp u { text-decoration: none; color: var(--text); font-weight: 700; }
+
+/* story grid: a lead, then three columns */
+.bgrid { display: grid; grid-template-columns: minmax(0, 2.05fr) repeat(3, minmax(0, 1fr)); gap: 26px 20px; }
+.bgrid .bcard.lead { grid-row: span 2; }
+.bgrid4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 26px 20px; }
+.bcard {
+  display: flex; flex-direction: column; gap: 9px; text-align: left; background: none; border: 0; padding: 0; color: var(--text); min-width: 0;
+}
+.bimg { display: block; aspect-ratio: 16 / 9; overflow: hidden; background: #111; }
+.bimg .photo { width: 100%; height: 100%; object-fit: cover; display: block; }
+.btitle { font-size: 17px; font-weight: 800; line-height: 1.22; }
+.bcard.lead .btitle { font-size: 30px; line-height: 1.12; }
+.bstand { font-size: 15px; line-height: 1.4; color: var(--text-2); }
+.bcard:hover .btitle { text-decoration: underline; }
+.bmeta { margin-top: auto; padding-top: 6px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; font-size: 13px; color: var(--muted); }
+.btag { color: #FFD230; }
+.bdot { color: #777; }
+.bcom { display: inline-flex; align-items: center; gap: 4px; color: #FFD230; }
+.bcom svg { width: 14px; height: 14px; }
+.bcom svg [stroke] { stroke: currentColor; }
+.blive { display: inline-flex; align-items: center; gap: 5px; color: var(--live); }
+.blive i { width: 13px; height: 13px; border-radius: 50%; border: 3px solid var(--live); box-sizing: border-box; }
+
+/* posts, clips and shorts */
+.bmix { column-count: 4; column-gap: 20px; }
+.bmixcell { break-inside: avoid; margin-bottom: 20px; }
+.wspsh .wsimg { aspect-ratio: 4 / 5; border-radius: 0; }
+.wspsh { gap: 8px; }
+.wspsh .btitle { font-size: 15.5px; }
+.spbtx .btag { font-size: 12.5px; }
+.wpost, .wbite { border-radius: 0; }
+.bmostwrap { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 24px; align-items: start; }
+.bmost ol { margin: 0; padding: 0; list-style: none; counter-reset: most; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; }
+.bmost li { counter-increment: most; display: grid; gap: 6px; align-content: start; border-top: 1px solid #333; padding-top: 10px; }
+.bmost li::before { content: counter(most); font-size: 30px; font-weight: 800; line-height: 1; color: #FFD230; }
+.bmost button { background: none; border: 0; padding: 0; text-align: left; color: var(--text); font-size: 14.5px; font-weight: 700; line-height: 1.3; }
+.bmost button:hover { text-decoration: underline; }
+
+/* light mode: the chrome stays black, the page goes white */
+body[data-theme="light"] #app .wmast, body[data-theme="light"] #app .wsport { background: #000; border-bottom-color: #2B2B2B; }
+body[data-theme="light"] #app .wsubbar { background: #202020; }
+body[data-theme="light"] #app .wnav a, body[data-theme="light"] #app .wsport nav a, body[data-theme="light"] #app .wsub2 a,
+body[data-theme="light"] #app .wforyou, body[data-theme="light"] #app .wmorebtn { color: #fff; }
+body[data-theme="light"] #app .wsportmark { color: #FFD230; }
+body[data-theme="light"] #app .wmast .bbcblocks i { background: #fff; color: #000; }
+body[data-theme="light"] #app .bcard, body[data-theme="light"] #app .bmost button, body[data-theme="light"] #app .fxc { color: #121212; }
+body[data-theme="light"] #app .btag, body[data-theme="light"] #app .bcom, body[data-theme="light"] #app .bmost li::before { color: #8A6D00; }
+body[data-theme="light"] #app .fxc { background: #F4F4F4; }
+body[data-theme="light"] #app .fxc.fxfeat { background: #fff; border: 1px solid #E2E2E2; border-top: 3px solid #FFD230; }
+body[data-theme="light"] #app .bfollow { color: #121212; border-color: #121212; }
+body[data-theme="light"] #app .bfollow.on { color: #fff; border-color: #1F6FEB; }
+body[data-theme="light"] #app .bmost li { border-top-color: #DDD; }
+
+@media (max-width: 1180px) {
+  .wnav a:nth-child(n+5) { display: none; }
+  .bgrid { grid-template-columns: minmax(0, 1.4fr) repeat(2, minmax(0, 1fr)); }
+  .bgrid4 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .bmix { column-count: 3; }
+  .bmostwrap { grid-template-columns: 1fr; }
+}
+@media (max-width: 900px) {
+  .wforyou, .wmsep { display: none; }
+  .wsearch { width: auto; }
+  .wsportmark { font-size: 32px; }
+  .bgrid, .bgrid4 { grid-template-columns: 1fr 1fr; }
+  .bgrid .bcard.lead { grid-column: 1 / -1; grid-row: auto; }
+  .bmix { column-count: 2; }
+  .bmost ol { grid-template-columns: 1fr 1fr; }
+  .bsphead h1 { font-size: 36px; }
+}
+@media (max-width: 560px) {
+  .wsearch { font-size: 0; gap: 0; width: 40px; justify-content: center; padding: 0; }
+  .bcard.lead .btitle { font-size: 24px; }
+  .bmix { column-count: 1; }
+  .fxc { flex-basis: 172px; }
+}
+
+.wsub2 a:nth-child(2)::before { display: none; }
+.wsub2 a:first-child { font-weight: 700; }

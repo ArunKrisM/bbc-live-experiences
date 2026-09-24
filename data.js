@@ -1714,125 +1714,179 @@ const TVMORE = [
 
 
 /* ---------------------------------------------------------------------------
-   The sport pages on the website. Football, Cricket, Tennis and Rugby in the
-   sport nav open a page that starts with the day's fixtures, grouped into
-   live, coming up and finished, then a mix of stories, posts from BBC
-   journalists, clips from the experts and shorts.
-   fixtures: the featured match comes from EVENTS; these are the others.
-     st: status, line and a note per lifecycle state ("all" for every state).
-   Posts are credited to a role, not a named journalist. Nothing in the feed
-   gives a result away, so it is safe with scores hidden.
+   The sport pages on the website, laid out like BBC Sport today: the sport
+   nav, a grey sub-nav, the title and Follow, then a compact strip of the
+   day's scores and fixtures above the stories, so the stories are still
+   the first thing you see.
+   fixtures: the featured match comes from EVENTS (feat holds its scores per
+     lifecycle state); the rest are [status, score a, score b, note] per state,
+     or "all" for every state.
+   Stories marked real are headlines and pictures from the BBC Sport site
+   in September 2026, used to show the page as it looks now; the prototype
+   does not reproduce the articles themselves. Posts are credited to a role,
+   not a named journalist.
    ------------------------------------------------------------------------- */
 const SPORTPAGES = {
   football: {
-    name: "Football", nav: "Football",
-    tabs: ["Scores & fixtures", "Tables", "Teams", "Women's football", "Transfers"],
+    name: "Football", nav: "Football", follow: true,
+    tabs: ["Scores & Fixtures", "Tables", "Predictor", "Champions League", "Women's Football", "Teams", "Leagues & Cups", "Gossip", "Top Scorers", "Quizzes", "Fantasy"],
+    feat: { buildup: ["", "", "19:45"], live: ["1", "0", "68'"], fulltime: ["2", "1", "FT"] },
     fixtures: [
-      { vs: "Chelsea v Arsenal", comp: "Women's Super League", where: "Stamford Bridge",
-        st: { all: ["done", "Chelsea 3 - 1 Arsenal", "FT · 12:30 kick-off"] } },
-      { vs: "Scotland v Norway", comp: "Nations League", where: "Hampden Park",
-        st: { buildup: ["live", "Scotland 1 - 0 Norway", "61 mins"], live: ["done", "Scotland 2 - 0 Norway", "FT"], fulltime: ["done", "Scotland 2 - 0 Norway", "FT"] } },
-      { vs: "Spain v Italy", comp: "Nations League", where: "Madrid",
-        st: { buildup: ["soon", "Spain v Italy", "19:45 · BBC Three"], live: ["live", "Spain 0 - 0 Italy", "68 mins"], fulltime: ["done", "Spain 1 - 1 Italy", "FT"] } },
-      { vs: "Wales v Iceland", comp: "Nations League", where: "Cardiff City Stadium",
-        st: { buildup: ["soon", "Wales v Iceland", "19:45 · S4C"], live: ["live", "Wales 1 - 1 Iceland", "67 mins"], fulltime: ["done", "Wales 2 - 1 Iceland", "FT"] } },
-      { vs: "Northern Ireland v Denmark", comp: "Nations League", where: "Windsor Park",
-        st: { all: ["soon", "Northern Ireland v Denmark", "Tomorrow, 17:00"] } }
+      { a: "Chelsea", b: "Arsenal", comp: "Women's Super League", st: { all: ["done", "3", "1", "FT"] } },
+      { a: "Scotland", b: "Norway", comp: "Nations League", st: { buildup: ["live", "1", "0", "61'"], live: ["done", "2", "0", "FT"], fulltime: ["done", "2", "0", "FT"] } },
+      { a: "Spain", b: "Italy", comp: "Nations League", st: { buildup: ["soon", "", "", "19:45"], live: ["live", "0", "0", "68'"], fulltime: ["done", "1", "1", "FT"] } },
+      { a: "Wales", b: "Iceland", comp: "Nations League", st: { buildup: ["soon", "", "", "19:45"], live: ["live", "1", "1", "67'"], fulltime: ["done", "2", "1", "FT"] } },
+      { a: "Northern Ireland", b: "Denmark", comp: "Nations League", st: { all: ["soon", "", "", "Tomorrow 17:00"] } }
     ],
     listen: ["5 Live Sport", "Build-up, commentary and the phone-in on BBC Radio 5 Live"],
-    mostRead: [["What tonight at Wembley decides", "sp-fb-explain"], ["How England have changed the way they play out from the back", "sp-fb-press"],
-      ["Nations League: every group, and who needs what", ""], ["Bigger grounds, bigger crowds: the WSL so far", ""], ["Transfer window: the dates that matter", ""]],
-    feed: [
-      { k: "story", article: "sp-fb-explain", img: "fb-kane", title: "What tonight at Wembley decides", stand: "Level on points with the Netherlands, and Spain and Italy playing at the same time", tag: "Nations League", ago: "1h" },
-      { k: "story", article: "sp-fb-press", img: "fb-xi", title: "How England have changed the way they play out from the back", tag: "Analysis", ago: "4h" },
-      { k: "short", play: 5 },
+    mostRead: [["What tonight at Wembley decides", "sp-fb-explain"], ["England should stop trying to replicate Spain - Gordon", "bb-gordon"],
+      ["Man Utd selling Old Trafford turf cubes for £125", "bb-oldtrafford"], ["How England have changed the way they play out from the back", "sp-fb-press"], ["Chelsea win Champions League opener but Walsh injured", "bb-chelseaw"]],
+    top: [
+      { article: "sp-fb-explain", img: "fb-kane", title: "What tonight at Wembley decides", stand: "Level on points with the Netherlands, with Spain and Italy playing at the same time in Madrid", tag: "Nations League", ago: "1h", comments: "344" },
+      { real: true, id: "bb-gordon", img: "bb-gordon", title: "England should stop trying to replicate Spain - Gordon", tag: "England Men", ago: "3h", comments: "242",
+        stand: "Anthony Gordon says that controlling games is not in the \"English DNA\" but the Three Lions could still win major tournaments if they stop \"trying to replicate Spain\"." },
+      { article: "sp-fb-press", img: "fb-xi", title: "How England have changed the way they play out from the back", tag: "Analysis", ago: "4h", comments: "512" },
+      { real: true, id: "bb-mcburnie", img: "bb-mcburnie", title: "'Eternally grateful' McBurnie ready to show what Scotland have missed", tag: "Scotland Men", ago: "1h", comments: "33" },
+      { real: true, id: "bb-chelseaw", img: "bb-chelseaw", title: "Chelsea win Champions League opener but Walsh injured", tag: "Women's Football", ago: "11h", comments: "123" },
+      { real: true, id: "bb-oldtrafford", img: "bb-oldtrafford", title: "Man Utd selling Old Trafford turf cubes for £125", tag: "Man Utd", ago: "1h", comments: "508" },
+      { real: true, id: "bb-dezerbi", img: "bb-dezerbi", title: "Why this break has come at the worst time for De Zerbi & Spurs", tag: "Tottenham", ago: "3h", comments: "" }
+    ],
+    more: [
       { k: "post", who: "Football correspondent", org: "BBC Sport", text: "Team news is due an hour before kick-off. Palmer or Trent on the right of midfield is still the question, and the answer will say a lot about how England want to handle the Dutch press.", ago: "2h", likes: "1.4k", comments: "212", ev: "football" },
+      { k: "short", play: 5 },
       { k: "bite", who: "Dan Roan", org: "BBC Sports Editor", title: "On Wembley ticket prices and the empty seats", dur: "1:12", sub: "5 Live Sport · clip" },
-      { k: "post", who: "Women's football reporter", org: "BBC Sport", text: "Stamford Bridge sold out for a WSL game again today. The move to bigger grounds is starting to look less like a gamble.", ago: "3h", likes: "2.1k", comments: "164", ev: "football" },
       { k: "creator", who: "The Terrace", org: "Fan channel · 410k followers", av: "TT", col: "#7A3FD1", text: "Our watchalong goes live 30 minutes before kick-off. Bring your predicted XI. We will read out the worst ones.", ago: "3h", likes: "3.3k", comments: "480", ev: "football" },
+      { k: "post", who: "Women's football reporter", org: "BBC Sport", text: "Stamford Bridge sold out for a WSL game again today. The move to bigger grounds is starting to look less like a gamble.", ago: "3h", likes: "2.1k", comments: "164", ev: "football" },
       { k: "short", play: 6 }
     ]
   },
   cricket: {
-    name: "Cricket", nav: "Cricket", doneLabel: "Finished for the day",
-    tabs: ["Scores & fixtures", "Tables", "Teams", "Women's cricket", "County cricket"],
+    name: "Cricket", nav: "Cricket", follow: true,
+    tabs: ["Scores & Fixtures", "Results", "Video", "Counties", "Women's Cricket", "Teams", "The Hundred"],
+    feat: { buildup: ["148-3", "372", "Day 3 · 11:00"], live: ["284-6", "372", "Day 3"], fulltime: ["361-8", "372", "Stumps"] },
     fixtures: [
-      { vs: "Lancashire v Yorkshire", comp: "County Championship", where: "Old Trafford",
-        st: { all: ["done", "Yorkshire won by 6 wickets", "Yesterday"] } },
-      { vs: "England v India", comp: "Women's ODI series · 2nd ODI", where: "Bristol",
-        st: { buildup: ["soon", "England v India", "13:00 · BBC Sport website"], live: ["live", "India 187-4, chasing 262", "38 overs"], fulltime: ["done", "England won by 34 runs", "Result"] } },
-      { vs: "Surrey v Somerset", comp: "County Championship · Day 3", where: "The Kia Oval",
-        st: { buildup: ["soon", "Surrey v Somerset", "Day 3 · 11:00"], live: ["live", "Somerset 214-5", "Trail by 98"], fulltime: ["done", "Somerset 301-7", "Stumps, day 3"] } },
-      { vs: "Scotland v Netherlands", comp: "One-day international", where: "Aberdeen",
-        st: { all: ["soon", "Scotland v Netherlands", "Tomorrow, 10:30"] } }
+      { a: "Lancashire", b: "Yorkshire", comp: "County Championship", st: { all: ["done", "241", "242-4", "Yorks won by 6 wkts"] } },
+      { a: "England", b: "India", comp: "Women's ODI · Bristol", st: { buildup: ["soon", "", "", "13:00"], live: ["live", "261-7", "187-4", "38 ov"], fulltime: ["done", "261-7", "227", "Eng won by 34 runs"] } },
+      { a: "Surrey", b: "Somerset", comp: "County Championship", st: { buildup: ["soon", "", "", "Day 3 · 11:00"], live: ["live", "312", "214-5", "Day 3"], fulltime: ["done", "312", "301-7", "Stumps"] } },
+      { a: "Scotland", b: "Netherlands", comp: "One-day international", st: { all: ["soon", "", "", "Tomorrow 10:30"] } }
     ],
     listen: ["Test Match Special", "Ball by ball on Radio 5 Sports Extra and BBC Sounds"],
     mostRead: [["How the Lord's slope changes the way England bowl", "sp-ck-slope"], ["England start day three 224 behind at Lord's", "st-buildup"],
-      ["County Championship: the title race after nine rounds", ""], ["England Women name an unchanged side for Bristol", ""], ["The Hundred: next summer's dates", ""]],
-    feed: [
-      { k: "story", article: "sp-ck-slope", img: "ck-ball", title: "How the Lord's slope changes the way England bowl", stand: "Why captains care which end the second new ball is taken from", tag: "The Ashes", ago: "2h" },
-      { k: "story", article: "st-buildup", img: "ck-squad", title: "England start day three 224 behind at Lord's", tag: "The Ashes", ago: "5h" },
+      ["County Championship: the title race after nine rounds", ""], ["Inside the Test Match Special box", ""], ["The Hundred: next summer's dates", ""]],
+    top: [
+      { article: "sp-ck-slope", img: "ck-ball", title: "How the Lord's slope changes the way England bowl", stand: "Why captains care which end the second new ball is taken from", tag: "The Ashes", ago: "2h", comments: "281" },
+      { article: "st-buildup", img: "ck-squad", title: "England start day three 224 behind at Lord's", tag: "The Ashes", ago: "5h", comments: "418" },
+      { article: "", img: "ck-huddle", title: "County Championship: the title race after nine rounds", tag: "County cricket", ago: "8h", comments: "64" },
+      { article: "", img: "ck-mic", title: "Inside the Test Match Special box", tag: "Test Match Special", ago: "1d", comments: "" },
+      { article: "", img: "ck-lords", title: "Lord's in ten Ashes Tests", tag: "The Ashes", ago: "1d", comments: "92" },
+      { article: "", img: "ck-wicket", title: "The series so far, in numbers", tag: "The Ashes", ago: "1d", comments: "" },
+      { article: "", img: "ck-bat", title: "The Hundred: next summer's dates", tag: "The Hundred", ago: "2d", comments: "" }
+    ],
+    more: [
       { k: "post", who: "Cricket correspondent", org: "BBC Sport", text: "The second new ball is due in the first hour. At Lord's, that is usually when a day decides which way it is going.", ago: "5h", likes: "980", comments: "131", ev: "cricket" },
       { k: "short", play: 0 },
       { k: "bite", who: "Test Match Special", org: "Radio 5 Sports Extra", title: "On the second new ball and who takes it", dur: "1:05", sub: "Test Match Special · clip" },
-      { k: "post", who: "County cricket reporter", org: "BBC Sport", text: "Somerset have two spinners in at The Oval for the first time this season. On a dry pitch, it may be the right call.", ago: "5h", likes: "410", comments: "58", ev: "cricket" },
       { k: "creator", who: "Third Man Pod", org: "Creator · 60k followers", av: "3M", col: "#1A3A6B", text: "New episode: every Lord's Test since 2000, ranked by how nervous it made us. Recorded before play, so no spoilers.", ago: "7h", likes: "1.1k", comments: "96", ev: "cricket" },
-      { k: "short", play: 10 },
-      { k: "story", article: "", img: "ck-huddle", title: "County Championship: the title race after nine rounds", tag: "County cricket", ago: "8h" }
+      { k: "post", who: "County cricket reporter", org: "BBC Sport", text: "Somerset have two spinners in at The Oval for the first time this season. On a dry pitch, it may be the right call.", ago: "5h", likes: "410", comments: "58", ev: "cricket" },
+      { k: "short", play: 10 }
     ]
   },
   tennis: {
-    name: "Tennis", nav: "Tennis",
-    tabs: ["Scores & schedule", "Draws", "Rankings", "Wimbledon", "Players"],
+    name: "Tennis", nav: "Tennis", follow: true,
+    tabs: ["Scores & Schedule", "Video", "Quizzes", "Calendar"],
+    feat: { buildup: ["", "", "Court 2 · 3rd on"], live: ["6 4", "4 5", "Set 2"], fulltime: ["6 7", "4 5", "Won"] },
     fixtures: [
-      { vs: "Draper v Rune", comp: "Men's singles · third round", where: "No.1 Court",
-        st: { buildup: ["live", "Draper 7-6, 2-1", "Second set"], live: ["done", "Draper won 7-6, 6-4, 6-3", "Result"], fulltime: ["done", "Draper won 7-6, 6-4, 6-3", "Result"] } },
-      { vs: "Alcaraz v Musetti", comp: "Men's singles · third round", where: "Centre Court",
-        st: { buildup: ["soon", "Alcaraz v Musetti", "Centre Court, 13:30"], live: ["live", "Alcaraz 6-3, 3-2", "Second set"], fulltime: ["done", "Alcaraz won 6-3, 6-4, 6-2", "Result"] } },
-      { vs: "Sabalenka v Andreeva", comp: "Women's singles · third round", where: "Centre Court",
-        st: { buildup: ["soon", "Sabalenka v Andreeva", "After Alcaraz v Musetti"], live: ["soon", "Sabalenka v Andreeva", "Next on Centre Court"], fulltime: ["done", "Sabalenka won 6-2, 6-4", "Result"] } },
-      { vs: "Middle Sunday", comp: "Order of play", where: "All courts",
-        st: { all: ["soon", "Middle Sunday order of play", "Tomorrow, 11:00"] } }
+      { a: "Draper", b: "Rune", comp: "Men's singles · No.1 Court", st: { buildup: ["live", "7 2", "6 1", "Set 2"], live: ["done", "7 6 6", "6 4 3", "Won"], fulltime: ["done", "7 6 6", "6 4 3", "Won"] } },
+      { a: "Alcaraz", b: "Musetti", comp: "Men's singles · Centre Court", st: { buildup: ["soon", "", "", "13:30"], live: ["live", "6 3", "3 2", "Set 2"], fulltime: ["done", "6 6 6", "3 4 2", "Won"] } },
+      { a: "Sabalenka", b: "Andreeva", comp: "Women's singles · Centre Court", st: { buildup: ["soon", "", "", "Third on"], live: ["soon", "", "", "Next on"], fulltime: ["done", "6 6", "2 4", "Won"] } }
     ],
     listen: ["5 Sports Extra at Wimbledon", "Commentary from Court 2 and Centre Court"],
-    mostRead: [["From a hut beside Centre Court to eighteen courts in your pocket", "w100"], ["What the first week's grass tells you about the second", "sp-tn-grass"],
-      ["The British players still in the draw", ""], ["Order of play for the middle Sunday", ""], ["How to get a Wimbledon ticket on the day", ""]],
-    feed: [
-      { k: "story", article: "w100", img: "ar-court", title: "From a hut beside Centre Court to eighteen courts in your pocket", stand: "A hundred years of Wimbledon on the BBC, from the archive", tag: "Wimbledon · 100 years", ago: "1d" },
-      { k: "story", article: "sp-tn-grass", img: "tn-stretch", title: "What the first week's grass tells you about the second", tag: "Analysis", ago: "3h" },
-      { k: "short", play: 2 },
+    mostRead: [["From a hut beside Centre Court to eighteen courts in your pocket", "w100"], ["Alcaraz on late finishes, missing Sinner and Laver Cup return", "bb-alcaraz"],
+      ["What the first week's grass tells you about the second", "sp-tn-grass"], ["'Be comfortable in your own identity' - Agassi's advice to Raducanu", "bb-agassi"], ["GB dominate Ecuador to reach Davis Cup Finals", "bb-daviscup"]],
+    top: [
+      { article: "w100", img: "ar-court", title: "From a hut beside Centre Court to eighteen courts in your pocket", stand: "A hundred years of Wimbledon on the BBC, from the archive", tag: "Wimbledon · 100 years", ago: "1d", comments: "1.2k" },
+      { real: true, id: "bb-alcaraz", img: "bb-alcaraz", title: "Alcaraz on late finishes, missing Sinner and Laver Cup return", tag: "Tennis", ago: "1h", comments: "31",
+        stand: "Carlos Alcaraz discusses his US Open return, why he \"misses\" rival Jannik Sinner and his excitement for this year's Laver Cup." },
+      { article: "sp-tn-grass", img: "tn-stretch", title: "What the first week's grass tells you about the second", tag: "Analysis", ago: "3h", comments: "197" },
+      { real: true, id: "bb-agassi", img: "bb-agassi", title: "'Be comfortable in your own identity' - Agassi's advice to Raducanu", tag: "Tennis", ago: "1d", comments: "" },
+      { real: true, id: "bb-keothavong", img: "bb-keothavong", title: "Keothavong 'can't fault' GB after BJK Cup loss to Czechs", tag: "Tennis", ago: "1d", comments: "353" },
+      { real: true, id: "bb-daviscup", img: "bb-daviscup", title: "GB dominate Ecuador to reach Davis Cup Finals", tag: "Tennis", ago: "1d", comments: "" },
+      { real: true, id: "bb-wheelchair", img: "bb-wheelchair", title: "Hewett & Reid star as GB win fifth World Team Cup", tag: "Tennis", ago: "1d", comments: "" }
+    ],
+    more: [
       { k: "post", who: "Tennis correspondent", org: "BBC Sport", text: "Three British players on show courts today. By mid-afternoon, Court 2 looks like the place to be.", ago: "5h", likes: "1.2k", comments: "140", ev: "tennis" },
+      { k: "short", play: 2 },
       { k: "bite", who: "5 Sports Extra", org: "Court 2 commentary", title: "On why Court 2 fills up faster than Centre on a day like this", dur: "0:36", sub: "Radio 5 Sports Extra · clip" },
-      { k: "post", who: "Wimbledon reporter", org: "BBC Sport", text: "The queue in Wimbledon Park was past the golf course by 7am. Grounds passes went quickly, and there is still room on the Hill.", ago: "8h", likes: "760", comments: "92", ev: "tennis" },
-      { k: "short", play: 11 },
       { k: "creator", who: "Baseline Club", org: "Creator · 180k followers", av: "BC", col: "#1E8C5A", text: "We are watching Court 2 along with you from 14:00. Questions about second serves welcome. We have charts.", ago: "4h", likes: "890", comments: "77", ev: "tennis" },
+      { k: "short", play: 11 },
+      { k: "post", who: "Wimbledon reporter", org: "BBC Sport", text: "The queue in Wimbledon Park was past the golf course by 7am. Grounds passes went quickly, and there is still room on the Hill.", ago: "8h", likes: "760", comments: "92", ev: "tennis" },
       { k: "bite", who: "Dan Roan", org: "BBC Sports Editor", title: "On the BBC's 100 years at the Championships", dur: "1:40", sub: "5 Live Sport · clip" },
       { k: "short", play: 4 }
     ]
   },
   rugby: {
-    name: "Rugby Union", nav: "Rugby U",
-    tabs: ["Scores & fixtures", "Tables", "Six Nations", "Women's rugby", "Teams"],
+    name: "Rugby Union", nav: "Rugby U", follow: false,
+    tabs: ["Scores & Fixtures", "Tables", "Video", "All Teams", "English", "Scottish", "Welsh", "Irish"],
+    feat: { buildup: ["", "", "17:15"], live: ["13", "16", "64'"], fulltime: ["16", "23", "FT"] },
     fixtures: [
-      { vs: "Italy v Scotland", comp: "Six Nations", where: "Stadio Olimpico",
-        st: { buildup: ["live", "Italy 10 - 17 Scotland", "52 mins"], live: ["done", "Italy 16 - 27 Scotland", "FT"], fulltime: ["done", "Italy 16 - 27 Scotland", "FT"] } },
-      { vs: "France v England", comp: "Six Nations", where: "Stade de France",
-        st: { buildup: ["soon", "France v England", "20:00 · ITV"], live: ["soon", "France v England", "20:00 · ITV"], fulltime: ["live", "France 13 - 10 England", "48 mins"] } },
-      { vs: "Wales v Ireland", comp: "Women's Six Nations", where: "Cardiff Arms Park",
-        st: { all: ["soon", "Wales v Ireland", "Tomorrow, 15:00 · BBC Two Wales"] } }
+      { a: "Italy", b: "Scotland", comp: "Six Nations", st: { buildup: ["live", "10", "17", "52'"], live: ["done", "16", "27", "FT"], fulltime: ["done", "16", "27", "FT"] } },
+      { a: "France", b: "England", comp: "Six Nations", st: { buildup: ["soon", "", "", "20:00"], live: ["soon", "", "", "20:00"], fulltime: ["live", "13", "10", "48'"] } },
+      { a: "Wales", b: "Ireland", comp: "Women's Six Nations", st: { all: ["soon", "", "", "Tomorrow 15:00"] } }
     ],
     listen: ["5 Live Rugby", "Commentary on BBC Radio 5 Live, and in Welsh on Radio Cymru"],
-    mostRead: [["Why the Wales maul keeps winning penalties", "sp-rg-maul"], ["Two fly-halves and a title race", "sp-rg-fly"],
-      ["Six Nations: what every side needs from the last round", ""], ["Women's Six Nations: Wales name their squad", ""], ["Roof open or closed: who decides", ""]],
-    feed: [
-      { k: "story", article: "sp-rg-maul", img: "rg-maul", title: "Why the Wales maul keeps winning penalties", stand: "The work happens in the second before the ball is caught", tag: "Six Nations", ago: "2h" },
-      { k: "story", article: "sp-rg-fly", img: "rg-flyhalves", title: "Two fly-halves and a title race", tag: "Six Nations", ago: "5h" },
+    mostRead: [["Why the Wales maul keeps winning penalties", "sp-rg-maul"], ["Will Saints reign again or new winners rise? - Prem Rugby club guide", "bb-saints"],
+      ["Two fly-halves and a title race", "sp-rg-fly"], ["'Tragic but avoidable' - how serious is heat-death risk in sport?", "bb-heat"], ["What are Welsh sides' chances for new URC season?", "bb-welsh"]],
+    top: [
+      { article: "sp-rg-maul", img: "rg-maul", title: "Why the Wales maul keeps winning penalties", stand: "The work happens in the second before the ball is caught", tag: "Six Nations", ago: "2h", comments: "366" },
+      { real: true, id: "bb-saints", img: "bb-saints", title: "Will Saints reign again or new winners rise? - Prem Rugby club guide", tag: "Premiership", ago: "2h", comments: "",
+        stand: "BBC Sport commentators and reporters analyse how the 10 Prem Rugby clubs will fare ahead of the start of the 2026-27 season." },
+      { article: "sp-rg-fly", img: "rg-flyhalves", title: "Two fly-halves and a title race", tag: "Six Nations", ago: "5h", comments: "140" },
+      { real: true, id: "bb-irish", img: "bb-irish", title: "How Irish provinces are shaping up for new season", tag: "Irish Rugby", ago: "1h", comments: "" },
+      { real: true, id: "bb-welsh", img: "bb-welsh", title: "What are Welsh sides' chances for new URC season?", tag: "Welsh Rugby", ago: "5h", comments: "9" },
+      { real: true, id: "bb-edwards", img: "bb-edwards", title: "Edwards' Red Roses move inspired by late mother", tag: "England", ago: "23h", comments: "" },
+      { real: true, id: "bb-baxter", img: "bb-baxter", title: "Baxter targeting Prem title win with Exeter", tag: "Premiership", ago: "6h", comments: "" }
+    ],
+    more: [
       { k: "post", who: "Rugby union correspondent", org: "BBC Sport", text: "The roof is closed at the Principality. Expect a quicker game, and plenty of the Wales maul.", ago: "3h", likes: "870", comments: "118", ev: "rugby" },
       { k: "short", play: 8 },
       { k: "bite", who: "Scrum V", org: "BBC Wales", title: "On the Wales maul and why it keeps winning penalties", dur: "0:52", sub: "Scrum V · clip" },
       { k: "creator", who: "Ruck & Maul", org: "Creator · 95k followers", av: "RM", col: "#128D51", text: "Watchalong starts at 16:45. We have a whiteboard and we are not afraid to use it.", ago: "4h", likes: "640", comments: "71", ev: "rugby" },
-      { k: "post", who: "Welsh rugby reporter", org: "BBC Sport Wales", text: "Two changes to the Wales pack from last week, both in the back row. The line-out stays as it was.", ago: "6h", likes: "520", comments: "83", ev: "rugby" },
-      { k: "story", article: "", img: "rg-run", title: "Six Nations: what every side needs from the last round", tag: "Six Nations", ago: "7h" }
+      { k: "story", real: true, id: "bb-heat", img: "bb-heat", title: "'Tragic but avoidable' - how serious is heat-death risk in sport?", tag: "Rugby Union", ago: "47min", comments: "" },
+      { k: "post", who: "Welsh rugby reporter", org: "BBC Sport Wales", text: "Two changes to the Wales pack from last week, both in the back row. The line-out stays as it was.", ago: "6h", likes: "520", comments: "83", ev: "rugby" }
     ]
   }
 };
+
+/* the website's sub-nav on the Sport home page */
+const WEBHOMESUB = ["MOTD Predictor", "Quizzes", "Get BBC Sport App"];
+
+/* more from around BBC Sport on the website home, as the site looks now */
+const HOMEMORE = [
+  { real: true, id: "bb-gordon", img: "bb-gordon", title: "England should stop trying to replicate Spain - Gordon", tag: "England Men", ago: "3h", comments: "242" },
+  { real: true, id: "bb-oldtrafford", img: "bb-oldtrafford", title: "Man Utd selling Old Trafford turf cubes for £125", tag: "Man Utd", ago: "1h", comments: "502" },
+  { real: true, id: "bb-alcaraz", img: "bb-alcaraz", title: "Alcaraz on late finishes, missing Sinner and Laver Cup return", tag: "Tennis", ago: "1h", comments: "31" },
+  { real: true, id: "bb-dezerbi", img: "bb-dezerbi", title: "Why this break has come at the worst time for De Zerbi & Spurs", tag: "Tottenham", ago: "3h", comments: "" },
+  { live: true, img: "bb-f1baku", title: "Azerbaijan Grand Prix first practice", tag: "Formula 1", ago: "", comments: "" },
+  { real: true, id: "bb-heat", img: "bb-heat", title: "'Tragic but avoidable' - how serious is heat-death risk in sport?", tag: "Rugby Union", ago: "47min", comments: "" },
+  { real: true, id: "bb-saints", img: "bb-saints", title: "Will Saints reign again or new winners rise? - Prem Rugby club guide", tag: "Premiership", ago: "2h", comments: "" },
+  { real: true, id: "bb-chelseaw", img: "bb-chelseaw", title: "Chelsea win Champions League opener but Walsh injured", tag: "Women's Football", ago: "11h", comments: "123" }
+];
+
+/* the real stories open as a card-sized article: headline, picture and the
+   standfirst as published, and nothing written on anyone's behalf */
+(function () {
+  var seen = {};
+  function add(it, sport) {
+    if (!it.real || seen[it.id]) { return; }
+    seen[it.id] = true;
+    ARTICLES[it.id] = {
+      kicker: it.tag, title: it.title, byline: "BBC Sport", read: "From bbc.co.uk/sport",
+      hero: it.img, heroCap: "", sport: sport, comments: it.comments || "0", likes: "", shares: "",
+      blocks: (it.stand ? [["p", it.stand]] : []).concat([["p", "A story from the BBC Sport website as it looks today, placed here to show where the live experiences sit among everything else on the page. The article itself is not reproduced in the prototype."]])
+    };
+  }
+  Object.keys(SPORTPAGES).forEach(function (k) {
+    SPORTPAGES[k].top.concat(SPORTPAGES[k].more).forEach(function (it) { add(it, k); });
+  });
+  HOMEMORE.forEach(function (it) { add(it, ""); });
+})();

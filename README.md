@@ -31,7 +31,7 @@ branch*, branch `main`, folder `/ (root)`. The site appears at
 | --- | --- |
 | Screen pills, top of the page | App, Website, iPlayer TV and Multiscreen (a TV and a phone paired on one match). iPlayer TV and Multiscreen are work in progress |
 | Lifecycle pills, top of the page | Build-up, Live, Near-live |
-| Sport nav on the website | Football, Cricket, Tennis and Rugby U open a sport page: today's fixtures (live now, coming up, finished), then stories, journalist posts, expert clips, creator posts and shorts |
+| Sport nav on the website | Laid out like bbc.co.uk/sport today. Football, Cricket, Tennis and Rugby U open a sport page: title and Follow, one compact row of today's scores and fixtures, the lead-and-six story grid, then journalist posts, expert clips, creator posts, shorts and most read. Some stories are real BBC Sport headlines and pictures from September 2026, used as placeholders |
 | On the TV | Click the TV, then arrow keys move, `Enter` selects or opens the controls, `Esc` goes back, `S` toggles stats |
 | Swipe left/right on the phone | Same thing, on a touch device |
 | `←` `→` arrow keys | Same thing, on a desktop. `Esc` returns to Home |
