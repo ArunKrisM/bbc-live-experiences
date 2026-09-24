@@ -2366,6 +2366,14 @@
     $$("[data-gohome]").forEach(function (b) {
       b.onclick = function () { S.view = "home"; S.nav = "home"; render(-1); };
     });
+    $$("[data-sportpage]").forEach(function (b) {
+      b.onclick = function (ev2) {
+        if (ev2) { ev2.preventDefault(); }
+        closeDrawer(); S.sheet = null; S.article = null;
+        S.view = "sport"; S.webSport = b.dataset.sportpage; S.nav = "home"; render(-1);
+        var sb = $("#scrollbody"); if (sb) { sb.scrollTop = 0; }
+      };
+    });
 
     $$(".tabbtn").forEach(function (b) {
       b.onclick = function () {
@@ -2866,7 +2874,7 @@
     if (lc() !== "companion") { return ""; }
     var tn = evIxById("tennis"), onC2 = tvs().c2;
     return '<button class="watchbar" type="button" data-open="' + tn + '">' +
-      '<span class="wbic">' + I.tv + '</span><span class="wbtx"><small>Watching on iPlayer · Living room TV</small>' +
+      '<span class="wbic">' + I.tv + '</span><span class="spbtx"><small>Watching on iPlayer · Living room TV</small>' +
       '<b>' + (onC2 ? "Court 2 · Raducanu v Vondroušová" : "BBC One · Centre Court, Alcaraz v Musetti") + '</b></span>' +
       '<span class="wbchip">' + I.livedot + 'Paired</span></button>';
   }
@@ -3462,7 +3470,7 @@
     $$("[data-bite]", root).forEach(function (b) {
       b.onclick = function () {
         if (S.vid && S.vid.mode === "full") { S.vid.mode = "pip"; S.vid.play = false; render(); }
-        playDock({ title: b.dataset.title, sub: "Radio 5 Sports Extra · clip", dur: secs(b.dataset.dur), transcript: [b.dataset.desc] });
+        playDock({ title: b.dataset.title, sub: b.dataset.sub || "Radio 5 Sports Extra · clip", dur: secs(b.dataset.dur), transcript: [b.dataset.desc] });
       };
     });
     $$("[data-vidmin]", root).forEach(function (b) { b.onclick = function () { S.vid.mode = "pip"; render(); toast("Still playing. Tap the small player to bring it back."); }; });
@@ -3826,8 +3834,10 @@
       '</div></header>' +
       '<div class="wsport"><div class="wwrap wsportin"><button class="wsportmark" type="button" data-gohome>SPORT</button>' +
       '<nav>' + WEBSPORT.map(function (n) {
-        var on = (n === "Home" && S.view === "home") || (S.view === "event" && ev().sport.indexOf(n.replace(" U", "")) === 0);
-        return '<a href="#" class="' + (on ? "on" : "") + '"' + (n === "Home" ? " data-gohome" : ' data-toast="' + esc(n) + ' is not built out in this prototype."') + '>' + esc(n) + '</a>';
+        var sp = sportPageFor(n);
+        var on = (n === "Home" && S.view === "home") || (S.view === "event" && ev().sport.indexOf(n.replace(" U", "")) === 0) ||
+          (S.view === "sport" && sp === S.webSport);
+        return '<a href="#" class="' + (on ? "on" : "") + '"' + (n === "Home" ? " data-gohome" : sp ? ' data-sportpage="' + sp + '"' : ' data-toast="' + esc(n) + ' is not built out in this prototype."') + '>' + esc(n) + '</a>';
       }).join("") + '<a href="#" data-toast="The full sport list is not built out in this prototype.">All sport</a></nav></div></div>';
   }
 
@@ -3915,7 +3925,7 @@
     var out = "";
 
     out += '<section class="wevhead"><div class="wwrap">' +
-      '<p class="wcrumb"><button type="button" data-gohome>Sport</button> › ' + esc(e.sport) + ' › ' + esc(e.comp) + '</p>' +
+      '<p class="wcrumb"><button type="button" data-gohome>Sport</button> › <button type="button" data-sportpage="' + e.id + '">' + esc(e.sport) + '</button> › ' + esc(e.comp) + '</p>' +
       '<div class="wevrow"><div>' +
       '<p class="wkick">' + liveChip(card.status) + (watchingFor(e) ? '<span class="wwatch">' + esc(watchingFor(e)) + ' watching</span>' : "") + '</p>' +
       '<h1 class="wh1">' + crestImg(e.id, TK.a, "md") + esc(TK.a) + ' <span>' + esc(T.line || "v") + '</span> ' + esc(TK.b) + crestImg(e.id, TK.b, "md") + '</h1>' +
@@ -3958,13 +3968,122 @@
     return out;
   }
 
+  /* ---- the sport pages: the day's fixtures first, then a mixed feed ---- */
+
+  function sportPageFor(navName) {
+    var k;
+    for (k in SPORTPAGES) { if (SPORTPAGES.hasOwnProperty(k) && SPORTPAGES[k].nav === navName) { return k; } }
+    return null;
+  }
+
+  function fxRows(id) {
+    var SP = SPORTPAGES[id], e = evById(id), ix = evIxById(id), L = lc() === "companion" ? "live" : lc();
+    var c = maskCard(e, evState(e).card), rows = [];
+    rows.push({ feat: true, status: c.status, line: c.line1, meta: c.status === "live" && watchingFor(e) ? watchingFor(e) + " watching" : c.when,
+      sub: c.status === "soon" ? c.line2 : e.comp.split(" · ")[0] + (c.line2 ? " · " + c.line2 : ""), ix: ix, hidden: c.hidden });
+    SP.fixtures.forEach(function (f) {
+      var s = f.st[L] || f.st.all, hide = hideOn() && s[0] !== "soon" && !S.revealed[id];
+      rows.push({ status: s[0], line: hide ? f.vs : s[1], meta: hide ? "Score hidden" : s[2], sub: f.comp + " · " + f.where, hidden: hide });
+    });
+    return rows;
+  }
+
+  function fxRow(r) {
+    var chip = r.status === "live" ? '<span class="wlive sm"><i></i>LIVE</span>' : r.status === "soon" ? '<span class="wsoon sm">Coming up</span>' : '<span class="wdone sm">' + (r.hidden ? "Finished" : "Result") + '</span>';
+    return '<button class="wfx' + (r.feat ? " feat" : "") + '" type="button" ' +
+      (r.feat ? 'data-open="' + r.ix + '"' : 'data-toast="Only the featured match has a live page in this prototype."') + '>' +
+      '<span class="wfxtop">' + chip + '<span class="wfxmeta">' + esc(r.meta) + '</span></span>' +
+      '<b>' + esc(r.line) + '</b><span class="wfxsub">' + esc(r.sub) + '</span>' +
+      (r.feat ? '<span class="wfxgo">' + (r.status === "soon" ? "Build-up, team news and reminders" : r.status === "live" ? "Live page, stats and the conversation" : "Highlights, reaction and ratings") + I.chevron + '</span>' : "") +
+      '</button>';
+  }
+
+  function spAvatar(it) {
+    return it.k === "creator" ? '<span class="wpav" style="background:' + it.col + '">' + esc(it.av) + '</span>'
+      : '<span class="wpav bbc" aria-hidden="true"><i>B</i><i>B</i><i>C</i></span>';
+  }
+
+  function spItem(it, id, k, big) {
+    if (it.k === "story") {
+      var open = it.article ? 'data-article="' + esc(it.article) + '"' : 'data-toast="This story is not built out in this prototype."';
+      return '<button class="wspst' + (big ? " big" : "") + '" type="button" ' + open + '>' +
+        '<span class="wcimg">' + imgTag(it.img, "", "wide") + '</span>' +
+        '<span class="wcsport">' + esc(it.tag) + ' · ' + esc(it.ago) + ' ago</span>' +
+        '<b>' + esc(it.title) + '</b>' + (it.stand && big ? '<span class="wcctx">' + esc(it.stand) + '</span>' : "") + '</button>';
+    }
+    if (it.k === "short") {
+      var dd = DROP[it.play];
+      if (!dd) { return ""; }
+      return '<button class="wspsh" type="button" data-play="' + it.play + '"><span class="wsimg">' + imgTag(dd.img, dd.t, "tall") +
+        '<span class="play">' + I.playtri + '</span><span class="dur">' + esc(dd.dur) + '</span></span>' +
+        '<span class="wcsport">Short · ' + esc(dd.chan) + '</span><b>' + esc(dd.t) + '</b></button>';
+    }
+    if (it.k === "post" || it.k === "creator") {
+      return '<article class="wpost' + (it.k === "creator" ? " cr" : "") + '">' +
+        '<p class="wphead">' + spAvatar(it) + '<span><b>' + esc(it.who) + '</b><small>' + esc(it.org) + ' · ' + esc(it.ago) + ' ago</small></span>' +
+        '<span class="wpkind">' + (it.k === "creator" ? "Creator" : "Post") + '</span></p>' +
+        '<p class="wptext">' + esc(it.text) + '</p>' +
+        '<p class="wcact">' + likeBtn("sp:" + id + ":" + k, it.likes, "sm") +
+        '<button type="button" data-sheet="comments" data-ctx="' + esc(it.ev || id) + '">' + esc(it.comments) + ' comments</button></p></article>';
+    }
+    if (it.k === "bite") {
+      return '<button class="wbite" type="button" data-bite="sp' + k + '" data-title="' + esc(it.who + ": " + it.title.toLowerCase()) + '" data-dur="' + esc(it.dur) + '" data-sub="' + esc(it.sub) + '" data-desc="' + esc(it.title + ". The answer as it went out, from the programme.") + '">' +
+        '<span class="bplay">' + I.playtri + '</span><span class="spbtx"><span class="wcsport">Answered on air · ' + esc(it.who) + '</span>' +
+        '<b>' + esc(it.title) + '</b><small>' + esc(it.dur) + ' · ' + esc(it.org) + '</small></span></button>';
+    }
+    return "";
+  }
+
+  function webSport() {
+    var id = S.webSport, SP = SPORTPAGES[id], e = evById(id), ix = evIxById(id);
+    var rows = fxRows(id), out = "";
+    var groups = [["live", "Live now", "Nothing live right now"], ["soon", "Coming up", "Nothing else today"], ["done", SP.doneLabel || "Finished", "Nothing finished yet"]];
+
+    out += '<section class="wevhead wsphead"><div class="wwrap">' +
+      '<p class="wcrumb"><button type="button" data-gohome>Sport</button> › ' + esc(SP.name) + '</p>' +
+      '<div class="wevrow"><h1 class="wh1">' + esc(SP.name) + '</h1>' +
+      '<div class="wbtns"><button class="wbtn ghost" type="button" data-toast="' + esc(SP.name) + ' added to My Sport.">' + I.star + 'Follow ' + esc(SP.name) + '</button></div></div>' +
+      '<nav class="wsptabs">' + SP.tabs.map(function (t, i) {
+        return '<a href="#" class="' + (i === 0 ? "on" : "") + '"' + (i === 0 ? "" : ' data-toast="' + esc(t) + ' is not built out in this prototype."') + '>' + esc(t) + '</a>';
+      }).join("") + '</nav></div></section>';
+
+    out += '<div class="wwrap">' + spoilBar() +
+      '<section class="wsec wfix"><h2 class="wh2">Today</h2><div class="wfixcols">' +
+      groups.map(function (g) {
+        var list = rows.filter(function (r) { return r.status === g[0]; });
+        return '<div class="wfixcol ' + g[0] + '"><h3>' + esc(g[1]) + (list.length ? ' <small>' + list.length + '</small>' : "") + '</h3>' +
+          (list.length ? list.map(fxRow).join("") : '<p class="wfxnone">' + esc(g[2]) + '</p>') + '</div>';
+      }).join("") + '</div></section>';
+
+    var stories = SP.feed.filter(function (x) { return x.k === "story"; });
+    var lead = stories[0], second = stories[1];
+    var rest = SP.feed.filter(function (x) { return x !== lead && x !== second; });
+
+    out += '<section class="wsec wspbody"><div class="wspmain">' +
+      '<div class="wsptop">' + spItem(lead, id, 0, true) + '<div class="wspside2">' + spItem(second, id, 1, false) +
+      '<button class="wbite listen" type="button" data-listenlive="' + ix + '"><span class="bplay">' + I.speaker + '</span><span class="spbtx"><span class="wcsport">Listen</span><b>' + esc(SP.listen[0]) + '</b><small>' + esc(SP.listen[1]) + '</small></span></button>' +
+      '</div></div>' +
+      '<h2 class="wh2">Latest <small>Stories, posts from our journalists, the experts and creators you follow</small></h2>' +
+      '<div class="wspfeed">' + rest.map(function (it, k) { return '<div class="wspcell">' + spItem(it, id, k + 2, false) + '</div>'; }).join("") + '</div>' +
+      '</div>' +
+      '<aside class="wspside"><div class="wpanel"><h2 class="wh2">Most read</h2><ol class="wmost">' +
+      SP.mostRead.map(function (m) {
+        return '<li><button type="button" ' + (m[1] ? 'data-article="' + esc(m[1]) + '"' : 'data-toast="This story is not built out in this prototype."') + '>' + esc(m[0]) + '</button></li>';
+      }).join("") + '</ol></div>' +
+      /* the comments talk about the score, so they wait until it is shown */
+      (masked(e) ? "" : '<div class="wpanel"><h2 class="wh2">The conversation <small>' + esc(e.title) + '</small></h2>' + commentsPanel(e.id, 2) + '</div>') +
+      '</aside></section></div>';
+    return out;
+  }
+
   function renderWeb() {
     var app = $("#app");
-    var url = S.view === "event" ? "bbc.co.uk/sport/" + ev().id + "/live" : "bbc.co.uk/sport";
+    if (S.view === "sport" && !SPORTPAGES[S.webSport]) { S.view = "home"; }
+    var url = S.view === "event" ? "bbc.co.uk/sport/" + ev().id + "/live" : S.view === "sport" ? "bbc.co.uk/sport/" + (S.webSport === "rugby" ? "rugby-union" : S.webSport) : "bbc.co.uk/sport";
     app.innerHTML = '<div class="web" id="viewport">' +
       '<div class="wbrowser"><span class="wdots"><i></i><i></i><i></i></span><span class="wurl">' + esc(url) + '</span></div>' +
       '<div class="wscroll" id="scrollbody">' + webMast() +
-      '<main class="wmain">' + (S.view === "event" ? webEvent() : '<div class="wwrap">' + webHome() + '</div>') + '</main>' +
+      '<main class="wmain">' + (S.view === "event" ? webEvent() : S.view === "sport" ? webSport() : '<div class="wwrap">' + webHome() + '</div>') + '</main>' +
       '<footer class="wfoot"><div class="wwrap"><span class="bbcblocks"><i>B</i><i>B</i><i>C</i></span>' +
       '<nav>' + ["Terms of Use", "About the BBC", "Privacy Policy", "Cookies", "Accessibility Help", "Contact the BBC"].map(function (n) {
         return '<a href="#" data-toast="' + esc(n) + ' is outside this prototype.">' + esc(n) + '</a>';
@@ -4521,7 +4640,7 @@
   /* ---- surfaces ---- */
 
   var SURFACES = [
-    ["phone", "Phone app"],
+    ["phone", "App"],
     ["web", "Website"],
     ["tv", "iPlayer TV"],
     ["together", "Multiscreen"]
@@ -4529,6 +4648,7 @@
 
   function setSurface(s) {
     S.surface = s;
+    if (s !== "web" && S.view === "sport") { S.view = "home"; }
     var t = tvs();
     if (s === "together") {
       multiPair();

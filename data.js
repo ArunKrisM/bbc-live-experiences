@@ -1485,6 +1485,61 @@ const ARTICLES = {
       ["p", "In Cardiff, Ireland's fourth try came with a minute left and took the bonus point, keeping their title hopes alive into the final round. And at Wembley, England beat the Netherlands 2-1."],
       ["img", "rg-roar", "Ireland at the final whistle"]
     ]
+  },
+  "sp-fb-explain": {
+    kicker: "Nations League", title: "What tonight at Wembley decides", byline: "BBC Sport", read: "3 min read",
+    hero: "fb-kane", heroCap: "England and the Netherlands in their last meeting", sport: "football", comments: "344", likes: "2.9k", shares: "150",
+    blocks: [
+      ["p", "England go into the last round of the group level on points with the Netherlands. The group winner goes through to the finals next June, and the runner-up plays off to stay in League A."],
+      ["p", "Goal difference is close enough that a draw leaves both sides depending on Spain and Italy, who kick off at the same time in Madrid."],
+      ["h", "Where to follow it"],
+      ["p", "The match is on BBC One and iPlayer from 19:00, with commentary on 5 Live. The live page has the stats, the conversation and a catch-up if you arrive late."]
+    ]
+  },
+  "sp-fb-press": {
+    kicker: "Football · Analysis", title: "How England have changed the way they play out from the back", byline: "BBC Sport", read: "4 min read",
+    hero: "fb-xi", heroCap: "England line up before kick-off", sport: "football", comments: "512", likes: "4.1k", shares: "230",
+    blocks: [
+      ["p", "England start more of their attacks from the goalkeeper than they did a year ago. The centre-backs split wide, a midfielder drops between them, and the full-backs push on."],
+      ["p", "It asks a lot of the midfielder who drops. Against a side that presses as high as the Netherlands, one loose pass there is a chance for the other team."],
+      ["p", "Watch where Rice picks the ball up in the first ten minutes. If it is on the edge of his own area, the plan is on."]
+    ]
+  },
+  "sp-ck-slope": {
+    kicker: "The Ashes · Explainer", title: "How the Lord's slope changes the way England bowl", byline: "BBC Sport", read: "3 min read",
+    hero: "ck-ball", heroCap: "A new ball at Lord's", sport: "cricket", comments: "281", likes: "3.3k", shares: "190",
+    blocks: [
+      ["p", "The ground at Lord's falls about two and a half metres from one side to the other. From the Pavilion End the slope takes the ball away from a right-handed batter; from the Nursery End it brings it back in."],
+      ["p", "Bowlers who move the ball away from the bat usually want the Pavilion End, and bowlers who bring it back prefer the Nursery End. Captains plan their spells around it."],
+      ["p", "Listen out for which end the second new ball is taken from. Test Match Special will tell you, and why."]
+    ]
+  },
+  "sp-tn-grass": {
+    kicker: "Wimbledon · Analysis", title: "What the first week's grass tells you about the second", byline: "BBC Sport", read: "3 min read",
+    hero: "tn-stretch", heroCap: "Stretching for a backhand on worn grass", sport: "tennis", comments: "197", likes: "2.2k", shares: "88",
+    blocks: [
+      ["p", "By the middle weekend the baselines on the outside courts are worn to bare earth. The ball sits up a little more there and skids a little less, which suits players who like to rally."],
+      ["p", "The middle of the court stays green for longer, so serve and volley still has its moments. In the second week, watch where the returners stand: usually further back."],
+      ["p", "Every court is live on BBC iPlayer and the BBC Sport app."]
+    ]
+  },
+  "sp-rg-maul": {
+    kicker: "Six Nations · Analysis", title: "Why the Wales maul keeps winning penalties", byline: "BBC Sport", read: "3 min read",
+    hero: "rg-maul", heroCap: "The Wales pack drive a maul", sport: "rugby", comments: "366", likes: "3.8k", shares: "171",
+    blocks: [
+      ["p", "Wales have won more penalties from mauls than any other side in this Six Nations. The drive starts at the line-out, but the work happens in the second before the ball is caught, when the lifters and the players behind them bind."],
+      ["p", "Ireland defend mauls by getting a player through the middle before it forms. Referees watch that moment closely, and it tends to decide whose penalty it is."],
+      ["p", "Scrum V has the full breakdown, with the line-out calls, on BBC iPlayer."]
+    ]
+  },
+  "sp-rg-fly": {
+    kicker: "Six Nations", title: "Two fly-halves and a title race", byline: "BBC Sport", read: "2 min read",
+    hero: "rg-flyhalves", heroCap: "The two fly-halves in Cardiff", sport: "rugby", comments: "140", likes: "1.6k", shares: "64",
+    blocks: [
+      ["p", "The last two rounds could come down to goal-kicking. Both fly-halves in Cardiff have landed better than eight kicks in ten this championship."],
+      ["p", "With the roof closed there is no wind to allow for, which usually favours the kickers and punishes indiscipline."],
+      ["p", "Follow it on BBC One, with commentary on 5 Live and in Welsh on Radio Cymru."]
+    ]
   }
 };
 
@@ -1656,3 +1711,128 @@ const TVMORE = [
   { t: "Six Nations Rewind", s: "Every try from the last round", img: "rg-run", k: "Sport" },
   { t: "Match of the Day", s: "Tonight, 22:30", img: "fb-celebrate", k: "Sport" }
 ];
+
+
+/* ---------------------------------------------------------------------------
+   The sport pages on the website. Football, Cricket, Tennis and Rugby in the
+   sport nav open a page that starts with the day's fixtures, grouped into
+   live, coming up and finished, then a mix of stories, posts from BBC
+   journalists, clips from the experts and shorts.
+   fixtures: the featured match comes from EVENTS; these are the others.
+     st: status, line and a note per lifecycle state ("all" for every state).
+   Posts are credited to a role, not a named journalist. Nothing in the feed
+   gives a result away, so it is safe with scores hidden.
+   ------------------------------------------------------------------------- */
+const SPORTPAGES = {
+  football: {
+    name: "Football", nav: "Football",
+    tabs: ["Scores & fixtures", "Tables", "Teams", "Women's football", "Transfers"],
+    fixtures: [
+      { vs: "Chelsea v Arsenal", comp: "Women's Super League", where: "Stamford Bridge",
+        st: { all: ["done", "Chelsea 3 - 1 Arsenal", "FT · 12:30 kick-off"] } },
+      { vs: "Scotland v Norway", comp: "Nations League", where: "Hampden Park",
+        st: { buildup: ["live", "Scotland 1 - 0 Norway", "61 mins"], live: ["done", "Scotland 2 - 0 Norway", "FT"], fulltime: ["done", "Scotland 2 - 0 Norway", "FT"] } },
+      { vs: "Spain v Italy", comp: "Nations League", where: "Madrid",
+        st: { buildup: ["soon", "Spain v Italy", "19:45 · BBC Three"], live: ["live", "Spain 0 - 0 Italy", "68 mins"], fulltime: ["done", "Spain 1 - 1 Italy", "FT"] } },
+      { vs: "Wales v Iceland", comp: "Nations League", where: "Cardiff City Stadium",
+        st: { buildup: ["soon", "Wales v Iceland", "19:45 · S4C"], live: ["live", "Wales 1 - 1 Iceland", "67 mins"], fulltime: ["done", "Wales 2 - 1 Iceland", "FT"] } },
+      { vs: "Northern Ireland v Denmark", comp: "Nations League", where: "Windsor Park",
+        st: { all: ["soon", "Northern Ireland v Denmark", "Tomorrow, 17:00"] } }
+    ],
+    listen: ["5 Live Sport", "Build-up, commentary and the phone-in on BBC Radio 5 Live"],
+    mostRead: [["What tonight at Wembley decides", "sp-fb-explain"], ["How England have changed the way they play out from the back", "sp-fb-press"],
+      ["Nations League: every group, and who needs what", ""], ["Bigger grounds, bigger crowds: the WSL so far", ""], ["Transfer window: the dates that matter", ""]],
+    feed: [
+      { k: "story", article: "sp-fb-explain", img: "fb-kane", title: "What tonight at Wembley decides", stand: "Level on points with the Netherlands, and Spain and Italy playing at the same time", tag: "Nations League", ago: "1h" },
+      { k: "story", article: "sp-fb-press", img: "fb-xi", title: "How England have changed the way they play out from the back", tag: "Analysis", ago: "4h" },
+      { k: "short", play: 5 },
+      { k: "post", who: "Football correspondent", org: "BBC Sport", text: "Team news is due an hour before kick-off. Palmer or Trent on the right of midfield is still the question, and the answer will say a lot about how England want to handle the Dutch press.", ago: "2h", likes: "1.4k", comments: "212", ev: "football" },
+      { k: "bite", who: "Dan Roan", org: "BBC Sports Editor", title: "On Wembley ticket prices and the empty seats", dur: "1:12", sub: "5 Live Sport · clip" },
+      { k: "post", who: "Women's football reporter", org: "BBC Sport", text: "Stamford Bridge sold out for a WSL game again today. The move to bigger grounds is starting to look less like a gamble.", ago: "3h", likes: "2.1k", comments: "164", ev: "football" },
+      { k: "creator", who: "The Terrace", org: "Fan channel · 410k followers", av: "TT", col: "#7A3FD1", text: "Our watchalong goes live 30 minutes before kick-off. Bring your predicted XI. We will read out the worst ones.", ago: "3h", likes: "3.3k", comments: "480", ev: "football" },
+      { k: "short", play: 6 }
+    ]
+  },
+  cricket: {
+    name: "Cricket", nav: "Cricket", doneLabel: "Finished for the day",
+    tabs: ["Scores & fixtures", "Tables", "Teams", "Women's cricket", "County cricket"],
+    fixtures: [
+      { vs: "Lancashire v Yorkshire", comp: "County Championship", where: "Old Trafford",
+        st: { all: ["done", "Yorkshire won by 6 wickets", "Yesterday"] } },
+      { vs: "England v India", comp: "Women's ODI series · 2nd ODI", where: "Bristol",
+        st: { buildup: ["soon", "England v India", "13:00 · BBC Sport website"], live: ["live", "India 187-4, chasing 262", "38 overs"], fulltime: ["done", "England won by 34 runs", "Result"] } },
+      { vs: "Surrey v Somerset", comp: "County Championship · Day 3", where: "The Kia Oval",
+        st: { buildup: ["soon", "Surrey v Somerset", "Day 3 · 11:00"], live: ["live", "Somerset 214-5", "Trail by 98"], fulltime: ["done", "Somerset 301-7", "Stumps, day 3"] } },
+      { vs: "Scotland v Netherlands", comp: "One-day international", where: "Aberdeen",
+        st: { all: ["soon", "Scotland v Netherlands", "Tomorrow, 10:30"] } }
+    ],
+    listen: ["Test Match Special", "Ball by ball on Radio 5 Sports Extra and BBC Sounds"],
+    mostRead: [["How the Lord's slope changes the way England bowl", "sp-ck-slope"], ["England start day three 224 behind at Lord's", "st-buildup"],
+      ["County Championship: the title race after nine rounds", ""], ["England Women name an unchanged side for Bristol", ""], ["The Hundred: next summer's dates", ""]],
+    feed: [
+      { k: "story", article: "sp-ck-slope", img: "ck-ball", title: "How the Lord's slope changes the way England bowl", stand: "Why captains care which end the second new ball is taken from", tag: "The Ashes", ago: "2h" },
+      { k: "story", article: "st-buildup", img: "ck-squad", title: "England start day three 224 behind at Lord's", tag: "The Ashes", ago: "5h" },
+      { k: "post", who: "Cricket correspondent", org: "BBC Sport", text: "The second new ball is due in the first hour. At Lord's, that is usually when a day decides which way it is going.", ago: "5h", likes: "980", comments: "131", ev: "cricket" },
+      { k: "short", play: 0 },
+      { k: "bite", who: "Test Match Special", org: "Radio 5 Sports Extra", title: "On the second new ball and who takes it", dur: "1:05", sub: "Test Match Special · clip" },
+      { k: "post", who: "County cricket reporter", org: "BBC Sport", text: "Somerset have two spinners in at The Oval for the first time this season. On a dry pitch, it may be the right call.", ago: "5h", likes: "410", comments: "58", ev: "cricket" },
+      { k: "creator", who: "Third Man Pod", org: "Creator · 60k followers", av: "3M", col: "#1A3A6B", text: "New episode: every Lord's Test since 2000, ranked by how nervous it made us. Recorded before play, so no spoilers.", ago: "7h", likes: "1.1k", comments: "96", ev: "cricket" },
+      { k: "short", play: 10 },
+      { k: "story", article: "", img: "ck-huddle", title: "County Championship: the title race after nine rounds", tag: "County cricket", ago: "8h" }
+    ]
+  },
+  tennis: {
+    name: "Tennis", nav: "Tennis",
+    tabs: ["Scores & schedule", "Draws", "Rankings", "Wimbledon", "Players"],
+    fixtures: [
+      { vs: "Draper v Rune", comp: "Men's singles · third round", where: "No.1 Court",
+        st: { buildup: ["live", "Draper 7-6, 2-1", "Second set"], live: ["done", "Draper won 7-6, 6-4, 6-3", "Result"], fulltime: ["done", "Draper won 7-6, 6-4, 6-3", "Result"] } },
+      { vs: "Alcaraz v Musetti", comp: "Men's singles · third round", where: "Centre Court",
+        st: { buildup: ["soon", "Alcaraz v Musetti", "Centre Court, 13:30"], live: ["live", "Alcaraz 6-3, 3-2", "Second set"], fulltime: ["done", "Alcaraz won 6-3, 6-4, 6-2", "Result"] } },
+      { vs: "Sabalenka v Andreeva", comp: "Women's singles · third round", where: "Centre Court",
+        st: { buildup: ["soon", "Sabalenka v Andreeva", "After Alcaraz v Musetti"], live: ["soon", "Sabalenka v Andreeva", "Next on Centre Court"], fulltime: ["done", "Sabalenka won 6-2, 6-4", "Result"] } },
+      { vs: "Middle Sunday", comp: "Order of play", where: "All courts",
+        st: { all: ["soon", "Middle Sunday order of play", "Tomorrow, 11:00"] } }
+    ],
+    listen: ["5 Sports Extra at Wimbledon", "Commentary from Court 2 and Centre Court"],
+    mostRead: [["From a hut beside Centre Court to eighteen courts in your pocket", "w100"], ["What the first week's grass tells you about the second", "sp-tn-grass"],
+      ["The British players still in the draw", ""], ["Order of play for the middle Sunday", ""], ["How to get a Wimbledon ticket on the day", ""]],
+    feed: [
+      { k: "story", article: "w100", img: "ar-court", title: "From a hut beside Centre Court to eighteen courts in your pocket", stand: "A hundred years of Wimbledon on the BBC, from the archive", tag: "Wimbledon · 100 years", ago: "1d" },
+      { k: "story", article: "sp-tn-grass", img: "tn-stretch", title: "What the first week's grass tells you about the second", tag: "Analysis", ago: "3h" },
+      { k: "short", play: 2 },
+      { k: "post", who: "Tennis correspondent", org: "BBC Sport", text: "Three British players on show courts today. By mid-afternoon, Court 2 looks like the place to be.", ago: "5h", likes: "1.2k", comments: "140", ev: "tennis" },
+      { k: "bite", who: "5 Sports Extra", org: "Court 2 commentary", title: "On why Court 2 fills up faster than Centre on a day like this", dur: "0:36", sub: "Radio 5 Sports Extra · clip" },
+      { k: "post", who: "Wimbledon reporter", org: "BBC Sport", text: "The queue in Wimbledon Park was past the golf course by 7am. Grounds passes went quickly, and there is still room on the Hill.", ago: "8h", likes: "760", comments: "92", ev: "tennis" },
+      { k: "short", play: 11 },
+      { k: "creator", who: "Baseline Club", org: "Creator · 180k followers", av: "BC", col: "#1E8C5A", text: "We are watching Court 2 along with you from 14:00. Questions about second serves welcome. We have charts.", ago: "4h", likes: "890", comments: "77", ev: "tennis" },
+      { k: "bite", who: "Dan Roan", org: "BBC Sports Editor", title: "On the BBC's 100 years at the Championships", dur: "1:40", sub: "5 Live Sport · clip" },
+      { k: "short", play: 4 }
+    ]
+  },
+  rugby: {
+    name: "Rugby Union", nav: "Rugby U",
+    tabs: ["Scores & fixtures", "Tables", "Six Nations", "Women's rugby", "Teams"],
+    fixtures: [
+      { vs: "Italy v Scotland", comp: "Six Nations", where: "Stadio Olimpico",
+        st: { buildup: ["live", "Italy 10 - 17 Scotland", "52 mins"], live: ["done", "Italy 16 - 27 Scotland", "FT"], fulltime: ["done", "Italy 16 - 27 Scotland", "FT"] } },
+      { vs: "France v England", comp: "Six Nations", where: "Stade de France",
+        st: { buildup: ["soon", "France v England", "20:00 · ITV"], live: ["soon", "France v England", "20:00 · ITV"], fulltime: ["live", "France 13 - 10 England", "48 mins"] } },
+      { vs: "Wales v Ireland", comp: "Women's Six Nations", where: "Cardiff Arms Park",
+        st: { all: ["soon", "Wales v Ireland", "Tomorrow, 15:00 · BBC Two Wales"] } }
+    ],
+    listen: ["5 Live Rugby", "Commentary on BBC Radio 5 Live, and in Welsh on Radio Cymru"],
+    mostRead: [["Why the Wales maul keeps winning penalties", "sp-rg-maul"], ["Two fly-halves and a title race", "sp-rg-fly"],
+      ["Six Nations: what every side needs from the last round", ""], ["Women's Six Nations: Wales name their squad", ""], ["Roof open or closed: who decides", ""]],
+    feed: [
+      { k: "story", article: "sp-rg-maul", img: "rg-maul", title: "Why the Wales maul keeps winning penalties", stand: "The work happens in the second before the ball is caught", tag: "Six Nations", ago: "2h" },
+      { k: "story", article: "sp-rg-fly", img: "rg-flyhalves", title: "Two fly-halves and a title race", tag: "Six Nations", ago: "5h" },
+      { k: "post", who: "Rugby union correspondent", org: "BBC Sport", text: "The roof is closed at the Principality. Expect a quicker game, and plenty of the Wales maul.", ago: "3h", likes: "870", comments: "118", ev: "rugby" },
+      { k: "short", play: 8 },
+      { k: "bite", who: "Scrum V", org: "BBC Wales", title: "On the Wales maul and why it keeps winning penalties", dur: "0:52", sub: "Scrum V · clip" },
+      { k: "creator", who: "Ruck & Maul", org: "Creator · 95k followers", av: "RM", col: "#128D51", text: "Watchalong starts at 16:45. We have a whiteboard and we are not afraid to use it.", ago: "4h", likes: "640", comments: "71", ev: "rugby" },
+      { k: "post", who: "Welsh rugby reporter", org: "BBC Sport Wales", text: "Two changes to the Wales pack from last week, both in the back row. The line-out stays as it was.", ago: "6h", likes: "520", comments: "83", ev: "rugby" },
+      { k: "story", article: "", img: "rg-run", title: "Six Nations: what every side needs from the last round", tag: "Six Nations", ago: "7h" }
+    ]
+  }
+};

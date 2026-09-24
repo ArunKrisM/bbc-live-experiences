@@ -29,8 +29,9 @@ branch*, branch `main`, folder `/ (root)`. The site appears at
 
 | Control | What it does |
 | --- | --- |
-| Screen pills, top of the page | Phone app, Website, iPlayer TV, and Multiscreen (a TV and a phone paired on one match) |
+| Screen pills, top of the page | App, Website, iPlayer TV and Multiscreen (a TV and a phone paired on one match). iPlayer TV and Multiscreen are work in progress |
 | Lifecycle pills, top of the page | Build-up, Live, Near-live |
+| Sport nav on the website | Football, Cricket, Tennis and Rugby U open a sport page: today's fixtures (live now, coming up, finished), then stories, journalist posts, expert clips, creator posts and shorts |
 | On the TV | Click the TV, then arrow keys move, `Enter` selects or opens the controls, `Esc` goes back, `S` toggles stats |
 | Swipe left/right on the phone | Same thing, on a touch device |
 | `←` `→` arrow keys | Same thing, on a desktop. `Esc` returns to Home |

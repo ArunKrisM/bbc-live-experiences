@@ -3555,3 +3555,123 @@ body[data-theme="light"] #app .court .ctag.on { color: #7A5F00; }
 /* surfaces still being built */
 .sfwip { font-style: normal; font-size: 9.5px; font-weight: 800; letter-spacing: .06em; margin-left: 6px; padding: 2px 5px; border-radius: 3px; background: var(--yellow); color: #111; vertical-align: 1px; }
 body[data-surface="together"] .phonecap::after { content: " · work in progress"; color: var(--yellow); }
+
+/* ==========================================================================
+   v21: the sport pages on the website. The day's fixtures first, grouped
+   live, coming up and finished, then a mix of stories, posts, clips and
+   shorts, with most read alongside.
+   ========================================================================== */
+.wsphead .wevrow { align-items: center; margin-bottom: 6px; }
+.wsphead .wh1 { margin: 4px 0; }
+.wsptabs { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+.wsptabs a {
+  flex: none; padding: 12px 12px 13px; font-size: 14px; color: var(--text-2); text-decoration: none;
+  border-bottom: 3px solid transparent;
+}
+.wsptabs a.on { color: var(--text); font-weight: 700; border-color: var(--yellow); }
+.wsptabs a:hover { color: var(--text); }
+
+.wfix { margin-top: 26px; }
+.wfixcols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; align-items: start; }
+.wfixcol { background: var(--panel); border-radius: 6px; padding: 14px 14px 6px; min-width: 0; }
+.wfixcol h3 { margin: 0 0 10px; font-size: 15px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+.wfixcol h3 small {
+  font-size: 11.5px; font-weight: 700; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 999px;
+  display: inline-grid; place-items: center; background: var(--card-2, #2A2A2A); color: var(--text);
+}
+.wfixcol.live h3 small { background: var(--live); color: var(--live-ink); }
+.wfx {
+  display: grid; gap: 4px; width: 100%; text-align: left; background: none; border: 0;
+  border-top: 1px solid var(--line-soft, #242424); padding: 11px 0 12px; color: var(--text);
+}
+.wfixcol h3 + .wfx { border-top: 0; padding-top: 2px; }
+.wfxtop { display: flex; align-items: center; gap: 8px; }
+.wfxmeta { font-size: 12.5px; color: var(--muted); }
+.wfx b { font-size: 15.5px; line-height: 1.25; font-variant-numeric: tabular-nums; }
+.wfx:hover b { text-decoration: underline; }
+.wfxsub { font-size: 12.5px; color: var(--muted); }
+.wfx.feat {
+  background: var(--card, #1A1A1A); border: 0; border-left: 3px solid var(--yellow); border-radius: 4px;
+  padding: 11px 12px 12px; margin-bottom: 8px;
+}
+.wfixcol h3 + .wfx.feat { padding-top: 11px; }
+.wfx.feat + .wfx { border-top: 0; }
+.wfx.feat b { font-size: 17px; }
+.wfxgo { display: inline-flex; align-items: center; gap: 4px; font-size: 12.5px; font-weight: 700; color: var(--text); margin-top: 2px; }
+.wfxgo svg { width: 13px; height: 13px; }
+.wfxnone { margin: 2px 0 12px; font-size: 13.5px; color: var(--muted); }
+
+.wspbody { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 28px; align-items: start; }
+.wspmain { min-width: 0; }
+.wsptop { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); gap: 20px; margin-bottom: 34px; }
+.wspside2 { display: grid; gap: 16px; align-content: start; }
+.wspst { display: grid; gap: 6px; align-content: start; width: 100%; background: none; border: 0; padding: 0; text-align: left; color: var(--text); }
+.wspst b { font-size: 16px; line-height: 1.25; }
+.wspst.big b { font-size: 26px; line-height: 1.12; }
+.wspst:hover b { text-decoration: underline; }
+
+.wspfeed { column-count: 3; column-gap: 18px; }
+.wspcell { break-inside: avoid; margin-bottom: 18px; }
+.wspsh { display: grid; gap: 6px; width: 100%; background: none; border: 0; padding: 0; text-align: left; color: var(--text); }
+.wspsh .wsimg { aspect-ratio: 4 / 5; }
+.wspsh b { font-size: 14.5px; line-height: 1.3; }
+
+.wpost { background: var(--panel); border-radius: 6px; padding: 14px; }
+.wpost.cr { box-shadow: inset 3px 0 0 #B79CFF; }
+.wphead { display: flex; align-items: center; gap: 10px; margin: 0 0 8px; }
+.wphead > span:nth-child(2) { display: grid; gap: 1px; min-width: 0; flex: 1; }
+.wphead b { font-size: 14px; }
+.wphead small { font-size: 12px; color: var(--muted); }
+.wpav {
+  flex: none; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center;
+  font-size: 12px; font-weight: 800; color: #fff;
+}
+.wpav.bbc { border-radius: 4px; background: #000; display: flex; gap: 1px; padding: 0 3px; border: 1px solid #333; }
+.wpav.bbc i { font-style: normal; background: #fff; color: #000; font-size: 7.5px; line-height: 1; width: 8px; height: 9px; display: grid; place-items: center; }
+.wpkind { font-size: 10.5px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
+.wpost.cr .wpkind { color: #B79CFF; }
+.wptext { margin: 0; font-size: 14.5px; line-height: 1.45; color: var(--text); }
+
+.wbite {
+  display: flex; gap: 12px; align-items: flex-start; width: 100%; text-align: left; color: var(--text);
+  background: var(--panel); border: 0; border-radius: 6px; padding: 14px;
+}
+.wbite .bplay { flex: none; }
+.wbite .bplay svg { width: 15px; height: 15px; }
+.wbite.listen .bplay { background: var(--yellow); color: #000; }
+.wbite.listen .bplay svg [fill="#fff"] { fill: #000; }
+.wbite.listen .bplay svg [stroke="#fff"] { stroke: #000; }
+.spbtx { display: grid; gap: 3px; min-width: 0; }
+.spbtx b { font-size: 15px; line-height: 1.3; }
+.spbtx small { font-size: 12.5px; color: var(--muted); }
+.wbite:hover b { text-decoration: underline; }
+
+.wspside { display: grid; gap: 18px; }
+.wmost { margin: 0; padding: 0; list-style: none; counter-reset: most; }
+.wmost li { counter-increment: most; display: flex; gap: 12px; padding: 10px 0; border-top: 1px solid var(--line-soft, #242424); }
+.wmost li:first-child { border-top: 0; padding-top: 0; }
+.wmost li::before { content: counter(most); font-size: 26px; font-weight: 800; line-height: 1; color: var(--yellow); min-width: 22px; }
+.wmost button { background: none; border: 0; padding: 0; text-align: left; color: var(--text); font-size: 14.5px; font-weight: 700; line-height: 1.3; }
+.wmost button:hover { text-decoration: underline; }
+.wcrumb button + button, .wcrumb button[data-sportpage] { margin: 0; }
+
+body[data-theme="light"] #app .wfx.feat { background: #F4F4F4; }
+body[data-theme="light"] #app .wmost li::before { color: #121212; }
+body[data-theme="light"] #app .wpav.bbc { border-color: #000; }
+body[data-theme="light"] #app .wpost, body[data-theme="light"] #app .wbite, body[data-theme="light"] #app .wfixcol { border: 1px solid #E2E2E2; }
+
+@media (max-width: 1180px) {
+  .wspbody { grid-template-columns: 1fr; }
+  .wspside { grid-template-columns: 1fr 1fr; }
+  .wspfeed { column-count: 2; }
+}
+@media (max-width: 900px) {
+  .wfixcols, .wsptop, .wspside { grid-template-columns: 1fr; }
+  .wspst.big b { font-size: 22px; }
+}
+@media (max-width: 560px) {
+  .wspfeed { column-count: 1; }
+}
+body[data-theme="light"] #app .wfx, body[data-theme="light"] #app .wfxgo, body[data-theme="light"] #app .wspst,
+body[data-theme="light"] #app .wspsh, body[data-theme="light"] #app .wbite, body[data-theme="light"] #app .wmost button,
+body[data-theme="light"] #app .wptext, body[data-theme="light"] #app .wsptabs a.on { color: #121212; }
