@@ -997,7 +997,17 @@
       '</div></div>';
   };
 
+  /* two options add up to a hundred, so one bar and one number say it all */
+  function splitBar(opts, split, chosen) {
+    var lead = split[0] >= split[1] ? 0 : 1;
+    return '<div class="splitbar"><div class="sblabs"><span class="' + (chosen === 0 ? "me" : "") + '">' + esc(opts[0]) + (chosen === 0 ? " · you" : "") + '</span>' +
+      '<span class="' + (chosen === 1 ? "me" : "") + '">' + esc(opts[1]) + (chosen === 1 ? " · you" : "") + '</span></div>' +
+      '<div class="sbtrack"><i class="a' + (chosen === 0 ? " me" : "") + '" style="width:' + split[0] + '%"></i><i class="b' + (chosen === 1 ? " me" : "") + '" style="width:' + split[1] + '%"></i></div>' +
+      '<p class="sbline"><b>' + split[lead] + '%</b> said ' + esc(opts[lead]) + '</p></div>';
+  }
+
   function resultRows(opts, split, chosen) {
+    if (opts.length === 2) { return splitBar(opts, split, chosen); }
     return '<div class="results">' + opts.map(function (o, j) {
       var me = j === chosen;
       return '<div class="resrow"><div class="reslab"><span>' + esc(o) + (me ? " · you" : "") + '</span><b>' + split[j] + '%</b></div>' +
@@ -1596,7 +1606,7 @@
 
   function visualPoll(poll, photo, kicker) {
     var chosen = S.votes[poll.id], done = chosen !== undefined;
-    var q = String(poll.q).replace(/^Have your say:\s*/i, "");
+    var q = String(poll.q).replace(/^Have your say:\s*/i, ""), three = poll.opts.length > 2;
     return '<div class="vpoll" data-vpoll="' + poll.id + '">' +
       '<span class="vpkick">' + esc(kicker || "Have your say") + '</span>' +
       '<p class="vpq">' + esc(q) + '</p>' +
@@ -1608,11 +1618,12 @@
           ' aria-pressed="' + (k === chosen) + '">' +
           '<span class="vpimg">' + (poll.imgs && poll.imgs[k] ? imgTag(poll.imgs[k], o, "wide") : photoSVG(photo, "wide", poll.id + "#" + k)) + '<span class="vpveil"></span>' +
           (done && k === chosen ? '<span class="vptick">' + I.tick + '</span>' : "") + '</span>' +
-          '<span class="vprow"><span class="vpfill" style="width:' + (done ? pct : 0) + '%"></span>' +
+          '<span class="vprow"><span class="vpfill" style="width:' + (done && three ? pct : 0) + '%"></span>' +
           '<span class="vplab">' + esc(o) + '</span>' +
-          (done ? '<span class="vppct">' + pct + '%</span>' : "") + '</span>' +
+          (done && three ? '<span class="vppct">' + pct + '%</span>' : "") + '</span>' +
           '</button>';
       }).join("") + '</div>' +
+      (done && !three ? splitBar(poll.opts, poll.split, chosen) : "") +
       '<p class="vpafter">' + esc(done ? poll.after : "Tap one. Results the moment you do.") + '</p>' +
       '</div>';
   }
@@ -1660,14 +1671,15 @@
       '<div class="rail liverail">' + cards.map(function (x, k) {
         var c = x.c, isTop = k === 0 && c.status === "live";
         var chip = c.status === "live" ? '<span class="chiplive">LIVE</span>'
-          : c.status === "soon" ? remindChip(x.e, c.when.split(" ·")[0])
+          : c.status === "soon" ? ""
           : '<span class="chipdone">' + esc(c.hidden ? "Result hidden" : c.when.split(" ·")[0]) + '</span>';
         return '<button class="lcard' + (isTop ? " top" : "") + '" type="button" data-open="' + x.i + '">' +
           '<span class="lphoto">' + photoSVG(x.e.photo, "wide", x.e.sport + " " + x.e.title) + chip +
-          (c.badge ? '<span class="lbadge">' + esc(c.badge) + '</span>' : "") + '</span>' +
+          (c.badge && c.status !== "soon" ? '<span class="lbadge">' + esc(c.badge) + '</span>' : "") + '</span>' +
           '<span class="lsport">' + (I.sport[x.e.sport] || "") + esc(x.e.sport) + '</span>' +
           '<span class="ltitle">' + esc(c.line1) + '</span>' +
           '<span class="lsub">' + esc(c.line2) + '</span>' +
+          (c.status === "soon" ? '<span class="lfoot"><span class="lwhen">' + esc(c.when.split(" ·")[0]) + '</span>' + remindChip(x.e, "") + '</span>' : "") +
           (isTop ? '<span class="lsig hot">Watch now</span>' : "") +
           '</button>';
       }).join("") + '</div></section>';
@@ -3065,11 +3077,11 @@
       }).join("") + '</div>' +
       '<form class="pask" data-askq="' + p.id + '"><span class="meav sm">A</span><input type="text" maxlength="200" placeholder="Ask the experts a question" aria-label="Ask a question" autocomplete="off"><button type="submit">Ask</button></form>' +
       '<p class="pnote">The questions with the most votes are put to the studio. You get a notification if yours is answered.</p>' +
-      '<div class="pqs">' + mine.slice().reverse().map(function (q) {
-        return '<div class="pq mine"><div><b>' + esc(q) + '</b><small>You · just now · sent to the studio</small></div><span class="votebtn on">' + I.chevron + '1</span></div>';
+      '<div class="xqs">' + mine.slice().reverse().map(function (q) {
+        return '<div class="xq mine"><div><b>' + esc(q) + '</b><small>You · just now · sent to the studio</small></div><span class="votebtn on">' + I.chevron + '1</span></div>';
       }).join("") + d.qs.map(function (q, k) {
         var key = "q:" + p.id + ":" + k, on = !!S.likes[key];
-        return '<div class="pq"><div><b>' + esc(q[0]) + '</b><small>' + esc(q[1]) + '</small></div>' +
+        return '<div class="xq"><div><b>' + esc(q[0]) + '</b><small>' + esc(q[1]) + '</small></div>' +
           '<button type="button" class="votebtn' + (on ? " on" : "") + '" data-vote="' + key + '" data-base="' + esc(q[2]) + '" aria-pressed="' + on + '" aria-label="Vote for this question">' + I.chevron + '<span class="n">' + esc(on ? bump(q[2]) : q[2]) + '</span></button></div>';
       }).join("") + '</div>' +
       '<h3 class="psub">Answered on air</h3><div class="bites">' + d.answered.map(function (a, k) {
@@ -3181,7 +3193,7 @@
     var v = S.vid;
     if (!v || v.mode !== "pip") { return ""; }
     var inf = vidInfo();
-    return '<div class="pip' + (inf.audio ? " audio" : "") + '"><button type="button" class="pipimg" data-vidgrow aria-label="Make the video bigger">' +
+    return '<div class="minip' + (inf.audio ? " audio" : "") + '"><button type="button" class="pipimg" data-vidgrow aria-label="Make the video bigger">' +
       (inf.audio ? imgTag("ck-mic", "", "wide") + '<span class="pipwave">' + waveSVG("rcpwave on") + '</span>' : (inf.img ? imgTag(inf.img, "", "wide") : "")) +
       (inf.live ? '<span class="vlive sm"><i></i>LIVE</span>' : "") + '</button>' +
       '<span class="piptx"><b>' + esc(inf.audio ? "Test Match Special" : inf.label || "") + '</b><small>' + esc(inf.chan) + '</small></span>' +
@@ -3242,7 +3254,7 @@
     return '<div class="courtlist">' + rows.map(function (r, i) {
       var top = i === 0;
       return '<div class="court' + (top ? " top" : "") + '">' +
-        '<span class="cname">' + esc(r[0]) + '</span>' + heat(r[3]) +
+        '<span class="cname">' + esc(r[0]) + '</span>' + (r[4] ? '<span class="ctag' + (top ? " on" : "") + '">' + esc(r[4]) + '</span>' : "") +
         '<span class="cmatch">' + esc(r[1]) + '</span>' +
         '<span class="cstate">' + esc(r[2]) + '</span>' +
         '<span class="cacts"><button type="button" class="cbtn pri" data-watch="' + tn + '" data-court="' + esc(r[0] + " · " + r[1].replace(" (on your telly)", "")) + '">' + I.playtri + 'Watch</button>' +
@@ -3844,7 +3856,7 @@
       cards.slice().sort(function (a, b) { return b.c.sig - a.c.sig; }).map(function (x) {
         var c = x.c;
         return '<button class="wcard" type="button" data-open="' + x.i + '">' +
-          '<span class="wcimg">' + photoSVG(x.e.photo, "wide", "follow " + x.e.title + c.line2) + liveChip(c.status, true) + '</span>' +
+          '<span class="wcimg">' + photoSVG(x.e.photo, "wide", "follow " + x.e.title + c.line2) + (c.status === "soon" ? "" : liveChip(c.status, true)) + '</span>' +
           '<span class="wcsport">' + esc(x.e.sport) + ' · ' + esc(c.when) + '</span>' +
           '<b>' + esc(c.line1) + '</b><span class="wcctx">' + esc(c.ctx) + '</span>' +
           (c.status === "soon" ? '<span class="ec-foot">' + remindChip(x.e, "") + '</span>' : "") + '</button>';
@@ -3993,10 +4005,7 @@
     var out = '<div class="tvhero">' + (T.img ? imgTag(T.img, "", "wide") : photoSVG(e.photo, "wide", e.title)) +
       '<span class="tvheroveil"></span></div>';
 
-    out += '<div class="tvrailnav"><span class="tvlogo">BBC <b>iPlayer</b></span>' +
-      ['Search', 'Home', 'Channels', 'Categories', 'My programmes'].map(function (n, i) {
-        return '<span class="tvnav' + (i === 1 ? " on" : "") + '">' + n + '</span>';
-      }).join("") + '</div>';
+    out += tvSide();
 
     out += '<div class="tvherotext">' +
       '<p class="tvkick">' + (isLive ? '<span class="tvlive"><i></i>LIVE</span>' : L === "buildup" ? '<span class="tvsoon">' + esc(top.c.when) + '</span>' : '<span class="tvsoon">Highlights</span>') +
@@ -4033,8 +4042,30 @@
         return '<button class="tvcard up" type="button" data-tvf="2,' + k + '" data-tvact="remind:' + u.id + '">' +
           '<span class="tvcimg">' + imgTag(u.img, "", "wide") + '<span class="tvbell' + (on ? " on" : "") + '">' + I.bell + (on ? "Reminder set" : "Remind me") + '</span></span>' +
           '<b>' + esc(u.t) + '</b><span>' + esc(u.when) + ' · ' + esc(u.ch) + '</span></button>';
+      }).join("") + '</div>' +
+
+      '<h2>More like this</h2><div class="tvrow">' + TVMORE.map(function (m, k) {
+        return '<button class="tvcard" type="button" data-tvf="3,' + k + '" data-tvact="more:' + k + '">' +
+          '<span class="tvcimg">' + imgTag(m.img, "", "wide") + '</span>' +
+          '<span class="tvck">' + esc(m.k) + '</span><b>' + esc(m.t) + '</b><span>' + esc(m.s) + '</span></button>';
       }).join("") + '</div></div>';
     return out;
+  }
+
+  /* iPlayer's own left rail: icons, which open out with labels when the
+     remote moves left onto them */
+  var TVSIDE = [["home", "Home"], ["tv", "Channels"], ["stack", "Categories"], ["search", "Search"], ["plus", "Watchlist"], ["gear", "Settings"]];
+  function tvSide() {
+    var t = tvs(), open = !!t.side;
+    return '<nav class="tvside' + (open ? " open" : "") + '"><span class="tvsav">A</span>' +
+      (open ? '<span class="tvsname">Arun</span>' : "") +
+      TVSIDE.map(function (x, k) {
+        var ic = x[0] === "home" ? I.nav.home : x[0] === "search" ? I.nav.search : x[0] === "tv" ? I.tv : x[0] === "stack" ? I.nav.shorts :
+          x[0] === "plus" ? '<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>' : I.gear;
+        return '<button type="button" class="tvsi' + (k === 0 ? " on" : "") + '" data-tvf="' + (100 + k) + ',0" data-tvact="side:' + k + '">' +
+          '<i>' + ic + '</i>' + (open ? '<span>' + x[1] + '</span>' : "") + '</button>';
+      }).join("") +
+      '<span class="tvsbrand">' + (open ? '<b>iPLAYER</b>' : "") + '</span></nav>';
   }
 
   /* ---- catch up ---- */
@@ -4081,7 +4112,8 @@
     var hl = L === "fulltime" || t.mode === "highlights", w = tvWatching(e);
     var audioLed = isAudioLed(e) && !hl;
     var cc = centreCourt(e);
-    var out = '<div class="tvfull kb' + (audioLed ? " dim" : "") + (cc ? " blur" : "") + '">' + (T.img ? imgTag(T.img, "", "wide") : photoSVG(e.photo, "wide", e.title)) +
+    var pic = t.mode === "start" && t.fromImg ? t.fromImg : T.img;
+    var out = '<div class="tvfull kb' + (audioLed ? " dim" : "") + (cc ? " blur" : "") + '">' + (pic ? imgTag(pic, "", "wide") : photoSVG(e.photo, "wide", e.title)) +
       '<span class="tvfullveil' + (audioLed ? " heavy" : " light") + '"></span></div>';
 
     /* the top line: what this is, and how many are with you */
@@ -4116,7 +4148,7 @@
         '<div class="tvsets"><p class="on"><span>Alcaraz</span><em>7</em><em>6</em><em>2</em><i></i></p><p><span>Musetti</span><em>6</em><em>3</em><em>1</em></p></div>' +
         '<p class="tvbatters">Alcaraz serving · 30-15 · on serve all set</p></div>' +
         (t.stay ? "" : '<div class="tvspine"><p class="tvcatchkick">Worth watching now</p>' +
-        '<p class="tvspinet"><b>Court 2</b><i>Hot right now</i></p>' +
+        '<p class="tvspinet"><b>Court 2</b><i>Break point</i></p>' +
         '<p class="tvspines">Raducanu has three break points to level the second set against Vondroušová</p>' +
         '<div class="tvbtns">' + tvBtn(0, 0, "court2", I.playtri + "Switch to Court 2", "pri") + tvBtn(0, 1, "stay", "Stay here") + '</div></div>');
     }
@@ -4136,7 +4168,7 @@
         '<p class="tvsline"><b>' + esc(TK.a) + '</b><span>' + esc(T.line || "") + '</span><b>' + esc(TK.b) + '</b></p>' +
         statBars(TK, T) +
         (e.id === "tennis" ? '<p class="tvcatchkick" style="margin-top:18px">Worth watching now</p>' +
-          '<ol class="tvcourts"><li class="on"><b>Court 2</b>Raducanu v Vondroušová<i>Hot</i></li><li><b>Court 18</b>Boulter v Kalinskaya<i>Heating up</i></li><li><b>No.1</b>Sinner v Fils<i>Heating up</i></li></ol>' : "") +
+          '<ol class="tvcourts"><li class="on"><b>Court 2</b>Raducanu v Vondroušová<i>Break point</i></li><li><b>Court 18</b>Boulter v Kalinskaya<i>Deciding set</i></li><li><b>No.1</b>Sinner v Fils<i>Serving for the match</i></li></ol>' : "") +
         '</aside>';
     }
 
@@ -4147,21 +4179,33 @@
     if (t.overlay === "controls") {
       var R = RECAPS[e.id];
       out += '<div class="tvctrl">' +
-        '<div class="tvbar"><span class="tvbarfill" style="width:' + (hl ? 38 : t.mode === "start" ? 6 : 100) + '%"></span>' +
+        '<div class="tvctitle"><h2>' + esc(vName(e)) + '</h2><p>' + esc(hl ? "Highlights" : t.mode === "start" ? (t.from ? "Replaying from " + t.from : "From the start") : "Live") + ' · ' + esc(e.comp) + '</p></div>' +
+        '<div class="tvbar"><span class="tvbarfill" style="width:' + (hl ? 38 : t.mode === "start" ? (t.fromPct || 6) : 100) + '%"></span>' +
         (R ? R.moments.map(function (x, k) {
           return '<span class="tvmark k-' + esc(x[4]) + '" style="left:' + ((k + 1) / (R.moments.length + 1) * 100).toFixed(1) + '%"><em>' + esc(x[0] + " " + x[1]) + '</em></span>';
         }).join("") : "") +
-        (hl ? "" : '<span class="tvbarlive">' + (t.mode === "start" ? "67 min behind" : "LIVE") + '</span>') + '</div>' +
+        (hl ? "" : '<span class="tvbarlive">' + (t.mode === "start" ? "Behind live" : "LIVE") + '</span>') + '</div>' +
         '<div class="tvbtns">' +
         (t.mode === "start" ? tvBtn(0, 0, "golive", "Jump to live", "pri") : "") +
         tvBtn(0, 1, "ov:audio", I.speaker + "Commentary") +
         tvBtn(0, 2, "subs", "Subtitles " + (t.subs ? "on" : "off")) +
         (hl ? "" : tvBtn(0, 3, "stats", "Stats " + (t.stats ? "on" : "off"))) +
-        (RECAPS[e.id] ? tvBtn(0, 4, "catchup:" + t.ev, "Catch up") : "") +
+        (RECAPS[e.id] ? tvBtn(0, 4, "ov:moments", "Moments") : "") +
         (PUNDITS[e.id] ? tvBtn(0, 5, "ov:experts", "The experts") : "") +
-        tvBtn(0, 7, "ov:others", "Other matches") +
+        tvBtn(0, 7, "ov:others", "More like this") +
         tvBtn(0, 8, "ov:phone", "Play along on phone") +
         '</div></div>';
+    }
+
+    if (t.overlay === "moments" && RECAPS[e.id]) {
+      var RM = RECAPS[e.id];
+      out += '<div class="tvsheet"><p class="tvcatchkick">Moments</p>' +
+        tvBtn(0, 0, "catchup:" + t.ev, I.playtri + "All of them in 60 seconds", "pri wide") +
+        RM.moments.map(function (m, k) {
+          return '<button class="tvopt withthumb k-' + esc(m[4] || "score") + '" type="button" data-tvf="' + (k + 1) + ',0" data-tvact="jump:' + k + '">' +
+            '<span class="tvothumb">' + (m[3] ? imgTag(m[3], "", "wide") : "") + '<em>' + esc(m[0]) + '</em></span>' +
+            '<b>' + esc(m[1]) + '</b><span>' + esc(m[2]) + '</span></button>';
+        }).join("") + '</div>';
     }
 
     if (t.overlay === "audio") {
@@ -4195,12 +4239,18 @@
     }
 
     if (t.overlay === "others") {
-      out += '<div class="tvsheet"><p class="tvcatchkick">Also live</p>' + rankedCards().map(function (x, k) {
-        var ww = tvWatching(x.e);
-        return '<button class="tvopt' + (x.i === t.ev ? " sel" : "") + '" type="button" data-tvf="' + k + ',0" data-tvact="switch:' + x.i + '">' +
-          '<b>' + esc(x.c.line1) + '</b><span>' + esc(x.e.comp) + (ww ? " · " + esc(ww) + " watching" : "") + '</span>' +
-          (k === 0 ? '<em class="tvworth">Worth watching</em>' : "") + '</button>';
-      }).join("") + '</div>';
+      out += '<div class="tvmore"><h2>More like this</h2><div class="tvrow">' +
+        rankedCards().filter(function (x) { return x.i !== t.ev; }).map(function (x, k) {
+          var xT = tkFor(x.e).T, live = x.c.status === "live";
+          return '<button class="tvcard" type="button" data-tvf="0,' + k + '" data-tvact="switch:' + x.i + '">' +
+            '<span class="tvcimg">' + (xT.img ? imgTag(xT.img, "", "wide") : photoSVG(x.e.photo, "wide", x.e.title)) +
+            (live ? '<span class="tvlive sm"><i></i>LIVE</span>' : '<span class="tvsoon sm">' + esc(x.c.when.split(" \u00b7")[0]) + '</span>') + '</span>' +
+            '<span class="tvck">' + esc(x.e.sport) + '</span><b>' + esc(x.c.line1) + '</b><span>' + esc(x.c.line2) + '</span></button>';
+        }).join("") +
+        TVMORE.map(function (m, k) {
+          return '<button class="tvcard" type="button" data-tvf="0,' + (10 + k) + '" data-tvact="more:' + k + '">' +
+            '<span class="tvcimg">' + imgTag(m.img, "", "wide") + '</span><span class="tvck">' + esc(m.k) + '</span><b>' + esc(m.t) + '</b><span>' + esc(m.s) + '</span></button>';
+        }).join("") + '</div></div>';
     }
 
     if (t.overlay === "phone") {
@@ -4239,7 +4289,7 @@
     var t = tvs();
     resetUsed();
     var body = t.screen === "player" ? tvPlayer() : t.screen === "catchup" ? tvCatchup() : tvHome();
-    host.innerHTML = '<div class="tv s-' + t.screen + (t.screen === "home" && t.f[0] >= 2 ? " deep" : "") + (t.overlay ? " ov" : "") + '">' + body + '</div>';
+    host.innerHTML = '<span class="tvwip">Work in progress</span><div class="tv s-' + t.screen + (t.screen === "home" && t.f[0] >= 2 && t.f[0] < 100 ? " deep" : "") + (t.screen === "home" && t.f[0] === 3 ? " deeper" : "") + (t.side ? " sideopen" : "") + (t.overlay ? " ov" : "") + '">' + body + '</div>';
     tvFocus();
     $$("[data-tvact]", host).forEach(function (b) {
       b.onclick = function () {
@@ -4252,7 +4302,7 @@
   }
 
   function tvFocusables() {
-    return $$("[data-tvf]", $("#tvapp")).map(function (el) {
+    return $$("[data-tvf]", $("#tvapp")).filter(function (el) { return tvs().side || Number(el.dataset.tvf.split(",")[0]) < 100 || tvs().screen !== "home"; }).map(function (el) {
       var p = el.dataset.tvf.split(",").map(Number);
       return { el: el, r: p[0], c: p[1] };
     });
@@ -4281,6 +4331,19 @@
   function tvMove(dr, dc) {
     var t = tvs(), list = tvFocusables();
     if (!list.length) { return; }
+    if (t.screen === "home") {
+      if (t.side) {
+        if (dc > 0) { t.side = false; t.f = t.sideFrom || [0, 0]; renderTV(); return; }
+        if (dc < 0) { return; }
+        var sr = Math.max(100, Math.min(100 + TVSIDE.length - 1, t.f[0] + dr));
+        t.f = [sr, 0]; renderTV(); return;
+      }
+      list = list.filter(function (x) { return x.r < 100; });
+      if (dc < 0) {
+        var rowL = list.filter(function (x) { return x.r === t.f[0]; }).map(function (x) { return x.c; }).sort(function (a, b) { return a - b; });
+        if (rowL.indexOf(t.f[1]) <= 0) { t.side = true; t.sideFrom = t.f.slice(); t.f = [100, 0]; renderTV(); return; }
+      }
+    }
     if (dr) {
       var rows = list.map(function (x) { return x.r; }).filter(function (v, i, a) { return a.indexOf(v) === i; }).sort(function (a, b) { return a - b; });
       var ix = rows.indexOf(t.f[0]) + dr;
@@ -4301,6 +4364,7 @@
 
   function tvBack() {
     var t = tvs();
+    if (t.side) { t.side = false; t.f = t.sideFrom || [0, 0]; renderTV(); return; }
     if (t.overlay) { t.overlay = null; t.f = [0, 1]; }
     else if (t.screen !== "home") { t.screen = "home"; t.f = [0, 0]; t.toast = null; t.phoneT = 0; }
     renderTV();
@@ -4330,9 +4394,24 @@
     if (k === "skip") { tvGo("player", t.ev); return; }
     if (k === "rmode") { t.rmode = t.rmode === "watch" ? "listen" : "watch"; t.rel = 0; t.rplay = true; renderTV(); return; }
     if (k === "rpause") { t.rplay = !t.rplay; renderTV(); return; }
-    if (k === "golive") { t.mode = "live"; t.overlay = null; renderTV(); return; }
+    if (k === "golive") { t.mode = "live"; t.from = null; t.fromPct = null; t.fromImg = null; t.overlay = null; renderTV(); return; }
     if (k === "ov") { t.overlay = v; t.f = [0, 0]; renderTV(); return; }
     if (k === "audio") { t.audio = v; t.overlay = "controls"; t.f = [0, 1]; renderTV(); return; }
+    if (k === "side") {
+      var nm = TVSIDE[Number(v)][1];
+      t.side = false; t.f = [0, 0];
+      if (nm !== "Home") { t.toast = [nm, "Work in progress", nm + " is not built out in this prototype yet"]; t.toastT = 4; }
+      renderTV(); return;
+    }
+    if (k === "more") {
+      var mm = TVMORE[Number(v)];
+      t.overlay = null; t.toast = [mm.k, mm.t, "Programme pages are not built out in this prototype yet"]; t.toastT = 5; renderTV(); return;
+    }
+    if (k === "jump") {
+      var RJ = RECAPS[tvEvent().id], mj = RJ.moments[Number(v)];
+      t.mode = "start"; t.from = mj[0] + " " + mj[1]; t.fromPct = Math.round((Number(v) + 1) / (RJ.moments.length + 1) * 100);
+      t.fromImg = mj[3] || null; t.overlay = "controls"; t.f = [0, 0]; renderTV(); return;
+    }
     if (k === "answer") {
       var PDa = PUNDITS[tvEvent().id], ai = Number(v) - PDa.hosts.length, an = PDa.answered[ai];
       t.overlay = null; t.toast = [an[0], "Answered on air", an[1]]; t.toastT = 7; t.phoneT = 0; renderTV(); return;
@@ -4460,8 +4539,6 @@
         actions: [["rate", "Rate the players"], ["later", "Later"]] },
       { title: "The numbers, without covering the picture", body: "England have seven corners to one this half. The live stats are on your phone.",
         actions: [["stats", "See the stats"], ["later", "Later"]] },
-      { title: "Worth a switch: Court 2", body: "While your TV shows England v Netherlands, Raducanu has three break points at Wimbledon.",
-        actions: [["switchtv", "Put Court 2 on the TV"], ["watchhere", "Watch on this phone"]] }
     ],
     fulltime: [
       { title: "Full time. Rate the players", body: "Your TV is showing the highlights. Give your ratings before the studio gives theirs.",
@@ -4484,6 +4561,7 @@
 
   function nextMultiNudge() {
     if (S.surface !== "together" || !S.multiQ || !S.multiQ.length) { return; }
+    if (S.view === "event" && S.eventIx !== tvs().ev) { queueMulti(); return; }
     var n = S.multiQ.shift();
     S.push = { title: n.title, body: n.body, actions: n.actions, multi: true };
     refreshOverlays();
@@ -4493,7 +4571,8 @@
     }, 11000);
   }
 
-  function queueMulti() { clearTimeout(S.multiT); S.multiT = setTimeout(nextMultiNudge, 5000); }
+  /* one at a time, well spaced, and only while the phone is on the paired match or Home */
+  function queueMulti() { clearTimeout(S.multiT); S.multiT = setTimeout(nextMultiNudge, 30000); }
 
   function openTab(evId, tabId) {
     var ix = evIxById(evId), e = EVENTS[ix];
@@ -4512,6 +4591,13 @@
   }
 
   function phoneNudge(m, e) {
+    /* only for moments worth a look, never while the phone is on another
+       match, and never more than once every forty seconds */
+    if (S.view === "event" && S.eventIx !== tvs().ev) { return; }
+    if (/^(Corner|Drinks|Appeal)$/.test(m[1])) { return; }
+    var now = Date.now();
+    if (S.lastNudge && now - S.lastNudge < 40000) { return; }
+    S.lastNudge = now;
     var vp = $("#app .viewport");
     if (!vp) { return; }
     var old = $(".nudge", vp);

@@ -714,11 +714,11 @@ const EVENTS = [
           { id: "watchnow", label: "Watch now", sections: [
             { h: "Every court", meta: "Updated every point", metaLive: true, panels: [
               { t: "courts", rows: [
-                ["Court 2", "Raducanu v Vondroušová", "6-4, 4-5 · 0-40 · three break points", 0.93],
-                ["Court 18", "Boulter v Kalinskaya", "3-6, 6-4, 5-5 · deuce", 0.71],
-                ["No.1", "Sinner v Fils", "6-2, 5-2 · serving for the match", 0.66],
-                ["Centre", "Alcaraz v Musetti", "7-6, 6-3, 2-1 · on serve", 0.41],
-                ["Court 12", "Draper v Shelton", "4-6, 2-1 · new balls", 0.22]
+                ["Court 2", "Raducanu v Vondroušová", "6-4, 4-5 · 0-40 · three break points", 0.93, "Break point"],
+                ["Court 18", "Boulter v Kalinskaya", "3-6, 6-4, 5-5 · deuce", 0.71, "Deciding set"],
+                ["No.1", "Sinner v Fils", "6-2, 5-2 · serving for the match", 0.66, "Serving for the match"],
+                ["Centre", "Alcaraz v Musetti", "7-6, 6-3, 2-1 · on serve", 0.41, "On serve"],
+                ["Court 12", "Draper v Shelton", "4-6, 2-1 · new balls", 0.22, "Second set"]
               ]},
             ]},
             { h: "Get involved", meta: "Closes at the game", panels: [{ t: "poll", id: "tn-moment", kind: "alert",
@@ -790,8 +790,8 @@ const EVENTS = [
           { id: "watch", label: "Watch", sections: [
             { h: "Worth a switch", meta: "Court 2", ruleY: true, panels: [
               { t: "courts", rows: [
-                ["Court 2", "Raducanu v Vondroušová", "6-4, 4-5 · 0-40 · three break points", 0.93],
-                ["Centre", "Alcaraz v Musetti (on your telly)", "7-6, 6-3, 2-1 · on serve", 0.41]
+                ["Court 2", "Raducanu v Vondroušová", "6-4, 4-5 · 0-40 · three break points", 0.93, "Break point"],
+                ["Centre", "Alcaraz v Musetti (on your telly)", "7-6, 6-3, 2-1 · on serve", 0.41, "On serve"]
               ]},
               { t: "btnrow", label: "Follow Court 2 on this screen", toast: "Court 2 on your phone, Centre on your telly. Both scores stay pinned." }
             ]},
@@ -1647,3 +1647,12 @@ const MYSPORT = {
     { k: "short", tags: ["eng-cricket"], play: 10 }
   ]
 };
+
+/* iPlayer on the TV: more to watch around the match. Titles are placeholders */
+const TVMORE = [
+  { t: "Road to Wembley", s: "Documentary · England's qualifying campaign", img: "fb-xi", k: "Sport" },
+  { t: "The Ashes: Lord's Stories", s: "Ten great Tests at the home of cricket", img: "ck-lords", k: "Sport" },
+  { t: "Wimbledon: 100 Years on the BBC", s: "From the archive", img: "ar-court", k: "Sport" },
+  { t: "Six Nations Rewind", s: "Every try from the last round", img: "rg-run", k: "Sport" },
+  { t: "Match of the Day", s: "Tonight, 22:30", img: "fb-celebrate", k: "Sport" }
+];

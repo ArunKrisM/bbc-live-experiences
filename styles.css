@@ -2941,16 +2941,16 @@ button.eng:hover { background: #262626; color: #fff; }
 .vtrans p:not(.vtk) { margin: 0; font-size: 13px; line-height: 1.4; color: var(--muted); }
 .vtrans p b { color: var(--text-2); margin-right: 8px; font-variant-numeric: tabular-nums; }
 .vtrans p.now { color: #fff; animation: fadein .5s both; }
-.pip {
+.minip {
   position: absolute; right: 10px; bottom: 74px; z-index: 4; width: 250px; display: grid; grid-template-columns: 96px 1fr auto auto;
   align-items: center; gap: 8px; padding: 6px; background: #1C1C1C; border: 1px solid #333; border-radius: 10px;
   box-shadow: 0 16px 34px -12px rgba(0,0,0,.95); animation: pipin .3s cubic-bezier(.2,.8,.3,1) both;
 }
-.docked .pip { bottom: 136px; }
+.docked .minip { bottom: 136px; }
 @keyframes pipin { from { transform: translateY(20px) scale(.9); opacity: 0; } }
 .pipimg { position: relative; width: 96px; aspect-ratio: 16 / 9; border-radius: 6px; overflow: hidden; border: 0; padding: 0; background: #000; }
 .pipimg .photo { width: 100%; height: 100%; object-fit: cover; display: block; }
-.pip.audio .pipimg .photo { filter: brightness(.4); }
+.minip.audio .pipimg .photo { filter: brightness(.4); }
 .pipwave { position: absolute; left: 8px; right: 8px; top: 30%; height: 40%; }
 .pipwave .rcpwave { fill: var(--live); }
 .pipimg .vlive.sm { position: absolute; left: 4px; top: 4px; font-size: 8.5px; padding: 2px 5px; }
@@ -3001,11 +3001,11 @@ button.eng:hover { background: #262626; color: #fff; }
 .web .sheet { left: auto; right: 0; top: 0; bottom: 0; width: 420px; max-height: none; border-radius: 0; border-left: 1px solid #2C2C2C; animation: sheetside .3s cubic-bezier(.2,.8,.3,1) both; }
 @keyframes sheetside { from { transform: translateX(100%); } }
 .web .sheet .grab { display: none; }
-.web .pip { bottom: 20px; right: 20px; }
+.web .minip { bottom: 20px; right: 20px; }
 .wmast .nbell { color: #fff; }
 .viewport.hasvid .sportrow { display: none; }
 .viewport.hasvid .paired { display: none; }
-.viewport:has(.pip) .toast { bottom: 150px; }
+.viewport:has(.minip) .toast { bottom: 150px; }
 .tvtag { display: flex; align-items: center; gap: 7px; margin: 0; padding: 2px var(--gut) 0; font-size: 11.5px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; color: #B79CFF; }
 .tvtag svg { width: 15px; height: 15px; }
 
@@ -3090,7 +3090,7 @@ body[data-theme="light"] #app .wbtx small, body[data-theme="light"] #app .wbic {
 body[data-theme="light"] #app .tvtag, body[data-theme="light"] #app .paired .p1 { color: #6A45C9; }
 body[data-theme="light"] #app .vtrans { background: #F2F8F8; border-bottom-color: #D8E8E8; }
 body[data-theme="light"] #app .vtrans p b { color: #121212; }
-body[data-theme="light"] #app .pip { background: #fff; border-color: #D6D6D6; color: #121212; }
+body[data-theme="light"] #app .minip { background: #fff; border-color: #D6D6D6; color: #121212; }
 body[data-theme="light"] #app .rpy { color: #7A6331; }
 body[data-theme="light"] #app .tbadge { color: #fff; }
 body[data-theme="light"] #app .likebtn.on { color: #121212; }
@@ -3242,12 +3242,12 @@ body[data-theme="light"] #app .vrow.on b { color: var(--live-text); }
 .pask input:focus { outline: none; border-color: var(--live); }
 .pask button { border: 0; background: var(--live); color: var(--live-ink); border-radius: 999px; padding: 9px 15px; font-weight: 800; font-size: 13.5px; }
 .pnote { margin: -4px 0 0; font-size: 12px; color: var(--muted); line-height: 1.4; }
-.pqs { display: grid; gap: 1px; }
-.pq { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line-soft); }
-.pq > div { flex: 1; display: grid; gap: 2px; }
-.pq b { font-size: 14px; line-height: 1.35; }
-.pq small { font-size: 12px; color: var(--muted); }
-.pq.mine b { color: var(--yellow); }
+.xqs { display: grid; gap: 1px; }
+.xq { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line-soft); }
+.xq > div { flex: 1; display: grid; gap: 2px; }
+.xq b { font-size: 14px; line-height: 1.35; }
+.xq small { font-size: 12px; color: var(--muted); }
+.xq.mine b { color: var(--yellow); }
 .votebtn { display: grid; justify-items: center; gap: 0; min-width: 44px; padding: 5px 6px; border-radius: 8px; border: 1px solid #3A3A3A; background: none; color: var(--text-2); font-size: 12px; font-weight: 800; font-variant-numeric: tabular-nums; }
 .votebtn svg { width: 12px; height: 12px; transform: rotate(-90deg); }
 .votebtn.on { border-color: var(--live); color: var(--live); background: rgba(0,204,199,.08); }
@@ -3259,7 +3259,7 @@ body[data-theme="light"] #app .pbtn { background: #121212; color: #fff; }
 body[data-theme="light"] #app .pbtn svg path { fill: #fff; }
 body[data-theme="light"] #app .votebtn { border-color: #CFCFCF; color: #333; }
 body[data-theme="light"] #app .pstat.on, body[data-theme="light"] #app .votebtn.on { color: var(--live-text); }
-body[data-theme="light"] #app .pq.mine b { color: #6F5700; }
+body[data-theme="light"] #app .xq.mine b { color: #6F5700; }
 /* full screen held upright: the picture in the middle, everything else around it */
 .vfs.port .vidimg { top: 50%; bottom: auto; height: auto; aspect-ratio: 16 / 9; transform: translateY(-62%); }
 .vfs.port .vidveil { display: none; }
@@ -3451,3 +3451,83 @@ body[data-theme="light"] #app .mscta.ww { background: #F1EAFD; }
 @media (max-width: 460px) { .build.mob { display: block; font-size: 10px; text-align: right; margin: -2px 4px 0; } }
 .ck.ckyour .cv { color: #B79CFF; }
 .syncwhy { margin: 0 0 14px; font-size: 14px; line-height: 1.45; color: var(--text-2); }
+
+/* v19: two-way results as one bar */
+.splitbar { margin-top: 12px; display: grid; gap: 7px; }
+.sblabs { display: flex; justify-content: space-between; gap: 12px; font-size: 13.5px; font-weight: 700; color: var(--text-2); }
+.sblabs .me { color: var(--yellow); }
+.sbtrack { display: flex; height: 10px; border-radius: 5px; overflow: hidden; background: #2A2A2A; gap: 2px; }
+.sbtrack i { display: block; height: 100%; background: #5A5A5A; transition: width .5s cubic-bezier(.2,.7,.3,1); }
+.sbtrack i.me { background: var(--yellow); }
+.sbline { margin: 0; font-size: 13.5px; color: var(--text-2); }
+.sbline b { color: #fff; font-size: 15px; font-variant-numeric: tabular-nums; }
+.vpoll .splitbar { margin-top: 12px; }
+body[data-theme="light"] #app .sbtrack { background: #E4E4E4; }
+body[data-theme="light"] #app .sbtrack i { background: #B8B8B8; }
+body[data-theme="light"] #app .sbtrack i.me { background: #E0B400; }
+body[data-theme="light"] #app .sbline b { color: #121212; }
+body[data-theme="light"] #app .sblabs .me { color: #7A5F00; }
+
+/* coming-up cards: time and reminder under the picture, never on it */
+.lfoot { display: flex; align-items: center; gap: 8px; margin-top: 4px; flex-wrap: wrap; }
+.lwhen { font-size: 12.5px; font-weight: 700; color: var(--yellow); }
+body[data-theme="light"] #app .lwhen { color: #7A5F00; }
+
+/* what is happening on each court, stated plainly */
+.court .ctag { grid-column: 2; grid-row: 1; justify-self: end; font-size: 11.5px; font-weight: 700; color: var(--text-2); padding: 2px 8px; border-radius: 999px; border: 1px solid #3A3A3A; white-space: nowrap; }
+.court .ctag.on { color: var(--yellow); border-color: rgba(255,210,48,.5); }
+body[data-theme="light"] #app .court .ctag.on { color: #7A5F00; }
+
+/* ==========================================================================
+   v19: iPlayer on the TV, closer to the real app. Work in progress.
+   ========================================================================== */
+.tvwip {
+  position: absolute; z-index: 50; top: 18px; right: 22px; font-size: 13px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;
+  color: #111; background: var(--yellow); padding: 5px 10px; border-radius: 4px; box-shadow: 0 4px 14px rgba(0,0,0,.5);
+}
+.tvcap::after { content: " · work in progress"; color: var(--yellow); }
+/* left rail */
+.tvside {
+  position: absolute; z-index: 20; left: 0; top: 0; bottom: 0; width: 104px; display: flex; flex-direction: column; align-items: center;
+  padding: 36px 0 32px; gap: 14px; background: linear-gradient(to right, rgba(0,0,0,.72), rgba(0,0,0,0)); transition: width .22s, background .22s;
+}
+.tvside.open { width: 330px; align-items: stretch; padding-left: 34px; background: #0E0E0E; box-shadow: 30px 0 60px rgba(0,0,0,.6); }
+.tvsav { width: 50px; height: 50px; border-radius: 50%; background: #2F6FE4; color: #fff; display: grid; place-items: center; font-size: 22px; font-weight: 700; margin-bottom: 70px; flex: none; }
+.tvside.open .tvsav { margin-bottom: 0; }
+.tvsname { font-size: 20px; color: #fff; margin: -52px 0 64px 70px; }
+.tvsi { display: flex; align-items: center; gap: 22px; border: 0; background: none; color: #D6D6D6; padding: 10px 12px; border-radius: 6px; position: relative; font-size: 21px; }
+.tvsi i { display: grid; place-items: center; width: 34px; }
+.tvsi i svg { width: 28px; height: 28px; }
+.tvsi.on::after { content: ""; position: absolute; left: 50%; bottom: -4px; width: 16px; height: 4px; border-radius: 2px; background: #F54997; transform: translateX(-50%); }
+.tvside.open .tvsi.on::after { left: 29px; }
+.tvside.open .tvsi.on span { font-weight: 800; color: #fff; }
+.tvsi.tvfocus { background: #fff; color: #000; }
+.tvsbrand { margin-top: auto; font-size: 30px; font-weight: 800; color: #F54997; letter-spacing: .02em; }
+.tv.sideopen .tvherotext, .tv.sideopen .tvrails { opacity: .35; }
+.tv.s-home .tvherotext { left: 150px; top: 150px; }
+.tv.s-home .tvrails { padding-left: 150px; top: 452px; }
+.tv.deeper .tvrails { transform: translateY(-520px); }
+.tvck { font-size: 13px; color: #A9A9A9; margin-top: 2px; }
+/* player controls with the programme's own title, iPlayer style */
+.tvctitle { margin-bottom: 26px; }
+.tvctitle h2 { margin: 0; font-size: 40px; font-weight: 800; }
+.tvctitle p { margin: 6px 0 0; font-size: 21px; color: #D6D6D6; }
+.tvctrl { padding-top: 120px; }
+.tvmark em { display: none; }
+/* moments */
+.tvopt.withthumb { grid-template-columns: 150px 1fr; column-gap: 18px; padding: 10px 18px 10px 10px; align-items: center; }
+.tvothumb { grid-row: 1 / span 2; position: relative; display: block; width: 150px; aspect-ratio: 16 / 9; border-radius: 5px; overflow: hidden; background: #222; }
+.tvothumb .photo { width: 100%; height: 100%; object-fit: cover; }
+.tvothumb em { position: absolute; left: 6px; bottom: 6px; font-style: normal; font-size: 13px; font-weight: 800; background: rgba(0,0,0,.75); padding: 2px 7px; border-radius: 3px; color: var(--yellow); }
+.tvopt.withthumb b, .tvopt.withthumb > span:not(.tvothumb) { grid-column: 2; }
+.tvopt.withthumb > span:not(.tvothumb) { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.tvb.wide { justify-content: center; margin-bottom: 6px; }
+/* more like this, along the bottom of the picture */
+.tvmore { position: absolute; left: 0; right: 0; bottom: 0; padding: 120px 0 34px 64px; background: linear-gradient(to top, rgba(0,0,0,.95) 40%, rgba(0,0,0,0)); animation: tvup .25s ease-out both; }
+.tvmore h2 { margin: 0 0 16px; font-size: 26px; font-weight: 800; }
+.tv:has(.tvmore) .tvhint, .tv:has(.tvmore) .tvl3, .tv:has(.tvmore) .tvphone { display: none; }
+.tvside .tvsi.tvfocus, .tvside.open .tvsi.tvfocus span { color: #000; }
+.tv.s-home .tvherotext { top: 120px; }
+.tv.s-home .tvrails { top: 478px; }
+.tv.deep .tvrails { transform: translateY(-282px); }
+.tv.deeper .tvrails { transform: translateY(-548px); }
