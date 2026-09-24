@@ -1128,12 +1128,7 @@ const NAVSCREENS = {
   mysport: {
     title: "My Sport",
     sections: [
-      { h: "Following", panels: [{ t: "follows", items: [
-        ["England Cricket", "Cricket · The Ashes", true],
-        ["Emma Raducanu", "Tennis · Wimbledon", true],
-        ["England", "Football", true],
-        ["Wales", "Rugby Union · Six Nations", false]
-      ]}]},
+      { flush: true, panels: [{ t: "mysport" }] },
       { h: "Your Predictor", meta: "Across four sports", panels: [{ t: "league" }] },
       { h: "Your streak", meta: "3 weeks", panels: [{ t: "streak", weeks: ["W3","W4","W5","W6","W7"], on: [1,2,3], next: 4,
         note: "Three weeks running. One more keeps it alive." }] }
@@ -1613,4 +1608,43 @@ const PUNDITS = {
     qs: [["Should England take the new ball straight away?", "Dave P", "1.1k"], ["Is this Root's best Ashes innings?", "Neil C", "730"], ["What does a draw do to the series?", "Priya L", "290"]],
     answered: [["Test Match Special", "On the second new ball and who takes it", "1:05"]]
   }
+};
+
+/* ---------------------------------------------------------------------------
+   My Sport: the people and teams you follow along the top, then one feed
+   of everything they touch, articles, live games, shorts, quizzes and
+   the experts, ranked for you. Tap a face to narrow the feed to them.
+   follows: [id, name, kind, img or initials, colour, new items]
+   ------------------------------------------------------------------------- */
+const MYSPORT = {
+  follows: [
+    ["eng-cricket", "England Cricket", "Team", "ck-huddle", "#1A3A6B", 4],
+    ["raducanu", "Emma Raducanu", "Player", "tn-smile", "#BB1919", 3],
+    ["england", "England", "Team", "fb-celebrate", "#E8F0FC", 2],
+    ["root", "Joe Root", "Player", "ck-root", "#1A3A6B", 2],
+    ["wales", "Wales", "Team", "rg-wales", "#C8102E", 1],
+    ["chapman", "Mark Chapman", "Presenter", "MC", "#E4002B", 1],
+    ["roan", "Dan Roan", "Sports Editor", "DR", "#3B3B3B", 0],
+    ["terrace", "The Terrace", "Creator", "TT", "#7A3FD1", 2],
+    ["wimbledon", "Wimbledon", "Event", "ar-court", "#1E6B3A", 3]
+  ],
+  /* kind, tags, and what each card needs. "open" is an event id, "article" an
+     ARTICLES key, "play" an index into DROP */
+  feed: [
+    { k: "article", tags: ["raducanu", "wimbledon"], article: "st-live", img: "tn-tracking", title: "Raducanu has three break points and the grounds are emptying towards Court 2", tag: "Tennis", ago: "12m ago", hero: true },
+    { k: "live", tags: ["eng-cricket", "root"], open: "cricket" },
+    { k: "article", tags: ["eng-cricket", "root"], article: "st-buildup", img: "ck-squad", title: "England start day three 224 behind at Lord's", tag: "Cricket", ago: "5h ago" },
+    { k: "short", tags: ["england"], play: 6 },
+    { k: "quiz", tags: ["eng-cricket", "root"], open: "cricket", title: "Who was the last England batter to score an Ashes hundred at Lord's?", tag: "Ashes quiz", ago: "Play along" },
+    { k: "qa", tags: ["chapman", "england"], open: "football", who: "Mark Chapman", title: "On whether England should sit on a one-goal lead", dur: "0:48", tag: "Answered on air" },
+    { k: "live", tags: ["england", "chapman", "terrace"], open: "football" },
+    { k: "short", tags: ["eng-cricket"], play: 1 },
+    { k: "article", tags: ["wimbledon", "raducanu"], article: "w100", img: "ar-court", title: "From a hut beside Centre Court to eighteen courts in your pocket", tag: "Wimbledon · 100 years", ago: "1d ago" },
+    { k: "live", tags: ["wales"], open: "rugby" },
+    { k: "qa", tags: ["roan", "wimbledon"], open: "tennis", who: "Dan Roan", title: "On the BBC's 100 years at the Championships", dur: "1:40", tag: "Answered on air" },
+    { k: "short", tags: ["raducanu", "wimbledon"], play: 4 },
+    { k: "watchwith", tags: ["terrace", "england"], open: "football", who: "The Terrace", title: "Watching England v Netherlands along with 18,200 others", tag: "Creator watchalong" },
+    { k: "short", tags: ["wales"], play: 8 },
+    { k: "short", tags: ["eng-cricket"], play: 10 }
+  ]
 };

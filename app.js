@@ -47,11 +47,11 @@
     playsm: '<svg width="9" height="9" viewBox="0 0 10 10" aria-hidden="true"><path d="M2.5 1.5 8 5l-5.5 3.5z" fill="#fff"/></svg>',
     chevron: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m9 5 7 7-7 7" stroke="#8E8E8E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     nav: {
-      home: '<svg width="23" height="23" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>',
-      shorts: '<svg width="23" height="23" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2.5" stroke="currentColor" stroke-width="1.8"/><path d="m10.5 9 5 3-5 3z" fill="currentColor"/></svg>',
-      mysport: '<svg width="23" height="23" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="1.8"/><path d="M6.5 18.5a6 6 0 0 1 11 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>',
-      scores: '<svg width="23" height="23" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 4h10v3a5 5 0 0 1-10 0z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3" stroke="currentColor" stroke-width="1.8"/><path d="M12 12v4M9 20h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>',
-      search: '<svg width="23" height="23" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.8"/><path d="m16 16 4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>'
+      home: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 10.2 12 3.8l8 6.4V20a1 1 0 0 1-1 1h-4.5v-6.2h-5V21H5a1 1 0 0 1-1-1z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>',
+      shorts: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5.5 3.5h13a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2v-13a2 2 0 0 1 2-2z" stroke="currentColor" stroke-width="1.8"/><path d="M10 8.3v7.4l5.8-3.7z" fill="currentColor"/></svg>',
+      mysport: '<svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path class="navfill" d="M4 7.5h16v12a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 19.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M6 5h12M8 2.8h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle class="navcut" cx="12" cy="12.2" r="2.3" fill="none" stroke="currentColor" stroke-width="1.7"/><path class="navcut" d="M8.2 18.3a3.8 3.8 0 0 1 7.6 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>',
+      scores: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="8.8" stroke="currentColor" stroke-width="1.8"/><path d="m12 7.4 3.6 2.6-1.4 4.2H9.8L8.4 10z" fill="currentColor"/><path d="M12 7.4V3.4M15.6 10l3.8-1.3M14.2 14.2l2.3 3.3M9.8 14.2l-2.3 3.3M8.4 10 4.6 8.7" stroke="currentColor" stroke-width="1.5"/></svg>',
+      search: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" stroke-width="2"/><path d="m15.5 15.5 5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>'
     },
     sport: {
       Football: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.7"/><path d="m12 7 4 3-1.5 4.7h-5L8 10z" fill="currentColor"/></svg>',
@@ -1411,7 +1411,7 @@
         head = '<div class="sechead"><h2>' + (sec.metaLive ? '<span class="livedot">' + esc(sec.h) + '</span>' : esc(sec.h)) + '</h2>' +
           (sec.meta ? '<span class="meta' + (sec.metaLive ? " live" : "") + '">' + esc(sec.meta) + '</span>' : "") + '</div>';
       }
-      return '<section class="section">' + (sec.ruleY ? '<div class="rule-y"></div>' : "") + head +
+      return '<section class="section' + (sec.flush ? " flush" : "") + '">' + (sec.ruleY ? '<div class="rule-y"></div>' : "") + head +
         sec.panels.map(function (p) { return P[p.t] ? P[p.t](p) : ""; }).join("") + '</section>';
     }).join("");
   }
@@ -1428,6 +1428,15 @@
 
   function matchHead() {
     var e = ev(), st = evState(), h = st.head, hid = masked(e);
+    /* once the TV has been switched to Court 2, the second-screen page
+       follows it rather than still talking about Centre Court */
+    if (e.id === "tennis" && lc() === "companion" && S.tv && S.tv.c2) {
+      var lv = e.states.live;
+      h = { kind: "stack", status: { kind: "paired", text: "FOLLOWING YOUR TELLY", beat: true }, rows: lv.head.rows,
+        strap: "Second set · Vondroušová serving · your TV is on Court 2 now", serve: 1 };
+      st = { chip: st.chip, watching: lv.watching, paired: "Paired with your TV · Court 2", head: h,
+        state: "Court 2 on your TV. Centre Court is a tap away" };
+    }
     var out = "";
     if (st.paired) {
       out += '<div class="paired">' + I.qr + '<span><span class="p1">' + esc(st.paired) + '</span><br>' +
@@ -1771,7 +1780,7 @@
     frameFor();
     if (S.surface === "web") { renderWeb(); afterRender(); return; }
     var app = $("#app"), isHome = S.view === "home" && S.nav === "home";
-    var head, body;
+    var head, body, pre = "";
 
     if (S.nav !== "home") {
       head = appHead(NAVSCREENS[S.nav].title);
@@ -1780,18 +1789,22 @@
       head = appHead("Home");
       body = homeBody();
     } else {
-      head = appHead(ev().sport) + vidPane() + matchHead() + tabBar();
+      /* only the brand bar and any playing video stay fixed; the score and
+         the tabs scroll with the page, and the tabs stick once they reach
+         the top. On a short phone a fixed scoreboard left no room to scroll */
+      head = appHead(ev().sport) + vidPane();
+      pre = matchHead() + tabBar();
       body = eventBody();
     }
 
     var vidFull = !isHome && S.nav === "home" && S.vid && S.vid.mode === "full";
-    app.innerHTML = '<div class="viewport' + (evState().sofa && !isHome && S.nav === "home" ? " sofa" : "") + (S.dock ? " docked" : "") + (vidFull ? " condensed hasvid" : "") + '" id="viewport">' +
-      head + '<div class="body" id="scrollbody"><div id="stage"' +
+    app.innerHTML = '<div class="viewport' + (evState().sofa && !isHome && S.nav === "home" ? " sofa" : "") + (S.dock ? " docked" : "") + (vidFull ? " hasvid" : "") + (pre ? " evpage" : "") + '" id="viewport">' +
+      head + '<div class="body" id="scrollbody">' + pre + '<div id="stage"' +
       (dir ? ' class="stage-anim" style="--from:' + (dir > 0 ? "18px" : "-18px") + '"' : "") + '>' + body + '</div></div>' +
       dockHTML() + navBar() + drawer() + '<div id="ovl">' + overlaysHTML() + '</div><div class="toast" id="toast" role="status"></div></div>';
 
     var sb = $("#scrollbody"), vp = $("#viewport");
-    if (sb && vp) {
+    if (sb && vp && !pre) {
       /* Hysteresis plus a room check. Collapsing the header shortens the page,
          which can push scrollTop back under the threshold and start an
          expand/collapse loop. Two thresholds and a minimum scroll height stop it. */
@@ -1836,7 +1849,7 @@
     return '<div class="bottomnav" role="tablist" aria-label="Sections">' + NAVITEMS.map(function (n) {
       var on = S.nav === n[0];
       return '<button class="nav" role="tab" type="button" data-nav="' + n[0] + '" aria-selected="' + on + '">' +
-        I.nav[n[0]] + '<span>' + esc(n[1]) + '</span></button>';
+        '<i class="navpill">' + I.nav[n[0]] + '</i><span>' + esc(n[1]) + '</span></button>';
     }).join("") + '</div>';
   }
 
@@ -2212,20 +2225,18 @@
       '<div class="dtop">' +
       '<button class="iconbtn" type="button" id="drawerclose" aria-label="Close">' + I.close + '</button>' +
       '<span class="dspacer"></span>' +
-      '<button class="iconbtn dthemebtn" type="button" data-themetoggle aria-label="' + (S.theme === "light" ? "Switch to dark mode" : "Switch to light mode") + '">' +
-      (S.theme === "light" ? I.moon : I.sun) + '</button>' +
       '<button class="iconbtn dbadge" type="button" data-sheet="comments" data-ctx="' + (S.view === "event" ? ev().id : "tennis") + '" aria-label="Replies">' +
       I.chat + '<i>3</i></button>' +
       '<button class="iconbtn dbadge" type="button" data-sheet="notifs" aria-label="Notifications">' +
       I.bell + '<i>2</i></button>' +
-      '<button class="iconbtn" type="button" data-toast="Settings are not built out in this prototype." aria-label="Settings">' + I.gear + '</button>' +
+      '<button class="iconbtn dthemebtn" type="button" data-themetoggle aria-pressed="' + (S.theme === "light") + '" aria-label="' + (S.theme === "light" ? "Switch to dark mode" : "Switch to light mode") + '">' +
+      (S.theme === "light" ? I.moon : I.sun) + '</button>' +
       '</div>' +
 
       '<div class="dme"><button class="dav" type="button" data-toast="Adding a profile picture is not built out in this prototype." aria-label="Add a profile picture">A' +
       '<span class="davadd" aria-hidden="true">+</span></button><h2>Arun</h2></div>' +
 
       '<section class="dblock dset">' +
-      '<button type="button" class="ntype" data-themetoggle aria-pressed="' + (S.theme === "light") + '"><span><b>' + (S.theme === "light" ? I.sun : I.moon) + 'Light mode</b><small>Follows your phone unless you choose</small></span><i class="sw' + (S.theme === "light" ? " on" : "") + '"></i></button>' +
       '<button type="button" class="ntype" data-spoil="toggle" aria-pressed="' + hideOn() + '"><span><b>' + I.eyeoff + 'Hide scores</b><small>Catch-ups and replays first, scores when you choose</small></span><i class="sw' + (hideOn() ? " on" : "") + '"></i></button>' +
       '</section>' +
 
@@ -2340,7 +2351,12 @@
       b.onclick = function () {
         S.tabIx[tabKey()] = Number(b.dataset.tab);
         $$(".tabbtn").forEach(function (x) { x.setAttribute("aria-selected", String(x === b)); });
-        $("#scrollbody").scrollTop = 0;
+        /* keep the tabs where they are: land at the top of the new tab, not
+           back at the scoreboard */
+        var sb0 = $("#scrollbody"), tb = $("#scrollbody > .tabbar");
+        var st0 = $("#stage");
+        /* a stuck bar reports where it is stuck, so measure from the content under it */
+        if (sb0) { sb0.scrollTop = tb && st0 ? Math.min(sb0.scrollTop, st0.offsetTop - tb.offsetHeight) : 0; }
         rerenderBody();
       };
     });
@@ -2796,8 +2812,8 @@
   function sendCompanionPush() {
     if (S.surface === "tv" || S.surface === "web" || lc() !== "companion") { return; }
     S.push = { title: "Worth a switch: Court 2",
-      body: "You're watching Centre Court on iPlayer in the living room. Raducanu has three break points on Court 2.",
-      actions: [["switchtv", "Switch my TV"], ["watchhere", "Watch here"]] };
+      body: "Your living room TV is on Centre Court. Raducanu has three break points on Court 2.",
+      actions: [["switchtv", "Put Court 2 on the TV"], ["watchhere", "Watch on this phone"]] };
     refreshOverlays();
     clearTimeout(S.pushT);
     S.pushT = setTimeout(function () { if (S.push) { S.push.out = true; refreshOverlays(); setTimeout(function () { S.push = null; refreshOverlays(); }, 450); } }, 9000);
@@ -2961,22 +2977,68 @@
           return '<p class="' + (k === a.length - 1 ? "now" : "") + '"><b>' + esc(l[0]) + '</b>' + esc(l[1]) + '</p>';
         }).join("") + '</div>'
       : '<div class="vidimg' + (v.play ? " kb" : "") + (v.archive ? " arch" : "") + '">' + (inf.img ? imgTag(inf.img, inf.label || "", "wide") : "") + '</div><span class="vidveil"></span>';
-    return '<div class="vfs' + (S.surface === "web" ? "" : v.land ? " rot" : " port") + '" role="dialog" aria-label="Full screen">' + body +
+    var vpEl = $("#viewport"), wideVP = vpEl && vpEl.clientWidth > vpEl.clientHeight;
+    var lay = S.surface === "web" || wideVP ? "" : v.land ? " rot" : " port";
+    var port = lay === " port";
+    return '<div class="vfs' + lay + '" role="dialog" aria-label="Full screen">' + body +
       '<div class="fstop"><div class="fsl">' + (inf.live ? '<span class="vlive"><i></i>LIVE</span>' : '<span class="vclip">' + (v.kind === "recap" ? "CATCH-UP" : "CLIP") + '</span>') +
       '<span class="vchan">' + esc(inf.chan) + '</span></div>' + bug + '<span class="vsp"></span>' +
       (inf.live && e && watchingFor(e) ? '<span class="vwatch">' + esc(watchingFor(e)) + ' watching</span>' : "") +
       (S.surface !== "web" ? '<button class="vic" type="button" data-vidrot aria-pressed="' + !!v.land + '" aria-label="' + (v.land ? "Hold upright" : "Turn to landscape") + '">' + I.rotate + '</button>' : "") + '</div>' +
-      (v.stats && e && inf.live && !T.hidden ? '<aside class="fsstats"><p class="vtk">In numbers</p>' + statBars(TK, T) + '</aside>' : "") +
-      (v.fsVoices && e ? '<aside class="fsvoices"><p class="vtk">Listen to</p>' + voiceRows(e) + '</aside>' : "") +
+      (port && e && inf.live
+        /* held upright, the space under the picture is used: what you are
+           listening to, or the numbers, with the tabs staying put */
+        ? '<div class="fspanel"><div class="fstabs" role="tablist">' +
+          '<button type="button" role="tab" data-fstab="voices" aria-selected="' + (v.fsTab !== "stats") + '">' + I.headph + 'Listen to</button>' +
+          (T.hidden ? "" : '<button type="button" role="tab" data-fstab="stats" aria-selected="' + (v.fsTab === "stats") + '">' + I.poll + 'In numbers</button>') + '</div>' +
+          '<div class="fsbody">' + (v.fsTab === "stats" && !T.hidden ? statBars(TK, T) : voiceRows(e)) + '</div></div>'
+        : (v.stats && e && inf.live && !T.hidden ? '<aside class="fsstats"><p class="vtk">In numbers</p>' + statBars(TK, T) + '</aside>' : "") +
+          (v.fsVoices && e ? '<aside class="fsvoices"><p class="vtk">Listen to</p>' + voiceRows(e) + '</aside>' : "")) +
       (v.cc && inf.cap && !inf.audio ? '<p class="vcap">' + esc(inf.cap) + '</p>' : "") +
       '<div class="fsbot">' + vidControls(v, inf, e, true) + '</div></div>';
   }
 
+  function redrawKeepingMenu() {
+    var d = $("#drawer"), open = d && d.classList.contains("open"), y = d ? d.scrollTop : 0;
+    render();
+    if (!open) { return; }
+    var d2 = $("#drawer"), sc = $("#scrim"), bg = $("#burger");
+    if (!d2) { return; }
+    d2.classList.add("noanim"); if (sc) { sc.classList.add("noanim"); }
+    d2.classList.add("open"); if (sc) { sc.classList.add("open"); }
+    d2.setAttribute("aria-hidden", "false"); if (bg) { bg.setAttribute("aria-expanded", "true"); }
+    wireDrawer();
+    d2.scrollTop = y;
+    void d2.offsetWidth;
+    requestAnimationFrame(function () { d2.classList.remove("noanim"); if (sc) { sc.classList.remove("noanim"); } });
+  }
+
+  function onPhone() { return window.matchMedia && window.matchMedia("(pointer: coarse)").matches && Math.min(window.innerWidth, window.innerHeight) <= 500; }
+
+  function nativeFS(on, then) {
+    if (!onPhone() || S.surface === "web") { if (then) { then(); } return; }
+    var el = $("#device");
+    try {
+      if (on && !document.fullscreenElement && el && el.requestFullscreen) {
+        el.requestFullscreen().then(function () { if (then) { then(); } }).catch(function () { if (then) { then(); } });
+        return;
+      }
+      if (!on && document.fullscreenElement) {
+        if (screen.orientation && screen.orientation.unlock) { try { screen.orientation.unlock(); } catch (x) {} }
+        document.exitFullscreen();
+      }
+    } catch (x) {}
+    if (then) { then(); }
+  }
+
+  /* turning the phone, or leaving fullscreen with the back gesture, redraws */
+  window.addEventListener("resize", function () { if (S.vid && S.vid.mode === "fs") { refreshOverlays(); } });
+  document.addEventListener("fullscreenchange", function () {
+    if (!document.fullscreenElement && S.vid && S.vid.mode === "fs" && onPhone()) { S.vid.mode = "full"; S.vid.land = false; render(); }
+  });
+
   function sizeFS() {
-    var f = $(".vfs.rot"), vp = $("#viewport");
-    if (!f || !vp) { return; }
-    f.style.width = vp.clientHeight + "px";
-    f.style.height = vp.clientWidth + "px";
+    /* sized in CSS against the overlay layer, which always matches the screen */
   }
 
   /* ---- ask the experts ------------------------------------------------- */
@@ -3037,14 +3099,33 @@
         var v = S.vid;
         if (v.mode === "fs") {
           v.fsVoices = false;
+          nativeFS(false);
           if (S.surface === "web") { S.vid = null; S.webPlay = true; } else { v.mode = "full"; }
-        } else { v.mode = "fs"; }
+        } else { v.mode = "fs"; nativeFS(true); }
         render();
       };
     });
-    $$("[data-vidrot]", root).forEach(function (b) { b.onclick = function () { S.vid.land = !S.vid.land; refreshOverlays(); sizeFS(); }; });
-    $$("[data-vidstats]", root).forEach(function (b) { b.onclick = function () { S.vid.stats = !S.vid.stats; S.vid.fsVoices = false; refreshOverlays(); }; });
-    $$("[data-fsvoices]", root).forEach(function (b) { b.onclick = function () { S.vid.fsVoices = !S.vid.fsVoices; S.vid.stats = false; refreshOverlays(); }; });
+    $$("[data-vidrot]", root).forEach(function (b) {
+      b.onclick = function () {
+        S.vid.land = !S.vid.land;
+        /* on a real phone, turn the screen itself; the drawn rotation is for desks */
+        if (onPhone() && screen.orientation && screen.orientation.lock) {
+          if (S.vid.land) {
+            nativeFS(true, function () {
+              screen.orientation.lock("landscape").then(function () { S.vid.land = false; refreshOverlays(); }).catch(function () {});
+            });
+          } else { try { screen.orientation.unlock(); } catch (x) {} }
+        }
+        refreshOverlays(); sizeFS();
+      };
+    });
+    $$("[data-fstab]", root).forEach(function (b) { b.onclick = function () { S.vid.fsTab = b.dataset.fstab; refreshOverlays(); }; });
+    $$("[data-vidstats]", root).forEach(function (b) {
+      b.onclick = function () { if ($(".vfs.port")) { S.vid.fsTab = "stats"; } else { S.vid.stats = !S.vid.stats; S.vid.fsVoices = false; } refreshOverlays(); };
+    });
+    $$("[data-fsvoices]", root).forEach(function (b) {
+      b.onclick = function () { if ($(".vfs.port")) { S.vid.fsTab = "voices"; } else { S.vid.fsVoices = !S.vid.fsVoices; S.vid.stats = false; } refreshOverlays(); };
+    });
     $$("[data-voice]", root).forEach(function (b) {
       b.onclick = function () {
         var e = evById(b.dataset.ev), vo = voiceList(e).filter(function (x) { return x[0] === b.dataset.voice; })[0];
@@ -3295,7 +3376,7 @@
         ev2.stopPropagation();
         S.hide = b.dataset.spoil === "on" ? true : b.dataset.spoil === "off" ? false : !hideOn();
         if (S.hide) { S.revealed = {}; }
-        closeDrawer(); render();
+        redrawKeepingMenu();
         toast(S.hide ? "Scores hidden across the app. Catch-ups come first." : "Scores are showing.");
       };
     });
@@ -3303,9 +3384,7 @@
       b.onclick = function () {
         S.theme = S.theme === "light" ? "dark" : "light";
         document.body.dataset.theme = S.theme;
-        var d = $("#drawer"), open = d && d.classList.contains("open");
-        render();
-        if (open) { var bg = $("#burger"); if (bg) { bg.click(); } }
+        redrawKeepingMenu();
       };
     });
     $$("[data-remindchip]", root).forEach(function (b) {
@@ -3370,17 +3449,133 @@
     $$("[data-pushact]", root).forEach(function (b) {
       b.onclick = function () {
         var a = b.dataset.pushact; S.push = null;
-        if (a === "switchtv") { tvs().c2 = true; refreshOverlays(); toast("Your living room TV is switching to Court 2."); if (S.view === "home") { render(); } return; }
+        if (a === "switchtv") {
+          /* the phone acts as a remote for the paired TV: iPlayer on the TV
+             changes stream, and the phone's own page follows the new match */
+          var t = tvs();
+          t.c2 = true; t.ev = evIxById("tennis"); t.screen = "player"; t.mode = "live";
+          if (S.surface === "together") { syncPhoneTo(t.ev); }
+          render();
+          toast("Your living room TV is now on Court 2.");
+          return;
+        }
         watchEvent(evIxById("tennis"), "live", "Court 2 · Raducanu v Vondroušová");
       };
     });
     wireV12(root);
+    wireMySport(root);
     $$("[data-toast]", root).forEach(function (b) { if (!b.onclick) { b.onclick = function () { toast(b.dataset.toast); }; } });
     $$("[data-open]", root).forEach(function (b) {
       if (!b.onclick) { b.onclick = function () { S.sheet = null; closeDrawer(); refreshOverlays(); openEvent(Number(b.dataset.open)); }; }
     });
   }
 
+
+  /* ==========================================================================
+     My Sport: who you follow along the top, one feed underneath
+     ========================================================================== */
+
+  function msFollow(id) { return MYSPORT.follows.filter(function (f) { return f[0] === id; })[0]; }
+
+  function msAvatar(f, cls) {
+    var isImg = /-/.test(f[3]) && SLOTS[f[3]];
+    return '<span class="msav' + (cls ? " " + cls : "") + (f[5] ? " fresh" : "") + '"><span class="msavin" style="background:' + f[4] + '">' +
+      (isImg ? imgTag(f[3], f[1], "square") : '<b>' + esc(f[3]) + '</b>') + '</span></span>';
+  }
+
+  function msCard(it, k) {
+    var e = it.open ? evById(it.open) : null, ix = e ? evIxById(e.id) : -1;
+    if (it.k === "article") {
+      var tagLine = '<span class="mstag"><b>' + esc(it.tag) + '</b> · ' + esc(it.ago) + '</span>';
+      if (it.hero) {
+        return '<button class="mshero" type="button" data-article="' + esc(it.article) + '"><span class="msimg">' + imgTag(it.img, "", "wide") + '</span>' +
+          '<span class="mstitle big">' + esc(it.title) + '</span>' + tagLine + '</button>';
+      }
+      return '<button class="msrow" type="button" data-article="' + esc(it.article) + '"><span class="msthumb">' + imgTag(it.img, "", "wide") + '</span>' +
+        '<span class="mstx"><span class="mstitle">' + esc(it.title) + '</span>' + tagLine + '</span></button>';
+    }
+    if (it.k === "live" && e) {
+      var c = maskCard(e, evState(e).card), live = c.status === "live";
+      return '<button class="msrow mslive" type="button" data-open="' + ix + '"><span class="msthumb">' + photoSVG(e.photo, "wide", "ms " + e.title) +
+        (live ? '<span class="chiplive">LIVE</span>' : c.status === "soon" ? '<span class="chipsoon">' + esc(c.when.split(" ·")[0]) + '</span>' : "") + '</span>' +
+        '<span class="mstx"><span class="mstitle">' + esc(c.line1) + '</span><span class="mssub">' + esc(c.line2) + '</span>' +
+        '<span class="mstag"><b>' + esc(e.sport) + '</b> · ' + esc(live ? "Live now" : c.when) + '</span></span></button>';
+    }
+    if (it.k === "short") {
+      var d = DROP[it.play];
+      if (!d) { return ""; }
+      return '<button class="msshort" type="button" data-play="' + it.play + '"><span class="msimg tall">' + imgTag(d.img, d.t, "tall") +
+        '<span class="play">' + I.playtri + '</span><span class="dur">' + esc(d.dur) + '</span></span>' +
+        '<span class="mstitle">' + esc(d.t) + '</span><span class="mstag"><b>' + esc(d.sport) + '</b> · Short</span></button>';
+    }
+    if (it.k === "quiz") {
+      return '<button class="mscta quiz" type="button" data-open="' + ix + '"><span class="msic">' + I.poll + '</span><span class="mstx">' +
+        '<span class="mskick">' + esc(it.tag) + '</span><span class="mstitle">' + esc(it.title) + '</span><span class="msgo">Play along ' + I.chevron + '</span></span></button>';
+    }
+    if (it.k === "qa") {
+      return '<button class="mscta qa" type="button" data-bite="' + k + '" data-title="' + esc(it.who + ": " + it.title.toLowerCase()) + '" data-dur="' + esc(it.dur) + '" data-desc="' + esc(it.title + ". The answer as it went out, from the programme.") + '">' +
+        '<span class="bplay">' + I.playtri + '</span><span class="mstx"><span class="mskick">' + esc(it.tag) + ' · ' + esc(it.who) + '</span>' +
+        '<span class="mstitle">' + esc(it.title) + '</span><span class="mssub">' + esc(it.dur) + ' · because you follow ' + esc(it.who) + '</span></span></button>';
+    }
+    if (it.k === "watchwith" && e) {
+      var fw = msFollow(it.tags[0]);
+      return '<button class="mscta ww" type="button" data-watchwith="creator" data-ev="' + ix + '">' + msAvatar(fw, "sm") + '<span class="mstx">' +
+        '<span class="mskick">' + esc(it.tag) + '</span><span class="mstitle">' + esc(it.title) + '</span><span class="msgo">Watch with ' + esc(it.who) + ' ' + I.chevron + '</span></span></button>';
+    }
+    return "";
+  }
+
+  P.mysport = function () {
+    var sel = S.msFilter || null, f = sel ? msFollow(sel) : null;
+    var items = MYSPORT.feed.filter(function (it) { return !sel || it.tags.indexOf(sel) >= 0; });
+    var out = '<div class="ms">';
+
+    /* the people, teams and voices you follow */
+    out += '<div class="msrail" role="tablist" aria-label="Following">' +
+      '<button type="button" class="msf' + (!sel ? " on" : "") + '" data-msf="" aria-selected="' + !sel + '"><span class="msav all"><span class="msavin">' + I.nav.mysport + '</span></span><span class="msn">All</span></button>' +
+      MYSPORT.follows.map(function (x) {
+        var on = sel === x[0], seen = S.msSeen && S.msSeen[x[0]];
+        return '<button type="button" class="msf' + (on ? " on" : "") + '" data-msf="' + x[0] + '" aria-selected="' + on + '">' +
+          msAvatar(seen ? [x[0], x[1], x[2], x[3], x[4], 0] : x) + '<span class="msn">' + esc(x[1]) + '</span></button>';
+      }).join("") +
+      '<button type="button" class="msf" data-toast="Adding follows is not built out in this prototype."><span class="msav add"><span class="msavin">+</span></span><span class="msn">Add</span></button></div>';
+
+    out += '<div class="mshead"><h2>' + (f ? esc(f[1]) : "Most recent") + (f ? '<small>' + esc(f[2]) + '</small>' : "") + '</h2>' +
+      (f ? '<button type="button" class="msedit on" data-follow aria-pressed="true">Following</button>'
+        : '<button type="button" class="msedit" data-toast="Editing your follows is not built out in this prototype.">Edit</button>') + '</div>';
+
+    if (!items.length) { return out + '<p class="note">Nothing new from ' + esc(f[1]) + ' since you last looked.</p></div>'; }
+
+    /* a lead, then a mix: two shorts side by side, cards between the rows */
+    var lead = items.filter(function (x) { return x.hero; })[0] || items.filter(function (x) { return x.k === "article"; })[0];
+    if (lead) { out += msCard(lead.hero ? lead : { k: "article", article: lead.article, img: lead.img, title: lead.title, tag: lead.tag, ago: lead.ago, hero: true }, 0); }
+    var rest = items.filter(function (x) { return x !== lead; }), shorts = [];
+    out += '<div class="msfeed">';
+    rest.forEach(function (it, k) {
+      if (it.k === "short") {
+        shorts.push(it);
+        if (shorts.length === 2) { out += '<div class="mspair">' + shorts.map(msCard).join("") + '</div>'; shorts = []; }
+        return;
+      }
+      out += msCard(it, k);
+    });
+    if (shorts.length) { out += '<div class="mspair">' + shorts.map(msCard).join("") + '</div>'; }
+    out += '</div></div>';
+    return out;
+  };
+
+  function wireMySport(root) {
+    $$("[data-msf]", root).forEach(function (b) {
+      b.onclick = function () {
+        var id = b.dataset.msf || null;
+        S.msFilter = S.msFilter === id ? null : id;
+        if (id) { S.msSeen = S.msSeen || {}; S.msSeen[id] = true; }
+        var rail = $(".msrail"), x = rail ? rail.scrollLeft : 0;
+        rerenderBody();
+        var rail2 = $(".msrail"); if (rail2) { rail2.scrollLeft = x; }
+      };
+    });
+  }
 
   /* ------------------------------------------------------------- player */
 
@@ -4274,28 +4469,8 @@
 
   function attachSwipe() {
     var app = $("#app"), sx = 0, sy = 0, tracking = false;
-    app.addEventListener("touchstart", function (e) {
-      if (e.touches.length !== 1 || S.player !== null) { return; }
-      sx = e.touches[0].clientX; sy = e.touches[0].clientY; tracking = true;
-    }, { passive: true });
-    app.addEventListener("touchend", function (e) {
-      if (!tracking) { return; }
-      tracking = false;
-      var t = e.changedTouches[0], dx = t.clientX - sx, dy = t.clientY - sy;
-      if (Math.abs(dx) > 64 && Math.abs(dx) > Math.abs(dy) * 1.6) { goLc(S.lcIx + (dx < 0 ? 1 : -1)); }
-    }, { passive: true });
-
-    var md = false, mx = 0, my = 0;
-    app.addEventListener("mousedown", function (e) {
-      if (e.target.closest("button, input, select, a") || S.player !== null) { return; }
-      md = true; mx = e.clientX; my = e.clientY;
-    });
-    window.addEventListener("mouseup", function (e) {
-      if (!md) { return; }
-      md = false;
-      var dx = e.clientX - mx, dy = e.clientY - my;
-      if (Math.abs(dx) > 90 && Math.abs(dx) > Math.abs(dy) * 1.6) { goLc(S.lcIx + (dx < 0 ? 1 : -1)); }
-    });
+    /* the part of the day changes only from the pills at the top. Swipes
+       and arrow keys used to do it too, and fought with scrolling rails */
 
     document.addEventListener("keydown", function (e) {
       if (e.target.matches("input, select, textarea")) { return; }
@@ -4306,8 +4481,6 @@
         if (e.key === "ArrowUp" || e.key === "ArrowLeft") { e.preventDefault(); stepClip(-1); }
         return;
       }
-      if (e.key === "ArrowRight") { goLc(S.lcIx + 1); }
-      if (e.key === "ArrowLeft") { goLc(S.lcIx - 1); }
       if (e.key === "Escape" && S.view === "event") { S.view = "home"; S.nav = "home"; render(-1); }
     });
   }

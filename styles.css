@@ -3291,3 +3291,157 @@ body[data-theme="light"] #app .pq.mine b { color: #6F5700; }
 .tvask span { display: grid; gap: 3px; font-size: 14px; color: #AFAFAF; }
 .tvask b { font-size: 17px; color: #fff; }
 .tv:has(.tvsheet) .tvtop .tvwatch { display: none; }
+
+/* ==========================================================================
+   v13: the hero fills the width, full screen to the edges, and a compact,
+   sticky set of controls on a real phone
+   ========================================================================== */
+.livetake { aspect-ratio: auto; width: 100%; height: clamp(420px, 62vh, 563px); }
+
+/* upright full screen: the picture against the top edge, the controls on it,
+   and the space underneath given to what you are listening to */
+.vfs { container-type: size; }
+.vfs.port .vidimg { top: 0; transform: none; }
+.vfs.port .vidveil { display: block; bottom: auto; height: calc(100cqw * 9 / 16);
+  background: linear-gradient(to bottom, rgba(0,0,0,.55), rgba(0,0,0,0) 30%, rgba(0,0,0,0) 62%, rgba(0,0,0,.75)); }
+.vfs.port .fstop { top: 10px; left: 12px; right: 12px; flex-wrap: nowrap; }
+.vfs.port .fstop .fsbug { position: absolute; order: 0; width: auto; left: 50%; top: calc(100cqw * 9 / 16 + 6px); transform: translateX(-50%);
+  background: none; padding: 0; font-size: 15px; white-space: nowrap; }
+.vfs.port .fssub { top: calc(100cqw * 9 / 16 + 34px); }
+.vfs.port .fstitle { position: absolute; top: calc(100cqw * 9 / 16 + 8px); left: 0; right: 0; }
+.vfs.port .fsbot { top: calc(100cqw * 9 / 16 - 54px); bottom: auto; left: 8px; right: 8px; }
+.vfs.port .vcap { top: calc(100cqw * 9 / 16 - 104px); bottom: auto; font-size: 13.5px; }
+.vfs.port .fsaud { top: 60px; bottom: auto; height: calc(100cqw * 9 / 16 - 120px); }
+.fspanel { position: absolute; left: 0; right: 0; bottom: 0; top: calc(100cqw * 9 / 16 + 60px); display: flex; flex-direction: column; background: #0B0B0B; border-top: 1px solid #1E1E1E; }
+.fstabs { flex: none; display: flex; gap: 6px; padding: 10px 14px; border-bottom: 1px solid #1E1E1E; }
+.fstabs button { display: inline-flex; align-items: center; gap: 7px; border: 1px solid #333; background: none; color: #BDBDBD; border-radius: 999px; padding: 7px 13px; font-size: 13px; font-weight: 800; }
+.fstabs button svg { width: 16px; height: 16px; }
+.fstabs button[aria-selected="true"] { background: #fff; color: #000; border-color: #fff; }
+.fsbody { flex: 1; overflow-y: auto; padding: 0 16px 16px; overscroll-behavior: contain; }
+.fsbody .shsub { position: sticky; top: 0; z-index: 1; background: #0B0B0B; margin: 0; padding: 12px 0 6px; }
+.fsbody .tostats { display: grid; gap: 12px; padding-top: 16px; }
+.fsvoices .vtk, .fsstats .vtk { position: sticky; top: -14px; z-index: 2; margin: -14px -16px 0; padding: 14px 16px 8px; background: rgba(10,10,10,.96); }
+.fsvoices .shsub { position: sticky; top: 16px; z-index: 1; background: rgba(10,10,10,.96); padding: 6px 0; margin: 4px 0 0; }
+.sheet.s-voices .shbody .shsub { position: sticky; top: -4px; z-index: 1; background: #161616; margin: 0; padding: 10px 0 6px; }
+/* a real phone turned on its side: the picture fills the screen */
+.vfs:not(.port):not(.rot) .fstop .fsbug { top: 0; }
+
+.swipehint { display: none; }
+
+@media (max-width: 460px) {
+  html, body { height: 100%; overflow: hidden; }
+  .deskframe { height: 100dvh; min-height: 0; display: flex; flex-direction: column; }
+  .deskbar {
+    position: relative; flex: none; flex-direction: column; align-items: stretch; flex-wrap: nowrap;
+    gap: 6px; padding: 8px 10px 8px; padding-top: calc(8px + env(safe-area-inset-top, 0px));
+  }
+  .deskbar .brandline, .deskbar .hintline { display: none; }
+  .surface, .lifecycle { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; padding: 3px; border-radius: 999px; }
+  .surface::-webkit-scrollbar, .lifecycle::-webkit-scrollbar { display: none; }
+  .sf, .lc { flex: 1 0 auto; font-size: 12.5px; padding: 7px 11px; }
+  .deskstage { flex: 1; min-height: 0; height: auto; padding: 0; display: block; overflow-y: auto; }
+  body[data-surface="phone"] .deskstage, body[data-surface="web"] .deskstage { overflow: hidden; }
+  figure.devwrap.phonewrap { display: block; height: 100%; width: 100%; }
+  .device, #app, .viewport { width: 100%; max-width: 100%; }
+  body[data-surface="together"] figure.devwrap.phonewrap { height: 82dvh; }
+  .device { height: 100%; }
+  #app { height: 100%; }
+  .viewport, .web { height: 100%; max-height: none; min-height: 0; }
+  .devcap { display: none !important; }
+  body[data-surface="tv"] .tvwrap, body[data-surface="together"] .tvwrap { padding: 12px 10px 30px; }
+}
+#ovl { container-type: size; }
+.vfs.rot { width: 100cqh; height: 100cqw; }
+.drawer.noanim, .scrim.noanim { transition: none !important; }
+.dthemebtn[aria-pressed="true"] { background: #FFF3C4 !important; color: #6F5700 !important; }
+
+/* v14: on match pages the scoreboard scrolls with the page and the tabs stick */
+#scrollbody > .tabbar { position: sticky; top: 0; z-index: 8; }
+#scrollbody > .paired, #scrollbody > .matchhead { position: relative; }
+#scrollbody { position: relative; }
+
+/* ==========================================================================
+   v15: bottom navigation as in the BBC Sport app, and My Sport
+   ========================================================================== */
+.nav { border-top: 0; padding: 8px 2px 10px; gap: 5px; color: #BDBDBD; font-size: 11.5px; }
+.nav[aria-selected="true"] { color: #fff; border-top-color: transparent; }
+.navpill { display: grid; place-items: center; width: 58px; height: 32px; border-radius: 999px; font-style: normal; transition: background .18s; }
+.navpill svg { width: 23px; height: 23px; }
+.nav[aria-selected="true"] .navpill { background: #4A4121; color: var(--yellow); }
+.nav[aria-selected="true"] .navfill { fill: var(--yellow); }
+.nav[aria-selected="true"] .navcut { stroke: #4A4121; }
+body[data-theme="light"] #app .nav { color: #555; }
+body[data-theme="light"] #app .nav[aria-selected="true"] { color: #000; }
+body[data-theme="light"] #app .nav[aria-selected="true"] .navpill { background: #FFE9A3; color: #3B3000; }
+body[data-theme="light"] #app .nav[aria-selected="true"] .navfill { fill: #3B3000; }
+body[data-theme="light"] #app .nav[aria-selected="true"] .navcut { stroke: #FFE9A3; }
+
+/* the watch and listen buttons sit side by side at their own size */
+.listenrow { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.listenrow .listenbtn { flex: none; }
+.listenrow .listenmeta { flex: 1 1 100%; }
+
+/* My Sport */
+.section.flush { padding: 0 0 8px; }
+.ms { display: grid; gap: 0; }
+.msrail { display: flex; gap: 14px; overflow-x: auto; scrollbar-width: none; padding: 16px var(--gut) 14px; border-bottom: 1px solid var(--line-soft); }
+.msrail::-webkit-scrollbar { display: none; }
+.msf { flex: none; width: 72px; display: grid; justify-items: center; gap: 7px; border: 0; background: none; padding: 0; color: var(--text-2); }
+.msav { position: relative; width: 66px; height: 66px; border-radius: 50%; padding: 3px; background: #2E2E2E; display: block; }
+.msav.fresh { background: conic-gradient(var(--yellow), #FFB000, var(--yellow)); }
+.msavin { width: 100%; height: 100%; border-radius: 50%; overflow: hidden; display: grid; place-items: center; border: 2px solid var(--black); color: #fff; }
+.msavin .photo { width: 100%; height: 100%; object-fit: cover; }
+.msavin b { font-size: 18px; font-weight: 800; }
+.msav.all .msavin { background: #1E1E1E; color: var(--yellow); }
+.msav.add .msavin { background: #1E1E1E; font-size: 28px; font-weight: 300; color: var(--text-2); }
+.msav.sm { width: 44px; height: 44px; padding: 2px; flex: none; }
+.msav.sm b { font-size: 13px; }
+.msn { font-size: 11.5px; line-height: 1.25; text-align: center; max-width: 72px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.msf.on .msn { color: #fff; font-weight: 800; }
+.msf.on .msav { background: #fff; }
+.mshead { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 18px var(--gut) 12px; }
+.mshead h2 { margin: 0; font-size: 26px; font-weight: 800; letter-spacing: -.01em; display: grid; }
+.mshead h2 small { font-size: 13px; font-weight: 600; color: var(--muted); letter-spacing: 0; }
+.msedit { border: 1.5px solid #555; background: none; color: var(--yellow); border-radius: 999px; padding: 8px 20px; font-size: 14px; font-weight: 800; }
+.msedit.on { color: #fff; }
+.mshero { display: grid; gap: 10px; width: 100%; border: 0; background: none; padding: 0 var(--gut) 18px; text-align: left; color: #fff; }
+.msimg { display: block; aspect-ratio: 16 / 9; overflow: hidden; background: #111; position: relative; }
+.msimg .photo { width: 100%; height: 100%; object-fit: cover; display: block; }
+.mshero .msimg { margin: 0 calc(var(--gut) * -1); }
+.mstitle { font-size: 16px; font-weight: 800; line-height: 1.25; }
+.mstitle.big { font-size: 23px; line-height: 1.18; letter-spacing: -.01em; }
+.mstag { font-size: 12.5px; color: var(--muted); }
+.mstag b { color: var(--yellow); font-weight: 600; }
+.mssub { font-size: 13px; color: var(--text-2); }
+.msfeed { display: grid; }
+.msrow { display: grid; grid-template-columns: 42% 1fr; gap: 12px; width: 100%; text-align: left; border: 0; border-top: 1px solid var(--line-soft); background: none; padding: 14px var(--gut); color: #fff; align-items: start; }
+.msthumb { position: relative; display: block; aspect-ratio: 16 / 9; overflow: hidden; background: #111; }
+.msthumb .photo { width: 100%; height: 100%; object-fit: cover; display: block; }
+.msthumb .chiplive, .msthumb .chipsoon { left: 6px; top: 6px; }
+.mstx { display: grid; gap: 6px; min-width: 0; }
+.mspair { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 14px var(--gut); border-top: 1px solid var(--line-soft); }
+.msshort { display: grid; gap: 7px; border: 0; background: none; padding: 0; text-align: left; color: #fff; align-content: start; }
+.msshort .msimg.tall { aspect-ratio: 9 / 13; border-radius: 8px; }
+.msshort .play { position: absolute; left: 8px; bottom: 8px; width: 30px; height: 30px; border-radius: 50%; background: rgba(0,0,0,.6); display: grid; place-items: center; }
+.msshort .play svg { width: 12px; height: 12px; }
+.msshort .dur { position: absolute; right: 8px; bottom: 11px; font-size: 11.5px; font-weight: 700; background: rgba(0,0,0,.6); padding: 2px 6px; border-radius: 3px; }
+.msshort .mstitle { font-size: 14px; }
+.mscta { display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: center; margin: 0 var(--gut); margin-top: 14px; margin-bottom: 14px; padding: 14px; border-radius: 10px; border: 0; text-align: left; color: #fff; background: var(--card); }
+.mscta.quiz { background: linear-gradient(135deg, #2A2410, #1C1C1C); box-shadow: inset 0 0 0 1px rgba(255,210,48,.35); }
+.mscta.ww { background: linear-gradient(135deg, #22163A, #1C1C1C); box-shadow: inset 0 0 0 1px rgba(122,63,209,.5); }
+.msic { width: 42px; height: 42px; border-radius: 50%; background: var(--yellow); color: #111; display: grid; place-items: center; }
+.mskick { font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--yellow); }
+.mscta.qa .mskick { color: var(--live); }
+.mscta.ww .mskick { color: #B79CFF; }
+.msgo { display: inline-flex; align-items: center; gap: 4px; font-size: 13px; font-weight: 800; color: var(--text-2); }
+.msgo svg { width: 14px; height: 14px; }
+body[data-theme="light"] #app .msrow, body[data-theme="light"] #app .mshero, body[data-theme="light"] #app .msshort,
+body[data-theme="light"] #app .mscta { color: #121212; }
+body[data-theme="light"] #app .mstag b { color: #7A5F00; }
+body[data-theme="light"] #app .mskick { color: #7A5F00; }
+body[data-theme="light"] #app .msav { background: #D6D6D6; }
+body[data-theme="light"] #app .msavin { border-color: #fff; }
+body[data-theme="light"] #app .msf.on .msn, body[data-theme="light"] #app .msedit.on { color: #121212; }
+body[data-theme="light"] #app .msedit { color: #7A5F00; border-color: #BDBDBD; }
+body[data-theme="light"] #app .mscta.quiz { background: #FFF6D6; }
+body[data-theme="light"] #app .mscta.ww { background: #F1EAFD; }
