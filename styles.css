@@ -4369,3 +4369,8 @@ body[data-theme="light"] #app .wlvimg::after { background: linear-gradient(90deg
 body[data-theme="light"] #app .fowr { border-color: #E2E2E2; }
 .tabbtn[aria-selected="true"] { border-bottom-color: #FFD230; }
 .sctable.bowl { width: 100%; } .sctable.bowl th:not(.scname), .sctable.bowl td:not(.scname) { text-align: right; }
+
+/* a new post: the NEW tag sits on the top edge, opposite the time */
+.post { position: relative; }
+.pnew { position: absolute; top: 0; right: 0; background: #000; color: var(--teal); font-size: 13px; font-weight: 800; letter-spacing: .04em; padding: 6px 14px; }
+body[data-theme="light"] #app .pnew { background: #fff; color: var(--live-text); }
