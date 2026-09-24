@@ -3445,3 +3445,7 @@ body[data-theme="light"] #app .msf.on .msn, body[data-theme="light"] #app .msedi
 body[data-theme="light"] #app .msedit { color: #7A5F00; border-color: #BDBDBD; }
 body[data-theme="light"] #app .mscta.quiz { background: #FFF6D6; }
 body[data-theme="light"] #app .mscta.ww { background: #F1EAFD; }
+
+.build { font-style: normal; color: #6A6A6A; margin-left: 6px; }
+.build.mob { display: none; }
+@media (max-width: 460px) { .build.mob { display: block; font-size: 10px; text-align: right; margin: -2px 4px 0; } }
