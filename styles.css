@@ -37,7 +37,7 @@
   --pitch-line: rgba(255,255,255,.42);
 
   --sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --cond: "Helvetica Neue", Arial Narrow, Arial, sans-serif;
+  --cond: "ReithSansCd", Arial Narrow, sans-serif;
 
   --gut: 16px;
   --radius: 8px;
@@ -3531,3 +3531,27 @@ body[data-theme="light"] #app .court .ctag.on { color: #7A5F00; }
 .tv.s-home .tvrails { top: 478px; }
 .tv.deep .tvrails { transform: translateY(-282px); }
 .tv.deeper .tvrails { transform: translateY(-548px); }
+
+/* v20: team crests. Each sits on a small white tile so every crest reads on dark */
+.crimg { display: inline-grid; place-items: center; flex: none; background: #fff; border-radius: 6px; overflow: hidden; vertical-align: middle; }
+.crimg img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.crest.hasimg { background: #fff; padding: 7px; border-color: rgba(255,255,255,.25); }
+.crest.hasimg .crimg { width: 100%; height: 100%; border-radius: 50%; }
+.viewport.condensed .crest.hasimg { padding: 4px; }
+.crimg.sm { width: 22px; height: 22px; border-radius: 4px; margin-right: 8px; }
+.tos .crimg.sm { margin-right: 0; }
+.tos.r .crimg.sm { margin-left: 0; }
+.tos { display: inline-flex; align-items: center; gap: 8px; }
+.crimg.xs { width: 18px; height: 18px; border-radius: 3px; margin-right: 7px; }
+.pl.score3 .pn .crimg.xs { margin-bottom: 3px; }
+.crimg.md { width: 40px; height: 40px; border-radius: 6px; margin: 0 12px 0 0; }
+.wh1 .crimg.md:last-child { margin: 0 0 0 12px; }
+.crimg.tvc { width: 56px; height: 56px; border-radius: 8px; margin: 0 16px 0 0; }
+.tvherotext h1 .crimg.tvc:last-child { margin: 0 0 0 16px; }
+.fsbn .crimg.xs { margin: 0; }
+.srow .sname { display: inline-flex; align-items: center; }
+.msavin.crest-in { background: #fff; padding: 9px; }
+.msavin.crest-in img { width: 100%; height: 100%; object-fit: contain; }
+/* surfaces still being built */
+.sfwip { font-style: normal; font-size: 9.5px; font-weight: 800; letter-spacing: .06em; margin-left: 6px; padding: 2px 5px; border-radius: 3px; background: var(--yellow); color: #111; vertical-align: 1px; }
+body[data-surface="together"] .phonecap::after { content: " · work in progress"; color: var(--yellow); }

@@ -1617,11 +1617,11 @@ const PUNDITS = {
    ------------------------------------------------------------------------- */
 const MYSPORT = {
   follows: [
-    ["eng-cricket", "England Cricket", "Team", "ck-huddle", "#1A3A6B", 4],
+    ["eng-cricket", "England Cricket", "Team", "cr-eng-ck", "#1A3A6B", 4],
     ["raducanu", "Emma Raducanu", "Player", "tn-smile", "#BB1919", 3],
-    ["england", "England", "Team", "fb-celebrate", "#E8F0FC", 2],
+    ["england", "England", "Team", "cr-eng-fb", "#E8F0FC", 2],
     ["root", "Joe Root", "Player", "ck-root", "#1A3A6B", 2],
-    ["wales", "Wales", "Team", "rg-wales", "#C8102E", 1],
+    ["wales", "Wales", "Team", "cr-wal", "#C8102E", 1],
     ["chapman", "Mark Chapman", "Presenter", "MC", "#E4002B", 1],
     ["roan", "Dan Roan", "Sports Editor", "DR", "#3B3B3B", 0],
     ["terrace", "The Terrace", "Creator", "TT", "#7A3FD1", 2],

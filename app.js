@@ -1250,7 +1250,8 @@
 
   P.scorelist = function (p) {
     return '<div class="playerlist">' + p.items.map(function (it) {
-      return '<div class="pl score3"><span class="pn">' + esc(it[0]) + '<br>' + esc(it[2]) + '</span>' +
+      var cev = crestEvFor(it[0], it[2]);
+      return '<div class="pl score3"><span class="pn">' + crestImg(cev, it[0], "xs") + esc(it[0]) + '<br>' + crestImg(cev, it[2], "xs") + esc(it[2]) + '</span>' +
         '<span class="pn nums">' + (it[1] ? esc(it[1]) + '<br>' + esc(it[3]) : "&nbsp;") + '</span>' +
         '<span class="pr' + (it[5] ? " hot" : "") + '">' + esc(it[4]) + '</span></div>';
     }).join("") + '</div>';
@@ -1476,21 +1477,21 @@
 
     if (h.kind === "teams") {
       out += '<div class="scorewrap">' +
-        '<span class="side"><span class="crest a">' + esc(h.home.code) + '</span><span class="tname">' + esc(h.home.name) + '</span>' +
+        '<span class="side"><span class="crest a' + (crestSlug(e.id, h.home.name) ? " hasimg" : "") + '">' + (crestImg(e.id, h.home.name) || esc(h.home.code)) + '</span><span class="tname">' + esc(h.home.name) + '</span>' +
         (h.home.sub ? '<span class="tsub">' + esc(h.home.sub) + '</span>' : "") + '</span>' +
         '<span class="centre"><span class="statusrow ' + h.status.kind + '">' +
         '<i class="pip' + (h.status.beat ? " beat" : "") + '"></i>' + esc(h.status.text) + '</span>' +
         (hid ? '<span class="bigscore hid">v</span><button class="revealpill" type="button" data-reveal="' + e.id + '">' + I.eye + 'Show score</button>'
           : '<span class="' + (h.centre.small ? "kotime" : "bigscore") + '">' + esc(h.centre.big) + '</span>' +
           '<span class="clockline" id="headclock">' + esc(h.centre.sub) + '</span>') + '</span>' +
-        '<span class="side"><span class="crest b">' + esc(h.away.code) + '</span><span class="tname">' + esc(h.away.name) + '</span>' +
+        '<span class="side"><span class="crest b' + (crestSlug(e.id, h.away.name) ? " hasimg" : "") + '">' + (crestImg(e.id, h.away.name) || esc(h.away.code)) + '</span><span class="tname">' + esc(h.away.name) + '</span>' +
         (h.away.sub ? '<span class="tsub">' + esc(h.away.sub) + '</span>' : "") + '</span></div>';
     } else {
       out += '<div class="stackwrap"><span class="statusrow ' + h.status.kind + '">' +
         '<i class="pip' + (h.status.beat ? " beat" : "") + '"></i>' + esc(h.status.text) + '</span>' +
         h.rows.map(function (r, i) {
           return '<div class="srow' + (r[3] ? " now" : "") + '">' +
-            '<span class="sname">' + esc(r[0]) + (h.serve === i ? '<i class="servedot"></i>' : "") + '</span>' +
+            '<span class="sname">' + crestImg(e.id, r[0], "sm") + esc(r[0]) + (h.serve === i ? '<i class="servedot"></i>' : "") + '</span>' +
             '<span class="sscore' + (hid ? " hid" : "") + '">' + esc(hid ? "\u2022 \u2022" : r[1]) + '</span>' +
             '<span class="sdet"' + (i === 1 ? ' id="stackdet"' : "") + '>' + esc(hid ? "" : r[2]) + '</span></div>';
         }).join("") +
@@ -1585,9 +1586,9 @@
       '<div class="tocard">' +
       '<p class="tokick">' + (I.sport[e.sport] || "") + esc(e.sport) + ' · ' + esc(e.comp) + '</p>' +
       '<div class="tonames">' +
-      '<span class="tos"><i style="background:' + TK.ca + '"></i>' + esc(TK.a || "") + '</span>' +
+      '<span class="tos">' + (crestImg(e.id, TK.a, "sm") || '<i style="background:' + TK.ca + '"></i>') + esc(TK.a || "") + '</span>' +
       '<span class="toline">' + esc(T.line || "") + '</span>' +
-      '<span class="tos r">' + esc(TK.b || "") + '<i style="background:' + TK.cb + '"></i></span></div>' +
+      '<span class="tos r">' + esc(TK.b || "") + (crestImg(e.id, TK.b, "sm") || '<i style="background:' + TK.cb + '"></i>') + '</span></div>' +
       (T.sub ? '<p class="tosub">' + esc(T.sub) + '</p>' : "") +
       '<div class="tostats">' + bars + '</div>' +
       (T.hidden ? '<button class="toreveal" type="button" data-reveal="' + e.id + '">' + I.eye + 'Show the score</button>' : "") +
@@ -2588,6 +2589,29 @@
   };
   for (var ixk in IX) { if (IX.hasOwnProperty(ixk)) { I[ixk] = IX[ixk]; } }
 
+  /* team crests, per sport: England's football and cricket crests differ */
+  var CRESTS = {
+    football: { England: "cr-eng-fb", Netherlands: "cr-ned" },
+    cricket: { England: "cr-eng-ck", Australia: "cr-aus" },
+    rugby: { Wales: "cr-wal", Ireland: "cr-ire" }
+  };
+  function crestSlug(evId, name) {
+    var m = CRESTS[evId] || {}, k;
+    for (k in m) { if (m.hasOwnProperty(k) && String(name).indexOf(k) === 0) { return m[k]; } }
+    return null;
+  }
+  function crestImg(evId, name, cls) {
+    var sl = crestSlug(evId, name);
+    return sl ? '<span class="crimg' + (cls ? " " + cls : "") + '"><img src="img/' + sl + '.png" alt="' + esc(name) + ' crest" loading="lazy"></span>' : "";
+  }
+  /* which sport a score row belongs to, from the names in it */
+  function crestEvFor(a, b) {
+    if (/Australia/.test(a + b)) { return "cricket"; }
+    if (/Netherlands/.test(a + b)) { return "football"; }
+    if (/Wales|Ireland/.test(a + b)) { return "rugby"; }
+    return null;
+  }
+
   function evById(id) { return EVENTS.filter(function (x) { return x.id === id; })[0]; }
   function evIxById(id) { var k = -1; EVENTS.forEach(function (x, i) { if (x.id === id) { k = i; } }); return k; }
   function hasVideo(e) { return e.id !== "cricket"; }
@@ -2986,8 +3010,8 @@
     var v = S.vid;
     if (!v || v.mode !== "fs") { return ""; }
     var inf = vidInfo(), e = vidEvent(), tk = e ? tkFor(e) : null, TK = tk ? tk.TK : {}, T = tk ? tk.T : {};
-    var bug = e && inf.live ? '<div class="fsbug"><span class="fsbn"><i style="background:' + TK.ca + '"></i>' + esc(TK.a || "") + '</span>' +
-      '<b>' + esc(T.hidden ? "v" : (T.line || "v")) + '</b><span class="fsbn">' + esc(TK.b || "") + '<i style="background:' + TK.cb + '"></i></span></div>' +
+    var bug = e && inf.live ? '<div class="fsbug"><span class="fsbn">' + (crestImg(e.id, TK.a, "xs") || '<i style="background:' + TK.ca + '"></i>') + esc(TK.a || "") + '</span>' +
+      '<b>' + esc(T.hidden ? "v" : (T.line || "v")) + '</b><span class="fsbn">' + esc(TK.b || "") + (crestImg(e.id, TK.b, "xs") || '<i style="background:' + TK.cb + '"></i>') + '</span></div>' +
       '<p class="fssub">' + esc(T.hidden ? "Score hidden" : (T.sub || "")) + '</p>' : '<p class="fstitle">' + esc(inf.label || "") + '</p>';
     var body = inf.audio
       ? '<div class="vidimg dim">' + imgTag("ck-mic", "", "wide") + '</div><span class="vidveil"></span>' +
@@ -3509,6 +3533,9 @@
   function msFollow(id) { return MYSPORT.follows.filter(function (f) { return f[0] === id; })[0]; }
 
   function msAvatar(f, cls) {
+    if (/^cr-/.test(f[3])) {
+      return '<span class="msav' + (cls ? " " + cls : "") + (f[5] ? " fresh" : "") + '"><span class="msavin crest-in"><img src="img/' + f[3] + '.png" alt="' + esc(f[1]) + '"></span></span>';
+    }
     var isImg = /-/.test(f[3]) && SLOTS[f[3]];
     return '<span class="msav' + (cls ? " " + cls : "") + (f[5] ? " fresh" : "") + '"><span class="msavin" style="background:' + f[4] + '">' +
       (isImg ? imgTag(f[3], f[1], "square") : '<b>' + esc(f[3]) + '</b>') + '</span></span>';
@@ -3818,7 +3845,7 @@
       '<div class="wherotext">' +
       '<p class="wkick">' + liveChip(top.c.status) + '<span>' + esc(e.sport) + ' · ' + esc(e.comp) + '</span>' +
       (watchingFor(e) ? '<span class="wwatch">' + esc(watchingFor(e)) + ' watching</span>' : "") + '</p>' +
-      '<h1 class="wh1">' + esc(TK.a) + ' <span>' + esc(T.line || "v") + '</span> ' + esc(TK.b) + '</h1>' +
+      '<h1 class="wh1">' + crestImg(e.id, TK.a, "md") + esc(TK.a) + ' <span>' + esc(T.line || "v") + '</span> ' + esc(TK.b) + crestImg(e.id, TK.b, "md") + '</h1>' +
       (T.sub ? '<p class="wsub">' + esc(T.sub) + '</p>' : "") +
       '<div class="wherostats">' + statBars(TK, T) + '</div>' +
       '<div class="wbtns">' +
@@ -3891,7 +3918,7 @@
       '<p class="wcrumb"><button type="button" data-gohome>Sport</button> › ' + esc(e.sport) + ' › ' + esc(e.comp) + '</p>' +
       '<div class="wevrow"><div>' +
       '<p class="wkick">' + liveChip(card.status) + (watchingFor(e) ? '<span class="wwatch">' + esc(watchingFor(e)) + ' watching</span>' : "") + '</p>' +
-      '<h1 class="wh1">' + esc(TK.a) + ' <span>' + esc(T.line || "v") + '</span> ' + esc(TK.b) + '</h1>' +
+      '<h1 class="wh1">' + crestImg(e.id, TK.a, "md") + esc(TK.a) + ' <span>' + esc(T.line || "v") + '</span> ' + esc(TK.b) + crestImg(e.id, TK.b, "md") + '</h1>' +
       (T.sub ? '<p class="wsub">' + esc(T.sub) + '</p>' : "") + '</div>' +
       '<div class="wbtns">' +
       (isLive ? '<button class="wbtn pri" type="button" data-tvlaunch="' + S.eventIx + '">' + I.playtri + 'Watch on your TV</button>' : "") +
@@ -4011,7 +4038,7 @@
       '<p class="tvkick">' + (isLive ? '<span class="tvlive"><i></i>LIVE</span>' : L === "buildup" ? '<span class="tvsoon">' + esc(top.c.when) + '</span>' : '<span class="tvsoon">Highlights</span>') +
       '<span>' + esc(chanFor(e)) + '</span>' +
       (w && isLive ? '<span class="tvwatch">' + I.stack + esc(w) + ' watching</span>' : "") + '</p>' +
-      '<h1>' + esc(TK.a) + ' <span>' + esc(T.line || "v") + '</span> ' + esc(TK.b) + '</h1>' +
+      '<h1>' + crestImg(e.id, TK.a, "tvc") + esc(TK.a) + ' <span>' + esc(T.line || "v") + '</span> ' + esc(TK.b) + crestImg(e.id, TK.b, "tvc") + '</h1>' +
       '<p class="tvsub">' + esc(e.comp) + (T.sub ? " · " + esc(T.sub) : "") + '</p>' +
       '<div class="tvbtns">' +
       (isLive
@@ -4748,7 +4775,8 @@
     var sfh = $("#surface");
     if (sfh) {
       sfh.innerHTML = SURFACES.map(function (x) {
-        return '<button class="sf" role="tab" type="button" data-surface="' + x[0] + '" aria-selected="' + (x[0] === "phone") + '">' + esc(x[1]) + '</button>';
+        return '<button class="sf" role="tab" type="button" data-surface="' + x[0] + '" aria-selected="' + (x[0] === "phone") + '">' + esc(x[1]) +
+          (x[0] === "tv" || x[0] === "together" ? '<i class="sfwip" title="Work in progress">WIP</i>' : "") + '</button>';
       }).join("");
       $$(".sf").forEach(function (b) { b.onclick = function () { setSurface(b.dataset.surface); }; });
     }
