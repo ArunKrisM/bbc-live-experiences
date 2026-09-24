@@ -3965,3 +3965,54 @@ body[data-theme="light"] #app .bfollowwrap, body[data-theme="light"] #app .bmsfx
 .bchip button svg [fill]:not([fill="none"]) { fill: currentColor; }
 .bfollow svg [stroke] { stroke: currentColor; }
 body[data-theme="light"] #app .fxgo { color: #8A6D00; }
+
+/* ==========================================================================
+   v25: the mixed row (posts, clips, shorts) as one aligned card shape.
+   Three to a row, every card the same height as its neighbours, the same
+   inner padding, and the footer pinned to the bottom edge.
+   ========================================================================== */
+.mxgrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; align-items: stretch; }
+.mxc {
+  display: flex; flex-direction: column; gap: 12px; min-width: 0; margin: 0; padding: 16px;
+  background: var(--panel); border: 0; border-radius: 0; color: var(--text); text-align: left; font: inherit;
+}
+.mxc.cr { box-shadow: inset 3px 0 0 #B79CFF; }
+.mxc.media { padding: 0; gap: 0; }
+.mxhead { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.mxhead .wpav, .mxhead .bplay { flex: none; width: 36px; height: 36px; }
+.mxhead .bplay svg { width: 14px; height: 14px; }
+.mxwho { flex: 1; min-width: 0; display: grid; gap: 1px; }
+.mxwho b { font-size: 14.5px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mxwho small { font-size: 12.5px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mxkind { flex: none; align-self: flex-start; margin-top: 2px; font-size: 10.5px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
+.mxc.cr .mxkind { color: #B79CFF; }
+.mxtext {
+  margin: 0; font-size: 15px; line-height: 1.45; color: var(--text);
+  display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;
+}
+.mxtitle { display: block; font-size: 17px; font-weight: 800; line-height: 1.25; }
+.mxfoot { margin-top: auto; display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--muted); }
+.mxfoot.wcact { gap: 16px; }
+.mximg { position: relative; display: block; aspect-ratio: 2.2 / 1; overflow: hidden; background: #111; }
+.mximg .photo { width: 100%; height: 100%; object-fit: cover; display: block; }
+.mxplay { position: absolute; left: 10px; bottom: 10px; width: 34px; height: 34px; border-radius: 50%; background: rgba(0,0,0,.65); display: grid; place-items: center; }
+.mxplay svg { width: 13px; height: 13px; }
+.mxdur { position: absolute; right: 10px; bottom: 12px; font-size: 12px; font-weight: 700; color: #fff; background: rgba(0,0,0,.65); padding: 2px 6px; }
+.mxbody { flex: 1; display: flex; flex-direction: column; gap: 10px; padding: 14px 16px 16px; }
+.mxc:hover .mxtitle, .mxc.media:hover .mxtitle { text-decoration: underline; }
+body[data-theme="light"] #app .mxc { color: #121212; border: 1px solid #E2E2E2; }
+
+/* most read sits in the same column rhythm as the rows above it */
+.bmostwrap { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 16px; }
+.bmost ol { gap: 16px; }
+.bmostwrap .wbite.listen { align-self: start; margin-top: 44px; padding: 16px; }
+
+@media (max-width: 1180px) { .mxgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .mxgrid { grid-template-columns: 1fr; } }
+
+/* five events today: one row of five rather than four and an orphan */
+.wgrid4 { grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
+/* one rhythm for the website's rows: 20px gaps, and panels in a row share a height */
+.wthree, .wtables { align-items: stretch; gap: 20px; }
+.mxgrid, .bmostwrap, .fxrow { gap: 20px; }
+.wtables > div { background: var(--panel); padding: 18px; }
