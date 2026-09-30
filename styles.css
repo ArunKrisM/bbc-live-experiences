@@ -4869,3 +4869,24 @@ body[data-theme="light"] #app .pfans blockquote::after { border-top-color: #F2F2
 .web .msview.web button { display: inline-block; width: auto; flex: none; text-align: left; }
 .web .msview.web { height: auto !important; min-height: 0 !important; align-items: flex-end; }
 .web .msview.web button { height: auto !important; }
+
+/* v34: My Sport as one feed, with the follow row and club tabs pinned */
+.msview { display: none !important; }
+.ms > .msrail { position: sticky; top: 0; z-index: 6; background: var(--black, #000); transition: padding .2s; }
+.msf { position: relative; }
+.msbadge { position: absolute; top: -2px; right: 0; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; background: var(--yellow); color: #000; font-style: normal; font-size: 11.5px; font-weight: 800; display: grid; place-items: center; box-shadow: 0 0 0 2px #000; z-index: 2; }
+.msav, .msf .msn, .msbadge { transition: width .2s, height .2s, opacity .15s, top .2s, right .2s; }
+.viewport.condensed .ms > .msrail { padding-top: 8px; padding-bottom: 8px; gap: 10px; box-shadow: 0 6px 14px rgba(0,0,0,.5); }
+.viewport.condensed .ms > .msrail .msf { width: 42px; gap: 0; }
+.viewport.condensed .ms > .msrail .msav { width: 40px; height: 40px; padding: 2px; }
+.viewport.condensed .ms > .msrail .msav .msavin b { font-size: 11px; }
+.viewport.condensed .ms > .msrail .msav.all .msavin svg, .viewport.condensed .ms > .msrail .msav.add .msavin { transform: scale(.7); }
+.viewport.condensed .ms > .msrail .msn { height: 0; opacity: 0; overflow: hidden; }
+.viewport.condensed .ms > .msrail .msbadge { top: -4px; right: -6px; min-width: 18px; height: 18px; font-size: 10.5px; }
+.viewport.condensed .ms > .msrail .msf.on .msav { box-shadow: 0 0 0 2px var(--yellow); }
+.ms > .clsub { position: sticky; top: 0; z-index: 5; background: var(--black, #000); }
+.viewport.condensed .ms > .clsub { top: 57px; box-shadow: 0 6px 14px rgba(0,0,0,.5); }
+.clfx.vert { flex-direction: column; overflow: visible; }
+.clfx.vert .clc { width: auto; }
+.whpmore { margin: 40px 0 16px; font-size: 28px; font-weight: 800; }
+.whphead + .hpwrap { margin-bottom: 26px; }
