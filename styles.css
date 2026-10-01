@@ -5657,3 +5657,163 @@ body[data-surface="next"] .tvwrap { display: none; }
 .nxbig .tvlive b { background: #00CCC7; color: #00211F; padding: 2px 7px; border-radius: 99px; font-size: 9.5px; }
 .nxbig .tvlive .nxavs i { width: 16px; height: 16px; font-size: 7px; border-width: 1.5px; }
 @media (prefers-reduced-motion: reduce) { .nxhome.morph { animation: none; } }
+
+/* ---- v38: sport icons, labels that never collide, live for every sport, highlights, athletes ---- */
+.nxbadge .emo { font-style: normal; font-size: calc(var(--s) * .52); line-height: 1; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, .35)); }
+.nxbadge.blogo { background: radial-gradient(circle at 35% 30%, #fff, #EDEDED 70%); }
+.nxbadge.blogo img { width: 72%; height: 72%; object-fit: contain; }
+.nxmarq button .emo { font-size: 18px; line-height: 1; }
+.nxmarq button img.lg { background: #fff; padding: 3px; }
+.nxmarq button img.ph { padding: 0; object-fit: cover; }
+.nxconst .cb { transform: translate(-50%, calc(var(--d) / -2)); }
+.nxconst .cb > b { text-align: center; overflow: hidden; text-overflow: ellipsis; }
+.nxmine { margin: 0 16px 6px; }
+.nxmine .rings { top: -8px; }
+.nxmine .me { top: calc(50% - 8px); z-index: 3; }
+.nxmine .b { left: auto; top: auto; transform: translateX(-50%); z-index: 2; }
+.nxmine .b .bw { position: relative; display: block; }
+.nxmine .b > b { display: block; text-align: center; overflow: hidden; text-overflow: ellipsis; position: relative; z-index: 1; }
+.nxmine .b em { top: -3px; right: -3px; z-index: 4; }
+.nxmine .b:hover .nxbadge, .nxmine .b:focus-visible .nxbadge { box-shadow: 0 0 0 3px #fff; }
+
+/* score rows that open the live page or highlights */
+.nxsrow.go { cursor: pointer; transition: transform .15s, border-color .15s; }
+.nxsrow.go:hover { border-color: rgba(255, 255, 255, .3); }
+.nxsrow.go:active { transform: scale(.985); }
+.nxsrow.go:focus-visible { outline: 2px solid var(--y); outline-offset: 2px; }
+.nxsgroup h2 { display: flex; align-items: center; gap: 8px; }
+
+/* radio-led live (cricket, F1) */
+.nxradio { position: relative; margin: 0 12px; height: 228px; border-radius: 22px; overflow: hidden; border: 1px solid rgba(0, 204, 199, .45); flex: none; }
+.nxradio .nxfoot { filter: blur(3px) brightness(.55) saturate(1.2); transform: scale(1.08); }
+.nxradio .veil { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0, 30, 30, .35), rgba(5, 10, 12, .85)); }
+.nxradio .sb { position: absolute; z-index: 2; left: 10px; top: 10px; display: flex; align-items: center; gap: 6px; padding: 5px 10px; border-radius: 8px; background: rgba(0, 0, 0, .65); font: 800 12px/1 var(--sans); }
+.nxradio .sb span { background: var(--t); color: #00211F; padding: 2px 5px; border-radius: 4px; }
+.nxradio .sb em { font-style: normal; color: var(--t); margin-left: 4px; }
+.nxradio .rtx { position: absolute; z-index: 2; left: 16px; right: 16px; top: 50px; }
+.nxradio .st { display: flex; align-items: center; gap: 8px; margin: 0; font-size: 12.5px; font-weight: 800; color: var(--t); letter-spacing: .04em; text-transform: uppercase; }
+.nxradio .eq { display: inline-flex; align-items: flex-end; gap: 2px; height: 14px; margin-left: 4px; }
+.nxradio .eq b { width: 3px; background: var(--t); border-radius: 2px; animation: nxeq 1s ease-in-out infinite; }
+.nxradio .eq b:nth-child(2) { animation-delay: -.3s; } .nxradio .eq b:nth-child(3) { animation-delay: -.6s; } .nxradio .eq b:nth-child(4) { animation-delay: -.15s; } .nxradio .eq b:nth-child(5) { animation-delay: -.45s; }
+@keyframes nxeq { 0%, 100% { height: 3px; } 50% { height: 14px; } }
+.nxradio h3 { margin: 6px 0 10px; font: 400 26px/1.05 var(--poster); text-transform: uppercase; }
+.nxradio .cc { margin: 0; padding: 10px 12px; border-radius: 12px; background: rgba(0, 0, 0, .45); font-size: 14px; line-height: 1.4; min-height: 60px; }
+.nxradio .cc span.in { animation: nxtick .5s ease both; display: inline-block; }
+.nxradio .ctl { position: absolute; z-index: 2; right: 12px; top: 8px; display: flex; gap: 8px; }
+.nxradio .ctl button { width: 34px; height: 34px; border-radius: 50%; border: 0; background: rgba(0, 0, 0, .45); display: grid; place-items: center; padding: 0; }
+.nxradio .ctl button .nxi { width: 17px; height: 17px; }
+.nxradio .bar { position: absolute; z-index: 2; left: 14px; right: 14px; bottom: 12px; display: flex; align-items: center; gap: 10px; font: 800 11.5px/1 var(--sans); }
+.nxradio .bar i { flex: 1; height: 4px; border-radius: 4px; background: linear-gradient(90deg, var(--t) 97%, rgba(255, 255, 255, .3) 0); }
+.nxmoments small { display: block; margin-top: 3px; font-size: 13px; line-height: 1.4; color: #BDBDC2; }
+.nxmoments .k-wicket .dot, .nxmoments .k-goal .dot { background: var(--t); }
+
+.nxmom { display: block; width: calc(100% - 32px); margin: 0 16px; height: 90px; }
+.nxmom .ax { stroke: rgba(255, 255, 255, .25); stroke-width: 1; }
+.nxmom .a { fill: var(--t); } .nxmom .b { fill: #8FA6FF; }
+.nxlegend.two { justify-content: space-between; padding: 0 16px; }
+.nxlegend.two span { display: flex; align-items: center; gap: 6px; font-weight: 700; color: #ddd; }
+.nxlegend.two span::before { content: ""; width: 10px; height: 10px; border-radius: 3px; background: var(--t); }
+.nxlegend.two span.b::before { background: #8FA6FF; }
+.nxbarhd { display: flex; justify-content: space-between; padding: 0 16px 4px; font-size: 12px; color: var(--mut); }
+.nxwin { display: flex; gap: 4px; margin: 0 16px; height: 64px; }
+.nxwin i { flex: 0 0 var(--w); border-radius: 12px; display: grid; align-content: center; justify-items: center; font-style: normal; animation: nxgrow .8s cubic-bezier(.2, .8, .3, 1) both; overflow: hidden; }
+.nxwin i.a { background: rgba(0, 204, 199, .25); } .nxwin i.d { background: rgba(255, 255, 255, .1); } .nxwin i.b { background: rgba(255, 210, 48, .2); }
+.nxwin b { font: 400 24px/1 var(--poster); } .nxwin small { font-size: 11px; color: #ddd; }
+.nxbat { display: grid; padding: 0 16px; }
+.nxbat > div { display: grid; grid-template-columns: 1fr auto 44px; gap: 10px; align-items: center; padding: 9px 0; border-top: 1px solid rgba(255, 255, 255, .06); }
+.nxbat.bowl > div { grid-template-columns: 1fr auto; }
+.nxbat span { display: grid; } .nxbat span b { font-size: 15px; } .nxbat span small { font-size: 12px; color: var(--mut); }
+.nxbat .rn { font: 400 22px/1 var(--poster); }
+.nxbat > div > small { text-align: right; color: var(--mut); font-size: 12px; }
+.nxbat .in { background: linear-gradient(90deg, rgba(0, 204, 199, .12), transparent); margin: 0 -16px; padding-left: 16px; padding-right: 16px; }
+.nxbat .in .rn { color: var(--t); }
+.nxcardx.tower { padding-bottom: 8px; }
+.nxtim { display: grid; grid-template-columns: 22px 5px 40px 1fr auto 52px; gap: 10px; align-items: center; width: 100%; padding: 11px 16px; border: 0; border-top: 1px solid rgba(255, 255, 255, .06); background: none; text-align: left; }
+.nxtim em { font-style: normal; font-weight: 800; color: var(--mut); text-align: right; }
+.nxtim i { width: 5px; height: 26px; border-radius: 3px; }
+.nxtim b { font: 400 18px/1 var(--poster); letter-spacing: .04em; }
+.nxtim span { font-size: 14px; color: #ddd; }
+.nxtim strong { font-variant-numeric: tabular-nums; font-size: 15px; }
+.nxtim small { font-size: 11.5px; color: var(--mut); text-align: right; }
+.nxtim.p1 { background: linear-gradient(90deg, rgba(255, 128, 0, .16), transparent); }
+.nxtim.p1 strong { color: #C77DFF; }
+.nxtim:hover { background: rgba(255, 255, 255, .04); }
+.nxsect { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 0 16px; }
+.nxsect span { display: grid; gap: 2px; padding: 12px; border-radius: 14px; background: rgba(199, 125, 255, .1); border: 1px solid rgba(199, 125, 255, .35); }
+.nxsect small { font-size: 11px; color: var(--mut); font-weight: 800; } .nxsect b { font-size: 17px; font-variant-numeric: tabular-nums; } .nxsect em { font-style: normal; font-size: 12px; color: #C77DFF; font-weight: 800; }
+.nxcourts { display: grid; gap: 10px; }
+.nxcourts button { display: grid; grid-template-columns: 92px 1fr; gap: 12px; align-items: center; padding: 8px; border-radius: 18px; border: 1px solid var(--ln); background: #141416; text-align: left; }
+.nxcourts button.on { border-color: var(--t); }
+.nxcourts .th { position: relative; height: 72px; border-radius: 12px; background-size: cover; background-position: center; }
+.nxcourts .th em { position: absolute; left: 6px; bottom: 6px; font: 800 9.5px/1 var(--sans); font-style: normal; padding: 4px 6px; border-radius: 99px; background: #fff; color: #111; }
+.nxcourts .th em.lv { background: var(--t); color: #00211F; }
+.nxcourts small { font-size: 11.5px; color: var(--mut); font-weight: 800; text-transform: uppercase; letter-spacing: .06em; }
+.nxcourts b { display: block; font-size: 15px; margin: 2px 0; } .nxcourts i { font-style: normal; font-size: 13px; color: #ddd; font-variant-numeric: tabular-nums; }
+.nxtvbar .th .nxfoot { border-radius: 12px; }
+
+/* highlights page */
+.clipshero { height: 560px; }
+.clipshero .nxsub b { color: #fff; }
+.nxgrid.pad { padding: 0 20px; }
+.nxtile .tk { position: absolute; top: 12px; right: 10px; font: 800 10.5px/1 var(--sans); background: rgba(0, 0, 0, .6); padding: 5px 7px; border-radius: 6px; color: #fff; margin: 0; }
+.nxtile { cursor: pointer; transition: transform .15s; }
+.nxtile:active { transform: scale(.97); }
+
+/* the story-style viewer */
+#nxviewhost { position: absolute; inset: 0; z-index: 70; pointer-events: none; }
+.nxview { position: absolute; inset: 0; background: #000; pointer-events: auto; animation: nxviewin .28s cubic-bezier(.2, .8, .2, 1) both; }
+@keyframes nxviewin { from { opacity: 0; transform: scale(.94); } }
+.nxview .shade { position: absolute; inset: 0; background: linear-gradient(rgba(0, 0, 0, .55), rgba(0, 0, 0, 0) 20%, rgba(0, 0, 0, 0) 52%, rgba(0, 0, 0, .9) 88%); }
+.nxview .segs { position: absolute; z-index: 3; left: 12px; right: 12px; top: 12px; display: flex; gap: 4px; }
+.nxview .segs i { flex: 1; height: 3px; border-radius: 3px; background: rgba(255, 255, 255, .3); overflow: hidden; }
+.nxview .segs i b { display: block; height: 100%; width: 0; background: #fff; }
+.nxview .segs i.done b { width: 100%; }
+.nxview .segs i.on b { animation: nxseg 6s linear forwards; }
+@keyframes nxseg { to { width: 100%; } }
+.nxview header { position: absolute; z-index: 4; left: 14px; right: 12px; top: 24px; display: flex; align-items: center; justify-content: space-between; font-size: 13.5px; font-weight: 800; }
+.nxview .tap { position: absolute; z-index: 2; top: 80px; bottom: 180px; width: 42%; border: 0; background: none; padding: 0; }
+.nxview .tap.l { left: 0; } .nxview .tap.r { right: 0; width: 58%; }
+.nxview .tx { position: absolute; z-index: 3; left: 20px; right: 20px; bottom: 40px; }
+.nxview .k { margin: 0 0 6px; display: inline-block; font: 800 11.5px/1 var(--sans); padding: 5px 8px; border-radius: 6px; background: var(--y); color: #111; }
+.nxview h2 { margin: 0; font: 400 40px/1 var(--poster); text-transform: uppercase; animation: nxin .35s ease both; }
+.nxview .s { margin: 8px 0 0; font-size: 15px; color: #E3E3E6; line-height: 1.4; }
+.nxview .n { margin: 10px 0 0; font-size: 12.5px; color: var(--mut); font-weight: 700; }
+
+/* athletes that stand out */
+.nxrail.ath { gap: 14px; padding-bottom: 8px; }
+.nxath { position: relative; flex: 0 0 290px; height: 470px; border-radius: 28px; overflow: hidden; isolation: isolate; border: 1px solid rgba(255, 255, 255, .14);
+  background: radial-gradient(120% 70% at 50% 35%, var(--g) 0%, var(--g2) 55%, #0b0b0c 100%); }
+.nxath .bg { position: absolute; inset: 0; background: repeating-linear-gradient(115deg, rgba(255, 255, 255, .05) 0 2px, transparent 2px 14px); mix-blend-mode: overlay; }
+.nxath .nm { position: absolute; left: 0; right: 0; top: 34px; text-align: center; font: 400 var(--fs)/.85 var(--poster); letter-spacing: -.01em; white-space: nowrap; pointer-events: none; }
+.nxath .nm.back { color: rgba(255, 255, 255, .92); z-index: 1; }
+.nxath .nm.front { color: transparent; -webkit-text-stroke: 1.5px rgba(255, 255, 255, .85); z-index: 3; }
+.nxath .cut { position: absolute; z-index: 2; left: 50%; bottom: -10px; transform: translateX(-50%); pointer-events: none; filter: drop-shadow(0 18px 30px rgba(0, 0, 0, .6)); }
+.nxath .cut.hamilton { height: 112%; bottom: -150px; }
+.nxath .cut.norris { width: 150%; bottom: 40px; }
+.nxath .ph { position: absolute; z-index: 2; left: 0; right: 0; top: 70px; bottom: 0; background-size: cover; background-position: center 18%;
+  -webkit-mask-image: radial-gradient(ellipse 62% 70% at 50% 40%, #000 52%, transparent 78%); mask-image: radial-gradient(ellipse 62% 70% at 50% 40%, #000 52%, transparent 78%); }
+.nxath::after { content: ""; position: absolute; inset: 0; z-index: 3; background: linear-gradient(transparent 52%, rgba(0, 0, 0, .85) 86%); pointer-events: none; }
+.nxath .info { position: absolute; z-index: 4; left: 18px; right: 18px; bottom: 64px; display: grid; gap: 2px; }
+.nxath .info small { font-size: 11.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: rgba(255, 255, 255, .8); }
+.nxath .info b { font-size: 22px; font-weight: 800; }
+.nxath .info em { font-style: normal; font-size: 13.5px; color: var(--y); font-weight: 700; }
+.nxath .acts { position: absolute; z-index: 5; left: 18px; right: 18px; bottom: 18px; display: flex; gap: 8px; }
+.nxath .hit { position: absolute; inset: 0; z-index: 4; border: 0; background: none; padding: 0; }
+.nxath:focus-within { outline: 2px solid #fff; outline-offset: 2px; }
+
+/* Norris, this week: the cut-out over the fan */
+.nxsec.spot .hero.cutimg { left: 50%; top: 40px; width: 360px; height: auto; transform: translateX(-50%); -webkit-mask-image: linear-gradient(#000 60%, transparent 92%); mask-image: linear-gradient(#000 60%, transparent 92%); background: none; }
+.nxsec.spot .nxglow { background: radial-gradient(circle, rgba(255, 128, 0, .55), rgba(255, 128, 0, 0) 65%); }
+
+/* athlete spaces: the cut-out in front of their name */
+.nxspacehero.hascut { background: radial-gradient(110% 80% at 50% 30%, var(--g), #0b0b0c 75%); }
+.nxspacehero .cutbg { position: absolute; inset: 0; background: repeating-linear-gradient(115deg, rgba(255, 255, 255, .05) 0 2px, transparent 2px 14px); }
+.nxspacehero .cutnm { position: absolute; left: 0; right: 0; top: 70px; text-align: center; font: 400 128px/.85 var(--poster); color: rgba(255, 255, 255, .9); white-space: nowrap; }
+.nxspacehero .cutimg { position: absolute; left: 50%; transform: translateX(-50%); pointer-events: none; filter: drop-shadow(0 20px 30px rgba(0, 0, 0, .6)); }
+.nxspacehero .cutimg.hamilton { height: 135%; top: 50px; }
+.nxspacehero .cutimg.norris { width: 135%; top: 90px; }
+.nxspacehero.hascut .tx > .nxbadge { display: none; }
+.nxsec.spot .hero.cutimg { z-index: 1; }
+.nxsec.spot .nxsh.over { z-index: 3; }
+.nxsec.spot .nxsh.over h2 { text-shadow: 0 2px 12px rgba(0, 0, 0, .8); }
+.nxsec.spot .hero.cutimg { top: 78px; width: 330px; }
