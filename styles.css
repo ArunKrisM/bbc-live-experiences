@@ -5817,3 +5817,99 @@ body[data-surface="next"] .tvwrap { display: none; }
 .nxsec.spot .nxsh.over { z-index: 3; }
 .nxsec.spot .nxsh.over h2 { text-shadow: 0 2px 12px rgba(0, 0, 0, .8); }
 .nxsec.spot .hero.cutimg { top: 78px; width: 330px; }
+
+/* ---- v39: four tabs, My Sport as a sheet, the universe under the poster, tournament spotlights, presence ---- */
+.nxhere { display: inline-flex; align-items: center; gap: 7px; padding: 4px 11px 4px 5px; border-radius: 999px; background: rgba(20, 20, 22, .62); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, .14); font-size: 12.5px; font-weight: 700; color: #fff; white-space: nowrap; }
+.nxhere .dot { width: 8px; height: 8px; margin-left: 5px; border-radius: 50%; background: #3DDC84; box-shadow: 0 0 0 0 rgba(61, 220, 132, .6); animation: nxdot 2s ease-out infinite; }
+@keyframes nxdot { to { box-shadow: 0 0 0 7px rgba(61, 220, 132, 0); } }
+.nxhere b { background: var(--t); color: #00211F; padding: 3px 9px; border-radius: 999px; font-size: 11px; letter-spacing: .04em; }
+.nxhere .nxavs i { width: 20px; height: 20px; font-size: 8.5px; }
+.nxherotx > .nxhere, .nxspacehero .tx > .nxhere { margin-bottom: 10px; }
+.nxspacehero .tx > .nxbadge + .nxhere { display: flex; width: max-content; }
+.nxdtx > .nxhere { margin-bottom: 8px; }
+
+/* Home: the poster as a card, the universe in orbit beneath it */
+.nxhome.m-explore .nxhero { margin: 0 12px; height: 548px; border-radius: 28px; border: 1.5px solid rgba(255, 255, 255, .16); }
+.nxhome.m-explore .nxhero.l { border-color: rgba(0, 204, 199, .75); box-shadow: 0 0 0 5px rgba(0, 204, 199, .08), 0 30px 60px -30px rgba(0, 204, 199, .5); }
+.nxhome.m-explore .nxhero::after { background: linear-gradient(180deg, rgba(9, 9, 10, .25) 0, rgba(9, 9, 10, 0) 22%, rgba(9, 9, 10, .1) 40%, rgba(9, 9, 10, .9) 76%, rgba(9, 9, 10, .96) 100%); }
+.nxuni { position: relative; height: 350px; overflow: hidden; }
+.nxuni::before { content: ""; position: absolute; left: 50%; top: -120px; width: 420px; height: 300px; transform: translateX(-50%); background: radial-gradient(closest-side, rgba(255, 210, 48, .16), transparent); }
+.nxuni.live::before { background: radial-gradient(closest-side, rgba(0, 204, 199, .26), transparent); }
+.nxuni .rings i { position: absolute; left: 50%; top: 0; transform: translate(-50%, -50%); border-radius: 50%; border: 1px solid rgba(255, 255, 255, .11); }
+.nxuni .rings i:nth-child(1) { width: 190px; height: 190px; } .nxuni .rings i:nth-child(2) { width: 350px; height: 350px; } .nxuni .rings i:nth-child(3) { width: 510px; height: 510px; } .nxuni .rings i:nth-child(4) { width: 670px; height: 670px; } .nxuni .rings i:nth-child(5) { width: 830px; height: 830px; }
+.nxuni.live .rings i { border-color: rgba(0, 204, 199, .2); }
+.nxuni .sat { position: absolute; left: calc(50% + var(--x)); top: var(--y); transform: translate(-50%, -50%); width: 112px; border: 0; background: none; padding: 0; display: grid; justify-items: center; gap: 4px; animation: nxbob 7s ease-in-out infinite; animation-delay: calc(var(--i) * -1.3s); }
+.nxuni .sat .th { width: 66px; height: 66px; border-radius: 50%; background-size: cover; background-position: center 25%; border: 2px solid rgba(255, 255, 255, .28); box-shadow: 0 10px 24px -10px #000; }
+.nxuni .sat b { font-size: 13.5px; font-weight: 800; line-height: 1.15; text-align: center; }
+.nxuni .sat small { font-size: 11.5px; color: var(--mut); }
+.nxuni .sat:hover .th, .nxuni .sat:focus-visible .th { border-color: #fff; }
+
+/* tournament spotlight: the cut-out, with clips sliding in over it */
+.nxsec.tour { position: relative; height: 540px; margin-top: 22px; padding: 0; overflow: hidden; }
+.nxsec.tour .glow { position: absolute; left: -10%; top: -6%; width: 110%; height: 80%; background: radial-gradient(closest-side, var(--g), transparent 72%); opacity: .5; }
+.nxsec.tour .who { position: absolute; pointer-events: none; }
+.nxsec.tour .who.cut.norris { left: -86px; top: 6px; width: 470px; -webkit-mask-image: linear-gradient(#000 62%, transparent 92%); mask-image: linear-gradient(#000 62%, transparent 92%); }
+.nxsec.tour .who.ph { left: -40px; top: 0; width: 330px; height: 400px; background-size: cover; background-position: center 12%; -webkit-mask-image: radial-gradient(ellipse 64% 68% at 50% 40%, #000 55%, transparent 80%); mask-image: radial-gradient(ellipse 64% 68% at 50% 40%, #000 55%, transparent 80%); }
+.nxsec.tour .ttl { position: absolute; z-index: 2; left: 18px; bottom: 58px; width: 222px; display: grid; grid-template-columns: 46px 1fr; gap: 10px; align-items: start; border: 0; background: none; padding: 0; text-align: left; }
+.nxsec.tour .ttl b { display: flex; align-items: center; gap: 8px; font-size: 23px; font-weight: 800; line-height: 1.1; }
+.nxsec.tour .ttl b .nxi { width: 22px; height: 22px; color: #ccc; }
+.nxsec.tour .ttl small { display: block; margin-top: 5px; font-size: 13.5px; line-height: 1.35; color: #D5D5D9; }
+.nxsec.tour .clips { position: absolute; z-index: 3; left: 0; right: 0; bottom: 50px; height: 280px; display: flex; gap: 10px; overflow-x: auto; padding: 0 20px 0 252px; scroll-snap-type: x proximity; scrollbar-width: none; pointer-events: none; }
+.nxsec.tour .clips::-webkit-scrollbar { display: none; }
+.nxsec.tour .clips button { pointer-events: auto; flex: 0 0 152px; height: 272px; border-radius: 20px; border: 1.5px solid rgba(255, 255, 255, .55); background-size: cover; background-position: center 22%; position: relative; overflow: hidden; display: flex; align-items: flex-end; padding: 12px; text-align: left; scroll-snap-align: end; box-shadow: 0 24px 40px -16px #000; }
+.nxsec.tour .clips button::after { content: ""; position: absolute; inset: 0; background: linear-gradient(transparent 55%, rgba(0, 0, 0, .85)); }
+.nxsec.tour .clips b { position: relative; z-index: 1; font-size: 13.5px; font-weight: 800; line-height: 1.2; }
+.nxsec.tour .clips .nxpl { position: absolute; z-index: 1; top: 10px; left: 10px; width: 28px; height: 28px; padding: 7px; border-radius: 50%; background: rgba(0, 0, 0, .5); }
+.nxsec.tour > .nxhere { position: absolute; z-index: 2; left: 18px; bottom: 12px; }
+
+/* top-left stack opens My Sport */
+.nxstack { position: relative; gap: 2px; padding-right: 6px; }
+.nxstack em { min-width: 18px; height: 18px; margin-left: 4px; border-radius: 9px; background: var(--y); color: #111; font: 800 10.5px/18px var(--sans); font-style: normal; text-align: center; padding: 0 4px; }
+.nxstack > .nxi { width: 12px; height: 12px; transform: rotate(90deg); color: #bbb; }
+.nxmineback { position: absolute; inset: 0; z-index: 44; background: rgba(0, 0, 0, .55); backdrop-filter: blur(6px); animation: nxfade .25s both; }
+@keyframes nxfade { from { opacity: 0; } }
+.nxminesheet { position: absolute; left: 0; right: 0; top: 44px; bottom: 0; z-index: 45; border-radius: 28px 28px 0 0; background: #0E0E10; border-top: 1px solid rgba(255, 255, 255, .16); overflow: hidden; animation: nxsheet .34s cubic-bezier(.2, .85, .25, 1) both; box-shadow: 0 -30px 60px -20px #000; }
+@keyframes nxsheet { from { transform: translateY(40%); opacity: 0; } }
+.nxminesheet .grab { display: block; width: 42px; height: 5px; margin: 10px auto 12px; border-radius: 5px; background: rgba(255, 255, 255, .28); }
+.nxminesheet .nxtitle .acts { position: absolute; right: 18px; top: 6px; display: flex; gap: 8px; align-items: center; }
+.nxminesheet .nxtitle .nxpill { position: static; }
+
+/* scores: dive into what you follow, and who is watching */
+.nxdiverow { display: flex; gap: 12px; overflow-x: auto; padding: 0 20px 16px; scrollbar-width: none; }
+.nxdiverow::-webkit-scrollbar { display: none; }
+.nxdiverow button { flex: 0 0 60px; border: 0; background: none; padding: 0; display: grid; justify-items: center; gap: 6px; }
+.nxdiverow button > span:last-child { max-width: 66px; font-size: 11.5px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #E3E3E6; }
+.nxbadge.plus { background: rgba(255, 255, 255, .06); border: 1.5px dashed rgba(255, 255, 255, .35); box-shadow: none; }
+.nxsrow .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.nxsrow .tags .you { margin: 0; }
+.nxsrow .tags .wt { display: inline-flex; align-items: center; gap: 5px; font-style: normal; font-size: 11px; font-weight: 800; color: #BDE9E7; background: rgba(0, 204, 199, .12); padding: 2px 8px 2px 3px; border-radius: 99px; }
+.nxsrow .tags .wt .nxavs i { width: 16px; height: 16px; font-size: 7px; border-width: 1.5px; }
+
+/* search */
+.nxsearch { display: flex; align-items: center; gap: 10px; height: 54px; margin: 0 20px 6px; padding: 0 16px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .2); background: rgba(255, 255, 255, .06); }
+.nxsearch input { flex: 1; min-width: 0; height: 100%; border: 0; background: none; color: #fff; font: 600 16px var(--sans); outline: none; }
+.nxsearch input::-webkit-search-cancel-button { display: none; }
+.nxsearch:focus-within { border-color: #fff; }
+.nxsearch button { border: 0; background: none; padding: 4px; color: #bbb !important; display: grid; }
+.nxsr { padding: 0 20px; }
+.nxsr .shd { margin: 22px 0 12px; font-size: 13px; text-transform: uppercase; letter-spacing: .12em; color: var(--mut); }
+.nxtrend { display: flex; flex-wrap: wrap; gap: 8px; }
+.nxtrend button { display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 14px 0 6px; border-radius: 999px; border: 1px solid var(--ln); background: rgba(255, 255, 255, .05); font-size: 14px !important; font-weight: 700 !important; }
+.nxtrend em { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font: 400 15px/1 var(--poster); font-style: normal; background: rgba(255, 210, 48, .15); color: var(--y); }
+.nxsres { display: grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items: center; width: 100%; padding: 10px; margin-bottom: 8px; border-radius: 18px; border: 1px solid var(--ln); background: #141416; text-align: left; }
+.nxsres.live { border-color: rgba(0, 204, 199, .5); background: linear-gradient(110deg, rgba(0, 204, 199, .12), #141416 60%); }
+.nxsres .th { width: 92px; height: 60px; border-radius: 12px; background-size: cover; background-position: center; }
+.nxsres b { display: block; font-size: 15px; font-weight: 800; }
+.nxsres small { display: block; font-size: 12.5px; color: var(--mut); margin-top: 1px; }
+.nxsres .nxhere { margin-top: 6px; padding: 2px 9px 2px 3px; font-size: 11.5px; background: none; border-color: rgba(0, 204, 199, .35); }
+.nxsres .nxhere b { display: inline; font-size: 9.5px; padding: 2px 7px; }
+.nxsres > .nxi { color: #bbb; }
+.nxsports { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.nxsports button { display: grid; justify-items: center; gap: 6px; padding: 14px 6px; border-radius: 18px; border: 1px solid var(--ln); background: #141416; font-size: 13px !important; font-weight: 700 !important; }
+.nxrail.sclips { padding: 0; }
+.nxsclip { position: relative; flex: 0 0 150px; height: 150px; border-radius: 16px; border: 1px solid var(--ln); background-size: cover; background-position: center; display: flex; align-items: flex-end; padding: 10px; text-align: left; overflow: hidden; }
+.nxsclip::after { content: ""; position: absolute; inset: 0; background: linear-gradient(transparent 40%, rgba(0, 0, 0, .85)); }
+.nxsclip b { position: relative; z-index: 1; font-size: 13px; line-height: 1.2; }
+.nxsclip .nxpl { position: absolute; z-index: 1; top: 8px; left: 8px; width: 26px; height: 26px; padding: 6px; border-radius: 50%; background: rgba(0, 0, 0, .5); }
+.nx .nxsearch input:focus-visible { outline: none; }
+.nxsec.tour .ttl b { flex-wrap: wrap; }
