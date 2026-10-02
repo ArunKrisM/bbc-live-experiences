@@ -6653,3 +6653,47 @@ button.fxc.read, button.fxc.hear { display: grid; grid-template-columns: auto mi
 .nxglance .lead small .wx { margin: 0 0 0 4px; padding-left: 8px; border-left: 1px solid var(--ln); text-transform: none; letter-spacing: 0; }
 .nxglance .lead small .wx b { font-size: 12.5px; }
 .nxglance .lead small .wx .wxi { width: 15px; height: 15px; }
+
+/* ---- v49 ----------------------------------------------------------------- */
+/* the analyst card: name and role each on one line, both on the band */
+.nxcre .band .nm { min-width: 0; }
+.nxcre .band .nm b, .nxcre .band .nm span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nxcre .band .nm span .nxi { flex: none; }
+
+/* scrolling down clears the screen; scrolling up brings the bars back */
+.nxnav { transition: transform .3s cubic-bezier(.2, .8, .2, 1), opacity .2s ease; }
+.viewport.navoff .nxnav { transform: translateY(130%); opacity: 0; pointer-events: none; }
+.viewport.navoff .nxdepth .chip { transform: translateY(64px); opacity: 0; pointer-events: none; }
+/* sticky offsets count from inside the scroller's 64px top padding, so the bar is pulled back up by that much */
+.nxscroll.pad > .nxtop { position: sticky; top: -64px; left: auto; right: auto; margin: -64px 0 4px; transition: transform .3s cubic-bezier(.2, .8, .2, 1); }
+.viewport.navoff .nxscroll.pad > .nxtop { transform: translateY(-110%); }
+.viewport.scrolled .nxscroll.pad > .nxtop { background: rgba(var(--bgc), .9); backdrop-filter: blur(18px) saturate(1.3); -webkit-backdrop-filter: blur(18px) saturate(1.3); border-bottom: 1px solid var(--ln); }
+@media (prefers-reduced-motion: reduce) { .nxnav, .nxscroll.pad > .nxtop { transition: none; } }
+
+/* Hear it: a moment you can play */
+button.fxc.hear.audio { grid-template-columns: auto minmax(0, 1fr); }
+.fxc.hear .ipa { display: none; }
+.fxc.hear.playing .ipa { display: block; } .fxc.hear.playing .ipl { display: none; }
+.fxc.hear .hp { display: flex; align-items: center; gap: 8px; margin-top: 7px; }
+.fxc.hear .hp i { flex: 1; height: 4px; border-radius: 4px; background: rgba(var(--fg), .16); overflow: hidden; }
+.fxc.hear .hp i b { display: block; height: 100%; border-radius: 4px; background: var(--t); transition: width .25s linear; }
+.fxc.hear .hp em { font-style: normal; font-size: 12px; font-weight: 800; color: var(--mut); font-variant-numeric: tabular-nums; }
+.fxc.hear.playing { border-color: var(--t); }
+.nxlatest button.fxc.hear { width: 100%; }
+.nx [style*="cg-orange"] { background-position: 50% 0 !important; }
+.plphoto[src*="cg-orange"] { object-position: 50% 0; }
+
+/* Who Am I?: its own sheet */
+.nxsheet.k-quiz { height: 78%; }
+.nxsheet .quiz { padding: 0 18px; overflow-y: auto; flex: 1; min-height: 0; scrollbar-width: none; }
+.nxdq.insheet { padding: 4px 0 0; }
+.nxdq .qpts { display: flex; align-items: center; gap: 6px; margin: 0 0 12px; font-size: 13.5px; font-weight: 700; color: var(--soft2); }
+.nxdq .qpts .nxi { width: 15px; height: 15px; color: var(--y); }
+.qopts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+.qopts .qo { display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 52px; padding: 8px 10px; border-radius: 14px; border: 1px solid rgba(var(--fg), .25); background: rgba(var(--fg), .05); font-weight: 800 !important; font-size: 15px !important; text-align: center; }
+.qopts .qo.right { border-color: #2EC27E; background: rgba(46, 194, 126, .18); color: #7BEBB0; }
+.qopts .qo.right .nxi { width: 16px; height: 16px; }
+.qopts .qo.wrong { border-color: rgba(255, 90, 80, .6); background: rgba(255, 90, 80, .14); color: #FF9A92; }
+.qres { margin: 0 0 14px; font-size: 15px; line-height: 1.45; color: var(--soft2); }
+.qres b { color: var(--ink); }
+.qres.ok b { color: #7BEBB0; }
