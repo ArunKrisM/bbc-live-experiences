@@ -6604,3 +6604,52 @@ button.fxc.read, button.fxc.hear { display: grid; grid-template-columns: auto mi
 .nx .wx b, .tocard .wx b, .wherotext .wx b { display: inline; font-size: 13px; line-height: 1.3; font-weight: 800; }
 .nx .wx > span { display: inline; }
 .nx .wx small { display: block; margin: 0; font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: none; color: var(--mut); }
+
+/* ---- v48: page rows, compact ------------------------------------------ */
+.nxglance { gap: 8px; padding: 4px 20px 8px; }
+.nxglance .grow.lead { padding: 10px 10px 10px 14px; border-radius: 18px; }
+.nxglance .grow.lead b { font-size: 16px; }
+.nxglance .meta { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.nxglance .meta em { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nxglance .meta .wx { flex: none; margin: 0; padding-left: 8px; border-left: 1px solid var(--ln); }
+.nxglance .gmore { display: flex; gap: 8px; overflow-x: auto; margin: 0 -20px; padding: 0 20px 2px; scrollbar-width: none; }
+.nxglance .gmore::-webkit-scrollbar { display: none; }
+.nxglance .grow.chip { flex: none; display: flex; align-items: center; gap: 10px; width: auto; padding: 7px 8px 7px 12px; border-radius: 14px; text-align: left; background: rgba(var(--fg), .04); }
+.nxglance .chip .tx { gap: 0; }
+.nxglance .chip small { font-size: 10.5px; }
+.nxglance .chip b { font-size: 13.5px; white-space: nowrap; }
+.nxglance .chip b em { display: inline; margin-left: 6px; font-size: 12.5px; font-weight: 600; color: var(--soft2); }
+.nxglance .chip .go { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; border: 1px solid var(--ln); background: rgba(var(--fg), .06); font-style: normal; flex: none; }
+.nxglance .chip .go .nxi { width: 14px; height: 14px; }
+.nxglance .chip.on .go { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.nxglance .chip .wx { margin: 0; }
+
+/* the day itself, before the clips */
+.nxtodaywrap { display: grid; gap: 12px; margin-bottom: 4px; }
+.nxtoday { border-radius: 22px; border: 1px solid var(--ln); background: var(--card); padding: 14px 16px 16px; overflow: hidden; }
+.nxtoday.live { border-color: rgba(0, 204, 199, .5); }
+.nxtoday .tb { display: block; height: 96px; margin: -14px -16px 12px; background-size: cover; background-position: center 55%; }
+.nxtoday .k { display: flex; align-items: center; gap: 7px; margin: 0 0 12px; font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--mut); }
+.nxtoday.live .k { color: var(--tt); }
+.nxtoday .k .nxi { width: 14px; height: 14px; }
+.nxtoday .pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--t); animation: nxpulse 1.6s ease-out infinite; }
+.nxfeed.mini::before { background: rgba(var(--fg), .12); }
+.nxfeed.mini > li { padding-bottom: 12px; }
+.nxfeed.mini > li:last-child { padding-bottom: 4px; }
+.nxfeed.mini .dot { box-shadow: 0 0 0 4px var(--card); }
+.nxfeed.mini li > div > b { font-size: 15px; }
+.nxfeed.mini li > div > p:not(.t) { font-size: 14px; margin-top: 2px; }
+.nxtoday .wxrow { margin: 6px 0 0; padding-top: 10px; border-top: 1px solid var(--ln); }
+.nxtoday .nxpill { margin-top: 12px; }
+.nxtoday .nxpill .nxi { width: 12px; height: 12px; }
+.nxtodaywrap .nxroom.page, .nxtodaywrap .fxc { margin: 0; }
+.nxsubh { margin: 18px 0 10px; font-size: 18px; font-weight: 800; }
+
+/* programme art in a tall frame: the whole picture, on a blur of itself */
+.nxfoot.art { position: absolute; inset: 0; overflow: hidden; background: #062B2A; }
+.nxfoot.art span { position: absolute; background-repeat: no-repeat; }
+.nxfoot.art .artbg { inset: -40px; background-size: cover; background-position: center; filter: blur(28px) brightness(.55) saturate(1.2); }
+.nxfoot.art .artfg { left: 0; right: 0; top: 16%; height: 46%; background-size: contain; background-position: center; }
+.nxglance .lead small .wx { margin: 0 0 0 4px; padding-left: 8px; border-left: 1px solid var(--ln); text-transform: none; letter-spacing: 0; }
+.nxglance .lead small .wx b { font-size: 12.5px; }
+.nxglance .lead small .wx .wxi { width: 15px; height: 15px; }
