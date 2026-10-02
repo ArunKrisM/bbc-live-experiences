@@ -3,6 +3,32 @@
    Reith Sans, BBC Sport dark app palette
    ========================================================================== */
 
+@font-face {
+  font-family: "ReithSans";
+  src: local("BBC Reith Sans"), local("BBCReithSans-Regular");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "ReithSans";
+  src: local("BBC Reith Sans Medium"), local("BBCReithSans-Medium");
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "ReithSans";
+  src: local("BBC Reith Sans Bold"), local("BBCReithSans-Bold");
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "ReithSans";
+  src: local("BBC Reith Sans XBold"), local("BBCReithSans-XBold");
+  font-weight: 800; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "ReithSansCd";
+  src: local("BBC Reith Sans Cd Bold"), local("BBCReithSansCd-Bold");
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+
 :root {
   --black: #000000;
   --bg: #0D0D0D;
@@ -36,8 +62,8 @@
   --pitch-2: #35893F;
   --pitch-line: rgba(255,255,255,.42);
 
-  --sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --cond: "ReithSansCd", Arial Narrow, sans-serif;
+  --sans: "ReithSans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --cond: "ReithSansCd", "ReithSans", Arial Narrow, sans-serif;
 
   --gut: 16px;
   --radius: 8px;
@@ -6396,3 +6422,185 @@ img.photo[src*="img/c-"] { object-position: 50% 30%; }
 video[data-clip][data-o="t"] { object-position: 50% 30%; }
 .listenrow .listenmeta { display: flex; align-items: center; gap: 10px; }
 .listenrow .lart { width: 62px; height: 35px; border-radius: 5px; object-fit: cover; flex: none; }
+
+/* ---- v47: one event, three ways in ----------------------------------- */
+.nxmodes { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 4px; margin: 0 12px 10px; padding: 4px; border-radius: 999px; border: 1px solid var(--ln); background: rgba(var(--fg), .05); flex: none; }
+.nxmodes button { display: flex; align-items: center; justify-content: center; gap: 7px; height: 36px; border: 0; border-radius: 999px; background: none; font-weight: 800 !important; font-size: 13.5px !important; color: var(--mut) !important; }
+.nxmodes button .nxi { width: 15px; height: 15px; }
+.nxmodes button.on { background: var(--ink); color: var(--bg) !important; }
+.nxlivescr .nxlhead { padding-bottom: 10px; }
+.nxlivescr .nxradio { height: 196px; }
+.nxlivescr .nxradio .rtx { top: 44px; }
+.nxlivescr .nxradio .cc { min-height: 54px; }
+.nxfollow { margin: 0 12px; padding: 14px 16px 16px; border-radius: 22px; border: 1px solid var(--ln); background: linear-gradient(150deg, rgba(var(--fg), .08), rgba(var(--fg), .02)); flex: none; }
+.nxfollow .sb { display: inline-flex; align-items: center; gap: 8px; font: 800 17px/1 var(--sans); }
+.nxfollow .sb span { background: var(--t); color: #00211F; padding: 4px 8px; border-radius: 6px; }
+.nxfollow .sb em { font-style: normal; color: var(--tt); margin-left: 4px; font-size: 14px; font-variant-numeric: tabular-nums; }
+.nxfollow .k { display: flex; align-items: center; gap: 6px; margin: 12px 0 6px; font-size: 11.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--mut); }
+.nxfollow .k .nxi { width: 13px; height: 13px; }
+.nxfollow .cc { margin: 0; font-size: 15px; line-height: 1.4; min-height: 42px; }
+.nxfollow .cc span.in { animation: nxtick .5s ease both; display: inline-block; }
+.nxlivescr .nxlayers { padding-top: 12px; }
+.nxlivescr .nxlayers button { height: 42px; padding: 0 16px; }
+
+/* the Live layer: text, clips, a vote, the fans, the numbers, an explainer, the radio */
+.nxfeedhd { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 0 2px 14px; }
+.nxfeedhd > span { display: flex; align-items: center; gap: 7px; font-size: 12.5px; font-weight: 700; color: var(--mut); min-width: 0; }
+.nxfeedhd > span .nxi { width: 14px; height: 14px; flex: none; }
+.nxfeedhd .nxpill { flex: none; padding: 6px 12px; font-size: 12.5px !important; }
+.nxfeedhd .nxpill.on { background: var(--y); border-color: var(--y); color: #161200 !important; }
+.nxfeed { list-style: none; margin: 0; padding: 0; position: relative; }
+.nxfeed::before { content: ""; position: absolute; left: 6px; top: 8px; bottom: 8px; width: 2px; background: rgba(var(--fg), .1); }
+.nxfeed > li { display: grid; grid-template-columns: 24px minmax(0, 1fr); padding: 0 0 20px; position: relative; }
+.nxfeed > li.x { display: block; padding-left: 24px; }
+.nxfeed .dot { width: 10px; height: 10px; margin: 5px 0 0 2px; border-radius: 50%; background: #55555a; position: relative; z-index: 1; box-shadow: 0 0 0 4px var(--bg); }
+.nxfeed .key .dot { background: var(--t); box-shadow: 0 0 0 4px var(--bg), 0 0 14px var(--t); }
+.nxfeed .t { display: flex; align-items: center; gap: 8px; margin: 0 0 3px; font: 800 12px/20px var(--sans); color: var(--mut); letter-spacing: .02em; }
+.nxfeed .t em { font-style: normal; padding: 0 7px; border-radius: 5px; background: rgba(0, 204, 199, .18); color: var(--tt); font-size: 11.5px; }
+.nxfeed li > div > b { display: block; font-size: 16px; line-height: 1.3; font-weight: 800; }
+.nxfeed .key > div > b { color: var(--tt); }
+.nxfeed li > div > p:not(.t) { margin: 4px 0 0; font-size: 14.5px; line-height: 1.5; color: var(--soft2); }
+.nxfeed .mclip { display: flex; align-items: flex-end; justify-content: space-between; margin-top: 10px; width: 100%; height: 150px; border-radius: 16px; border: 1px solid var(--ln); background-size: cover; background-position: center 30%; padding: 10px; position: relative; overflow: hidden; }
+.nxfeed .mclip .nxi { width: 34px; height: 34px; padding: 9px; border-radius: 50%; background: rgba(0, 0, 0, .55); color: #fff; }
+.nxfeed .mclip i:not(.nxi) { font: 800 12px/1 var(--sans); font-style: normal; background: rgba(0, 0, 0, .65); color: #fff; padding: 5px 7px; border-radius: 6px; }
+.nxfeed .nxtalk { margin-top: 10px; }
+.nxfeed .nxroom { margin: 0; }
+.fxc { display: block; width: 100%; text-align: left; border-radius: 20px; border: 1px solid var(--ln); background: var(--card); padding: 14px; }
+.fxc .k { display: flex; align-items: center; gap: 6px; margin: 0 0 10px; font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--mut); }
+.fxc .k .nxi { width: 14px; height: 14px; }
+.fxc .nxpill { margin-top: 12px; }
+.fxc .nxchat.mini { display: grid; gap: 12px; }
+.fxc.nums .nxbarhd { padding: 0 0 8px; } .fxc.nums .nxbar { padding-left: 0; padding-right: 0; }
+button.fxc.read, button.fxc.hear { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 10px 14px 10px 10px; }
+.fxc .th { position: relative; width: 68px; height: 68px; border-radius: 14px; background-size: cover; background-position: center; }
+.fxc .th .nxpl { position: absolute; left: 50%; top: 50%; width: 28px; height: 28px; margin: -14px 0 0 -14px; padding: 8px; border-radius: 50%; background: rgba(0, 0, 0, .55); color: #fff; }
+.fxc span small { display: block; font-size: 11.5px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--mut); margin-bottom: 3px; }
+.fxc span b { display: block; font-size: 15px; line-height: 1.3; font-weight: 800; }
+.fxc.hear { border-color: rgba(0, 204, 199, .45); background: linear-gradient(110deg, rgba(0, 204, 199, .14), var(--card) 70%); }
+.fxc.hear .rb { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: var(--t); color: #00211F; }
+.fxc.hear .rb .nxi { width: 20px; height: 20px; }
+.fxc.hear > .nxi { width: 16px; height: 16px; color: var(--mut); }
+
+/* pages: what is next, in plain words */
+.nxglance { display: grid; gap: 8px; padding: 6px 20px 12px; }
+.nxglance .facts { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 2px; }
+.nxglance .facts span { padding: 6px 11px; border-radius: 999px; border: 1px solid var(--ln); background: rgba(var(--fg), .04); font-size: 12.5px; font-weight: 700; color: var(--soft2); }
+.nxglance .grow { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 12px 12px 12px 16px; border-radius: 20px; border: 1px solid var(--ln); background: var(--card); }
+.nxglance .grow.k-live { border-color: rgba(0, 204, 199, .55); background: linear-gradient(110deg, rgba(0, 204, 199, .16), var(--card) 65%); }
+.nxglance .tx { display: grid; gap: 2px; min-width: 0; }
+.nxglance small { display: flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; color: var(--mut); }
+.nxglance .k-live small { color: var(--tt); }
+.nxglance .pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--t); box-shadow: 0 0 0 0 rgba(0, 204, 199, .6); animation: nxpulse 1.6s ease-out infinite; }
+@keyframes nxpulse { to { box-shadow: 0 0 0 9px rgba(0, 204, 199, 0); } }
+.nxglance b { font-size: 16.5px; font-weight: 800; line-height: 1.25; }
+.nxglance em { font-style: normal; font-size: 13px; color: var(--soft2); }
+.nxglance .nxbtn { flex: none; }
+
+/* pages: Latest mixes the forms */
+.nxlatest { display: grid; gap: 12px; }
+.nxlatest .nxpost { margin: 0; }
+.nxlatest .nxpost.flat h3 { margin: 12px 0 6px; }
+.nxlead { position: relative; display: flex; flex-direction: column; justify-content: flex-end; text-align: left; height: 214px; border-radius: 22px; border: 1px solid var(--ln); background-size: cover; background-position: center 28%; padding: 16px; overflow: hidden; }
+.nxlead::before { content: ""; position: absolute; inset: 0; background: linear-gradient(transparent 35%, rgba(0, 0, 0, .88)); }
+.nxlead > * { position: relative; color: #fff; }
+.nxlead .nxpl { position: absolute; top: 14px; left: 14px; width: 40px; height: 40px; padding: 11px; border-radius: 50%; background: rgba(0, 0, 0, .55); }
+.nxlead small { font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: rgba(255, 255, 255, .8); margin-bottom: 4px; }
+.nxlead b { font-size: 20px; line-height: 1.2; font-weight: 800; }
+.nxmedia { display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: 14px; align-items: center; width: 100%; text-align: left; padding: 10px 14px 10px 10px; border-radius: 22px; border: 1px solid var(--ln); background: var(--card); }
+.nxmedia .th { position: relative; width: 84px; height: 84px; border-radius: 14px; background-size: cover; background-position: center; }
+.nxmedia .th .nxpl { position: absolute; left: 50%; top: 50%; width: 32px; height: 32px; margin: -16px 0 0 -16px; padding: 9px; border-radius: 50%; background: rgba(0, 0, 0, .55); color: #fff; }
+.nxmedia small { display: flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; color: var(--mut); margin-bottom: 4px; }
+.nxmedia small .nxi { width: 13px; height: 13px; }
+.nxmedia.listen small { color: var(--tt); }
+.nxmedia b { display: block; font-size: 16px; line-height: 1.3; font-weight: 800; }
+.nxmedia em { display: block; font-style: normal; font-size: 12.5px; color: var(--soft2); margin-top: 3px; }
+.nxtile.sm { height: 200px; }
+.nxroom.page { margin: 0; }
+.nxlatest .nxpill.ctr { margin-top: 2px; }
+
+/* Predictor */
+.nxsheet.k-predict, .nxsheet.k-read { height: 86%; }
+.nxsheet .shd2 h2 small { display: block; font-size: 12.5px; font-weight: 700; color: var(--mut); margin-top: 2px; letter-spacing: 0; text-transform: none; }
+.nxsheet .predict, .nxsheet .reader { padding: 0 18px; overflow-y: auto; flex: 1; min-height: 0; scrollbar-width: none; }
+.pstreak { display: grid; grid-template-columns: 46px 1fr; gap: 12px; align-items: center; padding: 12px 14px; margin-bottom: 12px; border-radius: 20px; border: 1px solid rgba(255, 210, 48, .4); background: linear-gradient(110deg, rgba(255, 210, 48, .14), transparent 70%); }
+.pstreak > i { width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; border: 3px solid var(--y); color: var(--y); font-style: normal; }
+.pstreak > i .nxi { width: 20px; height: 20px; }
+.pstreak b { display: block; font-size: 18px; font-weight: 800; }
+.pstreak small { display: block; font-size: 12.5px; line-height: 1.4; color: var(--soft2); margin-top: 2px; }
+.pfix { padding: 14px 16px; margin-bottom: 10px; border-radius: 20px; border: 1px solid var(--ln); background: var(--card); }
+.pfix .when { margin: 0 0 10px; font-size: 12.5px; color: var(--mut); }
+.pfix .when b { color: var(--ink); margin-right: 8px; font-weight: 800; }
+.pside { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 5px 0; }
+.pside > b { font-size: 17px; font-weight: 800; }
+.pstep { display: inline-flex; align-items: center; gap: 4px; }
+.pstep button { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--ln); background: rgba(var(--fg), .06); display: grid; place-items: center; padding: 0; }
+.pstep button .nxi { width: 16px; height: 16px; }
+.pstep i, .pnum { min-width: 40px; text-align: center; font: 400 30px/1 var(--poster); font-style: normal; font-variant-numeric: tabular-nums; }
+.pnum { color: var(--tt); padding-right: 44px; }
+.pfix .st { display: flex; align-items: center; gap: 6px; margin: 10px 0 0; padding-top: 10px; border-top: 1px solid var(--ln); font-size: 13px; color: var(--soft2); }
+.pfix .st .nxi { width: 14px; height: 14px; color: var(--tt); }
+.pfix.locked { border-color: rgba(0, 204, 199, .4); }
+.nxbtn.wide { display: flex; justify-content: center; width: 100%; margin: 6px 0 4px; }
+.plg { margin: 20px 0 10px; font-size: 18px; }
+.pleague { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.pleague li { display: grid; grid-template-columns: 20px 32px 1fr auto; gap: 10px; align-items: center; padding: 9px 14px; border-radius: 16px; background: rgba(var(--fg), .04); }
+.pleague li.me { background: rgba(255, 210, 48, .14); border: 1px solid rgba(255, 210, 48, .4); }
+.pleague em { font-style: normal; font-weight: 800; color: var(--mut); font-size: 13px; }
+.pleague .av { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; font: 800 12px/1 var(--sans); color: #fff; background: radial-gradient(circle at 30% 25%, hsl(var(--h) 70% 60%), hsl(var(--h) 55% 30%)); }
+.pleague b { font-size: 15px; font-weight: 800; }
+.pleague strong { font-size: 14px; font-weight: 800; font-variant-numeric: tabular-nums; }
+
+/* the reader */
+.reader .th { display: block; height: 180px; border-radius: 18px; background-size: cover; background-position: center 30%; margin-bottom: 14px; }
+.reader h3 { margin: 0 0 6px; font-size: 24px; line-height: 1.2; }
+.reader .by { margin: 0 0 12px; font-size: 13px; color: var(--mut); }
+.reader .nxpill { margin-bottom: 14px; }
+.reader > p:not(.by) { margin: 0 0 14px; font-size: 16.5px; line-height: 1.6; color: var(--soft); }
+
+/* Ask: the newest answer announces itself */
+.nxask .qa.fresh .a { animation: nxfresh 1.6s ease both; }
+@keyframes nxfresh { 0% { box-shadow: 0 0 0 2px rgba(138, 160, 255, .9); } 100% { box-shadow: 0 0 0 2px rgba(138, 160, 255, 0); } }
+.fxc .nxchat.mini { padding-bottom: 0; }
+
+/* ---- v47: BBC Weather, one line ---------------------------------------- */
+.wx { display: inline-flex; align-items: center; flex-wrap: wrap; gap: 3px 6px; font-size: 13px; line-height: 1.3; font-weight: 600; color: var(--soft2, #D6D6DA); }
+.wx .wxi { width: 17px; height: 17px; flex: none; color: #FFD230; font-style: normal; display: inline-grid; }
+.wx .wxi svg { width: 100%; height: 100%; display: block; }
+.wx b { font-weight: 800; color: var(--ink, #fff); }
+.wx small { flex-basis: 100%; font-size: 11px; font-weight: 700; letter-spacing: .04em; color: var(--mut, #9A9AA0); }
+.wx.hero { margin: 0 0 12px; padding: 6px 12px; border-radius: 999px; background: rgba(0, 0, 0, .42); backdrop-filter: blur(10px); color: #fff; }
+.wx.hero b { color: #fff; }
+.nxglance .wx { margin-top: 4px; }
+.nxnextc .m .wx { margin-top: 5px; }
+.fxc.wxc { padding: 12px 14px; }
+.wx.to { justify-content: center; margin: 2px 0 10px; color: rgba(255, 255, 255, .86); }
+.wx.to b { color: #fff; }
+.wx.w { margin-top: 10px; color: rgba(255, 255, 255, .86); }
+.wx.w b { color: #fff; }
+
+/* before it starts */
+.nxsheet.k-preview { height: 86%; }
+.nxsheet .preview { padding: 0 18px; overflow-y: auto; flex: 1; min-height: 0; scrollbar-width: none; }
+.preview .th { display: block; height: 150px; border-radius: 18px; background-size: cover; background-position: center 28%; margin-bottom: 12px; }
+.preview .pacts { display: flex; gap: 8px; margin: 12px 0 4px; }
+.nxsheet .preview h3 { margin: 18px 0 8px; font-size: 18px; text-transform: none; letter-spacing: 0; color: var(--ink); }
+.prows { list-style: none; margin: 0 0 14px; padding: 0; display: grid; gap: 6px; }
+.prows li { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 10px; align-items: baseline; padding: 10px 14px; border-radius: 16px; background: rgba(var(--fg), .04); }
+.prows small { font-size: 11.5px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--mut); }
+.prows b { display: block; font-size: 15px; font-weight: 800; }
+.prows em { display: block; font-style: normal; font-size: 13px; color: var(--soft2); margin-top: 1px; }
+.fxc.pcall { border-color: rgba(255, 210, 48, .45); background: linear-gradient(110deg, rgba(255, 210, 48, .14), var(--card) 70%); }
+.fxc.pcall .rb { background: var(--y); color: #161200; }
+
+/* Scan: things to play */
+.nxscan .hd.play { margin-top: 14px; }
+.nxscan .srow.play { grid-template-columns: 44px 1fr; padding: 8px 12px 8px 8px; }
+.nxscan .th.ic { height: 44px; width: 44px; border-radius: 50%; display: grid; place-items: center; background: rgba(255, 210, 48, .16); color: var(--y); }
+.nxscan .th.ic .nxi { width: 19px; height: 19px; }
+.nxscan .srow.play b { font-family: var(--sans); font-size: 15px; font-weight: 700; }
+
+.nxsheet .reader h3 { text-transform: none; letter-spacing: 0; color: var(--ink); margin: 0 0 6px; font-size: 24px; line-height: 1.2; }
+.nxsheet .nxroom h3 { text-transform: none; letter-spacing: 0; color: var(--ink); font-size: 18px; margin: 0 0 12px; }
+.nx .wx b, .tocard .wx b, .wherotext .wx b { display: inline; font-size: 13px; line-height: 1.3; font-weight: 800; }
+.nx .wx > span { display: inline; }
+.nx .wx small { display: block; margin: 0; font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: none; color: var(--mut); }
