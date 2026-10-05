@@ -6848,3 +6848,66 @@ button.fxc.read.c4 .th .c4disc { position: absolute; right: -6px; bottom: -6px; 
 .nxnotes .disc li b.t-usable { background: rgba(123, 235, 176, .18); color: #7BEBB0; }
 .nxnotes .disc li b.t-ethical { background: rgba(255, 138, 216, .18); color: #FF9EDD; }
 .nxnotes .disc .f { margin-top: 10px; padding-top: 9px; border-top: 1px solid #2c2c2c; font-size: 12px; color: var(--muted); }
+
+/* ===== v52: the TV player. Home, the transport, chapters, more to watch, and the play drawn in 2D ===== */
+.tv .vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.tvavs { display: inline-flex; margin-right: 2px; }
+.tvavs i { width: 26px; height: 26px; margin-left: -8px; border-radius: 50%; display: grid; place-items: center; font: 800 11px/1 var(--sans, inherit); font-style: normal; color: #fff; background: hsl(var(--h) 55% 42%); border: 2px solid #0B0B0B; }
+.tvavs i:first-child { margin-left: 0; }
+.tvhomebtn { position: absolute; left: 64px; top: 84px; animation: tvup .25s ease-out both; }
+.tvhomebtn .tvb { height: 48px; padding: 0 20px; font-size: 16px; background: rgba(0, 0, 0, .55); }
+.tvctrl.v2 { padding: 60px 64px 0; bottom: -206px; background: linear-gradient(to top, rgba(0, 0, 0, .96) 55%, rgba(0, 0, 0, .78) 80%, rgba(0, 0, 0, 0)); }
+.tvctrl.v2.eps { bottom: 0; }
+.tvctrl.v2 .tvctitle { margin-bottom: 30px; }
+.tvctrl.v2 .tvctitle h2 { font-size: 36px; }
+.tvbar.chap { height: 6px; }
+.tvhead { position: absolute; top: 50%; width: 16px; height: 16px; margin: -8px 0 0 -8px; border-radius: 50%; background: #fff; box-shadow: 0 2px 8px rgba(0, 0, 0, .6); }
+.tvbar.chap .tvmark { border: 0; padding: 0; cursor: pointer; top: -7px; width: 5px; height: 20px; transition: none; }
+.tvbar.chap .tvmark::after { content: ""; position: absolute; inset: -12px -10px; }
+.tvbar.chap .tvmark.tvfocus { width: 9px; height: 30px; top: -12px; background: #fff; box-shadow: 0 0 0 4px rgba(255, 255, 255, .3); }
+.tvmark .pv { display: none; position: absolute; left: 50%; bottom: 44px; width: 230px; transform: translateX(-50%); padding: 8px 8px 11px; border-radius: 10px; background: #fff; color: #000; text-align: left; box-shadow: 0 16px 40px -10px rgba(0, 0, 0, .9); }
+.tvmark.first .pv { left: -14px; transform: none; }
+.tvmark.last .pv { left: auto; right: -14px; transform: none; }
+.tvmark.tvfocus .pv { display: grid; gap: 2px; }
+.tvmark .pv img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 6px; margin-bottom: 6px; }
+.tvmark .pv small { font-size: 12.5px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; color: #555; }
+.tvmark .pv b { font-size: 17px; line-height: 1.2; }
+.tvbarlive.behind { color: #fff; opacity: .7; }
+.tvctrl.v2 .tvbtns { flex-wrap: nowrap; align-items: center; gap: 12px; }
+.tvctrl.v2 .tvbtns.transport { margin-top: 26px; }
+.tvctrl.v2 .tvbtns.opts { margin-top: 14px; }
+.tvctrl.v2 .tvb { height: 50px; padding: 0 20px; font-size: 16.5px; }
+.tvctrl.v2 .tvb.icon { width: 56px; height: 56px; padding: 0; justify-content: center; border-radius: 50%; }
+.tvctrl.v2 .tvb.icon.big { width: 66px; height: 66px; background: rgba(255, 255, 255, .26); }
+.tvctrl.v2 .tvb.icon.tvfocus, .tvctrl.v2 .tvb.icon.big.tvfocus { background: #fff; }
+.tvctrl.v2 .tvb .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--live); }
+.tvctrl.v2 .tvb.at { color: var(--live); background: rgba(0, 204, 199, .14); }
+.tvctrl.v2 .tvb.at.tvfocus { color: #000; background: #fff; }
+.tvchhint { margin-left: auto; font-size: 14px; color: rgba(255, 255, 255, .6); }
+.tveps { margin-top: 26px; }
+.tveps h3 { margin: 0 0 14px; display: flex; align-items: baseline; gap: 12px; font-size: 20px; font-weight: 800; }
+.tveps h3 span { font-size: 13.5px; font-weight: 400; color: rgba(255, 255, 255, .55); }
+.tvctrl.v2.eps .tveps h3 span { display: none; }
+.tveps .tvrow { padding-bottom: 26px; }
+.tveps .tvcard { width: 232px; }
+.tveps .tvcimg .c4disc { position: absolute; right: 8px; bottom: 8px; }
+.tveps .tvcimg img { width: 100%; height: 100%; object-fit: cover; }
+.tv.ov .tvhint { display: none; }
+.tv2d { position: absolute; right: 64px; top: 96px; width: 420px; padding: 18px 20px 16px; border-radius: 10px; background: rgba(8, 8, 8, .86); backdrop-filter: blur(6px); animation: tvside .3s cubic-bezier(.2, .7, .3, 1) both; }
+.tv2d .v2svg { display: block; width: 100%; aspect-ratio: 100 / 54; margin-top: 10px; border-radius: 8px; overflow: hidden; font-family: var(--sans, inherit); }
+.tv2d .cap { margin: 12px 0 0; display: grid; gap: 2px; }
+.tv2d .cap b { font-size: 20px; line-height: 1.2; }
+.tv2d .cap span { font-size: 15.5px; color: #C9C9C9; }
+.tv2d .note { margin: 10px 0 0; font-size: 13px; color: rgba(255, 255, 255, .55); }
+.tv2d.big { top: 122px; width: 500px; padding: 0; background: none; backdrop-filter: none; animation: none; }
+.tv2d.big .v2svg { margin: 0; box-shadow: 0 20px 50px -20px rgba(0, 0, 0, .9); }
+.tv2d.big .cap b { font-size: 24px; }
+.tv2d.big .line { margin: 12px 0 0; display: grid; grid-template-columns: 10px 1fr; gap: 10px; align-items: baseline; font-size: 17px; line-height: 1.4; color: #E6E6E6; }
+.tv2d.big .line i { width: 9px; height: 9px; border-radius: 50%; background: var(--live); animation: tobeat 1.6s ease-in-out infinite; }
+.tv.ov .tv2d.big .line, .tv.ov .tv2d.big .note, .tv.ov .tv2d.big .cap { display: none; }
+.tv:has(.tv2d:not(.big)) .tvhint { display: none; }
+.tv.ov .tv2d:not(.big) .cap, .tv.ov .tv2d:not(.big) .note { display: none; }
+.tv.ov .tv2d:not(.big) { padding-bottom: 18px; }
+.tv:has(.tv2d.big) .tvradio { width: 610px; }
+.tv.ov .tvaudiochip, .tv.ov .tvradio .tvover, .tv.ov .tvradio .tvwave, .tv.ov .tvradio .tvbatters { display: none; }
+.tv.ov:has(.tvctrl.v2) .tvradio .tvtiming p:nth-child(n+3) { display: none; }
