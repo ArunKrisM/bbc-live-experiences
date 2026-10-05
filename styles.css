@@ -6939,3 +6939,15 @@ button.fxc.read.c4 .th .c4disc { position: absolute; right: -6px; bottom: -6px; 
 .nxkgo svg { opacity: .8; }
 .nxviewgo { margin-top: 14px; display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px 6px 6px; border-radius: 999px; border: 1px solid rgba(255,255,255,.3); background: rgba(0,0,0,.5); color: #fff; font-size: 13.5px; font-weight: 800; }
 .nxviewgo b { font-weight: 800; }
+
+/* ==========================================================================
+   v55: what you follow decides what you see
+   ========================================================================== */
+.nxconst .cbx { position: absolute; z-index: 3; width: 22px; height: 22px; margin: -11px 0 0 -11px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,.5); background: rgba(12,12,14,.92); color: #fff; font-size: 15px; font-weight: 700; line-height: 1; padding: 0 0 1px; display: grid; place-items: center; transition: left .5s cubic-bezier(.3, 1.3, .5, 1), top .5s cubic-bezier(.3, 1.3, .5, 1); animation: nxcbx .3s ease-out both; }
+@keyframes nxcbx { from { opacity: 0; transform: scale(.4); } }
+.nxfollowask { width: 100%; display: grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items: center; text-align: left; padding: 14px 16px; border-radius: 18px; border: 1px dashed rgba(255,255,255,.3); background: rgba(255,255,255,.04); color: inherit; }
+.nxfollowask b { display: block; font-size: 15.5px; font-weight: 800; } .nxfollowask small { display: block; margin-top: 2px; font-size: 12.5px; color: var(--mut); line-height: 1.35; }
+.nxwhy { margin: 0 0 8px; font-size: 11.5px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--yt); text-align: center; }
+.nxstack .add { font-size: 13px; font-weight: 800; margin: 0 2px 0 6px; }
+.nxscan .srow.add b { color: var(--mut); font-weight: 700; }
+.nxscan .srow .th.ic .nxbadge { --s: 34px; }
