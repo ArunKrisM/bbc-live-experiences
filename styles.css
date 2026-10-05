@@ -6951,3 +6951,89 @@ button.fxc.read.c4 .th .c4disc { position: absolute; right: -6px; bottom: -6px; 
 .nxstack .add { font-size: 13px; font-weight: 800; margin: 0 2px 0 6px; }
 .nxscan .srow.add b { color: var(--mut); font-weight: 700; }
 .nxscan .srow .th.ic .nxbadge { --s: 34px; }
+
+/* ==========================================================================
+   v56: finding something new. A dashed lilac outline means "not yours yet"
+   ========================================================================== */
+.nx { --lil: #C9B8FF; }
+.nxbtn.lil { background: var(--lil); color: #170B3A; border-color: transparent; }
+.nxbtn.w { background: #fff; color: #000; border-color: transparent; }
+/* a name in the live text */
+.nxnm { display: inline; padding: 0; margin: 0; border: 0; background: none; color: inherit; font: inherit; text-decoration: underline; text-decoration-color: var(--lil); text-decoration-thickness: 2px; text-underline-offset: 3px; cursor: pointer; }
+.nxnm.mine { text-decoration-color: rgba(var(--fg), .55); }
+.nxnm[aria-expanded="true"] { color: var(--lil); }
+.nxnmc { position: relative; margin: 10px 0 6px; padding: 12px; border-radius: 16px; background: var(--card2); box-shadow: 0 14px 40px -14px #000, inset 0 0 0 1px rgba(var(--fg), .14); display: grid; grid-template-columns: 48px 1fr 28px; gap: 4px 12px; align-items: center; animation: nxin .22s ease both; }
+.nxnmc::before { content: ""; position: absolute; left: 22px; top: -6px; width: 12px; height: 12px; background: var(--card2); transform: rotate(45deg); box-shadow: inset 1px 1px 0 rgba(var(--fg), .14); }
+.nxnmc .who b { display: block; font-size: 15px; font-weight: 800; } .nxnmc .who small { display: block; margin-top: 1px; font-size: 12.5px; line-height: 1.35; color: var(--mut); }
+.nxnmc .x { width: 28px; height: 28px; border-radius: 50%; border: 0; background: rgba(var(--fg), .08); color: inherit; display: grid; place-items: center; align-self: start; }
+.nxnmc .acts { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+.nxbadge.ini { display: grid; place-items: center; width: var(--s); height: var(--s); border-radius: 50%; background: #2B2B33; } .nxbadge.ini b { font-size: 15px; font-weight: 800; color: #fff; }
+/* the end of Scan */
+.nxscan .hd.done { display: flex; align-items: center; gap: 10px; margin: 18px 4px 6px; color: var(--mut); } .nxscan .hd.done::before, .nxscan .hd.done::after { content: ""; flex: 1; height: 1px; background: rgba(var(--fg), .16); }
+.nxdiff { display: grid; gap: 8px; margin: 0 0 6px; } .nxdiff h3 { margin: 2px 4px 2px; font-size: 16px; font-weight: 800; }
+.nxdiff .r { display: grid; grid-template-columns: 1fr auto 26px; gap: 8px; align-items: center; padding: 8px 8px 8px 10px; border-radius: 18px; border: 1.5px dashed rgba(201, 184, 255, .5); background: rgba(125, 90, 255, .08); }
+.nxdiff .go { display: grid; grid-template-columns: 44px 1fr; gap: 12px; align-items: center; text-align: left; border: 0; background: none; color: inherit; padding: 0; min-width: 0; }
+.nxdiff .go b { display: block; font-size: 14.5px; line-height: 1.25; font-weight: 800; } .nxdiff .go small { display: block; margin-top: 2px; font-size: 12px; color: var(--mut); }
+.nxdiff .nxbtn { white-space: nowrap; }
+.nxdiff .no { width: 26px; height: 26px; border-radius: 50%; border: 0; background: none; color: var(--mut); display: grid; place-items: center; }
+/* one from outside, in the orbit */
+.nxuni.six { height: 440px; }
+.nxuni .sat.out .nxbadge { outline: 2px dashed var(--lil); outline-offset: 5px; }
+.nxuni .sat.out small.new { color: var(--lil); font-weight: 800; }
+/* a look before you follow */
+.nxsheet.k-peek .peek { padding: 0 18px 22px; display: grid; gap: 12px; }
+.nxnew { margin: 0; display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--lil); } .nxnew::before { content: ""; width: 8px; height: 8px; border-radius: 50%; border: 1.5px dashed var(--lil); }
+.nxsheet.k-peek .acts { display: flex; flex-wrap: wrap; gap: 8px; }
+.nxsheet.k-peek .note { margin: 0; font-size: 12.5px; line-height: 1.45; color: var(--mut); }
+body[data-theme="light"] .nx { --lil: #5B3FD6; }
+
+/* ==========================================================================
+   v56: the picker's tray. It stays still; a pick leaves and another arrives
+   ========================================================================== */
+.nxtray { flex: none; margin: 4px 14px 14px; }
+.nxtray .tabs { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding: 2px 0 8px; } .nxtray .tabs::-webkit-scrollbar { display: none; }
+.nxtray .tabs button { flex: none; padding: 7px 13px; border-radius: 999px; border: 1px solid rgba(var(--fg), .2); background: none; color: var(--soft2); font-size: 12.5px; font-weight: 800; white-space: nowrap; }
+.nxtray .tabs button.on { background: var(--ink); color: var(--bg0, #0b0b0c); border-color: transparent; }
+.nxtray .why { display: flex; justify-content: space-between; align-items: center; height: 22px; margin: 0 4px 8px; font-size: 12px; font-weight: 700; color: var(--lil, #C9B8FF); }
+.nxtray .why button { display: inline-flex; align-items: center; gap: 5px; border: 0; background: none; padding: 0; color: var(--mut); font-size: 12px; font-weight: 800; }
+.nxtray .slots { display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: 46px; gap: 8px; height: 208px; align-content: start; }
+.nxtray .slots.wrap { display: flex; flex-wrap: wrap; overflow-y: auto; scrollbar-width: none; } .nxtray .slots.wrap .chip { flex: none; height: 46px; }
+.nxtray .chip { display: flex; align-items: center; gap: 8px; min-width: 0; padding: 0 12px 0 8px; border-radius: 999px; border: 1px solid rgba(var(--fg), .2); background: rgba(34, 34, 40, .9); color: inherit; font-size: 14.5px; font-weight: 800; text-align: left; }
+.nxtray .chip.none { border-style: dashed; background: none; opacity: .35; }
+.nxtray .chip span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nxtray .chip img { flex: none; width: 30px; height: 30px; border-radius: 50%; background: #fff; padding: 3px; object-fit: contain; } .nxtray .chip img.ph { padding: 0; object-fit: cover; }
+.nxtray .chip .emo, .nxtray .chip .ini { flex: none; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-style: normal; background: rgba(var(--fg), .1); font-size: 17px; } .nxtray .chip .ini { font-size: 10.5px; font-weight: 800; }
+.nxtray .chip > .nxi { flex: none; opacity: .6; } .nxtray .slots:not(.wrap) .chip > .nxi { display: none; } .nxtray .slots:not(.wrap) .chip { font-size: 14px; }
+.nxtray .chip.in { animation: nxchipin .4s cubic-bezier(.3, 1.4, .5, 1) both; border-color: rgba(201, 184, 255, .7); }
+@keyframes nxchipin { from { opacity: 0; transform: scale(.7); } }
+.nxtray .all { grid-column: 1 / -1; margin: 12px 4px; font-size: 14px; color: var(--mut); }
+
+/* ==========================================================================
+   v56: profiles. Who is here, and the picture they chose
+   ========================================================================== */
+.nxme span[data-av^="e"] { font-size: 16px; }
+.nxacct .who .av { padding: 0; cursor: pointer; color: inherit; }
+.nxacct .who .av[data-av^="e"] { font-size: 30px; }
+.nxacct .who > div { flex: 1; min-width: 0; }
+.nxacct .who h2 { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nxacct .who .swp { flex: none; gap: 4px; padding-right: 10px; }
+.nxsheet .composer .av[data-av^="e"] { font-size: 16px; }
+.nxacct .nxdiverow:empty::after { content: "Nothing yet. Tap Edit to pick what you love."; font-size: 14px; color: var(--mut); }
+.nxprof { list-style: none; margin: 0; padding: 0; }
+.nxprof button { display: grid; grid-template-columns: 46px minmax(0, 1fr) auto; gap: 13px; align-items: center; width: 100%; padding: 10px 0; border: 0; border-bottom: 1px solid rgba(var(--fg), .08); background: none; text-align: left; }
+.nxprof .av, .nxpics .av { width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; font-style: normal; font-weight: 800; font-size: 18px; border: 1.5px dashed rgba(var(--fg), .45); background: rgba(var(--fg), .08); }
+.nxprof .av[data-av^="e"], .nxpics .av[data-av^="e"] { font-size: 22px; }
+.nxprof .av.add { border-style: dashed; color: var(--mut); }
+.nxprof b { display: block; font-size: 16px; font-weight: 800; }
+.nxprof small { display: block; margin-top: 2px; font-size: 13px; color: var(--mut); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nxprof em { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; background: var(--t); color: #002423; font-style: normal; }
+.nxprof button[aria-pressed="true"] b { color: var(--tt); }
+.nxsheet.k-profile h3 { margin: 18px 0 10px; }
+.nxpics { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px 6px; justify-items: center; }
+.nxpics button { padding: 3px; border-radius: 50%; border: 2px solid transparent; background: none; }
+.nxpics button[aria-pressed="true"] { border-color: var(--y); }
+.nx .av[data-av="i1"], .nxme span[data-av="i1"] { background: #FFD230; color: #161200; border-color: transparent; }
+.nx .av[data-av="i2"], .nxme span[data-av="i2"] { background: #00CCC7; color: #002423; border-color: transparent; }
+.nx .av[data-av="i3"], .nxme span[data-av="i3"] { background: #C9B8FF; color: #1B1040; border-color: transparent; }
+.nx .av[data-av="i4"], .nxme span[data-av="i4"] { background: #FF8A6B; color: #2A0B02; border-color: transparent; }
+.nx .av[data-av^="e"], .nxme span[data-av^="e"] { background: rgba(var(--fg), .1); border-style: solid; border-color: rgba(var(--fg), .22); color: inherit; }
