@@ -6925,3 +6925,17 @@ button.fxc.read.c4 .th .c4disc { position: absolute; right: -6px; bottom: -6px; 
 .tv:has(.tvsheet) .tvhint, .tv:has(.tvl3) .tvhint { display: none; }
 .tvkeys { display: block; margin-top: 5px; color: #BDBDBD; }
 .tvcap::after { content: none; }
+/* the radio screen: the hint clears the 2D panel, and Home clears the line under it */
+.tv:has(.tv2d.big) .tvhint { top: 82px; }
+.tv2d.big { top: 134px; }
+.tv.ov .tvradio > .tvcatchkick { visibility: hidden; }
+
+/* ==========================================================================
+   v54: from the story to the page behind it
+   ========================================================================== */
+.nxkick.go { display: flex; align-items: center; gap: 8px; }
+.nxkgo { display: inline-flex; align-items: center; gap: 6px; padding: 3px 7px 3px 3px; border-radius: 999px; border: 1px solid rgba(255,255,255,.26); background: rgba(0,0,0,.4); color: inherit; font: inherit; letter-spacing: inherit; text-transform: inherit; }
+.nxkgo b { font-weight: inherit; }
+.nxkgo svg { opacity: .8; }
+.nxviewgo { margin-top: 14px; display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px 6px 6px; border-radius: 999px; border: 1px solid rgba(255,255,255,.3); background: rgba(0,0,0,.5); color: #fff; font-size: 13.5px; font-weight: 800; }
+.nxviewgo b { font-weight: 800; }
