@@ -6697,3 +6697,84 @@ button.fxc.hear.audio { grid-template-columns: auto minmax(0, 1fr); }
 .qres { margin: 0 0 14px; font-size: 15px; line-height: 1.45; color: var(--soft2); }
 .qres b { color: var(--ink); }
 .qres.ok b { color: #7BEBB0; }
+
+/* ===== v50: the play drawn from live data, partners labelled, and actions on Immerse ===== */
+.nx2d { display: block; }
+.nx2d .pic { position: relative; aspect-ratio: 100 / 54; background: #101114; overflow: hidden; }
+.nx2d .v2svg { display: block; width: 100%; height: 100%; font-family: var(--sans); }
+.nx2d .chips { position: absolute; z-index: 2; left: 8px; bottom: 8px; display: flex; gap: 5px; }
+.nx2d .chips button { flex: none; height: 26px; padding: 0 10px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .22); background: rgba(8, 8, 10, .62); backdrop-filter: blur(8px); font-size: 11.5px !important; font-weight: 800 !important; color: rgba(255, 255, 255, .86) !important; white-space: nowrap; }
+.nx2d .chips button.on { background: #fff; border-color: #fff; color: #0B0B0D !important; }
+.nx2d .cap { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 9px 14px 11px; }
+.nx2d .cap p { margin: 0; display: grid; gap: 1px; min-width: 0; }
+.nx2d .cap b { font-size: 14.5px; line-height: 1.25; font-weight: 800; }
+.nx2d .cap span { font-size: 12.5px; line-height: 1.3; color: var(--soft2); }
+.nx2d .cap em { font-style: normal; font-size: 11px; line-height: 1.25; font-weight: 700; color: var(--mut); text-align: right; max-width: 66px; }
+.nx2d .cap em.sy { max-width: 96px; color: var(--tt); }
+.nx2d .cap em.sy i { display: inline-block; width: 7px; height: 7px; margin-right: 5px; border-radius: 50%; background: var(--t); box-shadow: 0 0 0 0 rgba(0, 204, 199, .6); animation: v2pulse 2s ease-out infinite; }
+@keyframes v2pulse { to { box-shadow: 0 0 0 6px rgba(0, 204, 199, 0); } }
+@keyframes v2fade { from { opacity: 0; } to { opacity: 1; } }
+.v2svg .sync > * { animation: v2fade .4s ease both; }
+@media (prefers-reduced-motion: reduce) { .v2svg .sync > *, .nx2d .cap em.sy i { animation: none; } }
+.v2svg[data-step="0"] .c-NOR, .v2svg[data-step="1"] .c-LEC, .v2svg[data-step="2"] .c-RUS, .v2svg[data-step="3"] .c-VER { display: none; }
+.nx2d .cap button.back { display: inline-flex; align-items: center; gap: 5px; height: 30px; padding: 0 12px; border-radius: 999px; border: 1px solid rgba(0, 204, 199, .55); background: rgba(0, 204, 199, .1); font-size: 12px !important; font-weight: 800 !important; color: var(--tt) !important; white-space: nowrap; }
+.nx2d .cap button.back .nxi { width: 11px; height: 11px; }
+.nxplayer.d2 { aspect-ratio: auto; background: var(--card); }
+.nxplayer.d2.sub { margin-top: 8px; }
+.nxlivescr .nxradio.d2 { height: auto; background: var(--card); }
+.nxradio.d2 .rtx { position: static; padding: 0 14px 12px; }
+.nxradio.d2 .strow { display: flex; align-items: center; gap: 10px; padding-top: 9px; border-top: 1px solid var(--ln); }
+.nxradio.d2 .strow .st { flex: 1; min-width: 0; }
+.nxradio.d2 .ctl { position: static; display: flex; gap: 6px; flex: none; }
+.nxradio.d2 .ctl button { width: 30px; height: 30px; background: rgba(var(--fg), .1); }
+.nxradio.d2 .ctl button .nxi { width: 15px; height: 15px; }
+.nxlivescr .nxradio.d2 .cc { min-height: 0; height: 2.8em; margin-top: 7px; padding: 0; background: none; font-size: 13.5px; line-height: 1.4; color: var(--soft2); overflow: hidden; }
+.nxfollow.d2 { position: relative; padding: 0 0 12px; overflow: hidden; background: var(--card); }
+.nxfollow.d2 .sb { position: absolute; z-index: 2; left: 10px; top: 10px; gap: 6px; padding: 5px 10px; border-radius: 8px; background: rgba(0, 0, 0, .65); font: 800 12px/1 var(--sans); color: #fff; }
+.nxfollow.d2 .sb span { padding: 2px 5px; border-radius: 4px; }
+.nxfollow.d2 .sb em { font-size: 12px; }
+.nxfollow.d2 > .k { margin: 0 14px 5px; padding-top: 9px; border-top: 1px solid var(--ln); }
+.nxfollow.d2 > .cc { margin: 0 14px; height: 2.8em; overflow: hidden; font-size: 13.5px; line-height: 1.4; color: var(--soft2); }
+.nxplayer.d2 .sb, .nxradio.d2 .sb { color: #fff; }
+.nxlhead .hr { display: flex; align-items: center; gap: 6px; }
+.nxlivescr .nxlhead { padding-left: 12px; padding-right: 12px; gap: 6px; }
+.nxlhead .nxlive { min-width: 0; }
+.nxlhead .nxlive > span:last-child { white-space: nowrap; }
+.nxround.t2d { font: 800 13px/1 var(--sans) !important; letter-spacing: .02em; }
+.nxround.t2d.on { background: var(--ink); border-color: var(--ink); color: var(--bg) !important; }
+
+/* partners: one mark, the same everywhere. A green disc with the 4, on the side of the picture */
+.c4disc { --s: 44px; display: inline-grid; place-items: center; width: var(--s); height: var(--s); border-radius: 50%; background: #AAFF89; flex: none; box-shadow: 0 0 0 1px rgba(0, 0, 0, .3), 0 4px 14px rgba(0, 0, 0, .35); }
+.c4disc::before { content: ""; width: calc(var(--s) * .37); height: calc(var(--s) * .5); background: #14401B; -webkit-mask: var(--c4) center / contain no-repeat; mask: var(--c4) center / contain no-repeat; }
+.nxfrom { display: inline-flex; align-items: center; gap: 7px; height: 28px; padding: 0 11px 0 5px; border-radius: 999px; background: rgba(8, 8, 10, .72); border: 1px solid rgba(170, 255, 137, .45); color: #fff; font-size: 12px; font-weight: 800; letter-spacing: .02em; white-space: nowrap; }
+.nxfrom .c4disc { box-shadow: none; }
+.nxview .tx .nxfrom { margin: 0 0 10px; }
+.nxview > .c4disc { position: absolute; z-index: 3; right: 16px; bottom: 46px; }
+.nxview.c4 .tx { right: 84px; }
+.nxdrail .from { display: grid; justify-items: center; gap: 4px; }
+.nxdrail .from small { color: #fff; }
+.c4disc.tile { position: absolute !important; top: 10px; right: 10px; }
+.nxuni .sat .c4disc { position: absolute; left: 50%; top: 44px; margin-left: 8px; box-shadow: 0 0 0 2px var(--bg); }
+.nxwhere { margin: 0 0 14px; padding: 12px 14px 4px; border-radius: 20px; border: 1px solid var(--ln); background: var(--card); }
+.nxwhere > .k { margin: 0 0 4px; font-size: 11.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--mut); }
+.nxwhere .row { display: grid; grid-template-columns: 38px minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 9px 0; }
+.nxwhere .nxround.go { background: var(--t); border-color: var(--t); color: #00211F; }
+.nxwhere .row + .row { border-top: 1px solid var(--ln); }
+.nxwhere .wi { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; background: rgba(0, 204, 199, .16); color: var(--tt); }
+.nxwhere .wi .nxi { width: 18px; height: 18px; }
+.nxwhere .c4disc, .fxc.c4row .c4disc { box-shadow: none; }
+.nxwhere .row > span { display: grid; gap: 1px; min-width: 0; }
+.nxwhere small { font-size: 11px; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; color: var(--mut); }
+.nxwhere b { font-size: 14.5px; font-weight: 800; line-height: 1.25; }
+.nxwhere em { font-style: normal; font-size: 12.5px; line-height: 1.3; color: var(--soft2); }
+.nxwhere .nxbtn { white-space: nowrap; }
+.fxc.c4row { display: grid; grid-template-columns: 38px minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 10px 12px; }
+.fxc.c4row b { font-size: 14px; }
+.fxc.c4row span small { white-space: nowrap; }
+.fxc.c4row .nxbtn { white-space: nowrap; }
+button.fxc.read.c4 .th .c4disc { position: absolute; right: -6px; bottom: -6px; box-shadow: 0 0 0 2px var(--card); }
+
+/* Immerse: the same rail as Drops, on every film */
+.nximc .nxdrail { bottom: 178px; }
+.nximc .tx { padding-right: 76px; }
+.nximc .nxdrail small { color: #fff; }
