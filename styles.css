@@ -7037,3 +7037,20 @@ body[data-theme="light"] .nx { --lil: #5B3FD6; }
 .nx .av[data-av="i3"], .nxme span[data-av="i3"] { background: #C9B8FF; color: #1B1040; border-color: transparent; }
 .nx .av[data-av="i4"], .nxme span[data-av="i4"] { background: #FF8A6B; color: #2A0B02; border-color: transparent; }
 .nx .av[data-av^="e"], .nxme span[data-av^="e"] { background: rgba(var(--fg), .1); border-style: solid; border-color: rgba(var(--fg), .22); color: inherit; }
+
+/* ==========================================================================
+   v57: the first screen never traps you
+   ========================================================================== */
+/* the picker scrolls when it has to, and its button stays in reach */
+.nxpick { overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none; }
+.nxpick::-webkit-scrollbar { display: none; }
+.nxpick > * { flex-shrink: 0; }
+.nxpick > .nxbtn.wide { position: sticky; bottom: 0; z-index: 5; box-shadow: 0 -14px 24px 6px rgba(var(--bgc), .85); }
+.nxpickvid { overflow: hidden; }
+/* the tray gives rows to the map when the map needs them */
+.nxpick[data-rows="3"] .nxtray .slots { height: 154px; }
+.nxpick[data-rows="3"] .nxtray .slots:not(.wrap) > :nth-child(n+7) { display: none; }
+.nxpick[data-rows="2"] .nxtray .slots { height: 100px; }
+.nxpick[data-rows="2"] .nxtray .slots:not(.wrap) > :nth-child(n+5) { display: none; }
+/* the menu, on the first screen */
+.nxpick .nxtop > .nxme { justify-self: end; margin-left: 0; }

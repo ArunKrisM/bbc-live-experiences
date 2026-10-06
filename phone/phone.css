@@ -99,24 +99,3 @@ body.phoneapp .cbx::after { inset: -11px; }
 body.phoneapp .nxtray .why button::after { inset: -14px -6px; }
 body.phoneapp .nxnm::after { inset: -10px -3px; }
 body.phoneapp .toscore::after { inset: -10px 0; }
-
-/* --------------------------------------------------------------------------
-   Short screens (an iPhone SE, or any phone with the browser's bars showing).
-   The picker gives its room to the map: the tray drops to two rows.
-   -------------------------------------------------------------------------- */
-@media (max-height: 760px) {
-  body.phoneapp .nxtray .slots { height: 100px; }
-  body.phoneapp .nxtray .slots:not(.wrap) > :nth-child(n+5) { display: none; }
-  body.phoneapp .nxpick > h1 { font-size: 30px; margin-top: 6px; }
-  body.phoneapp .nxpick > p { margin-bottom: 4px; }
-}
-/* and if the map still needs more room than the screen has, the picker scrolls under its button */
-body.phoneapp .nxpick { overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none; }
-body.phoneapp .nxpick::-webkit-scrollbar { display: none; }
-body.phoneapp .nxpick > * { flex-shrink: 0; }
-body.phoneapp .nxpick > .nxbtn.wide { position: sticky; bottom: 0; z-index: 5; box-shadow: 0 -14px 24px 6px rgba(9, 9, 10, .85); }
-@media (max-height: 640px) {
-  body.phoneapp .nxconst { min-height: 150px; }
-  body.phoneapp .nxtray .slots { height: 46px; }
-  body.phoneapp .nxtray .slots:not(.wrap) > :nth-child(n+3) { display: none; }
-}
