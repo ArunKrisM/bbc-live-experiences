@@ -1,0 +1,33 @@
+{
+ "name": "BBC Sport Live Experiences · phone prototype",
+ "short_name": "Sport Live",
+ "description": "BBC Sport live on a phone: the app today and one idea of the app in 2029, to hold and play with. A private prototype.",
+ "id": "./",
+ "start_url": "./",
+ "scope": "./",
+ "display": "standalone",
+ "orientation": "portrait",
+ "background_color": "#09090A",
+ "theme_color": "#09090A",
+ "lang": "en-GB",
+ "icons": [
+  {
+   "src": "icons/icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png",
+   "purpose": "any"
+  },
+  {
+   "src": "icons/icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "any"
+  },
+  {
+   "src": "icons/icon-maskable-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "maskable"
+  }
+ ]
+}

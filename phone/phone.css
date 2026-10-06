@@ -1,0 +1,122 @@
+/* ==========================================================================
+   The phone build: the app today (Bet 4) and App 2029 (Bet 6), edge to edge.
+   Loaded after the prototype's own styles.css, which is used unchanged.
+   ========================================================================== */
+
+/* Reith is not on phones, so fall to the phone's own face, which has the heavy weights the design leans on */
+:root { --sans: "ReithSans", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+
+html, body.phoneapp { height: 100%; overflow: hidden; overscroll-behavior: none; }
+html { background: #09090A; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body.phoneapp { background: #09090A; -webkit-tap-highlight-color: transparent; }
+body.phoneapp[data-theme="light"] { background: #F4F3EF; }
+body.phoneapp[data-theme="light"][data-surface="phone"] { background: #FFFFFF; }
+
+/* the desk, the telly and the notes belong to the laptop version */
+body.phoneapp .deskbar, body.phoneapp .tvwrap, body.phoneapp .devcap, body.phoneapp .nxnotes, body.phoneapp .swipehint { display: none !important; }
+
+body.phoneapp .deskframe {
+  height: 100vh; height: 100dvh; min-height: 0; display: flex; flex-direction: column; box-sizing: border-box;
+  padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
+}
+/* App 2029's tab bar already floats clear of the edge, so it needs less room under it */
+body.phoneapp[data-surface="next"] .deskframe { padding-bottom: max(0px, calc(env(safe-area-inset-bottom, 0px) - 14px)); }
+body.phoneapp .deskstage { flex: 1; min-height: 0; height: auto; display: flex; justify-content: center; align-items: stretch; padding: 0; gap: 0; overflow: hidden; }
+body.phoneapp .phonewrap { margin: 0; width: 100%; max-width: 480px; height: 100%; display: flex; flex-direction: column; }
+body.phoneapp .device { flex: 1; min-height: 0; width: 100%; max-width: none; height: auto; border: 0; border-radius: 0; box-shadow: none; display: flex; flex-direction: column; }
+body.phoneapp #app { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+body.phoneapp .viewport { flex: 1; height: auto; min-height: 0; max-height: none; }
+@media (min-width: 520px) { body.phoneapp .phonewrap { border-inline: 1px solid rgba(255, 255, 255, .08); } }
+
+/* fingers, not a mouse */
+body.phoneapp .viewport { touch-action: manipulation; }
+body.phoneapp button, body.phoneapp a, body.phoneapp [role="button"] { -webkit-touch-callout: none; }
+body.phoneapp .viewport { -webkit-user-select: none; user-select: none; }
+body.phoneapp input, body.phoneapp textarea { -webkit-user-select: text; user-select: text; }
+/* an iPhone zooms into any field set smaller than 16px, and does not zoom back */
+body.phoneapp input[type="text"], body.phoneapp input[type="search"], body.phoneapp input[type="password"], body.phoneapp input:not([type]), body.phoneapp textarea, body.phoneapp select { font-size: 16px; }
+
+/* the passphrase page */
+body.phoneapp .gate { padding-top: calc(env(safe-area-inset-top, 0px) + 16px); padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 16px); }
+
+/* --------------------------------------------------------------------------
+   Prototype controls: one block at the foot of either menu. It is not part
+   of either app, so it has its own colour and its own voice.
+   -------------------------------------------------------------------------- */
+.pc {
+  --pcb: #0E2157; --pcl: #6C97FF; --pcm: #9DB6F5; --pci: #E4ECFF;
+  z-index: 60; background: var(--pcb); color: var(--pci); border-top: 2px solid var(--pcl);
+  font-family: ui-monospace, "SF Mono", "Roboto Mono", Menlo, Consolas, monospace; text-align: left;
+  box-shadow: 0 -18px 30px -12px rgba(0, 0, 0, .8); display: flex; flex-direction: column;
+}
+.nxacct > .pc { position: absolute; left: 0; right: 0; bottom: 0; max-height: calc(100% - 64px); }
+.drawer > .pc { position: sticky; bottom: 0; flex: none; margin-top: auto; max-height: calc(100% - 64px); }
+body.phoneapp .nxacct .nxend { height: 160px; }
+.pc button { font: inherit; color: inherit; border: 0; background: none; text-align: left; margin: 0; cursor: pointer; -webkit-appearance: none; appearance: none; border-radius: 0; }
+.pc .pcbar { flex: none; display: grid; grid-template-columns: 1fr auto; gap: 7px 10px; align-items: center; width: 100%; padding: 11px 16px 13px; min-height: 62px; }
+.pc .pctag { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.pc .pctag b { padding: 3px 7px; border-radius: 4px; background: var(--pcl); color: #06143A; font-weight: 700; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; }
+.pc .pctag small { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--pcm); white-space: nowrap; }
+.pc .pcnow { min-width: 0; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pc .pcnow b { font-weight: 700; }
+.pc .pcnow em { font-style: normal; color: var(--pcm); }
+.pc .pcchev { color: var(--pcm); transition: transform .2s; }
+.pc.open .pcchev { transform: rotate(180deg); }
+.pc .pcpanel { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 2px 16px 0; scrollbar-width: none; }
+.pc .pcpanel::-webkit-scrollbar { display: none; }
+.pc h4 { margin: 12px 0 6px; font: inherit; font-size: 10.5px; font-weight: 400; letter-spacing: .12em; text-transform: uppercase; color: var(--pcm); }
+.pc .pcbox { border: 1px solid rgba(157, 182, 245, .55); border-radius: 8px; overflow: hidden; background: rgba(6, 20, 58, .6); }
+.pc .pcopt { display: grid; grid-template-columns: 88px minmax(0, 1fr) 16px; gap: 2px 8px; align-items: baseline; width: 100%; min-height: 44px; padding: 10px 12px; font-size: 13.5px; }
+.pc .pcopt + .pcopt { border-top: 1px solid rgba(157, 182, 245, .2); }
+.pc .pcopt b { font-weight: 700; }
+.pc .pcopt small { font-size: 11.5px; color: var(--pcm); }
+.pc .pcopt i { font-style: normal; align-self: center; display: grid; place-items: center; }
+.pc .pcopt.two { grid-template-columns: minmax(0, 1fr) 16px; }
+.pc .pcopt.two small { grid-column: 1; grid-row: 2; }
+.pc .pcopt.two i { grid-column: 2; grid-row: 1 / span 2; }
+.pc .pcopt.on { background: rgba(108, 151, 255, .28); }
+.pc .pcrow { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 4px 10px; width: 100%; min-height: 44px; padding: 10px 2px; margin-top: 10px; border-top: 1px solid rgba(157, 182, 245, .25); font-size: 12.5px; }
+.pc .pcrow + .pcrow { margin-top: 0; }
+.pc .pcrow span { flex: 1; min-width: 0; }
+.pc .pcrow b { display: block; font-weight: 700; }
+.pc .pcrow small { display: block; color: var(--pcm); font-size: 11.5px; margin-top: 2px; line-height: 1.35; }
+.pc .pcrow i { font-style: normal; font-size: 16px; color: var(--pcm); }
+.pc .pcrow em { flex: 0 0 100%; height: 4px; border-radius: 2px; background: rgba(157, 182, 245, .25); overflow: hidden; }
+.pc .pcrow em u { display: block; height: 100%; background: var(--pcl); transition: width .3s; }
+.pc .pcpanel > :last-child { margin-bottom: 4px; }
+.pc.open .pcbar { border-top: 1px solid rgba(157, 182, 245, .25); }
+
+/* --------------------------------------------------------------------------
+   Fingers. The small controls keep their size and get a wider touch area.
+   :where() keeps these rules weightless, so anything the prototype already
+   positions stays exactly where it is.
+   -------------------------------------------------------------------------- */
+:where(body.phoneapp) :where(.nxpill, .nxnm, [data-nxvote], [data-nxsview], .nxbtn.xs, .nxtray .tabs button, .nxtray .why button, .toic, .toscore, .chip) { position: relative; }
+body.phoneapp .cbx::after, body.phoneapp .nxicon::after, body.phoneapp .nxround.sm::after, body.phoneapp .nxpill::after, body.phoneapp .nxnm::after,
+body.phoneapp [data-nxvote]::after, body.phoneapp [data-nxsview]::after, body.phoneapp .nxbtn.xs::after, body.phoneapp .nxtray .tabs button::after,
+body.phoneapp .nxtray .why button::after, body.phoneapp .toic::after, body.phoneapp .toscore::after { content: ""; position: absolute; inset: -7px; }
+body.phoneapp .cbx::after { inset: -11px; }
+body.phoneapp .nxtray .why button::after { inset: -14px -6px; }
+body.phoneapp .nxnm::after { inset: -10px -3px; }
+body.phoneapp .toscore::after { inset: -10px 0; }
+
+/* --------------------------------------------------------------------------
+   Short screens (an iPhone SE, or any phone with the browser's bars showing).
+   The picker gives its room to the map: the tray drops to two rows.
+   -------------------------------------------------------------------------- */
+@media (max-height: 760px) {
+  body.phoneapp .nxtray .slots { height: 100px; }
+  body.phoneapp .nxtray .slots:not(.wrap) > :nth-child(n+5) { display: none; }
+  body.phoneapp .nxpick > h1 { font-size: 30px; margin-top: 6px; }
+  body.phoneapp .nxpick > p { margin-bottom: 4px; }
+}
+/* and if the map still needs more room than the screen has, the picker scrolls under its button */
+body.phoneapp .nxpick { overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none; }
+body.phoneapp .nxpick::-webkit-scrollbar { display: none; }
+body.phoneapp .nxpick > * { flex-shrink: 0; }
+body.phoneapp .nxpick > .nxbtn.wide { position: sticky; bottom: 0; z-index: 5; box-shadow: 0 -14px 24px 6px rgba(9, 9, 10, .85); }
+@media (max-height: 640px) {
+  body.phoneapp .nxconst { min-height: 150px; }
+  body.phoneapp .nxtray .slots { height: 46px; }
+  body.phoneapp .nxtray .slots:not(.wrap) > :nth-child(n+3) { display: none; }
+}
