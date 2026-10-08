@@ -3,9 +3,9 @@
    clips are kept until the set of them changes. This file carries no list of
    their names: it keeps whatever the app asks for. Clips stay encrypted in the
    cache, as they are on the server. */
-var BUILD = "v63p-9e5fd8bc";
-var SHELL = "ile-shell-" + BUILD, MEDIA = "ile-media-93f72c11f6";
-var PRE = ["./", "phone.css?v63p-9e5fd8bc", "app.enc?v63p-9e5fd8bc", "manifest.webmanifest", "icons/icon-192.png", "icons/apple-touch-icon.png", "../styles.css?v63"];
+var BUILD = "v64p-92eb411b";
+var SHELL = "ile-shell-" + BUILD, MEDIA = "ile-media-2b3d610974";
+var PRE = ["./", "phone.css?v64p-92eb411b", "app.enc?v64p-92eb411b", "manifest.webmanifest", "icons/icon-192.png", "icons/apple-touch-icon.png", "../styles.css?v64"];
 
 self.addEventListener("install", function (e) {
   e.waitUntil(caches.open(SHELL).then(function (c) {
