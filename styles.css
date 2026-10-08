@@ -7639,3 +7639,56 @@ body .nx .nxmineback.sh, body[data-theme="light"] .nx .nxmineback.sh { width: au
 body[data-theme="light"] .nx .dcard.reads { background: #fff; }
 body[data-theme="light"] .nx .dcard.es { background: #fff; box-shadow: inset 0 0 0 1px rgba(20, 20, 24, .08); }
 body[data-theme="light"] .nx .dcard.an { box-shadow: inset 0 0 0 1px rgba(20, 20, 24, .06); }
+
+/* ---- v65 · Search ------------------------------------------------------------------ */
+.nx .nxsearch { height: 56px; border: 1.5px solid transparent; background: linear-gradient(var(--bg), var(--bg)) padding-box, linear-gradient(100deg, #9C8CFF, #6FD3FF 55%, #FFD230) border-box; }
+.nx .nxsearch:focus-within { border-color: transparent; box-shadow: 0 0 0 3px rgba(111, 211, 255, .25); }
+.nx .nxsearch input { font-weight: 500; font-size: 17px; }
+.nx .nxsearch input::placeholder { color: var(--soft2); }
+.nx .nxsearch .micb { width: 40px; height: 40px; margin-right: -8px; place-items: center; border-radius: 50%; }
+.nx .nxsearch .micb .nxi { width: 20px; height: 20px; }
+.nx .nxsearch.mic .micb { color: #161200 !important; background: var(--y); animation: nxmicp 1s ease-in-out infinite; }
+@keyframes nxmicp { 50% { box-shadow: 0 0 0 8px rgba(255, 210, 48, .25); } }
+@media (prefers-reduced-motion: reduce) { .nx .nxsearch.mic .micb { animation: none; } }
+.nx .nxsr .shd2s { display: flex; align-items: center; gap: 10px; margin: 40px 0 12px; font: 700 22px/1.15 var(--sans); letter-spacing: -.015em; color: var(--ink); }
+.nx .nxsr .shd2s .sarr { width: 26px; height: 14px; }
+.nx .nxstrend { margin: 14px -20px 0; }
+.nx .nxstrend .nxtrend { flex-wrap: nowrap; overflow-x: auto; padding: 0 20px 2px; scrollbar-width: none; }
+.nx .nxstrend .nxtrend::-webkit-scrollbar { display: none; }
+.nx .nxstrend .nxtrend button { flex: none; }
+/* recent searches */
+.nxsrecent { display: flex; gap: 12px; overflow-x: auto; margin: 0 -20px; padding: 0 20px 4px; scroll-snap-type: x mandatory; scroll-padding: 20px; scrollbar-width: none; }
+.nxsrecent::-webkit-scrollbar { display: none; }
+.nxsrc { flex: 0 0 248px; scroll-snap-align: start; display: block; padding: 8px 8px 14px; border-radius: 18px; border: 1px solid rgba(var(--fg), .14); background: rgba(var(--fg), .04); text-align: left; color: inherit; font: inherit; }
+.nxsrc .pic { position: relative; display: block; height: 136px; border-radius: 12px; background-size: cover; background-position: center; }
+.nxsrc .lv { position: absolute; left: 8px; top: 8px; font: 700 12px/1 var(--sans); font-style: normal; background: var(--t); color: #00211F; padding: 4px 8px; border-radius: 99px; }
+.nxsrc b { display: block; margin: 12px 6px 0; font: 700 17px/1.25 var(--sans); }
+.nxsrc small { display: block; margin: 6px 6px 0; font: 500 14px/1.3 var(--sans); color: var(--soft2); }
+/* browse */
+.nxbrowse { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.nxbt { position: relative; display: block; height: 104px; padding: 0; border-radius: 16px; border: 1px solid rgba(var(--fg), .14); overflow: hidden; background-size: cover; background-position: center; text-align: left; font: inherit; }
+.nxbt::before { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(10, 10, 12, .92) 32%, rgba(10, 10, 12, .25)); }
+.nxbt span { position: absolute; left: 14px; right: 12px; bottom: 13px; z-index: 1; color: #fff; }
+.nxbt b { display: block; font: 700 17px/1.2 var(--sans); }
+.nxbt small { display: block; margin-top: 3px; font: 500 13.5px/1.25 var(--sans); color: rgba(255, 255, 255, .84); }
+.nxbt small .dot { display: inline-block; width: 7px; height: 7px; margin-right: 6px; border-radius: 50%; background: #00CCC7; vertical-align: 1px; }
+.nxbt.on { border-color: rgba(0, 204, 199, .55); }
+.nxbt:focus-visible, .nxsrc:focus-visible, .nxfc:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.nx .nxsr .nxbrowse + .nxsports { margin-top: 12px; }
+/* from what you follow: a carousel, the cut-out standing out above its card */
+.nxfav { display: flex; gap: 12px; overflow-x: auto; margin: -4px -20px 0; padding: 58px 20px 6px; scroll-snap-type: x mandatory; scroll-padding: 20px; scrollbar-width: none; }
+.nxfav::-webkit-scrollbar { display: none; }
+.nxfc { position: relative; flex: 0 0 300px; height: 250px; padding: 0; border: 0; border-radius: 20px; scroll-snap-align: start; background: var(--c1); clip-path: inset(-90px 0 0 0 round 0 0 20px 20px); text-align: left; font: inherit; color: #fff; }
+.nxfc::before { content: ""; position: absolute; inset: 0; border-radius: 20px; background: var(--c1); }
+.nxfc .low { position: absolute; left: 0; right: 0; bottom: 0; height: 46%; border-radius: 0 0 20px 20px; background: linear-gradient(100deg, color-mix(in srgb, var(--c3) 55%, var(--c1)), var(--c3)); }
+.nxfc img { position: absolute; bottom: 0; z-index: 1; object-fit: contain; object-position: right bottom; pointer-events: none; }
+.nxfc .tx { position: absolute; z-index: 2; left: 18px; top: 26px; max-width: 46%; }
+.nxfc.foot .tx { top: auto; bottom: 22px; }
+.nxfc .lv { display: inline-block; margin-bottom: 12px; font: 700 13px/1 var(--sans); font-style: normal; background: #0E8C88; padding: 6px 10px; border-radius: 99px; }
+.nxfc b { display: block; font: 700 23px/1.15 var(--sans); }
+.nxfc small { display: block; margin-top: 8px; font: 500 14.5px/1.3 var(--sans); color: rgba(255, 255, 255, .82); }
+.nxfavdots { display: flex; justify-content: center; gap: 6px; margin: 12px 0 0; }
+.nxfavdots i { width: 7px; height: 7px; border-radius: 99px; background: rgba(var(--fg), .3); transition: width .2s; }
+.nxfavdots i.on { width: 22px; background: var(--ink); }
+body[data-theme="light"] .nx .nxbt { border-color: rgba(20, 20, 24, .12); }
+body[data-theme="light"] .nx .nxsrc { background: #fff; }
