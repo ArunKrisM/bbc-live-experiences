@@ -1,5 +1,5 @@
 /* ==========================================================================
-   The phone build: the app today (Bet 4) and App 2029 (Bet 6), edge to edge.
+   The phone build: the app today (Bet 4) and App 2030 (Bet 6), edge to edge.
    Loaded after the prototype's own styles.css, which is used unchanged.
    ========================================================================== */
 
@@ -19,7 +19,7 @@ body.phoneapp .deskframe {
   height: 100vh; height: 100dvh; min-height: 0; display: flex; flex-direction: column; box-sizing: border-box;
   padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
 }
-/* App 2029's tab bar already floats clear of the edge, so it needs less room under it */
+/* App 2030's tab bar already floats clear of the edge, so it needs less room under it */
 body.phoneapp[data-surface="next"] .deskframe { padding-bottom: max(0px, calc(env(safe-area-inset-bottom, 0px) - 14px)); }
 body.phoneapp .deskstage { flex: 1; min-height: 0; height: auto; display: flex; justify-content: center; align-items: stretch; padding: 0; gap: 0; overflow: hidden; }
 body.phoneapp .phonewrap { margin: 0; width: 100%; max-width: 480px; height: 100%; display: flex; flex-direction: column; }
