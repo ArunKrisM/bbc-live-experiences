@@ -7815,3 +7815,18 @@ body[data-theme="light"] .nx .nxsrc { background: #fff; }
 .howdlg.howsheet .howcover b { font-size: 17px; }
 .howdlg.howsheet .howcover small { font-size: 12.5px; }
 .pc .pcrow.pchow { background: rgba(255, 210, 48, .1); }
+
+/* ---- v69 · tap the picture on Home to watch full screen ------------------------------------------------- */
+.livetake .tostill[role="button"] { cursor: pointer; }
+.livetake .tostill[role="button"]:focus-visible { outline: 3px solid #fff; outline-offset: -3px; }
+.nxherotap { position: absolute; inset: 0; z-index: 2; border: 0; padding: 0; margin: 0; background: transparent; cursor: pointer; }
+.nxherotap:focus-visible { outline: 3px solid #fff; outline-offset: -3px; }
+.nxplayer .fsin { position: absolute; z-index: 3; right: 10px; top: 10px; width: 34px; height: 34px; border: 0; border-radius: 50%; display: grid; place-items: center; background: rgba(0, 0, 0, .55); color: #fff; padding: 0; }
+.nxplayer.fs { position: absolute; inset: 0; height: auto; z-index: 300; margin: 0; aspect-ratio: auto; border: 0; border-radius: 0; background: #000; }
+.nxplayer.fs .nxfoot { position: absolute; inset: 0; }
+.nxplayer.fs .nxfoot video, .nxplayer.fs .nxfoot img { object-fit: contain !important; }
+.nxplayer.fs .sb { top: calc(14px + env(safe-area-inset-top, 0px)); left: 60px; }
+.nxplayer.fs .fsx { position: absolute; z-index: 3; left: 12px; top: calc(10px + env(safe-area-inset-top, 0px)); width: 40px; height: 40px; border: 0; border-radius: 50%; display: grid; place-items: center; background: rgba(0, 0, 0, .55); color: #fff; padding: 0; }
+.nxplayer.fs .bar { bottom: calc(18px + env(safe-area-inset-bottom, 0px)); }
+.nxplayer .fsrot { position: absolute; z-index: 2; left: 0; right: 0; bottom: calc(52px + env(safe-area-inset-bottom, 0px)); margin: 0; text-align: center; font: 600 13px/1.3 var(--sans); color: rgba(255, 255, 255, .72); }
+@media (orientation: landscape) { .nxplayer .fsrot { display: none; } }
