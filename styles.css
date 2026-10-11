@@ -7070,7 +7070,7 @@ body[data-theme="light"] .nx { --lil: #5B3FD6; }
 .gppop[hidden] { display: none; }
 .gppop h3 { margin: 0 26px 8px 0; font: inherit; font-size: 15px; font-weight: 700; }
 .gppop p { margin: 0 0 12px; font-size: 12px; line-height: 1.5; color: #C4D3FA; }
-.gppop .gpqr { display: block; width: 188px; margin: 0 auto 12px; padding: 0; border-radius: 10px; overflow: hidden; background: #fff; }
+.gppop .gpqr { display: block; width: 200px; margin: 0 auto 12px; padding: 14px; box-sizing: border-box; border-radius: 14px; overflow: hidden; background: #fff; }
 .gppop .gpqr svg { display: block; width: 100%; height: auto; }
 .gppop .gpu { margin-bottom: 4px; text-align: center; word-break: break-all; }
 .gppop .gpu a { color: #fff; font-weight: 700; text-decoration: underline; text-decoration-color: #6C97FF; text-underline-offset: 3px; }
@@ -7774,3 +7774,44 @@ body[data-theme="light"] .nx .nxsrc { background: #fff; }
 .nxask .qa.ai .nxgrp { margin-top: 12px; }
 .nxask .aifu { display: flex; flex-wrap: wrap; gap: 8px; }
 .nxask .aifu button { padding: 9px 14px; border-radius: 999px; border: 1px solid rgba(156, 140, 255, .55); background: transparent; font: 600 14px/1.2 var(--sans); text-align: left; }
+
+/* ---- v68 · How it works ---------------------------------------------------------------------------------- */
+.howchip { margin-left: 0; }
+.howchip svg { width: 12px; height: 12px; }
+.howdlg { position: fixed; inset: 0; z-index: 600; display: grid; place-items: center; padding: 24px; background: rgba(0, 0, 0, .64); }
+.howbox { position: relative; width: min(880px, 100%); max-height: calc(100vh - 48px); overflow: auto; padding: 24px 26px 20px; border-radius: 18px; border: 1px solid #2C2C33; background: #141418; color: #fff; box-shadow: 0 40px 90px -20px #000; font-family: var(--sans, "BBC Reith Sans", Helvetica, Arial, sans-serif); text-align: left; }
+.howtag { display: inline-block; margin-bottom: 12px; padding: 5px 8px; border-radius: 4px; background: #1D3B8A; color: #CFE0FF; font: 700 11px/1 ui-monospace, "SF Mono", Menlo, Consolas, monospace; letter-spacing: .08em; text-transform: uppercase; }
+.howbox h3 { margin: 0 0 6px; font-size: 26px; line-height: 1.15; font-weight: 700; }
+.howp { margin: 0 0 16px; color: #C9C9CF; font-size: 16px; line-height: 1.45; }
+.howx { position: absolute; top: 14px; right: 16px; width: 40px; height: 40px; border: 0; border-radius: 50%; background: transparent; color: #B5B5BC; font-size: 28px; line-height: 1; cursor: pointer; }
+.howx:hover { background: rgba(255, 255, 255, .08); color: #fff; }
+.howv { position: relative; aspect-ratio: 16 / 9; border-radius: 12px; overflow: hidden; background: #000; }
+.howv video { position: absolute; inset: 0; width: 100%; height: 100%; background: #000; }
+.howcover { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; border: 0; padding: 20px; cursor: pointer; color: #fff; text-align: center;
+  background: radial-gradient(60% 70% at 72% 50%, rgba(0, 140, 130, .35), rgba(0, 40, 40, .1) 60%, transparent 85%), radial-gradient(50% 60% at 20% 40%, rgba(120, 60, 190, .28), transparent 70%), #0A0A0D; }
+.howcover[hidden] { display: none; }
+.howpl { display: grid; place-items: center; width: 76px; height: 76px; border-radius: 50%; background: #FFD230; color: #000; }
+.howpl svg { width: 30px; height: 30px; margin-left: 4px; }
+.howcover b { font-size: 20px; font-weight: 700; }
+.howcover small { font-size: 14px; color: #C9C9CF; }
+.howst { position: absolute; left: 12px; right: 12px; top: 12px; margin: 0; padding: 8px 12px; border-radius: 8px; background: rgba(0, 0, 0, .75); text-align: center; font-size: 14px; line-height: 1.35; color: #E6E6EA; }
+.howst[hidden] { display: none; }
+.howsteps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 14px; }
+.howsteps button { display: flex; justify-content: space-between; gap: 8px; min-height: 44px; align-items: center; padding: 8px 12px; border: 1px solid transparent; border-radius: 10px; background: #1E1E24; color: #fff; font: 600 14px/1.25 var(--sans, Helvetica, Arial, sans-serif); text-align: left; cursor: pointer; }
+.howsteps button i { flex: none; font-style: normal; font-weight: 700; color: #FFD230; }
+.howsteps button:hover { background: #26262E; }
+.howsteps button.on { border-color: #FFD230; }
+.howfoot { display: flex; justify-content: flex-end; margin-top: 14px; }
+.howfoot button { min-height: 44px; padding: 0 4px; border: 0; background: none; color: #fff; font: 700 15px/1.2 var(--sans, Helvetica, Arial, sans-serif); cursor: pointer; }
+.howfoot button:hover { text-decoration: underline; }
+.howdlg button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+/* on a phone it rises as a sheet from the foot of the screen */
+.howdlg.howsheet { place-items: end stretch; padding: 0; background: rgba(0, 0, 0, .7); }
+.howdlg.howsheet .howbox { width: 100%; max-height: calc(100vh - 40px); max-height: calc(100dvh - 40px); border-radius: 20px 20px 0 0; padding: 18px 16px calc(20px + env(safe-area-inset-bottom, 0px)); }
+.howdlg.howsheet h3 { font-size: 22px; padding-right: 40px; }
+.howdlg.howsheet .howp { font-size: 15px; }
+.howdlg.howsheet .howsteps { grid-template-columns: 1fr 1fr; }
+.howdlg.howsheet .howpl { width: 58px; height: 58px; }
+.howdlg.howsheet .howcover b { font-size: 17px; }
+.howdlg.howsheet .howcover small { font-size: 12.5px; }
+.pc .pcrow.pchow { background: rgba(255, 210, 48, .1); }

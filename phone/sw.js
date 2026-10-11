@@ -3,9 +3,9 @@
    clips are kept until the set of them changes. This file carries no list of
    their names: it keeps whatever the app asks for. Clips stay encrypted in the
    cache, as they are on the server. */
-var BUILD = "v67p-209a3396";
+var BUILD = "v68p-72e7549f";
 var SHELL = "ile-shell-" + BUILD, MEDIA = "ile-media-2b3d610974";
-var PRE = ["./", "phone.css?v67p-209a3396", "app.enc?v67p-209a3396", "manifest.webmanifest", "icons/icon-192.png", "icons/apple-touch-icon.png", "../styles.css?v67"];
+var PRE = ["./", "phone.css?v68p-72e7549f", "app.enc?v68p-72e7549f", "manifest.webmanifest", "icons/icon-192.png", "icons/apple-touch-icon.png", "../styles.css?v68"];
 
 self.addEventListener("install", function (e) {
   e.waitUntil(caches.open(SHELL).then(function (c) {
@@ -26,6 +26,9 @@ self.addEventListener("fetch", function (e) {
   if (req.method !== "GET" || req.cache === "no-store") { return; }
   var url = new URL(req.url);
   if (url.origin !== self.location.origin) { return; }
+
+  /* the films (How it works, Maya's week) come from the network each time and are not kept */
+  if (url.pathname.indexOf("/film/") >= 0) { return; }
 
   /* pictures and clips: the copy on the phone first */
   if (url.pathname.indexOf("/img/") >= 0) {
