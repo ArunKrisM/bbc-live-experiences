@@ -7830,3 +7830,73 @@ body[data-theme="light"] .nx .nxsrc { background: #fff; }
 .nxplayer.fs .bar { bottom: calc(18px + env(safe-area-inset-bottom, 0px)); }
 .nxplayer .fsrot { position: absolute; z-index: 2; left: 0; right: 0; bottom: calc(52px + env(safe-area-inset-bottom, 0px)); margin: 0; text-align: center; font: 600 13px/1.3 var(--sans); color: rgba(255, 255, 255, .72); }
 @media (orientation: landscape) { .nxplayer .fsrot { display: none; } }
+/* ---- v70 · press, wait and slide, as an app does ----------------------------------------------------------- */
+.mot-press { transform: scale(.97); opacity: .82; transition: transform .12s ease-out, opacity .12s ease-out; }
+@keyframes motFwd { from { transform: translateX(36px); opacity: .3; } to { transform: none; opacity: 1; } }
+@keyframes motBack { from { transform: translateX(-36px); opacity: .3; } to { transform: none; opacity: 1; } }
+@keyframes motTab { from { opacity: 0; } to { opacity: 1; } }
+.mot-in-fwd { animation: motFwd .32s cubic-bezier(.2, .8, .2, 1) both; }
+.mot-in-back { animation: motBack .3s cubic-bezier(.2, .8, .2, 1) both; }
+.mot-in-tab { animation: motTab .22s ease-out both; }
+.navskel { position: absolute; inset: 0; z-index: 250; padding: 64px 16px 0; background: #0B0B0C; display: flex; flex-direction: column; gap: 14px; animation: motTab .12s ease-out both; }
+body[data-theme="light"] .navskel { background: #F4F3EF; }
+.navskel i, .navskel span i { display: block; border-radius: 14px; background: linear-gradient(90deg, rgba(128, 128, 128, .12) 0, rgba(128, 128, 128, .26) 40%, rgba(128, 128, 128, .12) 80%); background-size: 300% 100%; animation: motShim 1s linear infinite; }
+.navskel .k1 { height: 22px; width: 46%; } .navskel .k2 { height: 190px; } .navskel .k3 { height: 16px; width: 82%; } .navskel .k4 { height: 16px; width: 64%; } .navskel .k5 { height: 16px; width: 72%; }
+.navskel span { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; } .navskel span i { height: 110px; }
+@keyframes motShim { from { background-position: 100% 0; } to { background-position: -50% 0; } }
+@media (prefers-reduced-motion: reduce) { .mot-in-fwd, .mot-in-back, .mot-in-tab, .navskel, .navskel i { animation: none !important; } }
+
+/* ---- v70 · thinking, then the answer arrives ------------------------------------------------------------------ */
+.nxthinking { display: flex; align-items: center; gap: 5px; margin: 2px 0 6px; font: 500 14px/1.3 var(--sans); color: var(--mut); }
+.nxthinking i { width: 7px; height: 7px; border-radius: 50%; background: currentColor; opacity: .5; animation: nxthink 1s ease-in-out infinite; }
+.nxthinking i:nth-child(2) { animation-delay: .15s; } .nxthinking i:nth-child(3) { animation-delay: .3s; margin-right: 6px; }
+@keyframes nxthink { 50% { opacity: 1; transform: translateY(-3px); } }
+.awhold { display: none !important; }
+.awin { animation: motTab .35s ease-out both; }
+.nxask.streaming .go, .nxask.streaming .qs, .nxask.streaming .askf { opacity: .35; pointer-events: none; transition: opacity .2s; }
+.nxaskconv { margin: 4px 0 0; padding: 0 18px 20px; overflow-y: auto; }
+.nxaskconv .you { margin: 0 0 10px auto; width: max-content; max-width: 80%; padding: 10px 14px; border-radius: 16px 16px 4px 16px; background: rgba(255, 210, 48, .16); font: 600 15px/1.3 var(--sans); }
+.nxaskconv .bot > p:first-child:not(.nxthinking) { margin: 0; font: 500 16px/1.45 var(--serif, Georgia); color: var(--ink); }
+.nxaskrows { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 8px; }
+.nxaskrows li { display: flex; align-items: center; gap: 10px; animation: motFwd .3s cubic-bezier(.2, .8, .2, 1) both; animation-delay: calc(var(--i) * 120ms); }
+.nxaskrows .th { flex: none; width: 46px; height: 46px; border-radius: 10px; background-size: cover; background-position: center; }
+.nxaskrows b { flex: 1; font: 600 14px/1.25 var(--sans); } .nxaskrows em { font-style: normal; font: 600 12.5px/1 var(--sans); color: var(--mut); }
+.nxaskby { display: flex; align-items: center; gap: 6px; margin: 10px 0 0; font: 500 12.5px/1 var(--sans); color: var(--mut); }
+
+/* ---- v70 · a call and a card, made to travel ---------------------------------------------------------------- */
+.nxsharelead { margin: 2px 0 14px; font: 500 15px/1.4 var(--sans); color: var(--soft, #C9C9CF); }
+.nxsharecard { position: relative; display: flex; flex-direction: column; align-items: center; margin: 0 auto 16px; padding: 18px 16px 16px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, .14); color: #fff; overflow: hidden; }
+.nxsharecard .mk { align-self: flex-start; display: flex; align-items: center; gap: 6px; height: 16px; } .nxsharecard .mk svg { height: 16px; width: auto; }
+.nxsharecard.call { width: 230px; min-height: 380px; background: linear-gradient(160deg, #0B2C2A, #09090A 55%, #1E1630); }
+.nxsharecard .vs { display: flex; align-items: center; justify-content: space-between; width: 100%; margin: 28px 0 8px; }
+.nxsharecard .vs img, .nxsharecard .vs i { width: 46px; height: 46px; object-fit: contain; display: grid; place-items: center; border-radius: 50%; background: rgba(255, 255, 255, .08); font: 800 18px/1 var(--sans); font-style: normal; }
+.nxsharecard .vs img { background: none; border-radius: 0; }
+.nxsharecard .vs em { font-style: normal; font: 700 12px/1.2 var(--sans); color: #A3A3AB; text-align: center; }
+.nxsharecard .sc { font: 800 72px/1 var(--sans); letter-spacing: -.02em; }
+.nxsharecard .who { margin-top: 8px; text-align: center; font: 700 14px/1.3 var(--sans); color: #D6D6DC; }
+.nxsharecard .strk { display: flex; align-items: center; gap: 5px; margin-top: 16px; padding: 6px 11px; border-radius: 99px; background: rgba(255, 210, 48, .15); color: #FFD230; font: 700 12.5px/1 var(--sans); }
+.nxsharecard .ask { margin-top: auto; align-self: stretch; padding: 11px; border-radius: 12px; background: #fff; color: #000; text-align: center; font: 800 15px/1.2 var(--sans); }
+.nxsharecard.fight { width: 100%; max-width: 330px; align-items: stretch; background: linear-gradient(170deg, #2A1240, #09090A 65%); }
+.nxsharecard .kk { margin-top: 14px; font: 600 12px/1 var(--sans); color: #A3A3AB; } .nxsharecard .tt { margin: 4px 0 12px; font: 800 22px/1.1 var(--sans); }
+.nxsharecard .rw { display: flex; justify-content: space-between; gap: 10px; padding: 9px 11px; border-radius: 10px; background: rgba(255, 255, 255, .06); margin-bottom: 6px; font: 600 14px/1.2 var(--sans); }
+.nxsharecard .rw em { font-style: normal; color: #A3A3AB; } .nxsharecard .rw.me { background: rgba(185, 168, 255, .2); } .nxsharecard .rw.me em { color: #E6DEFF; }
+.nxsharecard .nxbxrow { margin: 8px 0 4px; }
+.nxsharecard .ft { margin-top: 8px; padding-top: 10px; border-top: 1px solid rgba(255, 255, 255, .12); font: 700 13.5px/1.35 var(--sans); }
+.nxprev { display: flex; align-items: center; gap: 6px; margin: 10px 2px 2px; font: 500 12.5px/1.35 var(--sans); color: var(--mut); }
+.nxshareto { margin-top: 14px; }
+.nxsheet.k-sharecall .nxbtn.wide { margin-top: 12px; }
+/* Home: what a shared link carries */
+.nxincoming { position: relative; display: flex; gap: 12px; margin: 6px 16px 14px; padding: 14px 40px 14px 14px; border-radius: 16px; border: 1.5px dashed rgba(185, 168, 255, .65); background: rgba(185, 168, 255, .1); }
+.nxincoming .av { flex: none; width: 34px; height: 34px; border-radius: 50%; background: #3B2E70; display: grid; place-items: center; font: 800 14px/1 var(--sans); font-style: normal; }
+.nxincoming b { display: block; font: 700 15px/1.25 var(--sans); } .nxincoming small { display: block; margin-top: 3px; font: 500 13px/1.35 var(--sans); color: var(--soft, #C9C9CF); }
+.nxincoming .acts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.nxincoming .x { position: absolute; top: 8px; right: 8px; width: 32px; height: 32px; border: 0; border-radius: 50%; background: transparent; color: var(--mut); display: grid; place-items: center; }
+.nxsharecard .d { display: block; border-radius: 50%; }
+.nxsharecard .d.r { background: #E5484D; } .nxsharecard .d.b { background: #3E7BFA; } .nxsharecard .d.e { background: none; box-shadow: inset 0 0 0 2px rgba(255, 255, 255, .55); } .nxsharecard .d.x { background: none; box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, .3); }
+.nxsharecard .nxbxrow span { background: rgba(255, 255, 255, .06); color: #A3A3AB; outline: 0; }
+.nxsheet .targets.nxshareto { grid-template-columns: repeat(5, 1fr); gap: 6px; }
+.nxsheet .targets.nxshareto button { padding: 8px 0 6px; border: 0; background: none; font-size: 11.5px !important; font-weight: 600 !important; white-space: nowrap; }
+.nxsheet .targets.nxshareto button > i { width: 48px; height: 48px; }
+.nxsheet .targets.nxshareto button[data-nxshareto="fm"] > i { background: #FFD230; color: #000; }
+@media (max-width: 360px) { .nxsheet .targets.nxshareto button { font-size: 10.5px !important; } .nxsheet .targets.nxshareto button > i { width: 44px; height: 44px; } }
+@media (max-width: 430px) { .nxaskconv { padding-left: 12px; padding-right: 12px; } }
