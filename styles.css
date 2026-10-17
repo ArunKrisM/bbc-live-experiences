@@ -7292,12 +7292,7 @@ body[data-theme="light"] .nxbxsplit div { background: rgba(255, 255, 255, .6); }
 .nxchtvb { display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 12px 0 10px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .2); background: rgba(20, 20, 22, .55); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); font-size: 13px !important; font-weight: 800 !important; white-space: nowrap; }
 .nxchtvb .nxi { width: 16px; height: 16px; }
 .nxchtvb.on { background: #fff; border-color: #fff; color: #111 !important; }
-.nxchsegs { position: absolute; left: 14px; right: 14px; top: 104px; display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 4px; pointer-events: none; }
-.nxchsegs i { height: 3px; border-radius: 3px; background: rgba(255, 255, 255, .3); overflow: hidden; }
-.nxchsegs i b { display: block; width: 0; height: 100%; border-radius: 3px; background: #fff; transition: width 1s linear; }
-.nxchsegs i.lv { background: rgba(0, 204, 199, .32); }
-.nxchsegs i.lv b { background: var(--t); transition: none; }
-.nxchsegs i.lv.now { box-shadow: 0 0 8px rgba(0, 204, 199, .8); }
+/* v75: the row of segments that was here is now the rail down the right edge (.nxchrail, at the end) */
 .nxhome.m-immerse .nximc > .wx.glass { top: 118px; }
 .nximm.paused .nximc.play .nxfoot .nxfr { animation-play-state: paused; }
 /* the link between two clips, and the opening of a channel */
@@ -8192,3 +8187,30 @@ body[data-theme="light"] .nxsec.tour .who.cut.root { left: -98px; }
 .nxmini:focus-visible { outline: 2px solid var(--y); outline-offset: 2px; }
 @keyframes nxminiin { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .nxlivescr .nxstagewrap { transition: none; } .nxlivescr.tuck .nxmini { animation: none; } }
+
+/* ==========================================================================
+   v75: Immerse reads as a stack you swipe through, and the picture takes the screen
+   ========================================================================== */
+/* where you are in the channel, upright down the right edge. It sits a little above the middle of the screen, so the
+   Immerse scroller is a size container and the rail is placed from its height. The rail stays when the bars fade */
+.nxhome.m-immerse { container-type: size; }
+.nxchrail { position: absolute; right: 8px; top: 328px; top: calc(46cqh - 60px); transform: translateY(-50%); display: flex; flex-direction: column; align-items: center; gap: 6px; pointer-events: none; }
+.nxchrail i { width: 4px; height: 10px; border-radius: 4px; background: rgba(255, 255, 255, .42); box-shadow: 0 0 6px rgba(0, 0, 0, .35); overflow: hidden; transition: height .3s cubic-bezier(.2, .8, .2, 1); }
+.nxchrail i.now { height: 32px; }
+.nxchrail i.past { background: rgba(255, 255, 255, .7); }
+.nxchrail i b { display: block; width: 100%; height: 0; border-radius: 3px; background: #fff; transition: height 1s linear; }
+.nxchrail i.lv { background: rgba(0, 204, 199, .32); }
+.nxchrail i.lv b { background: var(--t); transition: none; }
+.nxchrail i.lv.now { box-shadow: 0 0 8px rgba(0, 204, 199, .8); }
+
+/* the first time: a quiet cue beside the rail, nudging upwards, until the fan has swiped once */
+.nxchcue { position: absolute; right: 22px; top: 312px; top: calc(46cqh - 76px); display: flex; align-items: center; gap: 6px; margin: 0; padding: 7px 12px 7px 9px; border-radius: 999px; background: rgba(20, 20, 22, .55); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, .18); color: #fff; font-size: 13px; font-weight: 700; white-space: nowrap; pointer-events: none; opacity: 0; animation: nxcuein .4s 1.6s ease-out forwards, nxcuenudge 1.6s 2s ease-in-out infinite; }
+.nxchcue .nxi { width: 15px; height: 15px; }
+@keyframes nxcuein { to { opacity: 1; } }
+@keyframes nxcuenudge { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+
+/* the bars fade while a clip plays untouched; a touch brings them back (imCalm in next.js puts .imcalm on #app) */
+.nx :is(.nxchtop .nxtop, .nxchbar, .nxnav, .nxdepth .chip, .nximc .pp) { transition: opacity .45s ease, transform .28s cubic-bezier(.2, .8, .2, 1); }
+#app.imcalm .nx :is(.nxchtop .nxtop, .nxchbar, .nxnav, .nxdepth .chip, .nximc .pp) { opacity: 0; pointer-events: none; }
+#app.imcalm .nxchrail { opacity: .7; }
+@media (prefers-reduced-motion: reduce) { .nxchcue { animation: nxcuein .2s 1s forwards; } }
