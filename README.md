@@ -1,7 +1,7 @@
 # BBC Sport — Live Experiences prototype
 
 An interactive prototype of a sense-making layer across the BBC Sport live pages,
-built for the Visual Data H2 discovery under Bet 4.
+built for the H2 discovery under Bet 4.
 
 Four sports on one Saturday in June 2027, each with its own lifecycle states and
 its own tab set, ranked against each other on a shared Home screen.
