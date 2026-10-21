@@ -8278,3 +8278,7 @@ body[data-theme="light"] .nxtray .tabs button.on { background: var(--ink); color
 /* Drops: under the clip's length, clear of the tabs above and the rail and the nav below */
 .nxdrop .sndb { top: 102px; right: 16px; }
 .sndb:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+
+/* v80: the table, form and tracking rows sat flush against the card's sides. The card takes the side padding; its heading drops its own. */
+.nx .nxcardx.nxstand, .nx .nxcardx.nxfast { padding-left: 16px; padding-right: 16px; }
+.nx .nxcardx.nxstand .nxsh, .nx .nxcardx.nxfast .nxsh { padding-left: 0; padding-right: 0; }
